@@ -52,6 +52,9 @@ int main()
     std::cout << "antialiasing level:" << settings.antialiasingLevel << std::endl;
     std::cout << "version:" << settings.majorVersion << "." << settings.minorVersion << std::endl;
 
+    std::cout << "sizeof(glm::mat4): " << sizeof(glm::mat4) << std::endl;
+    std:: cout << "sizeof(glm::dmat4): " << sizeof(glm::dmat4) << std::endl;
+
     // run the main loop
     bool running = true;
     while (running)

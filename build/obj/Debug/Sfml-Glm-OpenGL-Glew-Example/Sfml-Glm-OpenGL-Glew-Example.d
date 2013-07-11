@@ -1,5 +1,5 @@
 obj/Debug/Sfml-Glm-OpenGL-Glew-Example/Sfml-Glm-OpenGL-Glew-Example.o: \
- ../src/Sfml-Glm-OpenGL-Glew-Example.cpp \
+ ../src/examples/Sfml-Glm-OpenGL-Glew-Example.cpp \
  /usr/local/lib/glm-0.9.4.3/glm/glm.hpp \
  /usr/local/lib/glm-0.9.4.3/glm/core/_fixes.hpp \
  /usr/local/lib/glm-0.9.4.3/glm/core/setup.hpp \

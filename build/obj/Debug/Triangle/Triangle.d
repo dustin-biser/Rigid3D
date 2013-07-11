@@ -1,1 +1,1 @@
-obj/Debug/Triangle/Triangle.o: ../src/Triangle.cpp
+obj/Debug/Triangle/Triangle.o: ../src/examples/Triangle.cpp

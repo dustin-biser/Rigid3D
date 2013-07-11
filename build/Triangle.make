@@ -24,14 +24,14 @@ ifeq ($(config),debug)
   TARGETDIR  = ../bin
   TARGET     = $(TARGETDIR)/Triangle
   DEFINES   += -DLOAD_X11 -DDEBUG
-  INCLUDES  += -I../ext -I../src -I/usr/local/lib/glm-0.9.4.3 -I/usr/local/include -I/usr/include
+  INCLUDES  += -I../ext -I../src -I../src/utils -I../src/utils/GlUtils -I/usr/local/lib/glm-0.9.4.3 -I/usr/local/include -I/usr/include
   CPPFLAGS  += -MMD -MP $(DEFINES) $(INCLUDES)
   CFLAGS    += $(CPPFLAGS) $(ARCH) -g -Wall -std=c++0x
   CXXFLAGS  += $(CFLAGS) 
   LDFLAGS   += -L/usr/lib -L/usr/local/lib/Mesa-9.1.4 -L../lib
-  LIBS      += -lsfml-window -lsfml-system -lsfml-graphics -lGL -lGLEW
+  LIBS      += -lsfml-window -lsfml-system -lsfml-graphics -lGL -lGLEW -lGlUtils
   RESFLAGS  += $(DEFINES) $(INCLUDES) 
-  LDDEPS    += 
+  LDDEPS    += ../lib/libGlUtils.a
   LINKCMD    = $(CXX) -o $(TARGET) $(OBJECTS) $(LDFLAGS) $(RESOURCES) $(ARCH) $(LIBS)
   define PREBUILDCMDS
   endef
@@ -46,14 +46,14 @@ ifeq ($(config),release)
   TARGETDIR  = ../bin
   TARGET     = $(TARGETDIR)/Triangle
   DEFINES   += -DLOAD_X11 -DRELEASE -DNDEBUG
-  INCLUDES  += -I../ext -I../src -I/usr/local/lib/glm-0.9.4.3 -I/usr/local/include -I/usr/include
+  INCLUDES  += -I../ext -I../src -I../src/utils -I../src/utils/GlUtils -I/usr/local/lib/glm-0.9.4.3 -I/usr/local/include -I/usr/include
   CPPFLAGS  += -MMD -MP $(DEFINES) $(INCLUDES)
   CFLAGS    += $(CPPFLAGS) $(ARCH) -g -Wall -std=c++0x
   CXXFLAGS  += $(CFLAGS) 
   LDFLAGS   += -L/usr/lib -L/usr/local/lib/Mesa-9.1.4 -L../lib
-  LIBS      += -lsfml-window -lsfml-system -lsfml-graphics -lGL -lGLEW
+  LIBS      += -lsfml-window -lsfml-system -lsfml-graphics -lGL -lGLEW -lGlUtils
   RESFLAGS  += $(DEFINES) $(INCLUDES) 
-  LDDEPS    += 
+  LDDEPS    += ../lib/libGlUtils.a
   LINKCMD    = $(CXX) -o $(TARGET) $(OBJECTS) $(LDFLAGS) $(RESOURCES) $(ARCH) $(LIBS)
   define PREBUILDCMDS
   endef
@@ -65,7 +65,7 @@ endif
 
 OBJECTS := \
 	$(OBJDIR)/Triangle.o \
-	$(OBJDIR)/Sfml-Main.o \
+	$(OBJDIR)/SfmlOpenGLWindow.o \
 
 RESOURCES := \
 
@@ -126,10 +126,10 @@ $(GCH): $(PCH)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 endif
 
-$(OBJDIR)/Triangle.o: ../src/Triangle.cpp
+$(OBJDIR)/Triangle.o: ../src/examples/Triangle.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-$(OBJDIR)/Sfml-Main.o: ../src/Sfml-Main.cpp
+$(OBJDIR)/SfmlOpenGLWindow.o: ../src/SfmlOpenGLWindow.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 

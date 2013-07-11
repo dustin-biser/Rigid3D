@@ -6,7 +6,7 @@ ifndef config
 endif
 export config
 
-PROJECTS := GlUtils Sfml-Glm-OpenGL-Glew-Example Triangle
+PROJECTS := GlUtils MathUtils Sfml-Glm-OpenGL-Glew-Example Triangle LoadMeshObj-Example
 
 .PHONY: all clean help $(PROJECTS)
 
@@ -16,18 +16,28 @@ GlUtils:
 	@echo "==== Building GlUtils ($(config)) ===="
 	@${MAKE} --no-print-directory -C build -f GlUtils.make
 
-Sfml-Glm-OpenGL-Glew-Example: 
+MathUtils: 
+	@echo "==== Building MathUtils ($(config)) ===="
+	@${MAKE} --no-print-directory -C build -f MathUtils.make
+
+Sfml-Glm-OpenGL-Glew-Example: GlUtils
 	@echo "==== Building Sfml-Glm-OpenGL-Glew-Example ($(config)) ===="
 	@${MAKE} --no-print-directory -C build -f Sfml-Glm-OpenGL-Glew-Example.make
 
-Triangle: 
+Triangle: GlUtils
 	@echo "==== Building Triangle ($(config)) ===="
 	@${MAKE} --no-print-directory -C build -f Triangle.make
 
+LoadMeshObj-Example: GlUtils
+	@echo "==== Building LoadMeshObj-Example ($(config)) ===="
+	@${MAKE} --no-print-directory -C build -f LoadMeshObj-Example.make
+
 clean:
 	@${MAKE} --no-print-directory -C build -f GlUtils.make clean
+	@${MAKE} --no-print-directory -C build -f MathUtils.make clean
 	@${MAKE} --no-print-directory -C build -f Sfml-Glm-OpenGL-Glew-Example.make clean
 	@${MAKE} --no-print-directory -C build -f Triangle.make clean
+	@${MAKE} --no-print-directory -C build -f LoadMeshObj-Example.make clean
 
 help:
 	@echo "Usage: make [config=name] [target]"
@@ -40,7 +50,9 @@ help:
 	@echo "   all (default)"
 	@echo "   clean"
 	@echo "   GlUtils"
+	@echo "   MathUtils"
 	@echo "   Sfml-Glm-OpenGL-Glew-Example"
 	@echo "   Triangle"
+	@echo "   LoadMeshObj-Example"
 	@echo ""
 	@echo "For more information, see http://industriousone.com/premake/quick-start"

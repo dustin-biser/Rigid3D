@@ -20,19 +20,19 @@ ifndef AR
 endif
 
 ifeq ($(config),debug)
-  OBJDIR     = obj/Debug/Sfml-Glm-OpenGL-Glew-Example
-  TARGETDIR  = ../bin
-  TARGET     = $(TARGETDIR)/Sfml-Glm-OpenGL-Glew-Example
+  OBJDIR     = obj/Debug/MathUtils
+  TARGETDIR  = ../lib
+  TARGET     = $(TARGETDIR)/libMathUtils.a
   DEFINES   += -DLOAD_X11 -DDEBUG
-  INCLUDES  += -I../ext -I../src -I../src/utils -I../src/utils/GlUtils -I/usr/local/lib/glm-0.9.4.3 -I/usr/local/include -I/usr/include
+  INCLUDES  += -I../src/utils -I/usr/include -I/usr/local/lib/glm-0.9.4.3
   CPPFLAGS  += -MMD -MP $(DEFINES) $(INCLUDES)
   CFLAGS    += $(CPPFLAGS) $(ARCH) -g -Wall -std=c++0x
   CXXFLAGS  += $(CFLAGS) 
-  LDFLAGS   += -L/usr/lib -L/usr/local/lib/Mesa-9.1.4 -L../lib
-  LIBS      += -lsfml-window -lsfml-system -lsfml-graphics -lGL -lGLEW -lGlUtils
+  LDFLAGS   += 
+  LIBS      += 
   RESFLAGS  += $(DEFINES) $(INCLUDES) 
-  LDDEPS    += ../lib/libGlUtils.a
-  LINKCMD    = $(CXX) -o $(TARGET) $(OBJECTS) $(LDFLAGS) $(RESOURCES) $(ARCH) $(LIBS)
+  LDDEPS    += 
+  LINKCMD    = $(AR) -rcs $(TARGET) $(OBJECTS)
   define PREBUILDCMDS
   endef
   define PRELINKCMDS
@@ -42,19 +42,19 @@ ifeq ($(config),debug)
 endif
 
 ifeq ($(config),release)
-  OBJDIR     = obj/Release/Sfml-Glm-OpenGL-Glew-Example
-  TARGETDIR  = ../bin
-  TARGET     = $(TARGETDIR)/Sfml-Glm-OpenGL-Glew-Example
+  OBJDIR     = obj/Release/MathUtils
+  TARGETDIR  = ../lib
+  TARGET     = $(TARGETDIR)/libMathUtils.a
   DEFINES   += -DLOAD_X11 -DRELEASE -DNDEBUG
-  INCLUDES  += -I../ext -I../src -I../src/utils -I../src/utils/GlUtils -I/usr/local/lib/glm-0.9.4.3 -I/usr/local/include -I/usr/include
+  INCLUDES  += -I../src/utils -I/usr/include -I/usr/local/lib/glm-0.9.4.3
   CPPFLAGS  += -MMD -MP $(DEFINES) $(INCLUDES)
   CFLAGS    += $(CPPFLAGS) $(ARCH) -g -Wall -std=c++0x
   CXXFLAGS  += $(CFLAGS) 
-  LDFLAGS   += -L/usr/lib -L/usr/local/lib/Mesa-9.1.4 -L../lib
-  LIBS      += -lsfml-window -lsfml-system -lsfml-graphics -lGL -lGLEW -lGlUtils
+  LDFLAGS   += 
+  LIBS      += 
   RESFLAGS  += $(DEFINES) $(INCLUDES) 
-  LDDEPS    += ../lib/libGlUtils.a
-  LINKCMD    = $(CXX) -o $(TARGET) $(OBJECTS) $(LDFLAGS) $(RESOURCES) $(ARCH) $(LIBS)
+  LDDEPS    += 
+  LINKCMD    = $(AR) -rcs $(TARGET) $(OBJECTS)
   define PREBUILDCMDS
   endef
   define PRELINKCMDS
@@ -64,7 +64,6 @@ ifeq ($(config),release)
 endif
 
 OBJECTS := \
-	$(OBJDIR)/Sfml-Glm-OpenGL-Glew-Example.o \
 
 RESOURCES := \
 
@@ -82,7 +81,7 @@ all: $(TARGETDIR) $(OBJDIR) prebuild prelink $(TARGET)
 	@:
 
 $(TARGET): $(GCH) $(OBJECTS) $(LDDEPS) $(RESOURCES)
-	@echo Linking Sfml-Glm-OpenGL-Glew-Example
+	@echo Linking MathUtils
 	$(SILENT) $(LINKCMD)
 	$(POSTBUILDCMDS)
 
@@ -103,7 +102,7 @@ else
 endif
 
 clean:
-	@echo Cleaning Sfml-Glm-OpenGL-Glew-Example
+	@echo Cleaning MathUtils
 ifeq (posix,$(SHELLTYPE))
 	$(SILENT) rm -f  $(TARGET)
 	$(SILENT) rm -rf $(OBJDIR)
@@ -125,8 +124,5 @@ $(GCH): $(PCH)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 endif
 
-$(OBJDIR)/Sfml-Glm-OpenGL-Glew-Example.o: ../src/examples/Sfml-Glm-OpenGL-Glew-Example.cpp
-	@echo $(notdir $<)
-	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 -include $(OBJECTS:%.o=%.d)

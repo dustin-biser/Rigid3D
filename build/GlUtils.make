@@ -24,7 +24,7 @@ ifeq ($(config),debug)
   TARGETDIR  = ../lib
   TARGET     = $(TARGETDIR)/libGlUtils.a
   DEFINES   += -DLOAD_X11 -DDEBUG
-  INCLUDES  += -I../src/utils -I/usr/include -I/usr/local/lib/glm-0.9.4.3
+  INCLUDES  += -I../src/utils/GlUtils -I/usr/include -I/usr/local/lib/glm-0.9.4.3
   CPPFLAGS  += -MMD -MP $(DEFINES) $(INCLUDES)
   CFLAGS    += $(CPPFLAGS) $(ARCH) -g -Wall -std=c++0x
   CXXFLAGS  += $(CFLAGS) 
@@ -46,7 +46,7 @@ ifeq ($(config),release)
   TARGETDIR  = ../lib
   TARGET     = $(TARGETDIR)/libGlUtils.a
   DEFINES   += -DLOAD_X11 -DRELEASE -DNDEBUG
-  INCLUDES  += -I../src/utils -I/usr/include -I/usr/local/lib/glm-0.9.4.3
+  INCLUDES  += -I../src/utils/GlUtils -I/usr/include -I/usr/local/lib/glm-0.9.4.3
   CPPFLAGS  += -MMD -MP $(DEFINES) $(INCLUDES)
   CFLAGS    += $(CPPFLAGS) $(ARCH) -g -Wall -std=c++0x
   CXXFLAGS  += $(CFLAGS) 
@@ -125,7 +125,7 @@ $(GCH): $(PCH)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 endif
 
-$(OBJDIR)/Mesh.o: ../src/utils/Mesh.cpp
+$(OBJDIR)/Mesh.o: ../src/utils/GlUtils/Mesh.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
