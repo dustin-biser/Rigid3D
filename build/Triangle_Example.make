@@ -20,9 +20,9 @@ ifndef AR
 endif
 
 ifeq ($(config),debug)
-  OBJDIR     = obj/Debug/Sfml-Glm-OpenGL-Glew-Example
+  OBJDIR     = obj/Debug/Triangle_Example
   TARGETDIR  = ../bin
-  TARGET     = $(TARGETDIR)/Sfml-Glm-OpenGL-Glew-Example
+  TARGET     = $(TARGETDIR)/Triangle_Example
   DEFINES   += -DLOAD_X11 -DDEBUG
   INCLUDES  += -I../ext -I../include -I../include/examples -I../include/utils -I../include/utils/GlUtils -I/usr/local/lib/glm-0.9.4.3 -I/usr/local/include -I/usr/include
   CPPFLAGS  += -MMD -MP $(DEFINES) $(INCLUDES)
@@ -42,9 +42,9 @@ ifeq ($(config),debug)
 endif
 
 ifeq ($(config),release)
-  OBJDIR     = obj/Release/Sfml-Glm-OpenGL-Glew-Example
+  OBJDIR     = obj/Release/Triangle_Example
   TARGETDIR  = ../bin
-  TARGET     = $(TARGETDIR)/Sfml-Glm-OpenGL-Glew-Example
+  TARGET     = $(TARGETDIR)/Triangle_Example
   DEFINES   += -DLOAD_X11 -DRELEASE -DNDEBUG
   INCLUDES  += -I../ext -I../include -I../include/examples -I../include/utils -I../include/utils/GlUtils -I/usr/local/lib/glm-0.9.4.3 -I/usr/local/include -I/usr/include
   CPPFLAGS  += -MMD -MP $(DEFINES) $(INCLUDES)
@@ -64,7 +64,8 @@ ifeq ($(config),release)
 endif
 
 OBJECTS := \
-	$(OBJDIR)/Sfml-Glm-OpenGL-Glew-Example.o \
+	$(OBJDIR)/Triangle_Example.o \
+	$(OBJDIR)/SfmlOpenGLWindow.o \
 
 RESOURCES := \
 
@@ -82,7 +83,7 @@ all: $(TARGETDIR) $(OBJDIR) prebuild prelink $(TARGET)
 	@:
 
 $(TARGET): $(GCH) $(OBJECTS) $(LDDEPS) $(RESOURCES)
-	@echo Linking Sfml-Glm-OpenGL-Glew-Example
+	@echo Linking Triangle_Example
 	$(SILENT) $(LINKCMD)
 	$(POSTBUILDCMDS)
 
@@ -103,7 +104,7 @@ else
 endif
 
 clean:
-	@echo Cleaning Sfml-Glm-OpenGL-Glew-Example
+	@echo Cleaning Triangle_Example
 ifeq (posix,$(SHELLTYPE))
 	$(SILENT) rm -f  $(TARGET)
 	$(SILENT) rm -rf $(OBJDIR)
@@ -125,7 +126,10 @@ $(GCH): $(PCH)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 endif
 
-$(OBJDIR)/Sfml-Glm-OpenGL-Glew-Example.o: ../src/examples/Sfml-Glm-OpenGL-Glew-Example.cpp
+$(OBJDIR)/Triangle_Example.o: ../src/examples/Triangle_Example.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+$(OBJDIR)/SfmlOpenGLWindow.o: ../src/SfmlOpenGLWindow.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 

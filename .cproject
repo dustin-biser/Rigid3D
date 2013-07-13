@@ -39,6 +39,9 @@
 								<option id="gnu.cpp.compiler.option.include.paths.1382980904" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="/usr/local/include"/>
 									<listOptionValue builtIn="false" value="/usr/local/lib/glm-0.9.4.3"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SFML-OpenGL-Code/include/examples}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SFML-OpenGL-Code/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SFML-OpenGL-Code/include/utils}&quot;"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.preprocessor.def.1028643768" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="__GXX_EXPERIMENTAL_CXX0X__=1"/>
@@ -64,7 +67,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="data|examples|src/utils|GlUtils|utils" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="examples|data|src/utils|GlUtils|utils" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="data"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src/utils"/>
 					</sourceEntries>

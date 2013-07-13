@@ -10,9 +10,10 @@ libDirectories = {"/usr/lib",
                   "lib"}
 
 includeDirList = {"ext",
-                  "src",
-                  "src/utils",
-                  "src/utils/GlUtils",
+                  "include",
+                  "include/examples",
+                  "include/utils",
+                  "include/utils/GlUtils",
                   "/usr/local/lib/glm-0.9.4.3",
                   "/usr/local/include",
                   "/usr/include"}
@@ -38,19 +39,8 @@ solution "SFML-OpenGL-Code"
         objdir "build/obj"
         targetdir "lib"
         buildoptions{"-std=c++0x"}
-        includedirs {"src/utils/GlUtils", "/usr/include", "/usr/local/lib/glm-0.9.4.3"}
-        files {"src/utils/GlUtils/*.cpp"}
-
-    -- Static Library for MathUtils code.
-    project "MathUtils"
-        kind "StaticLib"
-        language "C++"
-        location "build"
-        objdir "build/obj"
-        targetdir "lib"
-        buildoptions{"-std=c++0x"}
-        includedirs {"src/utils", "/usr/include", "/usr/local/lib/glm-0.9.4.3"}
-        files {"src/utils/*.cpp"}
+        includedirs(includeDirList)
+        files {"src/utils/**.cpp"}
 
     -- Common project settings for each demo.
     function SetupProject(projName, ...)
@@ -69,5 +59,6 @@ solution "SFML-OpenGL-Code"
 
 -- Create project for each binary
 SetupProject("Sfml-Glm-OpenGL-Glew-Example", "src/examples/Sfml-Glm-OpenGL-Glew-Example.cpp")
-SetupProject("Triangle", "src/examples/Triangle.cpp", "src/SfmlOpenGLWindow.cpp")
-SetupProject("LoadMeshObj-Example", "src/examples/LoadMeshObj-Example.cpp", "src/SfmlOpenGLWindow.cpp")
+SetupProject("Triangle_Example", "src/examples/Triangle_Example.cpp", "src/SfmlOpenGLWindow.cpp")
+--SetupProject("LoadMeshObj-Example", "src/examples/LoadMeshObj-Example.cpp", "src/SfmlOpenGLWindow.cpp")
+

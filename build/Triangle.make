@@ -24,7 +24,7 @@ ifeq ($(config),debug)
   TARGETDIR  = ../bin
   TARGET     = $(TARGETDIR)/Triangle
   DEFINES   += -DLOAD_X11 -DDEBUG
-  INCLUDES  += -I../ext -I../src -I../src/utils -I../src/utils/GlUtils -I/usr/local/lib/glm-0.9.4.3 -I/usr/local/include -I/usr/include
+  INCLUDES  += -I../ext -I../include -I../include/examples -I../include/utils -I../include/utils/GlUtils -I/usr/local/lib/glm-0.9.4.3 -I/usr/local/include -I/usr/include
   CPPFLAGS  += -MMD -MP $(DEFINES) $(INCLUDES)
   CFLAGS    += $(CPPFLAGS) $(ARCH) -g -Wall -std=c++0x
   CXXFLAGS  += $(CFLAGS) 
@@ -46,7 +46,7 @@ ifeq ($(config),release)
   TARGETDIR  = ../bin
   TARGET     = $(TARGETDIR)/Triangle
   DEFINES   += -DLOAD_X11 -DRELEASE -DNDEBUG
-  INCLUDES  += -I../ext -I../src -I../src/utils -I../src/utils/GlUtils -I/usr/local/lib/glm-0.9.4.3 -I/usr/local/include -I/usr/include
+  INCLUDES  += -I../ext -I../include -I../include/examples -I../include/utils -I../include/utils/GlUtils -I/usr/local/lib/glm-0.9.4.3 -I/usr/local/include -I/usr/include
   CPPFLAGS  += -MMD -MP $(DEFINES) $(INCLUDES)
   CFLAGS    += $(CPPFLAGS) $(ARCH) -g -Wall -std=c++0x
   CXXFLAGS  += $(CFLAGS) 

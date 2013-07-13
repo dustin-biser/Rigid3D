@@ -36,8 +36,6 @@ void LoadMeshObj_Example::InitializeVertexBuffer()
  */
 void LoadMeshObj_Example::init()
 {
-    frustum = Frustum();
-    cameraToClipMatrix = frustum.getPerspectiveMatrix();
 
     mesh.fromObjFile("../data/torus.obj");
 
@@ -55,13 +53,12 @@ void LoadMeshObj_Example::init()
 //---------------------------------------------------------------------------------------
 void LoadMeshObj_Example::setupShaders(){
     shader.loadFromFile("../data/PositionColorNormal.vert", "../data/PhoneLighting.frag");
-
-    // TODO - Get Attribute Locations, and Uniform Locations.
 }
 
 //---------------------------------------------------------------------------------------
 void LoadMeshObj_Example::setupMatrices() {
-    // TODO - Implement
+    frustum = Frustum();
+    cameraToClipMatrix = frustum.getPerspectiveMatrix();
 }
 
 //---------------------------------------------------------------------------------------

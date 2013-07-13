@@ -1,5 +1,5 @@
 obj/Debug/GlUtils/Mesh.o: ../src/utils/GlUtils/Mesh.cpp \
- ../src/utils/GlUtils/Mesh.hpp /usr/local/lib/glm-0.9.4.3/glm/glm.hpp \
+ ../include/utils/GlUtils/Mesh.hpp /usr/local/lib/glm-0.9.4.3/glm/glm.hpp \
  /usr/local/lib/glm-0.9.4.3/glm/core/_fixes.hpp \
  /usr/local/lib/glm-0.9.4.3/glm/core/setup.hpp \
  /usr/local/lib/glm-0.9.4.3/glm/./core/_detail.hpp \
@@ -64,7 +64,7 @@ obj/Debug/GlUtils/Mesh.o: ../src/utils/GlUtils/Mesh.cpp \
  /usr/local/lib/glm-0.9.4.3/glm/./core/func_noise.inl \
  /usr/local/lib/glm-0.9.4.3/glm/./core/_swizzle.hpp
 
-../src/utils/GlUtils/Mesh.hpp:
+../include/utils/GlUtils/Mesh.hpp:
 
 /usr/local/lib/glm-0.9.4.3/glm/glm.hpp:
 
