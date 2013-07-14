@@ -1,0 +1,18 @@
+Required gtest files:
+- include/
+- src/
+
+Compile gtest-all.o
+$ g++ -I./include -I. -c src/gtest-all.cc
+
+Compile gtest_main.o
+$ g++ -I./include -I. -c src/gtest_main.cc
+
+Archive gtest-all.o and gtest_main.o into libgtest.a
+$ ar -rv libgtest.a gtest-all.o gtest_main.o
+
+
+Example: Compiling and linking sample1.cpp, sample1.h, with test1.cpp.
+g++ -I./include -I/. test1.cpp sample1.cpp libgtest.a -o test1 -lpthread
+
+Important!! Don't forget the -lpthread
