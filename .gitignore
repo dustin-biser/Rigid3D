@@ -10,3 +10,4 @@
 # Ignore binaries
 **bin
 **bin/*
+ext/gtest/test1_example
