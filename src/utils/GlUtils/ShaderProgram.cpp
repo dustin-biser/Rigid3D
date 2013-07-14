@@ -195,6 +195,39 @@ void ShaderProgram::extractSourceCode(const string &sourceFile, Shader &shader) 
 
 //-----------------------------------------------------------------------------
 /**
+ * Gets the location of a GLSL uniform variable within the program.
+ *
+ * This function returns -1 if \c uniformName does not correspond to an active
+ * uniform variable in the program, or if \c uniformName begins with the prefix
+ * "gl_".
+ *
+ * @param uniformName - string representing the name of a GLSL uniform variable.
+ *
+ * @return a GLint location of requested uniform variable.
+ */
+GLint ShaderProgram::getUniformLocation(const string &uniformName) {
+    return glGetUniformLocation(programObject, (const GLchar *)uniformName.c_str());
+}
+
+//-----------------------------------------------------------------------------
+/**
+  * Gets the location of a GLSL attribute variable within the program.
+ *
+ * This function returns -1 if \c attributeName does not correspond to an active
+ * attribute variable in the program, or if \c attributeName begins with the
+ * prefix "gl_".
+ *
+ * @param attributeName - string representing the name of a GLSL attribute
+ *      variable.
+ *
+ * @return a GLint location of requested attribute variable.
+ */
+GLint ShaderProgram::getAttribLocation(const string &attributeName) {
+    return glGetAttribLocation(programObject, (const GLchar *)attributeName.c_str());
+}
+
+//-----------------------------------------------------------------------------
+/**
  * Checks for GLU error messages.  If one ore more errors exist, this method throws
  * a \c ShaderException error containing all GLU error messages.
  *
