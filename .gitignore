@@ -1,0 +1,12 @@
+# Ignore build related files.
+**.o
+**.a
+**.d
+**Makefile
+**MakeFile
+**.make
+
+
+# Ignore binaries
+**bin
+**bin/*
