@@ -49,22 +49,74 @@
 
  */
 
-#include <string>
 #include <GL/glew.h>
-#include <iostream>
+#include <string>
 
 using std::string;
 
+/**
+ * A \c ShaderProgram encapsulates the compilation, linkage, and usage of both a
+ * vertex shader and fragment shader with respect to a single OpenGL program
+ * object.
+ *
+ * The goal of the \c ShaderProgram class is to make loading and using shader
+ * programs as painless as possible.
+ *
+ * Example usage:
+ *
+ * \code{.cpp}
+   ShaderProgram shaderProgram;
+   shaderProgram.loadFromFile("verexShaderFile", "fragmentShaderFile");
+
+   shaderProgram.begin();  // calls glUseProgram(...)
+    ... glDraw*();
+   shaderProgram.end();    // calls glUseProgram(NULL)
+
+   \endcode
+ */
 class ShaderProgram {
 public:
-    bool loadFromFile(const string &vertexShaderFile, const string &fragmentShaderFile);
+    ShaderProgram();
+
+    ShaderProgram(const string &vertexShaderFile, const string &fragmentShaderFile);
+
+    ~ShaderProgram();
+
+    void loadFromFile(const string &vertexShaderFile, const string &fragmentShaderFile);
+
+    void begin();
+
+    void end();
+
+    GLuint getProgramObject();
 
 private:
-    string vertexShaderSource;
-    string fragmentShaderSource;
+    struct Shader {
+        string sourceCode;
+        GLuint shaderObject;
+    };
 
-    bool CheckGLError(char *fileName, int lineNumber);
-    void extractSource(const string &sourceFileName, string &dest);
+    Shader vertexShader;
+    Shader fragmentShader;
+    GLuint programObject;
+
+    void initializeShaders();
+
+    void checkGLError(const string &fileName, int lineNumber);
+
+    void extractSourceCode(const string &sourceFileName, Shader &shader);
+
+    void createVertexShader();
+
+    void createFragmentShader();
+
+    void compileShader(const Shader &shader);
+
+    void checkCompilationStatus(const Shader &shader);
+
+    void createShaderProgram();
+
+    void checkLinkStatus();
 };
 
 

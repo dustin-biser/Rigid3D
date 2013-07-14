@@ -42,7 +42,7 @@ solution "SFML-OpenGL-Code"
         includedirs(includeDirList)
         files {"src/utils/**.cpp"}
 
-    -- Common project settings for each demo.
+    -- Function for creating demo programs.
     function SetupProject(projName, ...)
         project(projName)
         kind "ConsoleApp"
@@ -56,6 +56,24 @@ solution "SFML-OpenGL-Code"
         links(linkLibs)
         files { ... }
     end
+
+    -- Function for creating tests
+    function SetupTest(testName, targetDir, ...)
+        project(testName)
+        kind "ConsoleApp"
+        language "C++"
+        includedirs(includeDirList)
+        includedirs {"ext/gtest/include", "/ext/gtest/"}
+        targetdir(targetDir)
+        libdirs(libDirectories)
+        links(linkLibs)
+        links "gtest"
+        linkoptions "-lpthread"
+        files {...}
+    end
+
+-- Build GTest Static Library.
+dofile("build/gtest.lua")
 
 -- Create project for each binary
 SetupProject("Sfml-Glm-OpenGL-Glew-Example", "src/examples/Sfml-Glm-OpenGL-Glew-Example.cpp")

@@ -65,6 +65,7 @@ endif
 
 OBJECTS := \
 	$(OBJDIR)/Mesh.o \
+	$(OBJDIR)/ShaderProgram.o \
 
 RESOURCES := \
 
@@ -126,6 +127,9 @@ $(GCH): $(PCH)
 endif
 
 $(OBJDIR)/Mesh.o: ../src/utils/GlUtils/Mesh.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+$(OBJDIR)/ShaderProgram.o: ../src/utils/GlUtils/ShaderProgram.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 

@@ -6,7 +6,7 @@ ifndef config
 endif
 export config
 
-PROJECTS := GlUtils Sfml-Glm-OpenGL-Glew-Example Triangle_Example
+PROJECTS := GlUtils gtest test1_example Sfml-Glm-OpenGL-Glew-Example Triangle_Example
 
 .PHONY: all clean help $(PROJECTS)
 
@@ -15,6 +15,14 @@ all: $(PROJECTS)
 GlUtils: 
 	@echo "==== Building GlUtils ($(config)) ===="
 	@${MAKE} --no-print-directory -C build -f GlUtils.make
+
+gtest: 
+	@echo "==== Building gtest ($(config)) ===="
+	@${MAKE} --no-print-directory -C build -f gtest.make
+
+test1_example: gtest
+	@echo "==== Building test1_example ($(config)) ===="
+	@${MAKE} --no-print-directory -C build -f test1_example.make
 
 Sfml-Glm-OpenGL-Glew-Example: GlUtils
 	@echo "==== Building Sfml-Glm-OpenGL-Glew-Example ($(config)) ===="
@@ -26,6 +34,8 @@ Triangle_Example: GlUtils
 
 clean:
 	@${MAKE} --no-print-directory -C build -f GlUtils.make clean
+	@${MAKE} --no-print-directory -C build -f gtest.make clean
+	@${MAKE} --no-print-directory -C build -f test1_example.make clean
 	@${MAKE} --no-print-directory -C build -f Sfml-Glm-OpenGL-Glew-Example.make clean
 	@${MAKE} --no-print-directory -C build -f Triangle_Example.make clean
 
@@ -40,6 +50,8 @@ help:
 	@echo "   all (default)"
 	@echo "   clean"
 	@echo "   GlUtils"
+	@echo "   gtest"
+	@echo "   test1_example"
 	@echo "   Sfml-Glm-OpenGL-Glew-Example"
 	@echo "   Triangle_Example"
 	@echo ""
