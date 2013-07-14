@@ -156,7 +156,7 @@ void ShaderProgram::checkLinkStatus() {
 //-----------------------------------------------------------------------------
 /**
  *
- * @return a \c GLuint reference to an OpenGL program object
+ * @return a \c GLuint representing the program object for this \c ShaderProgram
  */
 GLuint ShaderProgram::getProgramObject() {
     return programObject;
