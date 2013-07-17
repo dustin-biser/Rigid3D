@@ -17,51 +17,38 @@ using namespace std;
 namespace GlUtils {
 
     class Mesh {
-    public:
-        shared_ptr<vector<glm::vec4> > vertices;  /**< Collection of Mesh vertices */
-        shared_ptr<vector<glm::vec3> > normals;  /**< Collection of Mesh normals */
-        shared_ptr<vector<unsigned short> > elements;  /**< Collection of vertex index elements */
+    private:
+        vector<glm::vec4> glm_vertices;
+        vector<glm::vec3> glm_normals;
 
-        /**
-         * Constructs a Mesh object from a Wavefront .obj file format.
-         * @param objFileName - path to .obj file
-         */
+        vector<float> vertices;
+        vector<float>  normals;
+        vector<unsigned short>  indices;  /**< Collection of vertex index elements */
+
+    public:
         Mesh(const char* objFileName);
 
-        /**
-         * Default Constructor.
-         */
         Mesh();
 
         ~Mesh();
 
-        /**
-         * Initialize this Mesh object using contents of the given Wavefront .obj file.
-         * @param objFileName - path to .obj file
-         */
         void fromObjFile(const char* objFileName);
 
-        glm::vec4 * getVertices();
+        const float * getVertexDataPtr();
 
-        glm::vec3 * getNormals();
+        const float * getNormalDataPtr();
 
-        unsigned short * getElements();
+        const unsigned short * getIndexDataPtr();
 
-        /**
-         * Returns the number of bytes composing the Mesh's vertex data.
-         * @return size_t
-         */
         size_t getVertexDataBytes();
 
-        /**
-         * Returns the number of bytes composing the Mesh's normal data.
-         * @return size_t
-         */
         size_t getNormalDataBytes();
+
+        size_t getIndexDataBytes();
 
     private:
         void initialize();
-        void load_objFile(const char* objFileName);
+        void loadFromObjFile(const char* objFileName);
     };
 }
 

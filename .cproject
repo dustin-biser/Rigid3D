@@ -14,13 +14,13 @@
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-				<configuration buildProperties="" description="" id="cdt.managedbuild.toolchain.gnu.cross.base.477183300" name="Default" parent="org.eclipse.cdt.build.core.emptycfg">
+				<configuration artifactName="SFML-OpenGL-Code" buildProperties="" description="" id="cdt.managedbuild.toolchain.gnu.cross.base.477183300" name="Default" parent="org.eclipse.cdt.build.core.emptycfg">
 					<folderInfo id="cdt.managedbuild.toolchain.gnu.cross.base.477183300.383459627" name="/" resourcePath="">
 						<toolChain id="cdt.managedbuild.toolchain.gnu.cross.base.481400582" name="cdt.managedbuild.toolchain.gnu.cross.base" superClass="cdt.managedbuild.toolchain.gnu.cross.base">
 							<option id="cdt.managedbuild.option.gnu.cross.prefix.573261785" name="Prefix" superClass="cdt.managedbuild.option.gnu.cross.prefix"/>
 							<option id="cdt.managedbuild.option.gnu.cross.path.536533597" name="Path" superClass="cdt.managedbuild.option.gnu.cross.path"/>
 							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.ELF" id="cdt.managedbuild.targetPlatform.gnu.cross.1429149082" isAbstract="false" osList="all" superClass="cdt.managedbuild.targetPlatform.gnu.cross"/>
-							<builder arguments="conf=debug" command="make" enableAutoBuild="true" id="cdt.managedbuild.builder.gnu.cross.753898336" keepEnvironmentInBuildfile="false" managedBuildOn="false" name="Gnu Make Builder" superClass="cdt.managedbuild.builder.gnu.cross">
+							<builder arguments="conf=debug" cleanBuildTarget="clean" command="make" enableAutoBuild="true" id="cdt.managedbuild.builder.gnu.cross.753898336" keepEnvironmentInBuildfile="false" managedBuildOn="false" name="Gnu Make Builder" superClass="cdt.managedbuild.builder.gnu.cross">
 								<outputEntries>
 									<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="outputPath" name=""/>
 								</outputEntries>
@@ -29,6 +29,10 @@
 								<option id="gnu.c.compiler.option.include.paths.100816422" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="/usr/local/include"/>
 									<listOptionValue builtIn="false" value="/usr/local/lib/glm-0.9.4.3"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SFML-OpenGL-Code/include/utils/GlUtils}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SFML-OpenGL-Code/include/utils}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SFML-OpenGL-Code/include/examples}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SFML-OpenGL-Code/include}&quot;"/>
 								</option>
 								<option id="gnu.c.compiler.option.preprocessor.def.symbols.1429203995" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="__GXX_EXPERIMENTAL_CXX0X__=1"/>
@@ -37,12 +41,12 @@
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.cross.cpp.compiler.1548255601" name="Cross G++ Compiler" superClass="cdt.managedbuild.tool.gnu.cross.cpp.compiler">
 								<option id="gnu.cpp.compiler.option.include.paths.1382980904" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
-									<listOptionValue builtIn="false" value="/usr/local/include"/>
-									<listOptionValue builtIn="false" value="/usr/local/lib/glm-0.9.4.3"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SFML-OpenGL-Code/include/examples}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SFML-OpenGL-Code/include}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SFML-OpenGL-Code/include/utils}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SFML-OpenGL-Code/include/utils/GlUtils}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SFML-OpenGL-Code/include/utils}&quot;"/>
+									<listOptionValue builtIn="false" value="/usr/local/include"/>
+									<listOptionValue builtIn="false" value="/usr/local/lib/glm-0.9.4.3"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.preprocessor.def.1028643768" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="__GXX_EXPERIMENTAL_CXX0X__=1"/>

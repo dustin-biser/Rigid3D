@@ -58,17 +58,20 @@ solution "SFML-OpenGL-Code"
     end
 
     -- Function for creating tests
-    function SetupTest(testName, targetDir, ...)
+    function SetupTest(testName, ...)
         project(testName)
         kind "ConsoleApp"
         language "C++"
+        location "tests/build"
+        objdir "tests/build/obj"
+        targetdir "tests/bin"
         includedirs(includeDirList)
         includedirs {"ext/gtest/include", "/ext/gtest/"}
-        targetdir(targetDir)
         libdirs(libDirectories)
         links(linkLibs)
         links "gtest"
         linkoptions "-lpthread"
+        buildoptions{"-std=c++0x"}
         files {...}
     end
 
@@ -79,4 +82,8 @@ dofile("build/gtest.lua")
 SetupProject("Sfml-Glm-OpenGL-Glew-Example", "src/examples/Sfml-Glm-OpenGL-Glew-Example.cpp")
 SetupProject("Triangle_Example", "src/examples/Triangle_Example.cpp", "src/SfmlOpenGLWindow.cpp")
 --SetupProject("LoadMeshObj-Example", "src/examples/LoadMeshObj-Example.cpp", "src/SfmlOpenGLWindow.cpp")
+
+
+-- Create Unit Tests
+SetupTest("Mesh_Test", "tests/utils/GlUtils/Mesh_Test.cpp")
 

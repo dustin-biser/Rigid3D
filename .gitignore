@@ -6,7 +6,6 @@
 **MakeFile
 **.make
 
-
 # Ignore binaries
 **bin
 **bin/*

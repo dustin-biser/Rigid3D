@@ -14,31 +14,27 @@ using namespace std;
 
 namespace GlUtils {
 
+    /**
+     * Constructs a Mesh object from a Wavefront .obj file format.
+     *
+     * @param objFileName - path to .obj file
+     */
     Mesh::Mesh(const char* objFileName) {
-        initialize();
-        load_objFile(objFileName);
+        loadFromObjFile(objFileName);
     }
 
-    Mesh::Mesh() {
-        initialize();
-    }
+    Mesh::Mesh() { }
 
-    void Mesh::initialize() {
-        // Allocate a new vector for vertices, normals, and elements to be owned
-        // by their respective shared_ptrs.
-        this->vertices = make_shared<vector<glm::vec4> >();
-        this->normals = make_shared<vector<glm::vec3> >();
-        this->elements = make_shared<vector<unsigned short> >();
-    }
+    Mesh::~Mesh() { }
 
-    Mesh::~Mesh() {
-        // Relinquish ownership of objects owned by member shared_ptrs.
-        this->vertices.reset();
-        this->normals.reset();
-        this->elements.reset();
-    }
+    void Mesh::loadFromObjFile(const char* objFileName){
+        // Reset datastructures before loading them with data.
+        vertices.resize(0);
+        normals.resize(0);
+        indices.resize(0);
+        glm_vertices.resize(0);
+        glm_normals.resize(0);
 
-    void Mesh::load_objFile(const char* objFileName){
         ifstream in(objFileName, ios::in);
         if (!in) {
             cerr << "Unable to open .obj file: " << objFileName << endl;
@@ -51,65 +47,107 @@ namespace GlUtils {
                 // Vertex data on this line.
                 // Get entire line excluding first 2 chars.
                 istringstream s(line.substr(2));
-                // Allocate new vec4, fill in its elements, and add to vertices vector.
+                // Allocate new vec4, fill in its indices, and add to vertices vector.
                 glm::vec4 v; s >> v.x; s >> v.y; s >> v.z; v.w = 1.0f;
-                this->vertices->push_back(v);
+                glm_vertices.push_back(v);
             }
             else if (line.substr(0,2) == "f ") {
-                // Face data on this line.
+                // Face data on this line, which contains index indices
+                // Get entire line excluding first 2 chars.
                 istringstream s(line.substr(2));
                 unsigned short a, b, c;
                 s >> a; s >> b; s >> c;
                 a--; b--; c--;
-                this->elements->push_back(a);
-                this->elements->push_back(b);
-                this->elements->push_back(c);
+                indices.push_back(a);
+                indices.push_back(b);
+                indices.push_back(c);
             }
-            else if (line[0] == '#' ) { /* ignoring this line */ }
-            else { /* ignoring this line */ }
         }
 
         // Construct a normal for each vertex.
-        this->normals->resize(this->vertices->size(), glm::vec3(0.0, 0.0, 0.0));
-        for (unsigned int i = 0; i < this->elements->size(); i += 3) {
-            unsigned short ia = this->elements->at(i);
-            unsigned short ib = this->elements->at(i + 1);
-            unsigned short ic = this->elements->at(i + 2);
+        glm_normals.resize(glm_vertices.size(), glm::vec3(0.0, 0.0, 0.0));
+        for (unsigned int i = 0; i < indices.size(); i += 3) {
+            unsigned short ia = indices.at(i);
+            unsigned short ib = indices.at(i + 1);
+            unsigned short ic = indices.at(i + 2);
 
             // Create two vectors; one from vertexA to vertexB, and one from vertexA to vertexC.
             // Compute normal by taking cross produce of these two vectors.  This is the normal
             // for the three vertices.
             glm::vec3 normal = glm::normalize(glm::cross(
-                    glm::vec3( this->vertices->at(ib) ) - glm::vec3( this->vertices->at(ia) ),
-                    glm::vec3( this->vertices->at(ic) ) - glm::vec3( this->vertices->at(ia) )
+                    glm::vec3( glm_vertices.at(ib) ) - glm::vec3( glm_vertices.at(ia) ),
+                    glm::vec3( glm_vertices.at(ic) ) - glm::vec3( glm_vertices.at(ia) )
             ));
 
-            this->normals->at(ia) = this->normals->at(ib) = this->normals->at(ic) = normal;
+            glm_normals.at(ia) = glm_normals.at(ib) = glm_normals.at(ic) = normal;
         }
+
+        // Copy data to vertex vector
+        for(glm::vec4 v : glm_vertices) {
+            vertices.push_back(v.x);
+            vertices.push_back(v.y);
+            vertices.push_back(v.z);
+            vertices.push_back(v.w);
+        }
+
+        // Copy data to normal vector
+        for(glm::vec3 v : glm_normals) {
+            normals.push_back(v.x);
+            normals.push_back(v.y);
+            normals.push_back(v.z);
+        }
+
+        // Clear data from glm_vertices and glm_normals
+        glm_vertices.resize(0);
+        glm_normals.resize(0);
     }
 
+    /**
+     * Initialize this Mesh object using contents of the given Wavefront .obj file.
+     *
+     * @param objFileName - path to .obj file
+     */
     void Mesh::fromObjFile(const char* objFileName) {
-        load_objFile(objFileName);
+        loadFromObjFile(objFileName);
     }
 
-    glm::vec4 * Mesh::getVertices() {
-        return this->vertices->data();
+    const float * Mesh::getVertexDataPtr(){
+        return const_cast<float *>(vertices.data());
     }
 
-    glm::vec3 * Mesh::getNormals() {
-        return this->normals->data();
+    const float * Mesh::getNormalDataPtr(){
+        return const_cast<float *>(normals.data());
     }
 
-    unsigned short * Mesh::getElements() {
-        return this->elements->data();
+    const unsigned short * Mesh::getIndexDataPtr(){
+        return const_cast<unsigned short *>(indices.data());
     }
 
+    /**
+     * Returns the total size in bytes of the Mesh's vertex data.
+     *
+     * @return size_t
+     */
     size_t Mesh::getVertexDataBytes() {
-        return this->vertices->size() * sizeof(glm::vec4);
+        return vertices.size() * sizeof(float);
     }
 
+    /**
+     * Returns the total size in bytes of the Mesh's normals.
+     *
+     * @return size_t
+     */
     size_t Mesh::getNormalDataBytes() {
-        return this->normals->size() * sizeof(glm::vec3);
+        return normals.size() * sizeof(float);
+    }
+
+    /**
+     * Returns the total size in bytes of the Mesh's index data.
+     *
+     * @return size_t
+     */
+    size_t Mesh::getIndexDataBytes() {
+        return indices.size() * sizeof(unsigned short);
     }
 
 } // end namespace GlUtils

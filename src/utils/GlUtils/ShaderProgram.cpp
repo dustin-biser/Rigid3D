@@ -111,7 +111,10 @@ void ShaderProgram::checkCompilationStatus(const Shader &shader) {
         GLchar errorMessage[errorMessageLength];
         glGetShaderInfoLog(shader.shaderObject, errorMessageLength, NULL, errorMessage);
 
-        throw ShaderException(errorMessage);
+        stringstream strStream;
+        strStream << "Error Compiling Shader: " << errorMessage << endl;
+
+        throw ShaderException(strStream.str());
     }
 }
 
@@ -149,7 +152,10 @@ void ShaderProgram::checkLinkStatus() {
         GLchar errorMessage[errorMessageLength];
         glGetProgramInfoLog(programObject, errorMessageLength, NULL, errorMessage);
 
-        throw ShaderException(errorMessage);
+        stringstream strStream;
+        strStream << "Error Linking Shaders: " << errorMessage << endl;
+
+        throw ShaderException(strStream.str());
     }
 }
 

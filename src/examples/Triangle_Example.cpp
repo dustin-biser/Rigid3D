@@ -17,8 +17,9 @@ void Triangle_Example::InitializeProgram()
     shaderProgram.loadFromFile("../data/VertexColors.vert", "../data/VertexColors.frag");
 }
 
-void Triangle_Example::InitializeVertexBuffer()
+void Triangle_Example::InitializeGLData()
 {
+    // Generate and bind vertex array object
     glGenVertexArrays(1, &vao);
     glBindVertexArray(vao);
 
@@ -26,10 +27,14 @@ void Triangle_Example::InitializeVertexBuffer()
     glBindBuffer(GL_ARRAY_BUFFER, vertexBufferObject);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertexData), vertexData, GL_STATIC_DRAW);
 
-    glEnableVertexAttribArray(0);
-    glEnableVertexAttribArray(1);
-    glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, 0);
-    glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 0, (void*)48);
+    GLint positionAttribLocation = shaderProgram.getAttribLocation("position");
+    GLint colorAttribLocation = shaderProgram.getAttribLocation("color");
+
+    // Setup data mapping to vertex attributes.
+    glEnableVertexAttribArray(positionAttribLocation);
+    glEnableVertexAttribArray(colorAttribLocation);
+    glVertexAttribPointer(positionAttribLocation, 4, GL_FLOAT, GL_FALSE, 0, 0);
+    glVertexAttribPointer(colorAttribLocation, 4, GL_FLOAT, GL_FALSE, 0, (void*)48);
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
@@ -38,7 +43,7 @@ void Triangle_Example::InitializeVertexBuffer()
 void Triangle_Example::init()
 {
     InitializeProgram();
-    InitializeVertexBuffer();
+    InitializeGLData();
 }
 
 void Triangle_Example::draw()
@@ -47,7 +52,7 @@ void Triangle_Example::draw()
     glClear(GL_COLOR_BUFFER_BIT);
 
     shaderProgram.begin();
-        glDrawArrays(GL_TRIANGLES, 0, 3);
+    glDrawArrays(GL_TRIANGLES, 0, 3);
     shaderProgram.end();
 }
 

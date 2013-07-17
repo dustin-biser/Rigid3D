@@ -35,7 +35,7 @@ protected:
 
     void InitializeProgram();
 
-    void InitializeVertexBuffer();
+    void InitializeGLData();
 };
 
 
