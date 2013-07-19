@@ -9,6 +9,7 @@
 #include <fstream>
 #include <sstream>
 #include <iostream>
+#include <ShaderException.hpp>
 
 using namespace std;
 
@@ -37,8 +38,9 @@ namespace GlUtils {
 
         ifstream in(objFileName, ios::in);
         if (!in) {
-            cerr << "Unable to open .obj file: " << objFileName << endl;
-            exit(1);
+            stringstream errorMessage;
+            errorMessage << "Unable to open .obj file: " << objFileName << endl;
+            throw ShaderException(errorMessage.str());
         }
 
         string line;
@@ -111,15 +113,15 @@ namespace GlUtils {
         loadFromObjFile(objFileName);
     }
 
-    const float * Mesh::getVertexDataPtr(){
+    const float * Mesh::getVertexDataPtr() const {
         return const_cast<float *>(vertices.data());
     }
 
-    const float * Mesh::getNormalDataPtr(){
+    const float * Mesh::getNormalDataPtr() const {
         return const_cast<float *>(normals.data());
     }
 
-    const unsigned short * Mesh::getIndexDataPtr(){
+    const unsigned short * Mesh::getIndexDataPtr() const {
         return const_cast<unsigned short *>(indices.data());
     }
 
@@ -128,7 +130,7 @@ namespace GlUtils {
      *
      * @return size_t
      */
-    size_t Mesh::getVertexDataBytes() {
+    size_t Mesh::getVertexDataBytes() const {
         return vertices.size() * sizeof(float);
     }
 
@@ -137,7 +139,7 @@ namespace GlUtils {
      *
      * @return size_t
      */
-    size_t Mesh::getNormalDataBytes() {
+    size_t Mesh::getNormalDataBytes() const {
         return normals.size() * sizeof(float);
     }
 
@@ -146,10 +148,36 @@ namespace GlUtils {
      *
      * @return size_t
      */
-    size_t Mesh::getIndexDataBytes() {
+    size_t Mesh::getIndexDataBytes() const {
         return indices.size() * sizeof(unsigned short);
     }
 
+    /**
+     *
+     * @return the number of vertices for this \c Mesh, where each vertex is
+     * composed of 4 floats {x,y,z,w}.
+     */
+    size_t Mesh::getNumVertices() const {
+        return (size_t)(vertices.size() / 4.0f);
+    }
+
+    /**
+     *
+     * @return the number of normals for this \c Mesh, where each normal is
+     * composed of 3 floats {x,y,z}.
+     */
+    size_t Mesh::getNumNormals() const {
+       return (size_t)(normals.size() / 3.0f);
+    }
+
+    /**
+     *
+     * @return the number of index elements for this \c Mesh, where each index
+     * is composed a single <tt>unsigned short</tt>.
+     */
+    size_t Mesh::getNumIndices() const {
+       return indices.size();
+    }
 } // end namespace GlUtils
 
 

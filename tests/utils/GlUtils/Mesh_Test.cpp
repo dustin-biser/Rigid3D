@@ -18,7 +18,7 @@ namespace {  // limit class visibility to this file.
         shared_ptr<Mesh> mesh;
 
         Mesh_Test() {
-            mesh = std::make_shared<Mesh>();
+            mesh = make_shared<Mesh>();
         }
 
         virtual ~Mesh_Test() {
@@ -50,5 +50,12 @@ TEST_F(Mesh_Test, test_creation_empty_index_data){
     EXPECT_EQ(0, mesh->getIndexDataBytes());
 }
 
+TEST_F(Mesh_Test, test_creation_with_obj_file){
+    mesh = make_shared<Mesh>("data/cube.obj");
+
+    EXPECT_EQ(8, mesh->getNumVertices());
+    EXPECT_EQ(8, mesh->getNumNormals());
+    EXPECT_EQ(36, mesh->getNumIndices());
+}
 
 
