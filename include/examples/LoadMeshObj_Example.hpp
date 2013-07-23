@@ -3,7 +3,6 @@
 
 #include <GL/glew.h>
 #include <GL/gl.h>
-#include <SFML/Graphics/Shader.hpp>
 #include <Mesh.hpp>
 #include <glm/gtc/reciprocal.hpp>
 #include <vector>
@@ -13,7 +12,6 @@
 
 using GlUtils::Mesh;
 using GlUtils::Frustum;
-using sf::Shader;
 using glm::mat4;
 
 class LoadMeshObj_Example : public SfmlOpenGLWindow {
@@ -33,19 +31,25 @@ public:
 
 
 protected:
-    Shader shader;
+    ShaderProgram shaderProgram;
     Mesh mesh;
     Frustum frustum;
     mat4 worldToCameraMatrix;
     mat4 cameraToClipMatrix;
 
-    GLuint vertexBufferObject;
-    GLuint vao;
+    // Vertex attribute locations
+    GLint position_AttribLocation;
+    GLint color_AttribLocation;
+    GLint normal_AttribLocation;
 
-    void InitializeVertexBuffer();
+    GLuint vao;
+    GLuint vbo_vertices;
+    GLuint vbo_normals;
+    GLuint vbo_indices;
+
+    void setupGlData();
     void setupShaders();
     void setupMatrices();
-    void setupVertexBuffer();
     void setupVertexArrayObject();
 
 };
