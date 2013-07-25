@@ -1,14 +1,13 @@
 #include <LoadMeshObj_Example.hpp>
 #include <memory>
+#include <glm/gtc/type_ptr.hpp>
 
 using namespace std;
 /*
  *  TODO
- *  1. Change glDrawArrays to glDrawElements
- *  2. Setup ARRAY_BUFFER for normals
- *  3. Setup ELEMENTS_ARRAY_BUFFER for indices
- *  4. Setup model-view-perspective matrix uniforms
- *  5. Create shaders with lighting info
+ *  - Enable vertex attrib locations
+ *  - Setup model-view-perspective matrix uniforms
+ *  - Create shaders with lighting info
  */
 
 int main() {
@@ -21,8 +20,10 @@ int main() {
 
 
 //---------------------------------------------------------------------------------------
-void LoadMeshObj_Example::setupGlData()
+void LoadMeshObj_Example::setupGlBuffers()
 {
+    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+
     glGenVertexArrays(1, &vao);
     glBindVertexArray(vao);
 
@@ -58,7 +59,7 @@ void LoadMeshObj_Example::init()
     mesh.fromObjFile("data/cube.obj");
 
     setupShaders();
-    setupGlData();
+    setupGlBuffers();
     setupMatrices();
 }
 
@@ -66,35 +67,42 @@ void LoadMeshObj_Example::init()
 void LoadMeshObj_Example::setupShaders() {
     shaderProgram.loadFromFile("data/PositionColorNormal.vert", "data/PhoneLighting.frag");
 
+    // Acquire vertex attribute locations.
     this->position_AttribLocation = shaderProgram.getAttribLocation("position");
-    this->color_AttribLocation = shaderProgram.getAttribLocation("inDiffuseColor");
     this->normal_AttribLocation = shaderProgram.getAttribLocation("normal");
+    this->color_AttribLocation = shaderProgram.getAttribLocation("color");
+    this->worldToCamera_Location = shaderProgram.getUniformLocation("worldToCameraMatrix");
+    this->cameraToClip_Location = shaderProgram.getUniformLocation("cameraToClipMatrix");
+
+    // Enable vertex attribute arrays so we can send data to vertex shader.
+    glEnableVertexAttribArray(position_AttribLocation);
+    glEnableVertexAttribArray(normal_AttribLocation);
+
+    // Setup uniform color data
+    glUniform4f(color_AttribLocation, 0.6f, 0.2f, 0.2f, 1.0f);
 }
 
 //---------------------------------------------------------------------------------------
 void LoadMeshObj_Example::setupMatrices() {
     frustum = Frustum();
     cameraToClipMatrix = frustum.getPerspectiveMatrix();
+    worldToCameraMatrix = glm::lookAt(glm::vec3(0,0, 10), glm::vec3(0,0,0), glm::vec3(0,1,0));
+
+    // Register uniform matrix data to vertex shader
+    glUniformMatrix4fv(worldToCamera_Location, 1, GL_FALSE, glm::value_ptr(worldToCameraMatrix));
+    glUniformMatrix4fv(cameraToClip_Location, 1, GL_FALSE, glm::value_ptr(cameraToClipMatrix.value));
 }
 
 
 //---------------------------------------------------------------------------------------
 void LoadMeshObj_Example::draw()
 {
-    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 
+    shaderProgram.begin();
+    glDrawElements(GL_TRIANGLES, mesh.getNumIndices(), GL_UNSIGNED_BYTE, 0);
+    shaderProgram.end();
 
-    glBindBuffer(GL_ARRAY_BUFFER, vertexBufferObject);
-    glEnableVertexAttribArray(0);
-    glEnableVertexAttribArray(1);
-    glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, 0);
-    glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 0, (void*)48);
-
-    glDrawArrays(GL_TRIANGLES, 0, 3);
-
-    glDisableVertexAttribArray(0);
-    glDisableVertexAttribArray(1);
 }
 
 //---------------------------------------------------------------------------------------

@@ -41,13 +41,15 @@ protected:
     GLint position_AttribLocation;
     GLint color_AttribLocation;
     GLint normal_AttribLocation;
+    GLuint worldToCamera_Location;
+    GLuint cameraToClip_Location;
 
     GLuint vao;
     GLuint vbo_vertices;
     GLuint vbo_normals;
     GLuint vbo_indices;
 
-    void setupGlData();
+    void setupGlBuffers();
     void setupShaders();
     void setupMatrices();
     void setupVertexArrayObject();
