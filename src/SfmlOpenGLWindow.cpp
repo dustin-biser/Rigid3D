@@ -16,6 +16,8 @@ void SfmlOpenGLWindow::start(int width, int height) {
     sf::Window window(sf::VideoMode(width, height), windowTitle, sf::Style::Default, settings);
     window.setVerticalSyncEnabled(true);
 
+    centerWindow(window);
+
     GLenum err = glewInit();
     if (GLEW_OK != err) {
         /* Problem: glewInit failed, something is seriously wrong. */
@@ -26,8 +28,8 @@ void SfmlOpenGLWindow::start(int width, int height) {
 
     init();
 
-    bool running = true;
-    while (running) {
+    isRunning = true;
+    while (isRunning) {
         logic();
 
         // Handle events
@@ -35,11 +37,11 @@ void SfmlOpenGLWindow::start(int width, int height) {
         while (window.pollEvent(event)) {
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
                 // End the program.
-                running = false;
+                isRunning = false;
             }
             if (event.type == sf::Event::Closed) {
                 // End the program.
-                running = false;
+                isRunning = false;
 
             } else if (event.type == sf::Event::Resized) {
                 // Resize the OpenGL window.
@@ -58,18 +60,35 @@ void SfmlOpenGLWindow::start(int width, int height) {
     cleanup();
 }
 
+void SfmlOpenGLWindow::centerWindow(sf::Window & window) {
+    unsigned int x = sf::VideoMode::getDesktopMode().width;
+    unsigned int y = sf::VideoMode::getDesktopMode().height;
+
+    sf::Vector2u windowDimension = window.getSize();
+    x = (x - windowDimension.x ) / 2;
+    y = (y - windowDimension.y ) / 2;
+
+    window.setPosition(sf::Vector2<int>(x,y));
+}
+
 void SfmlOpenGLWindow::setupGL() {
+    // TODO - Uncomment the following once LoadMeshObj_Example is working
+
     // Render only the front face of geometry.
-    glEnable(GL_CULL_FACE);
-    glCullFace(GL_BACK);
-    glFrontFace(GL_CCW);
+//    glEnable(GL_CULL_FACE);
+//    glCullFace(GL_BACK);
+//    glFrontFace(GL_CCW);
 
     // Setup depth testing
-    glEnable(GL_DEPTH_TEST);
-    glDepthMask(true);
-    glDepthFunc(GL_LEQUAL);
-    glDepthRange(0.0f, 1.0f);
-    glEnable(GL_DEPTH_CLAMP);
+//    glEnable(GL_DEPTH_TEST);
+//    glDepthMask(true);
+//    glDepthFunc(GL_LEQUAL);
+//    glDepthRange(0.0f, 1.0f);
+//    glEnable(GL_DEPTH_CLAMP);
 
     glClearColor(0.3, 0.5, 0.7, 0.0);
+}
+
+void SfmlOpenGLWindow::close() {
+    isRunning = false;
 }

@@ -9,11 +9,15 @@
 
 using std::string;
 
+/**
+ * @brief Abstract class for instantiating an SFML OpenGL context enabled
+ * window.
+ */
 class SfmlOpenGLWindow {
 
 public:
     SfmlOpenGLWindow()
-            : windowTitle("SfmlOpenGLWindow") {
+            : windowTitle("SfmlOpenGLWindow"), isRunning(false) {
     }
 
     virtual void start() final;
@@ -26,20 +30,26 @@ public:
         this->windowTitle = windowTitle;
     }
 
-    virtual void setupGL();
+    virtual void init() = 0;
 
-    virtual void init() { }
+    virtual void logic() = 0;
 
-    virtual void logic() { }
+    virtual void draw() = 0;
 
-    virtual void draw() { }
+    virtual void resize(int width, int height) = 0;
 
-    virtual void resize(int width, int height) { }
+    virtual void cleanup() = 0;
 
-    virtual void cleanup() { }
+    virtual void close();
+
 
 protected:
     string windowTitle;
+    bool isRunning;
+
+    void centerWindow(sf::Window & window);
+
+    void setupGL();
 
 };
 

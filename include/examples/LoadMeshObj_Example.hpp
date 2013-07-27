@@ -9,15 +9,15 @@
 #include <MathUtils.hpp>
 #include <Frustum.hpp>
 #include <SfmlOpenGLWindow.hpp>
+#include <ShaderProgram.hpp>
 
-using GlUtils::Mesh;
-using GlUtils::Frustum;
+using namespace GlUtils;
 using glm::mat4;
 
 class LoadMeshObj_Example : public SfmlOpenGLWindow {
 
 public:
-    virtual void setupGL();
+    void setupGLBuffers();
 
     virtual void init();
 
@@ -29,27 +29,28 @@ public:
 
     virtual void cleanup();
 
-
 protected:
     ShaderProgram shaderProgram;
     Mesh mesh;
     Frustum frustum;
+    mat4 modelToWorldMatrix;
     mat4 worldToCameraMatrix;
     mat4 cameraToClipMatrix;
 
     // Vertex attribute locations
     GLint position_AttribLocation;
-    GLint color_AttribLocation;
+    GLint color_Location;
     GLint normal_AttribLocation;
     GLuint worldToCamera_Location;
     GLuint cameraToClip_Location;
+    GLuint modelToWorld_Location;
 
     GLuint vao;
     GLuint vbo_vertices;
     GLuint vbo_normals;
     GLuint vbo_indices;
 
-    void setupGlBuffers();
+    void setupGl();
     void setupShaders();
     void setupMatrices();
     void setupVertexArrayObject();

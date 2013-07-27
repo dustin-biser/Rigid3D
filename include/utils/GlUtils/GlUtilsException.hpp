@@ -1,5 +1,5 @@
-#ifndef SHADEREXCEPTION_HPP_
-#define SHADEREXCEPTION_HPP_
+#ifndef GLUTILSEXCEPTION_HPP_
+#define GLUTILSEXCEPTION_HPP_
 
 #include <exception>
 
@@ -7,12 +7,12 @@ using namespace std;
 
 namespace GlUtils {
 
-    class ShaderException : public exception {
+    class GlUtilsException : public exception {
     public:
-        ShaderException(const string message = "Shader Exception Occurred.")
+        GlUtilsException(const string message = "GlUtilsException Occurred.")
             : errorMessage(message) { }
 
-        virtual ~ShaderException() noexcept { }
+        virtual ~GlUtilsException() noexcept { }
 
         virtual const char * what() const noexcept {
             return errorMessage.c_str();
@@ -25,4 +25,4 @@ namespace GlUtils {
 }
 
 
-#endif /* SHADEREXCEPTION_HPP_ */
+#endif /* GLUTILSEXCEPTION_HPP_ */

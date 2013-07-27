@@ -1,14 +1,13 @@
 #include <LoadMeshObj_Example.hpp>
 #include <memory>
 #include <glm/gtc/type_ptr.hpp>
+#include <iostream>
 
 using namespace std;
-/*
- *  TODO
- *  - Enable vertex attrib locations
- *  - Setup model-view-perspective matrix uniforms
- *  - Create shaders with lighting info
- */
+
+// TODO - Normals must be transformed differently than vertices
+// when moving the camera.
+// See: http://www.songho.ca/opengl/gl_normaltransform.html
 
 int main() {
     shared_ptr<LoadMeshObj_Example> example = make_shared<LoadMeshObj_Example>();
@@ -20,10 +19,8 @@ int main() {
 
 
 //---------------------------------------------------------------------------------------
-void LoadMeshObj_Example::setupGlBuffers()
+void LoadMeshObj_Example::setupGLBuffers()
 {
-    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-
     glGenVertexArrays(1, &vao);
     glBindVertexArray(vao);
 
@@ -33,15 +30,11 @@ void LoadMeshObj_Example::setupGlBuffers()
     glBufferData(GL_ARRAY_BUFFER, mesh.getVertexDataBytes(), mesh.getVertexDataPtr(), GL_STATIC_DRAW);
     glVertexAttribPointer(position_AttribLocation, 4, GL_FLOAT, GL_FALSE, 0, 0);
 
-    // TODO - Normals must be transformed differently than vertices
-    // when moving the camera.
-    // See: http://www.songho.ca/opengl/gl_normaltransform.html
-
     // Register normals with OpenGL
     glGenBuffers(1, &vbo_normals);
     glBindBuffer(GL_ARRAY_BUFFER, vbo_normals);
     glBufferData(GL_ARRAY_BUFFER, mesh.getNormalDataBytes(), mesh.getNormalDataPtr(), GL_STATIC_DRAW);
-    glVertexAttribPointer(normal_AttribLocation, 4, GL_FLOAT, GL_FALSE, 0, 0);
+    glVertexAttribPointer(normal_AttribLocation, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
     // Register index elements with OpenGL
     glGenBuffers(1, &vbo_indices);
@@ -59,38 +52,44 @@ void LoadMeshObj_Example::init()
     mesh.fromObjFile("data/cube.obj");
 
     setupShaders();
-    setupGlBuffers();
+    setupGLBuffers();
     setupMatrices();
 }
 
 //---------------------------------------------------------------------------------------
 void LoadMeshObj_Example::setupShaders() {
-    shaderProgram.loadFromFile("data/PositionColorNormal.vert", "data/PhoneLighting.frag");
+    shaderProgram.loadFromFile("data/UniformColor.vert", "data/VertexColors.frag");
 
     // Acquire vertex attribute locations.
     this->position_AttribLocation = shaderProgram.getAttribLocation("position");
-    this->normal_AttribLocation = shaderProgram.getAttribLocation("normal");
-    this->color_AttribLocation = shaderProgram.getAttribLocation("color");
+    this->color_Location = shaderProgram.getUniformLocation("color");
     this->worldToCamera_Location = shaderProgram.getUniformLocation("worldToCameraMatrix");
     this->cameraToClip_Location = shaderProgram.getUniformLocation("cameraToClipMatrix");
+    this->modelToWorld_Location = shaderProgram.getUniformLocation("modelToWorldMatrix");
 
     // Enable vertex attribute arrays so we can send data to vertex shader.
     glEnableVertexAttribArray(position_AttribLocation);
-    glEnableVertexAttribArray(normal_AttribLocation);
 
     // Setup uniform color data
-    glUniform4f(color_AttribLocation, 0.6f, 0.2f, 0.2f, 1.0f);
+    glUniform4f(color_Location, 0.6f, 0.2f, 0.2f, 1.0f);
 }
 
 //---------------------------------------------------------------------------------------
 void LoadMeshObj_Example::setupMatrices() {
     frustum = Frustum();
     cameraToClipMatrix = frustum.getPerspectiveMatrix();
+
     worldToCameraMatrix = glm::lookAt(glm::vec3(0,0, 10), glm::vec3(0,0,0), glm::vec3(0,1,0));
+
+    modelToWorldMatrix = glm::mat4(1, 0, 0, 0,
+                                   0, 1, 0, 0,
+                                   0, 0, 1, 0,
+                                   0, 0, 0, 1);
 
     // Register uniform matrix data to vertex shader
     glUniformMatrix4fv(worldToCamera_Location, 1, GL_FALSE, glm::value_ptr(worldToCameraMatrix));
-    glUniformMatrix4fv(cameraToClip_Location, 1, GL_FALSE, glm::value_ptr(cameraToClipMatrix.value));
+    glUniformMatrix4fv(cameraToClip_Location, 1, GL_FALSE, glm::value_ptr(cameraToClipMatrix));
+    glUniformMatrix4fv(modelToWorld_Location, 1, GL_FALSE, glm::value_ptr(modelToWorldMatrix));
 }
 
 
@@ -132,7 +131,8 @@ void LoadMeshObj_Example::resize (int width, int height)
 
 //---------------------------------------------------------------------------------------
 void LoadMeshObj_Example::logic() {
-
+    // Pass updated matrix data to vertex shader
+    glUniformMatrix4fv(cameraToClip_Location, 1, GL_FALSE, glm::value_ptr(cameraToClipMatrix));
 }
 
 //---------------------------------------------------------------------------------------

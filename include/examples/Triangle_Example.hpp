@@ -5,6 +5,8 @@
 #include <ShaderProgram.hpp>
 #include <vector>
 
+using namespace GlUtils;
+
 class Triangle_Example : public SfmlOpenGLWindow {
 public:
     virtual void init();

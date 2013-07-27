@@ -5,11 +5,13 @@ linkLibs = {"sfml-window",
             "GLEW",
             "GlUtils"}
 
-libDirectories = {"/usr/lib",
+libDirectories = {"ext/glew-1.10.0/lib",
                   "/usr/local/lib/Mesa-9.1.4",
+                  "/usr/lib",
                   "lib"}
 
 includeDirList = {"ext",
+                  "ext/glew-1.10.0/include",
                   "include",
                   "include/examples",
                   "include/utils",
@@ -25,22 +27,23 @@ solution "SFML-OpenGL-Code"
 
     configuration  "Debug"
         defines { "DEBUG" }
-        flags {"Symbols", "ExtraWarnings"}
+        flags { "Symbols", "ExtraWarnings" }
 
     configuration  "Release"
         defines { "RELEASE", "NDEBUG" }
-        flags {"Symbols", "ExtraWarnings"}
+        flags { "Symbols", "ExtraWarnings" }
 
     -- Static Library for GlUtils code.
     project "GlUtils"
-        kind "StaticLib"
+        kind "SharedLib"
         language "C++"
         location "build"
         objdir "build/obj"
         targetdir "lib"
+        libdirs(libDirectories)
         buildoptions{"-std=c++0x"}
         includedirs(includeDirList)
-        files {"src/utils/**.cpp"}
+        files {"src/utils/*.cpp", "src/utils/GlUtils/*.cpp"}
 
     -- Function for creating demo programs.
     function SetupProject(projName, ...)
@@ -57,33 +60,10 @@ solution "SFML-OpenGL-Code"
         files { ... }
     end
 
-    -- Function for creating tests
-    function SetupTest(testName, ...)
-        project(testName)
-        kind "ConsoleApp"
-        language "C++"
-        location "tests/build"
-        objdir "tests/build/obj"
-        targetdir "tests/bin"
-        includedirs(includeDirList)
-        includedirs {"ext/gtest/include", "/ext/gtest/"}
-        libdirs(libDirectories)
-        links(linkLibs)
-        links "gtest"
-        linkoptions "-lpthread"
-        buildoptions{"-std=c++0x"}
-        files {...}
-    end
-
--- Build GTest Static Library.
-dofile("build/gtest.lua")
+-- Build Tests
+dofile("tests/tests.lua")
 
 -- Create project for each binary
 SetupProject("Sfml-Glm-OpenGL-Glew-Example", "src/examples/Sfml-Glm-OpenGL-Glew-Example.cpp")
 SetupProject("Triangle_Example", "src/examples/Triangle_Example.cpp", "src/SfmlOpenGLWindow.cpp")
-SetupProject("LoadMeshObj-Example", "src/examples/LoadMeshObj-Example.cpp", "src/SfmlOpenGLWindow.cpp")
-
-
--- Create Unit Tests
-SetupTest("Mesh_Test", "tests/utils/GlUtils/Mesh_Test.cpp")
-
+SetupProject("LoadMeshObj_Example", "src/examples/LoadMeshObj_Example.cpp", "src/SfmlOpenGLWindow.cpp")

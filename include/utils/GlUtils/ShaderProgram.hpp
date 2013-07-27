@@ -6,74 +6,77 @@
 
 using std::string;
 
-/**
- * A \c ShaderProgram encapsulates the compilation, linkage, and usage of both a
- * vertex shader and fragment shader with respect to a single OpenGL program
- * object.
- *
- * The goal of the \c ShaderProgram class is to make loading and using shader
- * programs as painless as possible.
- *
- * Example usage:
- *
- * \code{.cpp}
-   ShaderProgram shaderProgram;
-   shaderProgram.loadFromFile("verexShaderFile", "fragmentShaderFile");
+namespace GlUtils {
 
-   shaderProgram.begin();  // calls glUseProgram(...)
-    ... glDraw*();
-   shaderProgram.end();    // calls glUseProgram(NULL)
+    /**
+     * A \c ShaderProgram encapsulates the compilation, linkage, and usage of both a
+     * vertex shader and fragment shader with respect to a single OpenGL program
+     * object.
+     *
+     * The goal of the \c ShaderProgram class is to make loading and using shader
+     * programs as painless as possible.
+     *
+     * Example usage:
+     *
+     * \code{.cpp}
+       ShaderProgram shaderProgram;
+       shaderProgram.loadFromFile("verexShaderFile", "fragmentShaderFile");
 
-   \endcode
- */
-class ShaderProgram {
-public:
-    ShaderProgram();
+       shaderProgram.begin();  // calls glUseProgram(...)
+        ... glDraw*();
+       shaderProgram.end();    // calls glUseProgram(NULL)
 
-    ShaderProgram(const string &vertexShaderFile, const string &fragmentShaderFile);
+       \endcode
+     */
+    class ShaderProgram {
+    public:
+        ShaderProgram();
 
-    ~ShaderProgram();
+        ShaderProgram(const string &vertexShaderFile, const string &fragmentShaderFile);
 
-    void loadFromFile(const string &vertexShaderFile, const string &fragmentShaderFile);
+        ~ShaderProgram();
 
-    void begin();
+        void loadFromFile(const string &vertexShaderFile, const string &fragmentShaderFile);
 
-    void end();
+        void begin();
 
-    GLuint getProgramObject();
+        void end();
 
-    GLint getUniformLocation(const string &uniformName);
+        GLuint getProgramObject();
 
-    GLint getAttribLocation(const string &attributeName);
+        GLint getUniformLocation(const string &uniformName);
 
-private:
-    struct Shader {
-        string sourceCode;
-        GLuint shaderObject;
+        GLint getAttribLocation(const string &attributeName);
+
+    private:
+        struct Shader {
+            string sourceCode;
+            GLuint shaderObject;
+        };
+
+        Shader vertexShader;
+        Shader fragmentShader;
+        GLuint programObject;
+
+        void initializeShaders();
+
+        void checkGLError(const string &fileName, int lineNumber);
+
+        void extractSourceCode(const string &sourceFileName, Shader &shader);
+
+        void createVertexShader();
+
+        void createFragmentShader();
+
+        void compileShader(const Shader &shader);
+
+        void checkCompilationStatus(const Shader &shader);
+
+        void createShaderProgram();
+
+        void checkLinkStatus();
     };
 
-    Shader vertexShader;
-    Shader fragmentShader;
-    GLuint programObject;
-
-    void initializeShaders();
-
-    void checkGLError(const string &fileName, int lineNumber);
-
-    void extractSourceCode(const string &sourceFileName, Shader &shader);
-
-    void createVertexShader();
-
-    void createFragmentShader();
-
-    void compileShader(const Shader &shader);
-
-    void checkCompilationStatus(const Shader &shader);
-
-    void createShaderProgram();
-
-    void checkLinkStatus();
-};
-
+} // end namespace GlUtils
 
 #endif /* SHADER_HPP_ */
