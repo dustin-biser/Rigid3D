@@ -1,4 +1,6 @@
 #include <SfmlOpenGLWindow.hpp>
+#include <GlUtilsException.hpp>
+#include <sstream>
 
 void SfmlOpenGLWindow::start() {
     start(800, 600);
@@ -20,8 +22,9 @@ void SfmlOpenGLWindow::start(int width, int height) {
 
     GLenum err = glewInit();
     if (GLEW_OK != err) {
-        /* Problem: glewInit failed, something is seriously wrong. */
-        fprintf(stderr, "Error: %s\n", glewGetErrorString(err));
+        std::stringstream errorMessage;
+        errorMessage << "Error calling glewInit(): OpenGL context is not valid.";
+        throw GlUtils::GlUtilsException(errorMessage.str());
     }
 
     setupGL();

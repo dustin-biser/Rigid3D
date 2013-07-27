@@ -19,8 +19,9 @@ void OpenGLContextInitializer::initContext() {
     contextSettings->majorVersion = this->majorVersion;
     contextSettings->minorVersion = this->minorVersion;
 
-    // Create the window
+    // Create OpenGL enabled window, then hide it.
     openGL_window = make_shared<sf::Window>(sf::VideoMode(600, 400), "Test Window", sf::Style::Default, *contextSettings);
+    openGL_window->close();
 
     GLenum err = glewInit();
     if (GLEW_OK != err) {

@@ -1,15 +1,10 @@
 #ifndef LOADMESHOBJ_EXAMPLE_HPP_
 #define LOADMESHOBJ_EXAMPLE_HPP_
 
-#include <GL/glew.h>
-#include <GL/gl.h>
-#include <Mesh.hpp>
+#include <GlUtils.hpp>
+#include <SfmlOpenGLWindow.hpp>
 #include <glm/gtc/reciprocal.hpp>
 #include <vector>
-#include <MathUtils.hpp>
-#include <Frustum.hpp>
-#include <SfmlOpenGLWindow.hpp>
-#include <ShaderProgram.hpp>
 
 using namespace GlUtils;
 using glm::mat4;
