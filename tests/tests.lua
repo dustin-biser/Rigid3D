@@ -11,6 +11,7 @@ testLinkLibs = {"GlUtils",
 
 testLibDirectories = {"../ext/glew-1.10.0/lib",
                       "/usr/local/lib/Mesa-9.1.4",
+                      "/usr/local/lib/SFML-2.1",
                       "/usr/lib",
                       "../lib"}
 
@@ -21,6 +22,7 @@ testIncludeDirList = {"../ext/glew-1.10.0/include",
                       "../include/utils",
                       "../include/utils/GlUtils",
                       "/usr/local/lib/glm-0.9.4.3",
+                      "/usr/local/include/SFML-2.1",
                       "/usr/local/include",
                       "/usr/include"}
 

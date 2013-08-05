@@ -9,7 +9,7 @@ namespace GlUtils {
 
     class GlUtilsException : public exception {
     public:
-        GlUtilsException(const string message = "GlUtilsException Occurred.")
+        GlUtilsException(const string & message = "GlUtilsException Occurred.")
             : errorMessage(message) { }
 
         virtual ~GlUtilsException() noexcept { }

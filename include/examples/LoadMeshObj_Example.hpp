@@ -36,9 +36,9 @@ protected:
     GLint position_AttribLocation;
     GLint color_Location;
     GLint normal_AttribLocation;
-    GLuint worldToCamera_Location;
-    GLuint cameraToClip_Location;
-    GLuint modelToWorld_Location;
+    GLint worldToCamera_Location;
+    GLint cameraToClip_Location;
+    GLint modelToWorld_Location;
 
     GLuint vao;
     GLuint vbo_vertices;

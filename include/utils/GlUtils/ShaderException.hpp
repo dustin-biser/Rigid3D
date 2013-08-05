@@ -9,7 +9,7 @@ namespace GlUtils {
 
     class ShaderException : public exception {
     public:
-        ShaderException(const string message = "Shader Exception Occurred.")
+        ShaderException(const string & message = "Shader Exception Occurred.")
             : errorMessage(message) { }
 
         virtual ~ShaderException() noexcept { }

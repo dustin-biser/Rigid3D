@@ -38,17 +38,22 @@ void SfmlOpenGLWindow::start(int width, int height) {
         // Handle events
         sf::Event event;
         while (window.pollEvent(event)) {
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+            switch (event.type) {
+            case sf::Event::KeyPressed:
+                if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+                    // End the program.
+                    isRunning = false;
+                    window.close();
+                }
+                break;
+            case sf::Event::Closed:
                 // End the program.
                 isRunning = false;
-            }
-            if (event.type == sf::Event::Closed) {
-                // End the program.
-                isRunning = false;
-
-            } else if (event.type == sf::Event::Resized) {
+                break;
+            case sf::Event::Resized:
                 // Resize the OpenGL window.
                 resize(event.size.width, event.size.height);
+                break;
             }
         }
 

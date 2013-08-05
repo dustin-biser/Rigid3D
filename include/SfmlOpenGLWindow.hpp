@@ -20,9 +20,9 @@ public:
             : windowTitle("SfmlOpenGLWindow"), isRunning(false) {
     }
 
-    virtual void start() final;
+    virtual void start();
 
-    virtual void start(int width, int height) final;
+    virtual void start(int width, int height);
 
     virtual ~SfmlOpenGLWindow() { }
 

@@ -48,6 +48,16 @@ namespace GlUtils {
 
         GLint getAttribLocation(const string &attributeName);
 
+        /**
+         * @brief Alias for ShaderProgram::begin().
+         */
+        inline void enable() { begin(); }
+
+        /**
+         * @brief Alias for ShaderProgram::end().
+         */
+        inline void disable() { end(); }
+
     private:
         struct Shader {
             string sourceCode;
