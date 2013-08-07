@@ -1,4 +1,4 @@
-SFML-OpenGL
+Rigid3D
 ===========
 
 ### Dependencies
