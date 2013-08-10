@@ -30,7 +30,6 @@ public:
 
     virtual void close() = 0;
 
-
 protected:
     GLFWwindow *window;
     string windowTitle;

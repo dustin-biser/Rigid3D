@@ -1,5 +1,6 @@
-linkLibs = {"glfw3","GL", "GLU", "GLEW",  "X11", "Xxf86vm", "pthread", "Xi", "Xrandr"}
--- TODO: Add GlUtils to list
+-- Important: Link order matters for static libraries!  Make sure dependent
+-- libraries come before the libraries they depend on.
+linkLibs = {"glfw3","GLU", "GLEW", "GL", "X11", "Xxf86vm", "pthread", "Xi", "Xrandr"}
 
 libDirectories = {"ext/glew-1.10.0/lib",
                   "/usr/local/lib/Mesa-9.1.4",
@@ -17,7 +18,7 @@ includeDirList = {"ext",
                   "/usr/local/include",
                   "/usr/include"}
 
-solution "SFML-OpenGL-Code"
+solution "Rigid3D"
     configurations { "Debug", "Release" }
 
     defines {"LOAD_X11"}
@@ -31,19 +32,19 @@ solution "SFML-OpenGL-Code"
         flags { "Symbols", "ExtraWarnings" }
 
     -- Static Library for GlUtils code.
-    --project "GlUtils"
-        --kind "SharedLib"
-        --language "C++"
-        --location "build"
-        --objdir "build/obj"
-        --targetdir "lib"
-        --libdirs(libDirectories)
-        --buildoptions{"-std=c++0x"}
-        --includedirs(includeDirList)
-        --files {"src/utils/*.cpp", "src/utils/GlUtils/*.cpp"}
+    project "GlUtils"
+        kind "StaticLib"
+        language "C++"
+        location "build"
+        objdir "build/obj"
+        targetdir "lib"
+        libdirs(libDirectories)
+        buildoptions{"-std=c++0x"}
+        includedirs(includeDirList)
+        files {"src/utils/*.cpp", "src/utils/GlUtils/*.cpp"}
 
     -- Function for creating demo programs.
-    function SetupProject(projName, ...)
+    function CreateDemo(projName, ...)
         project(projName)
         kind "ConsoleApp"
         language "C++"
@@ -58,12 +59,12 @@ solution "SFML-OpenGL-Code"
     end
 
 -- Build Tests
---dofile("tests/tests.lua")
+dofile("tests/tests.lua")
 
--- Create project for each binary
---SetupProject("Sfml-Glm-OpenGL-Glew-Example", "src/examples/Sfml-Glm-OpenGL-Glew-Example.cpp")
---SetupProject("Triangle_Example", "src/examples/Triangle_Example.cpp", "src/SfmlOpenGLWindow.cpp")
---SetupProject("TriangleUniformColor_Example", "src/examples/TriangleUniformColor_Example.cpp", "src/SfmlOpenGLWindow.cpp")
---SetupProject("LoadMeshObj_Example", "src/examples/LoadMeshObj_Example.cpp", "src/SfmlOpenGLWindow.cpp")
-SetupProject("Glfw-Example", "src/examples/Glfw-Example.cpp")
-SetupProject("GlfwOpenGlWindowExample", "src/examples/GlfwOpenGlWindowExample.cpp", "src/GlfwOpenGlWindow.cpp")
+-- Create a project for each demo
+--CreateDemo("Sfml-Glm-OpenGL-Glew-Example", "src/examples/Sfml-Glm-OpenGL-Glew-Example.cpp")
+--CreateDemo("Triangle_Example", "src/examples/Triangle_Example.cpp", "src/SfmlOpenGLWindow.cpp")
+--CreateDemo("TriangleUniformColor_Example", "src/examples/TriangleUniformColor_Example.cpp", "src/SfmlOpenGLWindow.cpp")
+--CreateDemo("LoadMeshObj_Example", "src/examples/LoadMeshObj_Example.cpp", "src/SfmlOpenGLWindow.cpp")
+CreateDemo("Glfw-Example", "src/examples/Glfw-Example.cpp")
+CreateDemo("GlfwOpenGlWindowExample", "src/examples/GlfwOpenGlWindowExample.cpp", "src/GlfwOpenGlWindow.cpp")

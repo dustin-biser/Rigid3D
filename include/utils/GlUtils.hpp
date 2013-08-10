@@ -9,15 +9,14 @@
 #define GLUTILS_HPP_
 
 #include <GL/glew.h>
-
-#include <SFML/OpenGL.hpp>
-#include <SFML/Window.hpp>
+#include <GLFW/glfw3.h>
 
 #include <Frustum.hpp>
 #include <MathUtils.hpp>
 #include <Mesh.hpp>
 #include <ShaderProgram.hpp>
-#include <OpenGLContexInitializer.hpp>
+
+#include <OpenGlContext.hpp>
 
 // Exception Types
 #include <ShaderException.hpp>

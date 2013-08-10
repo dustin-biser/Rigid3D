@@ -55,7 +55,7 @@ TEST_F(Mesh_Test, test_creation_empty_index_data){
  * number of vertices, normals, and indices.
  */
 TEST_F(Mesh_Test, test_creation_with_obj_file){
-    mesh = make_shared<Mesh>("tests/data/cube.obj");
+    mesh = make_shared<Mesh>("../data/cube.obj");
 
     size_t numberOfVertices = 8;
     size_t numberOfNormals = 8;

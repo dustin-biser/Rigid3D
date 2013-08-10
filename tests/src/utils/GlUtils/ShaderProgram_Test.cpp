@@ -5,8 +5,7 @@
  */
 
 #include <gtest/gtest.h>
-#include <ShaderProgram.hpp>
-#include <OpenGLContexInitializer.hpp>
+#include <GlUtils.hpp>
 #include <memory>
 
 using namespace GlUtils;
@@ -17,7 +16,7 @@ namespace {  // limit class visibility to this file.
     class ShaderProgram_Test: public ::testing::Test {
     protected:
         // OpenGL context to be shared among all tests.
-        static shared_ptr<OpenGLContextInitializer> glContextInitalizer;
+        static shared_ptr<OpenGlContext> glContext;
 
         shared_ptr<ShaderProgram> shaderProgram;
 
@@ -26,8 +25,8 @@ namespace {  // limit class visibility to this file.
         }
 
         static void SetUpTestCase() {
-            glContextInitalizer = make_shared<OpenGLContextInitializer>(4,2);
-            glContextInitalizer->initContext();
+            glContext = make_shared<OpenGlContext>(4,2);
+            glContext->init();
         }
 
         // Code here will be called immediately after the constructor (right
@@ -42,7 +41,7 @@ namespace {  // limit class visibility to this file.
 
     };
 
-    shared_ptr<OpenGLContextInitializer> ShaderProgram_Test::glContextInitalizer = NULL;
+    shared_ptr<OpenGlContext> ShaderProgram_Test::glContext = nullptr;
 }
 
 /**

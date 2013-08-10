@@ -29,10 +29,10 @@
 								<option id="gnu.c.compiler.option.include.paths.100816422" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="/usr/local/include"/>
 									<listOptionValue builtIn="false" value="/usr/local/lib/glm-0.9.4.3"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SFML-OpenGL-Code/include/utils/GlUtils}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SFML-OpenGL-Code/include/utils}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SFML-OpenGL-Code/include/examples}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SFML-OpenGL-Code/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/include/utils/GlUtils}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/include/examples}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/include/utils}&quot;"/>
 								</option>
 								<option id="gnu.c.compiler.option.preprocessor.def.symbols.1429203995" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="__GXX_EXPERIMENTAL_CXX0X__=1"/>
@@ -41,13 +41,13 @@
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.cross.cpp.compiler.1548255601" name="Cross G++ Compiler" superClass="cdt.managedbuild.tool.gnu.cross.cpp.compiler">
 								<option id="gnu.cpp.compiler.option.include.paths.1382980904" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SFML-OpenGL-Code/include/examples}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SFML-OpenGL-Code/include}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SFML-OpenGL-Code/include/utils/GlUtils}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SFML-OpenGL-Code/include/utils}&quot;"/>
 									<listOptionValue builtIn="false" value="/usr/local/include"/>
 									<listOptionValue builtIn="false" value="/usr/local/lib/glm-0.9.4.3"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SFML-OpenGL-Code/tests/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/include/examples}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/include/utils/GlUtils}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/tests/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/include/utils}&quot;"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.preprocessor.def.1028643768" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="__GXX_EXPERIMENTAL_CXX0X__=1"/>
