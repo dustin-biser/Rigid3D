@@ -20,7 +20,7 @@
 							<option id="cdt.managedbuild.option.gnu.cross.prefix.573261785" name="Prefix" superClass="cdt.managedbuild.option.gnu.cross.prefix"/>
 							<option id="cdt.managedbuild.option.gnu.cross.path.536533597" name="Path" superClass="cdt.managedbuild.option.gnu.cross.path"/>
 							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.ELF" id="cdt.managedbuild.targetPlatform.gnu.cross.1429149082" isAbstract="false" osList="all" superClass="cdt.managedbuild.targetPlatform.gnu.cross"/>
-							<builder arguments="conf=debug" cleanBuildTarget="clean" command="make" enableAutoBuild="true" id="cdt.managedbuild.builder.gnu.cross.753898336" keepEnvironmentInBuildfile="false" managedBuildOn="false" name="Gnu Make Builder" superClass="cdt.managedbuild.builder.gnu.cross">
+							<builder arguments="conf=debug" autoBuildTarget="" cleanBuildTarget="clean" command="make" enableAutoBuild="true" id="cdt.managedbuild.builder.gnu.cross.753898336" incrementalBuildTarget="" keepEnvironmentInBuildfile="false" managedBuildOn="false" name="Gnu Make Builder" superClass="cdt.managedbuild.builder.gnu.cross">
 								<outputEntries>
 									<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="outputPath" name=""/>
 								</outputEntries>
@@ -33,9 +33,11 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/include/examples}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/include/utils}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/include/utils/MathUtils}&quot;"/>
 								</option>
 								<option id="gnu.c.compiler.option.preprocessor.def.symbols.1429203995" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="__GXX_EXPERIMENTAL_CXX0X__=1"/>
+									<listOptionValue builtIn="false" value="GLEW_STATIC=1"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.968283338" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
 							</tool>
@@ -48,9 +50,11 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/tests/include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/include/utils}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/include/utils/MathUtils}&quot;"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.preprocessor.def.1028643768" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="__GXX_EXPERIMENTAL_CXX0X__=1"/>
+									<listOptionValue builtIn="false" value="GLEW_STATIC=1"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.135715295" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>

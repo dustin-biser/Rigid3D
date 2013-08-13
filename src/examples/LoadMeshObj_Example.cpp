@@ -1,7 +1,9 @@
 #include <LoadMeshObj_Example.hpp>
-#include <memory>
+#include <MathUtils.hpp>
+#include <GlErrorCheck.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <iostream>
+#include <memory>
 
 using namespace std;
 
@@ -12,15 +14,14 @@ using namespace std;
 int main() {
     try {
         shared_ptr<LoadMeshObj_Example> example = make_shared<LoadMeshObj_Example>();
-        example->setWindowTitle("Load Mesh Object Example");
-        example->start(800, 600);
+        example->start(800, 600, "Load Mesh Object Example");
+
     } catch (const exception & e) {
         cerr << e.what() << endl;
     }
 
     return 0;
 }
-
 
 //---------------------------------------------------------------------------------------
 void LoadMeshObj_Example::setupGLBuffers()
@@ -48,12 +49,13 @@ void LoadMeshObj_Example::setupGLBuffers()
  * Called after the window and OpenGL are initialized. Called exactly once,
  * before the main loop.
  */
-virtual void LoadMeshObj_Example::init()
+void LoadMeshObj_Example::init()
 {
     mesh.fromObjFile("../data/cube.obj");
 
     glGenVertexArrays(1, &vao);
     glBindVertexArray(vao);
+    checkGLError(__FILE__, __LINE__);
 
     setupShaders();
     setupGLBuffers();
@@ -104,7 +106,7 @@ void LoadMeshObj_Example::setupMatrices() {
 
 
 //---------------------------------------------------------------------------------------
-virtual void LoadMeshObj_Example::draw()
+void LoadMeshObj_Example::draw()
 {
     shaderProgram.begin();
         glDrawElements(GL_TRIANGLES, mesh.getNumIndices(), GL_UNSIGNED_SHORT, 0);
@@ -113,10 +115,10 @@ virtual void LoadMeshObj_Example::draw()
 }
 
 //---------------------------------------------------------------------------------------
-virtual void LoadMeshObj_Example::resize (int width, int height)
+void LoadMeshObj_Example::resize (int width, int height)
 {
     float aspectRatio = ((float) width) / height;
-    float frustumYScale = MathUtils::coTangent(MathUtils::degreesToRadians(frustum.fieldOfViewY / 2));
+    float frustumYScale = MathUtils::cotangent(MathUtils::degreesToRadians(frustum.fieldOfViewY / 2));
     float frustumXScale = frustumYScale * frustum.aspectRatio;
 
     if (width > height) {
@@ -138,7 +140,7 @@ virtual void LoadMeshObj_Example::resize (int width, int height)
 
 
 //---------------------------------------------------------------------------------------
-virtual void LoadMeshObj_Example::logic() {
+void LoadMeshObj_Example::logic() {
     shaderProgram.enable();
         // Pass updated matrix data to vertex shader
         glUniformMatrix4fv(cameraToClip_Location, 1, GL_FALSE, glm::value_ptr(cameraToClipMatrix));
@@ -146,7 +148,7 @@ virtual void LoadMeshObj_Example::logic() {
 }
 
 //---------------------------------------------------------------------------------------
-virtual void LoadMeshObj_Example::cleanup() {
+void LoadMeshObj_Example::cleanup() {
     glBindVertexArray(0);
     glDeleteBuffers(1, &vbo_indices);
     glDeleteBuffers(1, &vbo_normals);

@@ -2,6 +2,7 @@
 #define SHADER_HPP_
 
 #include <GL/glew.h>
+#include <GlErrorCheck.hpp>
 #include <string>
 
 using std::string;
@@ -69,8 +70,6 @@ namespace GlUtils {
         GLuint programObject;
 
         void initializeShaders();
-
-        void checkGLError(const string &fileName, int lineNumber);
 
         void extractSourceCode(const string &sourceFileName, Shader &shader);
 

@@ -11,11 +11,6 @@
  * @author Dustin Biser
  */
 class OpenGlContext {
-protected:
-    GLFWwindow *window;
-    unsigned int majorVersion;
-    unsigned int minorVersion;
-
 public:
     OpenGlContext(unsigned int majorVersion, unsigned int minorVersion)
             : window(nullptr), majorVersion(majorVersion), minorVersion(minorVersion) { }
@@ -23,6 +18,14 @@ public:
     ~OpenGlContext();
 
      void init();
+
+protected:
+    GLFWwindow *window;
+    unsigned int majorVersion;
+    unsigned int minorVersion;
+
+    static void error_callback(int error, const char* description);
+
 };
 
 

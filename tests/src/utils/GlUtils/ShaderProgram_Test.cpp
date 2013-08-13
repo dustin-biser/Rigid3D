@@ -5,7 +5,9 @@
  */
 
 #include <gtest/gtest.h>
-#include <GlUtils.hpp>
+#include <ShaderProgram.hpp>
+#include <ShaderException.hpp>
+#include <OpenGlContext.hpp>
 #include <memory>
 
 using namespace GlUtils;
@@ -15,17 +17,17 @@ namespace {  // limit class visibility to this file.
 
     class ShaderProgram_Test: public ::testing::Test {
     protected:
-        // OpenGL context to be shared among all tests.
-        static shared_ptr<OpenGlContext> glContext;
 
         shared_ptr<ShaderProgram> shaderProgram;
+        static shared_ptr<OpenGlContext> glContext;
 
         ShaderProgram_Test() {
             shaderProgram = make_shared<ShaderProgram>();
         }
 
+        // Code here will be ran once before all tests.
         static void SetUpTestCase() {
-            glContext = make_shared<OpenGlContext>(4,2);
+            glContext = make_shared<OpenGlContext>(4, 2);
             glContext->init();
         }
 
@@ -42,56 +44,70 @@ namespace {  // limit class visibility to this file.
     };
 
     shared_ptr<OpenGlContext> ShaderProgram_Test::glContext = nullptr;
-}
 
-/**
- * @brief Test loading, compiling, and linking of error free vertex and fragment
- * shaders.  If all goes well, programObject should not equal 0.
- */
-TEST_F(ShaderProgram_Test, test_loadFromFile){
-    shaderProgram->loadFromFile("../data/GoodShader.vert", "../data/GoodShader.frag");
+    TEST_F(ShaderProgram_Test, testPass) {
+        ASSERT_TRUE(true);
+    }
 
-    EXPECT_NE((unsigned int)0, shaderProgram->getProgramObject());
-}
+    /**
+     * @brief Test loading, compiling, and linking of error free vertex and fragment
+     * shaders.  If all goes well, programObject should not equal 0.
+     */
+    TEST_F(ShaderProgram_Test, test_loadFromFile){
+        shaderProgram->loadFromFile("../data/GoodShader.vert", "../data/GoodShader.frag");
 
-/**
- * @brief ShaderException should be thrown on vertex shader compilation error.
- */
-TEST_F(ShaderProgram_Test, test_throws_on_vertex_compilation_error){
-    ASSERT_THROW(shaderProgram->loadFromFile("../data/Shader_withSyntaxError.vert",
-    "../data/GoodShader.frag"), ShaderException);
-}
+        EXPECT_NE((unsigned int)0, shaderProgram->getProgramObject());
+    }
 
-/**
- * @brief ShaderException should be thrown on fragment shader compilation error.
- */
-TEST_F(ShaderProgram_Test, test_throws_on_frag_compilation_error){
-    ASSERT_THROW(shaderProgram->loadFromFile("../data/GoodShader.vert",
-    "../data/Shader_withSyntaxError.frag"), ShaderException);
-}
+    /**
+     * @brief ShaderException should be thrown on vertex shader compilation error.
+     */
+    TEST_F(ShaderProgram_Test, test_throws_on_vertex_compilation_error){
+        ASSERT_THROW(shaderProgram->loadFromFile("../data/Shader_withSyntaxError.vert",
+        "../data/GoodShader.frag"), ShaderException);
+    }
 
-/**
- * @brief ShaderException should be thrown on linker error.
- */
-TEST_F(ShaderProgram_Test, test_throws_on_linker_error){
-    ASSERT_THROW(shaderProgram->loadFromFile("../data/GoodShader.vert",
-    "../data/Shader_withLinkerError.frag"), ShaderException);
-}
+    /**
+     * @brief ShaderException should be thrown on fragment shader compilation error.
+     */
+    TEST_F(ShaderProgram_Test, test_throws_on_frag_compilation_error){
+        ASSERT_THROW(shaderProgram->loadFromFile("../data/GoodShader.vert",
+        "../data/Shader_withSyntaxError.frag"), ShaderException);
+    }
 
-/**
- * @brief Test getUniformLocation
- */
-TEST_F(ShaderProgram_Test, test_getUniformLocation){
-    shaderProgram->loadFromFile("../data/GoodShader.vert", "../data/GoodShader.frag");
+    /**
+     * @brief ShaderException should be thrown on linker error.
+     */
+    TEST_F(ShaderProgram_Test, test_throws_on_linker_error){
+        ASSERT_THROW(shaderProgram->loadFromFile("../data/GoodShader.vert",
+        "../data/Shader_withLinkerError.frag"), ShaderException);
+    }
 
-    EXPECT_NE(-1, shaderProgram->getUniformLocation("colorUniform"));
-}
+    /**
+     * @brief Test getUniformLocation
+     */
+    TEST_F(ShaderProgram_Test, test_getUniformLocation){
+        shaderProgram->loadFromFile("../data/GoodShader.vert", "../data/GoodShader.frag");
 
-/**
- * @brief Test getAttribLocation
- */
-TEST_F(ShaderProgram_Test, test_getAttribLocation){
-    shaderProgram->loadFromFile("../data/GoodShader.vert", "../data/GoodShader.frag");
+        EXPECT_NE(-1, shaderProgram->getUniformLocation("colorUniform"));
+    }
 
-    EXPECT_NE(-1, shaderProgram->getAttribLocation("position"));
-}
+    /**
+     * @brief Test getAttribLocation
+     */
+    TEST_F(ShaderProgram_Test, test_getAttribLocation){
+        shaderProgram->loadFromFile("../data/GoodShader.vert", "../data/GoodShader.frag");
+
+        EXPECT_NE(-1, shaderProgram->getAttribLocation("position"));
+    }
+
+} // end namespace
+
+//int main(int argc, char **argv) {
+//    // OpenGL context to be shared among all tests.
+//
+//    ::testing::InitGoogleTest(&argc, argv);
+//    int result = RUN_ALL_TESTS();
+//
+//    return result;
+//}

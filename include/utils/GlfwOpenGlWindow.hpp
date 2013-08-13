@@ -26,9 +26,9 @@ public:
         this->windowTitle = windowTitle;
     }
 
-    virtual void resize(int width, int height) = 0;
+    virtual void resize(int width, int height) { }
 
-    virtual void close() = 0;
+    virtual void close();
 
 protected:
     GLFWwindow *window;
@@ -40,11 +40,11 @@ protected:
 
     void centerWindow();
 
-    virtual void init() = 0;
+    virtual void init() { }
 
     virtual void draw();
 
-    virtual void cleanup() = 0;
+    virtual void cleanup() { }
 
     virtual void setupGl();
 };

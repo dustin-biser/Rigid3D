@@ -1,5 +1,6 @@
 #include <ShaderProgram.hpp>
 #include <ShaderException.hpp>
+#include <GlErrorCheck.hpp>
 #include <fstream>
 #include <iostream>
 #include <sstream>
@@ -51,6 +52,7 @@ namespace GlUtils {
      */
     void ShaderProgram::loadFromFile(const string &vertexShaderFile,
             const string &fragmentShaderFile) {
+        checkGLError(__FILE__, __LINE__);
         extractSourceCode(vertexShaderFile, vertexShader);
         extractSourceCode(fragmentShaderFile, fragmentShader);
 
@@ -250,42 +252,6 @@ namespace GlUtils {
         }
 
         return result;
-    }
-
-    //-----------------------------------------------------------------------------
-    /**
-     * Checks for GLU error messages.  If one ore more errors exist, this method throws
-     * a \c ShaderException error containing all GLU error messages.
-     *
-     * @param file - name of file to reference, if errors exist.
-     * @param line - line number to reference within file, if errors exist.
-     */
-    void ShaderProgram::checkGLError(const string &file, int line) {
-       GLenum glErr;
-       bool errorFound = false;
-
-       glErr = glGetError();
-
-       stringstream strStream;
-
-       // Write all errors to strStream until error list is exhausted.
-       while (glErr != GL_NO_ERROR) {
-         const GLubyte* sError = glewGetErrorString(glErr);
-
-         if (sError)
-             strStream << "GL Error #" << glErr << "(" << glewGetErrorString(glErr) << ") "
-                 << " in File " << file << " at line: " << line << endl;
-         else
-             strStream << "GL Error #" << glErr << " (no message available)" << " in File "
-                    << file << " at line: " << line << endl;
-
-         errorFound = true;
-         glErr = glGetError();
-       }
-
-       if (errorFound) {
-           throw ShaderException(strStream.str());
-       }
     }
 
 } // end namespace GlUtils

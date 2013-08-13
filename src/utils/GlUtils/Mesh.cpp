@@ -23,10 +23,6 @@ Mesh::Mesh(const char* objFileName) {
     loadFromObjFile(objFileName);
 }
 
-Mesh::Mesh() { }
-
-Mesh::~Mesh() { }
-
 void Mesh::loadFromObjFile(const char* objFileName){
     // Reset datastructures before loading them with data.
     vertices.resize(0);
@@ -36,6 +32,8 @@ void Mesh::loadFromObjFile(const char* objFileName){
     glm_normals.resize(0);
 
     ifstream in(objFileName, ios::in);
+    in.exceptions(std::ifstream::badbit);
+
     if (!in) {
         stringstream errorMessage;
         errorMessage << "Unable to open .obj file: " << objFileName << endl;
@@ -43,7 +41,14 @@ void Mesh::loadFromObjFile(const char* objFileName){
     }
 
     string line;
-    while (getline(in, line)) {
+    while (!in.eof()) {
+        try {
+            getline(in, line);
+        } catch(const ifstream::failure & e) {
+            cerr << "Error calling getline() -- ";
+            cerr << e.what() << endl;
+        }
+
         if (line.substr(0,2) == "v ") {
             // Vertex data on this line.
             // Get entire line excluding first 2 chars.

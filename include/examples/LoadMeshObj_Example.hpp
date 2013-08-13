@@ -1,17 +1,21 @@
 #ifndef LOADMESHOBJ_EXAMPLE_HPP_
 #define LOADMESHOBJ_EXAMPLE_HPP_
 
+#include <GlfwOpenGlWindow.hpp>
 #include <GlUtils.hpp>
-#include <SfmlOpenGLWindow.hpp>
 #include <glm/gtc/reciprocal.hpp>
 #include <vector>
 
 using namespace GlUtils;
 using glm::mat4;
 
-class LoadMeshObj_Example : public SfmlOpenGLWindow {
+class LoadMeshObj_Example : public GlfwOpenGlWindow {
 
 public:
+    LoadMeshObj_Example() { }
+
+    ~LoadMeshObj_Example() { }
+
     void setupGLBuffers();
 
     virtual void init();
@@ -45,10 +49,10 @@ protected:
     GLuint vbo_normals;
     GLuint vbo_indices;
 
-    void setupGl();
+    void setupGl() { }
     void setupShaders();
     void setupMatrices();
-    void setupVertexArrayObject();
+    void setupVertexArrayObject() { }
 
 };
 

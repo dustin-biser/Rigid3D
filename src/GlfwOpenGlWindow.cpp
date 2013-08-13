@@ -1,10 +1,11 @@
 #include <GlfwOpenGlWindow.hpp>
 #include <GlfwException.hpp>
+#include <GlErrorCheck.hpp>
 #include <sstream>
-#include <iostream>
 
 using namespace std;
 
+//----------------------------------------------------------------------------------------
 void GlfwOpenGlWindow::error_callback(int error, const char* description) {
     throw GlfwException(description);
 }
@@ -13,24 +14,37 @@ void GlfwOpenGlWindow::start(int width, int height, const string & windowTitle) 
     glfwSetErrorCallback(error_callback);
 
     if (glfwInit() == GL_FALSE) {
-        exit(EXIT_FAILURE);
+        throw GlfwException("Call to glfwInit() failed.");
     }
 
+    glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_API);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
-    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     glfwWindowHint(GLFW_VISIBLE, GL_TRUE);
 
+    // Create Opengl Window
     window = glfwCreateWindow(width, height, windowTitle.c_str(), NULL, NULL);
     if (window == NULL) {
         glfwTerminate();
         throw GlfwException("Call to glfwCreateWindow failed.");
     }
 
-
     glfwMakeContextCurrent(window);
     glfwSetKeyCallback(window, keyInputHandler);
+
+    // Initialize OpenGL extensions with GLEW
+    glewExperimental = GL_TRUE;
+    GLenum errorCode = glewInit();
+    if (errorCode != GLEW_OK) {
+        stringstream errorMessage;
+        errorMessage << "Failed to initialize GLEW -- " << gluErrorString(errorCode);
+        throw GlfwException(errorMessage.str());
+    }
+    // Clear error buffer.  Specifically due to glewInit() causing a
+    // GLError(invalid enumerant), which is safe to ignore.
+    // http://www.opengl.org/wiki/OpenGL_Loading_Library
+    while(glGetError() != GL_NO_ERROR);
 
     setupGl();
     init();
@@ -46,11 +60,13 @@ void GlfwOpenGlWindow::start(int width, int height, const string & windowTitle) 
     glfwDestroyWindow(window);
 }
 
+//----------------------------------------------------------------------------------------
 GlfwOpenGlWindow::~GlfwOpenGlWindow() {
-   // Free all GLFW resources.
-   glfwTerminate();
+    // Free all GLFW resources.
+    glfwTerminate();
 }
 
+//----------------------------------------------------------------------------------------
 void GlfwOpenGlWindow::keyInputHandler(GLFWwindow* window, int key, int scancode,
         int action, int mods) {
 
@@ -58,6 +74,7 @@ void GlfwOpenGlWindow::keyInputHandler(GLFWwindow* window, int key, int scancode
         glfwSetWindowShouldClose(window, GL_TRUE);
 }
 
+//----------------------------------------------------------------------------------------
 void GlfwOpenGlWindow::centerWindow() {
     int windowWidth, windowHeight;
     glfwGetWindowSize(window, &windowWidth, &windowHeight);
@@ -78,6 +95,7 @@ void GlfwOpenGlWindow::centerWindow() {
     glfwSetWindowPos(window, x, y);
 }
 
+//----------------------------------------------------------------------------------------
 void GlfwOpenGlWindow::setupGl() {
     // Render only the front face of geometry.
     glEnable(GL_CULL_FACE);
@@ -86,7 +104,7 @@ void GlfwOpenGlWindow::setupGl() {
 
     // Setup depth testing
     glEnable(GL_DEPTH_TEST);
-    glDepthMask(true);
+    glDepthMask(GL_TRUE);
     glDepthFunc(GL_LEQUAL);
     glDepthRange(0.0f, 1.0f);
     glEnable(GL_DEPTH_CLAMP);
@@ -94,13 +112,15 @@ void GlfwOpenGlWindow::setupGl() {
     glClearColor(0.3, 0.5, 0.7, 1.0);
 }
 
+//----------------------------------------------------------------------------------------
 /**
  * @brief Closes the OpenGL window and terminates the main loop.
  */
 void GlfwOpenGlWindow::close() {
-   glfwSetWindowShouldClose(window, GL_TRUE);
+    glfwSetWindowShouldClose(window, GL_TRUE);
 }
 
+//----------------------------------------------------------------------------------------
 void GlfwOpenGlWindow::draw() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }

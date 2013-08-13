@@ -28,9 +28,9 @@ namespace GlUtils {
     public:
         Mesh(const char* objFileName);
 
-        Mesh();
+        Mesh() { }
 
-        ~Mesh();
+        ~Mesh() { }
 
         void fromObjFile(const char* objFileName);
 
