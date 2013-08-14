@@ -20,14 +20,13 @@ namespace GlUtils {
      * Example usage:
      *
      * \code{.cpp}
-       ShaderProgram shaderProgram;
-       shaderProgram.loadFromFile("verexShaderFile", "fragmentShaderFile");
-
-       shaderProgram.begin();  // calls glUseProgram(...)
-        ... glDraw*();
-       shaderProgram.end();    // calls glUseProgram(NULL)
-
-       \endcode
+     *  ShaderProgram shaderProgram;
+     *  shaderProgram.loadFromFile("verexShaderFile", "fragmentShaderFile");
+     *
+     *  shaderProgram.begin();  // calls glUseProgram(...)
+     *   ... glDraw*();
+     *  shaderProgram.end();    // calls glUseProgram(NULL)
+     * \endcode
      */
     class ShaderProgram {
     public:
@@ -39,25 +38,15 @@ namespace GlUtils {
 
         void loadFromFile(const string &vertexShaderFile, const string &fragmentShaderFile);
 
-        void begin();
+        void enable();
 
-        void end();
+        void disable();
 
         GLuint getProgramObject();
 
         GLint getUniformLocation(const string &uniformName);
 
         GLint getAttribLocation(const string &attributeName);
-
-        /**
-         * @brief Alias for ShaderProgram::begin().
-         */
-        inline void enable() { begin(); }
-
-        /**
-         * @brief Alias for ShaderProgram::end().
-         */
-        inline void disable() { end(); }
 
     private:
         struct Shader {

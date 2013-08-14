@@ -2,6 +2,8 @@
 #include <GlfwException.hpp>
 #include <sstream>
 
+using namespace GlUtils;
+
 using std::stringstream;
 
 void OpenGlContext::error_callback(int error, const char* description) {
@@ -18,9 +20,9 @@ void OpenGlContext::init() {
         throw GlfwException("Call to glfwInit() failed.");
     }
 
+    glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_API);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, majorVersion);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, minorVersion);
-    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     glfwWindowHint(GLFW_VISIBLE, GL_FALSE);
 
@@ -33,12 +35,17 @@ void OpenGlContext::init() {
     glfwSetWindowShouldClose(window, GL_TRUE);
 
     // Initialize OpenGL extensions with GLEW
+    glewExperimental = GL_TRUE;
     GLenum errorCode = glewInit();
-    if (GLEW_OK != errorCode) {
+    if (errorCode != GLEW_OK) {
         stringstream errorMessage;
-        errorMessage << "Failed to initialize GLEW -- " << glewGetErrorString(errorCode);
+        errorMessage << "Failed to initialize GLEW -- " << gluErrorString(errorCode);
         throw GlfwException(errorMessage.str());
     }
+    // Clear error buffer.  Specifically due to glewInit() causing a
+    // GLError(invalid enumerant), which is safe to ignore.
+    // http://www.opengl.org/wiki/OpenGL_Loading_Library
+    while(glGetError() != GL_NO_ERROR);
 }
 
 OpenGlContext::~OpenGlContext() {

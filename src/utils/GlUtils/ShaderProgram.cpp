@@ -133,11 +133,11 @@ namespace GlUtils {
         checkLinkStatus();
     }
 
-    void ShaderProgram::begin() {
+    void ShaderProgram::enable() {
         glUseProgram(programObject);
     }
 
-    void ShaderProgram::end() {
+    void ShaderProgram::disable() {
         glUseProgram((GLuint)NULL);
     }
 
