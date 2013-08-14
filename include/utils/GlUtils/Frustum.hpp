@@ -14,10 +14,6 @@ namespace GlUtils {
 
     class Frustum {
     public:
-        float fieldOfViewY;
-        float aspectRatio;
-        float nearZPlane;
-        float farZPlane;
 
         Frustum()
                 : fieldOfViewY(45.0f),
@@ -35,6 +31,28 @@ namespace GlUtils {
         glm::mat4 getPerspectiveMatrix() {
             return glm::perspective(fieldOfViewY, aspectRatio, nearZPlane, farZPlane);
         }
+
+        float getFieldOfViewY() {
+            return fieldOfViewY;
+        }
+
+        float getAspectRatio() {
+            return aspectRatio;
+        }
+
+        float getNearZPlaneDistance() {
+            return nearZPlane;
+        }
+
+        float getFarZPlaneDistance() {
+            return farZPlane;
+        }
+
+    private:
+        float fieldOfViewY;
+        float aspectRatio;
+        float nearZPlane;
+        float farZPlane;
 
     };
 
