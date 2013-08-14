@@ -22,7 +22,7 @@ namespace GlUtils {
         vector<float>  normals;
         vector<unsigned short>  indices;  /**< Collection of vertex index elements */
 
-        vector<glm::vec4> glm_vertices;
+        vector<glm::vec3> glm_vertices;
         vector<glm::vec3> glm_normals;
 
     public:

@@ -11,8 +11,8 @@
 #include <iostream>
 #include <ShaderException.hpp>
 
-using namespace std;
 using namespace GlUtils;
+using namespace std;
 
 /**
  * Constructs a Mesh object from a Wavefront .obj file format.
@@ -53,8 +53,8 @@ void Mesh::loadFromObjFile(const char* objFileName){
             // Vertex data on this line.
             // Get entire line excluding first 2 chars.
             istringstream s(line.substr(2));
-            // Allocate new vec4, fill in its indices, and add to vertices vector.
-            glm::vec4 v; s >> v.x; s >> v.y; s >> v.z; v.w = 1.0f;
+            // Allocate new vec3, fill in its indices, and add to vertices vector.
+            glm::vec3 v; s >> v.x; s >> v.y; s >> v.z;
             glm_vertices.push_back(v);
         }
         else if (line.substr(0,2) == "f ") {
@@ -89,11 +89,10 @@ void Mesh::loadFromObjFile(const char* objFileName){
     }
 
     // Copy data to vertex vector
-    for(glm::vec4 v : glm_vertices) {
+    for(glm::vec3 v : glm_vertices) {
         vertices.push_back(v.x);
         vertices.push_back(v.y);
         vertices.push_back(v.z);
-        vertices.push_back(v.w);
     }
 
     // Copy data to normal vector
@@ -159,10 +158,10 @@ size_t Mesh::getIndexDataBytes() const {
 /**
  *
  * @return the number of vertices for this \c Mesh, where each vertex is
- * composed of 4 floats {x,y,z,w}.
+ * composed of 3 floats {x,y,z}.
  */
 size_t Mesh::getNumVertices() const {
-    return (size_t)(vertices.size() / 4.0f);
+    return (size_t)(vertices.size() / 3.0f);
 }
 
 /**
