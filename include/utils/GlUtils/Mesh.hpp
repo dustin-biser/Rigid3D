@@ -1,10 +1,3 @@
-/*
- * Mesh.hpp
- *
- *  Created on: Jul 6, 2013
- *      Author: Dustin Biser
- */
-
 #ifndef MESH_HPP_
 #define MESH_HPP_
 
@@ -40,11 +33,11 @@ namespace GlUtils {
 
         const unsigned short * getIndexDataPtr() const;
 
-        size_t getVertexDataBytes() const;
+        size_t getNumVertexBytes() const;
 
-        size_t getNormalDataBytes() const;
+        size_t getNumNormalBytes() const;
 
-        size_t getIndexDataBytes() const;
+        size_t getNumIndexBytes() const;
 
         size_t getNumVertices() const;
 

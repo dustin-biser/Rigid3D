@@ -1,7 +1,7 @@
 /**
- * \brief Mesh_Test
+ * @brief Mesh_Test
  *
- * \author Dustin Biser
+ * @author Dustin Biser
  */
 
 #include "gtest/gtest.h"
@@ -39,15 +39,15 @@ namespace {  // limit class visibility to this file.
 }
 
 TEST_F(Mesh_Test, test_creation_empty_vertex_data){
-    EXPECT_EQ(size_t(0), mesh->getVertexDataBytes());
+    EXPECT_EQ(size_t(0), mesh->getNumVertexBytes());
 }
 
 TEST_F(Mesh_Test, test_creation_empty_normal_data){
-    EXPECT_EQ(size_t(0), mesh->getNormalDataBytes());
+    EXPECT_EQ(size_t(0), mesh->getNumNormalBytes());
 }
 
 TEST_F(Mesh_Test, test_creation_empty_index_data){
-    EXPECT_EQ(size_t(0), mesh->getIndexDataBytes());
+    EXPECT_EQ(size_t(0), mesh->getNumIndexBytes());
 }
 
 /**
@@ -65,7 +65,7 @@ TEST_F(Mesh_Test, test_creation_with_obj_file){
     EXPECT_EQ(numberOfNormals, mesh->getNumNormals());
     EXPECT_EQ(numberOfIndices, mesh->getNumIndices());
 
-    size_t floatsPerVertex = 4;
+    size_t floatsPerVertex = 3;
     size_t floatsPerNormal = 3;
     size_t floatsPerIndex = 1;
 
@@ -73,8 +73,8 @@ TEST_F(Mesh_Test, test_creation_with_obj_file){
     size_t normalBytes = numberOfNormals * floatsPerNormal * sizeof(float);
     size_t indexBytes = numberOfIndices * floatsPerIndex * sizeof(unsigned short);
 
-    EXPECT_EQ(vertexBytes, mesh->getVertexDataBytes());
-    EXPECT_EQ(normalBytes, mesh->getNormalDataBytes());
-    EXPECT_EQ(indexBytes, mesh->getIndexDataBytes());
+    EXPECT_EQ(vertexBytes, mesh->getNumVertexBytes());
+    EXPECT_EQ(normalBytes, mesh->getNumNormalBytes());
+    EXPECT_EQ(indexBytes, mesh->getNumIndexBytes());
 }
 

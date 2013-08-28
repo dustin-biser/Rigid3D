@@ -12,13 +12,14 @@
 #include <GLFW/glfw3.h>
 #include <string>
 #include <memory>
+#include <boost/utility.hpp>
 
 using namespace std;
-struct GLFWwindow;
+using namespace boost;
 
-class GlfwOpenGlWindow {
+///@brief Singleton
+class GlfwOpenGlWindow : private noncopyable {
 public:
-    virtual void start(int width, int height, const string & windowTitle);
 
     virtual ~GlfwOpenGlWindow();
 
@@ -26,7 +27,10 @@ public:
         this->windowTitle = windowTitle;
     }
 
-    virtual void resize(int width, int height) { }
+    static shared_ptr<GlfwOpenGlWindow> getInstance();
+
+    virtual void create(int width, int height, const string & windowTitle);
+
 
     virtual void close();
 
@@ -34,20 +38,30 @@ protected:
     GLFWwindow *window;
     string windowTitle;
 
+    static shared_ptr<GlfwOpenGlWindow> p_instance;
+
+    GlfwOpenGlWindow() : window(nullptr) { }
+
     static void error_callback(int error, const char* description);
 
     static void keyInputHandler(GLFWwindow* window, int key, int scancode, int action, int mods);
+    virtual void keyInput(int key, int scancode, int action, int mods);
+
+    static void windowResizeHandler(GLFWwindow * window, int width, int height);
+    virtual void resize(int width, int height);
 
     void centerWindow();
 
     virtual void init() { }
+
+    virtual void logic() { }
 
     virtual void draw();
 
     virtual void cleanup() { }
 
     virtual void setupGl();
-};
 
+};
 
 #endif /* GLFWOPENGLWINDOW_HPP_ */

@@ -21,7 +21,7 @@ namespace GlUtils {
      * @param currentFileName - name of file to reference, if errors exist.
      * @param currentLine - line number to reference within file, if errors exist.
      */
-    void checkGLError(const string &currentFileName, int currentLine) {
+    void checkGLErrors(const string &currentFileName, int currentLine) {
        GLenum glErr;
        bool errorFound = false;
 

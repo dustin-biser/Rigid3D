@@ -7,52 +7,57 @@
 #include <vector>
 
 using namespace GlUtils;
-using glm::mat4;
+using namespace glm;
 
 class LoadMeshObj_Example : public GlfwOpenGlWindow {
 
 public:
-    LoadMeshObj_Example() { }
-
     ~LoadMeshObj_Example() { }
-
-    void setupGLBuffers();
-
-    virtual void init();
-
-    virtual void logic();
-
-    virtual void draw();
 
     virtual void resize(int width, int height);
 
     virtual void cleanup();
 
-protected:
+    static shared_ptr<GlfwOpenGlWindow> getInstance();
+
+private:
     ShaderProgram shaderProgram;
     Mesh mesh;
     Frustum frustum;
     mat4 modelToWorldMatrix;
     mat4 worldToCameraMatrix;
+    mat4 modelViewMatrix;
     mat4 cameraToClipMatrix;
+    mat3 normalMatrix;
 
     // Vertex attribute locations
     GLint position_AttribLocation;
-    GLint color_Location;
     GLint normal_AttribLocation;
-    GLint worldToCamera_Location;
-    GLint cameraToClip_Location;
-    GLint modelToWorld_Location;
+    GLint projectionMatrix_UniformLoc;
+    GLint modelViewMatrix_UniformLoc;
+    GLint normalMatrix_UniformLoc;
+
+    // Lighting Parameters
+    vec3 lightPositionEC; // light position in Eye Coordinate Space
+    vec3 Kd; // coefficient of diffuse reflectivity
+    vec3 Ld; // light source diffuse intensity
 
     GLuint vao;
     GLuint vbo_vertices;
     GLuint vbo_normals;
     GLuint vbo_indices;
 
-    void setupGl() { }
+    LoadMeshObj_Example();
+
+    virtual void init();
+    virtual void logic();
+    virtual void draw();
+    virtual void keyInput(int key, int scancode, int action, int mods);
+
+    void setupGLBuffers();
     void setupShaders();
     void setupMatrices();
-    void setupVertexArrayObject() { }
+    void updateMatrices();
 
 };
 

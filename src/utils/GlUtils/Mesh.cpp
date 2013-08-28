@@ -1,10 +1,3 @@
-/*
- * Mesh.cpp
- *
- *  Created on: Jul 6, 2013
- *      Author: Dustin Biser
- */
-
 #include <Mesh.hpp>
 #include <fstream>
 #include <sstream>
@@ -102,7 +95,7 @@ void Mesh::loadFromObjFile(const char* objFileName){
         normals.push_back(v.z);
     }
 
-    // Clear data from glm_vertices and glm_normals
+    // Clear data from glm_vertices and glm_normals, no longer needed.
     glm_vertices.resize(0);
     glm_normals.resize(0);
 }
@@ -133,7 +126,7 @@ const unsigned short * Mesh::getIndexDataPtr() const {
  *
  * @return size_t
  */
-size_t Mesh::getVertexDataBytes() const {
+size_t Mesh::getNumVertexBytes() const {
     return vertices.size() * sizeof(float);
 }
 
@@ -142,7 +135,7 @@ size_t Mesh::getVertexDataBytes() const {
  *
  * @return size_t
  */
-size_t Mesh::getNormalDataBytes() const {
+size_t Mesh::getNumNormalBytes() const {
     return normals.size() * sizeof(float);
 }
 
@@ -151,7 +144,7 @@ size_t Mesh::getNormalDataBytes() const {
  *
  * @return size_t
  */
-size_t Mesh::getIndexDataBytes() const {
+size_t Mesh::getNumIndexBytes() const {
     return indices.size() * sizeof(unsigned short);
 }
 

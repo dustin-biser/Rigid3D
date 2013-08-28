@@ -13,7 +13,7 @@
 
 namespace GlUtils {
 
-    void checkGLError(const std::string & currentFileName, int currentLineNumber);
+    void checkGLErrors(const std::string & currentFileName, int currentLineNumber);
 
 }
 

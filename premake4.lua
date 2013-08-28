@@ -39,7 +39,7 @@ solution "Rigid3D"
         location "build"
         objdir "build/obj"
         targetdir "lib"
-        buildoptions{"-std=c++0x"}
+        buildoptions{"-std=c++11"}
         includedirs(includeDirList)
         files {"src/utils/GlUtils/*.cpp"}
 
@@ -50,7 +50,7 @@ solution "Rigid3D"
         location "build"
         objdir "build/obj"
         targetdir "lib"
-        buildoptions{"-std=c++0x"}
+        buildoptions{"-std=c++11"}
         includedirs(includeDirList)
         files {"src/utils/MathUtils/*.cpp"}
 
@@ -62,7 +62,7 @@ solution "Rigid3D"
         location "build"
         objdir "build/obj"
         targetdir "bin"
-        buildoptions{"-std=c++0x"}
+        buildoptions{"-std=c++11"}
         includedirs(includeDirList)
         libdirs(libDirectories)
         links(linkLibs)
@@ -73,9 +73,7 @@ solution "Rigid3D"
 dofile("tests/tests.lua")
 
 -- Create a project for each demo
---CreateDemo("Sfml-Glm-OpenGL-Glew-Example", "src/examples/Sfml-Glm-OpenGL-Glew-Example.cpp")
---CreateDemo("Triangle_Example", "src/examples/Triangle_Example.cpp", "src/SfmlOpenGLWindow.cpp")
---CreateDemo("TriangleUniformColor_Example", "src/examples/TriangleUniformColor_Example.cpp", "src/SfmlOpenGLWindow.cpp")
+CreateDemo("Triangle_Example", "src/examples/Triangle_Example.cpp", "src/GlfwOpenGLWindow.cpp")
 CreateDemo("LoadMeshObj_Example", "src/examples/LoadMeshObj_Example.cpp", "src/GlfwOpenGlWindow.cpp")
 CreateDemo("Glfw-Example", "src/examples/Glfw-Example.cpp")
 CreateDemo("GlfwOpenGlWindowExample", "src/examples/GlfwOpenGlWindowExample.cpp", "src/GlfwOpenGlWindow.cpp")

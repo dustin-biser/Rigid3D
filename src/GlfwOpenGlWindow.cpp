@@ -5,12 +5,44 @@
 
 using namespace std;
 
+shared_ptr<GlfwOpenGlWindow> GlfwOpenGlWindow::p_instance = nullptr;
+
 //----------------------------------------------------------------------------------------
 void GlfwOpenGlWindow::error_callback(int error, const char* description) {
     throw GlfwException(description);
 }
 
-void GlfwOpenGlWindow::start(int width, int height, const string & windowTitle) {
+//----------------------------------------------------------------------------------------
+/**
+ * @brief Window resize call back function to be registered with GLFW.
+ */
+void GlfwOpenGlWindow::windowResizeHandler(GLFWwindow * window, int width, int height) {
+    getInstance()->resize(width, height);
+}
+
+//----------------------------------------------------------------------------------------
+/**
+ * @brief Window resize call back function to be overridden by derived classes.
+ */
+void GlfwOpenGlWindow::resize(int widith, int height) {
+
+}
+
+//----------------------------------------------------------------------------------------
+/**
+ * @return the instance of this GlfwOpenGlWindow
+ */
+shared_ptr<GlfwOpenGlWindow> GlfwOpenGlWindow::getInstance() {
+    static GlfwOpenGlWindow * instance = new GlfwOpenGlWindow();
+    if (p_instance == nullptr) {
+        // Pass ownership of instance to shared_ptr.
+        p_instance = shared_ptr<GlfwOpenGlWindow>(instance);
+    }
+    return p_instance;
+}
+
+//----------------------------------------------------------------------------------------
+void GlfwOpenGlWindow::create(int width, int height, const string & windowTitle) {
     glfwSetErrorCallback(error_callback);
 
     if (glfwInit() == GL_FALSE) {
@@ -30,8 +62,10 @@ void GlfwOpenGlWindow::start(int width, int height, const string & windowTitle) 
         throw GlfwException("Call to glfwCreateWindow failed.");
     }
 
+    centerWindow();
     glfwMakeContextCurrent(window);
     glfwSetKeyCallback(window, keyInputHandler);
+    glfwSetWindowSizeCallback(window, windowResizeHandler);
 
     // Initialize OpenGL extensions with GLEW
     glewExperimental = GL_TRUE;
@@ -48,14 +82,16 @@ void GlfwOpenGlWindow::start(int width, int height, const string & windowTitle) 
 
     setupGl();
     init();
-    centerWindow();
 
     while (!glfwWindowShouldClose(window)) {
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        logic();
         draw();
-
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
+
+    cleanup();
 
     glfwDestroyWindow(window);
 }
@@ -67,9 +103,19 @@ GlfwOpenGlWindow::~GlfwOpenGlWindow() {
 }
 
 //----------------------------------------------------------------------------------------
+/**
+ * @brief Keyboard input call back function to be registered with GLFW.
+ */
 void GlfwOpenGlWindow::keyInputHandler(GLFWwindow* window, int key, int scancode,
         int action, int mods) {
+    getInstance()->keyInput(key, scancode, action, mods);
+}
 
+//----------------------------------------------------------------------------------------
+/**
+ * @brief Keyboard input call back function to be overridden by derived classes.
+ */
+void GlfwOpenGlWindow::keyInput(int key, int scancode, int action, int mods) {
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
         glfwSetWindowShouldClose(window, GL_TRUE);
 }
@@ -122,5 +168,5 @@ void GlfwOpenGlWindow::close() {
 
 //----------------------------------------------------------------------------------------
 void GlfwOpenGlWindow::draw() {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    // To be overridden by derived class
 }

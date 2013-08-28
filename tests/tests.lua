@@ -32,7 +32,7 @@ function SetupTest(testName,  ...)
     links {"GlUtils", "gtest"}
     links(linkLibs)
     linkoptions "-lpthread"
-    buildoptions{"-std=c++0x"}
+    buildoptions{"-std=c++11"}
     files {...}
 end
 

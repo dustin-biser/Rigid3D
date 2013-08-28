@@ -52,7 +52,7 @@ namespace GlUtils {
      */
     void ShaderProgram::loadFromFile(const string &vertexShaderFile,
             const string &fragmentShaderFile) {
-        checkGLError(__FILE__, __LINE__);
+        checkGLErrors(__FILE__, __LINE__);
         extractSourceCode(vertexShaderFile, vertexShader);
         extractSourceCode(fragmentShaderFile, fragmentShader);
 
@@ -74,23 +74,23 @@ namespace GlUtils {
     //-----------------------------------------------------------------------------
     void ShaderProgram::createVertexShader() {
         vertexShader.shaderObject = glCreateShader( GL_VERTEX_SHADER );
-        checkGLError(__FILE__, __LINE__);
+        checkGLErrors(__FILE__, __LINE__);
     }
 
     //-----------------------------------------------------------------------------
     void ShaderProgram::createFragmentShader() {
         fragmentShader.shaderObject = glCreateShader( GL_FRAGMENT_SHADER);
-        checkGLError(__FILE__, __LINE__);
+        checkGLErrors(__FILE__, __LINE__);
     }
 
     //-----------------------------------------------------------------------------
     void ShaderProgram::compileShader(const Shader &shader) {
         const char *source = shader.sourceCode.c_str();
         glShaderSource(shader.shaderObject, 1, (const GLchar **)&source, NULL);
-        checkGLError(__FILE__, __LINE__);
+        checkGLErrors(__FILE__, __LINE__);
 
         glCompileShader(shader.shaderObject);
-        checkGLError(__FILE__, __LINE__);
+        checkGLErrors(__FILE__, __LINE__);
         checkCompilationStatus(shader);
     }
 
@@ -124,7 +124,7 @@ namespace GlUtils {
     //-----------------------------------------------------------------------------
     void ShaderProgram::createShaderProgram() {
         programObject = glCreateProgram();
-        checkGLError(__FILE__, __LINE__);
+        checkGLErrors(__FILE__, __LINE__);
 
         glAttachShader(programObject, vertexShader.shaderObject);
         glAttachShader(programObject, fragmentShader.shaderObject);

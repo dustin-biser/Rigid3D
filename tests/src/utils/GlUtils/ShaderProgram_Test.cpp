@@ -102,12 +102,3 @@ namespace {  // limit class visibility to this file.
     }
 
 } // end namespace
-
-//int main(int argc, char **argv) {
-//    // OpenGL context to be shared among all tests.
-//
-//    ::testing::InitGoogleTest(&argc, argv);
-//    int result = RUN_ALL_TESTS();
-//
-//    return result;
-//}
