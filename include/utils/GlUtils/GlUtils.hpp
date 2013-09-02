@@ -12,6 +12,7 @@
 #include <Mesh.hpp>
 #include <ShaderProgram.hpp>
 #include <GlErrorCheck.hpp>
+#include <GlmOutStream.hpp>
 
 #include <OpenGlContext.hpp>
 

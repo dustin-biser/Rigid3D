@@ -36,6 +36,7 @@ private:
     GLint projectionMatrix_UniformLoc;
     GLint modelViewMatrix_UniformLoc;
     GLint normalMatrix_UniformLoc;
+    GLint lightPositionEC_UniformLocation;
 
     // Lighting Parameters
     vec3 lightPositionEC; // light position in Eye Coordinate Space
@@ -58,6 +59,7 @@ private:
     void setupShaders();
     void setupMatrices();
     void updateMatrices();
+    void updateUniformData();
 
 };
 

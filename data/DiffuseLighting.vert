@@ -18,13 +18,13 @@ void main() {
     vec3 normalEC = normalize(NormalMatrix * vertexNormal);
     
     // Transformed vertex position given in eye coordinates.
-    vec4 vertexPositionEC = ModelViewMatrix * vec4(vertexPosition, 1.0f);
+    vec4 vertexPositionEC = ModelViewMatrix * vec4(vertexPosition, 1.0);
     
     // Light source vector
-    vec3 s = normalize(vec3( vec4(lightPositionEC, 1.0f) - vertexPositionEC));
+    vec3 s = normalize(vec3( vec4(lightPositionEC, 1.0) - vertexPositionEC));
     
     // Diffuse shading equation
-    vertexColorOut = Ld * Kd * max( dot(s, normalEC), 0.0 );
+    vertexColorOut = Ld * Kd * max( dot(s, normalEC), 0.0);
     
     // Final vertex position in NDC-Space
     gl_Position = ProjectionMatrix * ModelViewMatrix * vec4(vertexPosition, 1.0);
