@@ -6,6 +6,7 @@
 #include <memory>
 
 using namespace std;
+using namespace glm;
 
 namespace GlUtils {
 
@@ -13,10 +14,9 @@ namespace GlUtils {
     private:
         vector<float> vertices;
         vector<float>  normals;
-        vector<unsigned short>  indices;  /**< Collection of vertex index elements */
 
-        vector<glm::vec3> glm_vertices;
-        vector<glm::vec3> glm_normals;
+        vector<vec3> glm_vertices;
+        vector<vec3> glm_normals;
 
     public:
         Mesh(const char* objFileName);
@@ -31,22 +31,16 @@ namespace GlUtils {
 
         const float * getNormalDataPtr() const;
 
-        const unsigned short * getIndexDataPtr() const;
-
         size_t getNumVertexBytes() const;
 
         size_t getNumNormalBytes() const;
-
-        size_t getNumIndexBytes() const;
 
         size_t getNumVertices() const;
 
         size_t getNumNormals() const;
 
-        size_t getNumIndices() const;
 
     private:
-        void initialize();
         void loadFromObjFile(const char* objFileName);
     };
 }

@@ -1,80 +1,137 @@
 /**
- * @brief Mesh_Test
+ * @brief Mesh_Cube_Test
  *
  * @author Dustin Biser
  */
 
 #include "gtest/gtest.h"
+#include "TestUtils.hpp"
 #include "Mesh.hpp"
+#include "glm/glm.hpp"
 #include <memory>
+#include <vector>
 
 using namespace GlUtils;
+using namespace TestUtils;
 using namespace std;
+using namespace glm;
 
 namespace {  // limit class visibility to this file.
 
-    class Mesh_Test: public ::testing::Test {
+    class Mesh_Cube_Test: public ::testing::Test {
     protected:
-        shared_ptr<Mesh> mesh;
+        static shared_ptr<Mesh> mesh;
 
-        Mesh_Test() {
-            mesh = make_shared<Mesh>();
+        const static size_t numFaces = 6;
+        const static size_t numTrianglesPerFace = 2;
+        const static size_t numVerticesPerTriangle = 3;
+
+        const static size_t expectedTotalVertices;
+
+        const static size_t floatsPerVertex = 3;
+        const static size_t expectedVertexDataByteSize;
+
+        const static size_t numNormalsPerTriangle = 3;
+        const static size_t expectedTotalNormals;
+
+        const static size_t floatsPerNormal = 3;
+        const static size_t expectedNormalDataBytesSize;
+
+        // Ran once before all tests.
+        static void SetUpTestCase() {
+            mesh = make_shared<Mesh>("../data/cube.obj");
         }
 
-        virtual ~Mesh_Test() {
+        // Ran once after all tests have finished.
+        static void TearDownTestCase() {
         }
 
-        // Code here will be called immediately after the constructor (right
-        // before each test).
-        virtual void SetUp() {
-        }
+        static vector<vec3> buildVector(const float * floatPointer, size_t numElements) {
+            vector<vec3> result;
+            float x, y, z;
 
-        // Code here will be called immediately after each test (right
-        // before the destructor).
-        virtual void TearDown() {
+            for(size_t i = 0; i < numElements; i++) {
+                x = *floatPointer; floatPointer++;
+                y = *floatPointer; floatPointer++;
+                z = *floatPointer; floatPointer++;
+                result.push_back(vec3(x, y, z));
+            }
+
+            return result;
         }
 
     };
 
+    shared_ptr<Mesh> Mesh_Cube_Test::mesh = nullptr;
+    const size_t Mesh_Cube_Test::expectedTotalVertices = numFaces * numTrianglesPerFace * numVerticesPerTriangle;
+    const size_t Mesh_Cube_Test::expectedVertexDataByteSize = expectedTotalVertices * floatsPerVertex * sizeof(float);
+    const size_t Mesh_Cube_Test::expectedTotalNormals = numFaces * numTrianglesPerFace * numNormalsPerTriangle;
+    const size_t Mesh_Cube_Test::expectedNormalDataBytesSize = expectedTotalNormals * floatsPerNormal * sizeof(float);
+
 }
 
-TEST_F(Mesh_Test, test_creation_empty_vertex_data){
-    EXPECT_EQ(size_t(0), mesh->getNumVertexBytes());
+//---------------------------------------------------------------------------------------
+/**
+ * Test that object file was processed correctly so that Mesh has the right
+ * number of vertices.
+ */
+TEST_F(Mesh_Cube_Test, test_vertex_count){
+    EXPECT_EQ(expectedTotalVertices, mesh->getNumVertices());
 }
 
-TEST_F(Mesh_Test, test_creation_empty_normal_data){
-    EXPECT_EQ(size_t(0), mesh->getNumNormalBytes());
+//---------------------------------------------------------------------------------------
+/**
+ * Test that object file was processed correctly so that Mesh vertex data is the correct
+ * size in bytes.
+ */
+TEST_F(Mesh_Cube_Test, test_vertex_data_bytes){
+    EXPECT_EQ(expectedVertexDataByteSize, mesh->getNumVertexBytes());
 }
 
-TEST_F(Mesh_Test, test_creation_empty_index_data){
-    EXPECT_EQ(size_t(0), mesh->getNumIndexBytes());
+//---------------------------------------------------------------------------------------
+/**
+ * Test that object file was processed correctly so that Mesh has the right
+ * number of normals.
+ */
+TEST_F(Mesh_Cube_Test, test_normal_count){
+    EXPECT_EQ(expectedTotalNormals, mesh->getNumNormals());
+}
+
+//---------------------------------------------------------------------------------------
+/**
+ * Test that object file was processed correctly so that Mesh normal data is the
+ * right size in bytes.
+ */
+TEST_F(Mesh_Cube_Test, test_normal_data_bytes){
+    EXPECT_EQ(expectedNormalDataBytesSize, mesh->getNumNormalBytes());
 }
 
 /**
- * Test that object file was processed correctly so that Mesh has the right
- * number of vertices, normals, and indices.
+ * Test that object file was processed correctly so that normal vectors are in
+ * the correct order.
  */
-TEST_F(Mesh_Test, test_creation_with_obj_file){
-    mesh = make_shared<Mesh>("../data/cube.obj");
+TEST_F(Mesh_Cube_Test, test_order_of_normal_vectors){
+    vector<vec3> normals = Mesh_Cube_Test::buildVector(mesh->getNormalDataPtr(), mesh->getNumNormals());
 
-    size_t numberOfVertices = 8;
-    size_t numberOfNormals = 8;
-    size_t numberOfIndices = 36;
+    vec3 n1 = vec3(-1.000000, 0.000000, 0.000000);
+    vec3 n2 = vec3(0.000000, 0.000000, -1.000000);
+    vec3 n3 = vec3(1.000000, -0.000000, 0.000000);
+    vec3 n4 = vec3(0.000000, -0.000000, 1.000000);
+    vec3 n5 = vec3(0.000000, -1.000000, 0.000000);
+    vec3 n6 = vec3(0.000000, 1.000000, 0.000000);
 
-    EXPECT_EQ(numberOfVertices, mesh->getNumVertices());
-    EXPECT_EQ(numberOfNormals, mesh->getNumNormals());
-    EXPECT_EQ(numberOfIndices, mesh->getNumIndices());
+    vec3 normalSet[] = {n1, n2, n3, n4, n5, n6};
+    vector<vec3> expectedNormals;
 
-    size_t floatsPerVertex = 3;
-    size_t floatsPerNormal = 3;
-    size_t floatsPerIndex = 1;
+    int count = 0;
+    do {
+        for(int i = 0, n = 0; n < expectedTotalNormals / 2; i++, n +=3) {
+            expectedNormals.push_back(normalSet[i]);
+            expectedNormals.push_back(normalSet[i]);
+            expectedNormals.push_back(normalSet[i]);
+        }
+        count++;
+    } while(count < 2);
 
-    size_t vertexBytes = numberOfVertices * floatsPerVertex * sizeof(float);
-    size_t normalBytes = numberOfNormals * floatsPerNormal * sizeof(float);
-    size_t indexBytes = numberOfIndices * floatsPerIndex * sizeof(unsigned short);
-
-    EXPECT_EQ(vertexBytes, mesh->getNumVertexBytes());
-    EXPECT_EQ(normalBytes, mesh->getNumNormalBytes());
-    EXPECT_EQ(indexBytes, mesh->getNumIndexBytes());
+    ASSERT_VECTORS_EQ(expectedNormals, normals);
 }
-
