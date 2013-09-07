@@ -2,6 +2,7 @@
 #include <MathUtils.hpp>
 #include <GlErrorCheck.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <glm/gtx/transform.hpp>
 #include <iostream>
 #include <memory>
 
@@ -27,15 +28,15 @@ shared_ptr<GlfwOpenGlWindow> LoadMeshObj_Example::getInstance() {
 
 //---------------------------------------------------------------------------------------
 LoadMeshObj_Example::LoadMeshObj_Example() {
-    lightPositionEC = vec3(-5.0f, 0.0f, 5.0f);
+    lightPositionEC = vec3(0.0f, 0.0f, 5.0f);
     Kd = vec3(1.0f, 1.0f, 1.0f);
-    Ld = vec3(0.8f, 0.2f, 0.8f);
+    Ld = vec3(0.6f, 0.2f, 0.8f);
 }
 
 //---------------------------------------------------------------------------------------
 void LoadMeshObj_Example::setupGLBuffers()
 {
-    // Register vertex data with OpenGL
+    // Register vertex positions with OpenGL
     glGenBuffers(1, &vbo_vertices);
     glBindBuffer(GL_ARRAY_BUFFER, vbo_vertices);
     glBufferData(GL_ARRAY_BUFFER, mesh.getNumVertexBytes(), mesh.getVertexDataPtr(), GL_STATIC_DRAW);
@@ -46,11 +47,6 @@ void LoadMeshObj_Example::setupGLBuffers()
     glBindBuffer(GL_ARRAY_BUFFER, vbo_normals);
     glBufferData(GL_ARRAY_BUFFER, mesh.getNumNormalBytes(), mesh.getNormalDataPtr(), GL_STATIC_DRAW);
     glVertexAttribPointer(normal_AttribLocation, 3, GL_FLOAT, GL_FALSE, 0, 0);
-
-    // Register index elements with OpenGL
-    glGenBuffers(1, &vbo_indices);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo_indices);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, mesh.getNumIndexBytes(), mesh.getIndexDataPtr(), GL_STATIC_DRAW);
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     GlUtils::checkGLErrors(__FILE__, __LINE__);
@@ -63,7 +59,7 @@ void LoadMeshObj_Example::setupGLBuffers()
  */
 void LoadMeshObj_Example::init()
 {
-    mesh.fromObjFile("../data/triangles.obj");
+    mesh.fromObjFile("../data/cube.obj");
 
     glGenVertexArrays(1, &vao);
     glBindVertexArray(vao);
@@ -71,20 +67,6 @@ void LoadMeshObj_Example::init()
     setupShaders();
     setupGLBuffers();
     setupMatrices();
-
-
-    // TODO Remove debug statements
-    vec3 n1 = vec3(0.242535636, 0, 0.970142543);
-    vec3 n1EC = normalMatrix*n1;
-    cout << "n1EC = " << n1EC << endl;
-
-    vec3 n2 = vec3(-0.242535636, 0, 0.970142543);
-    vec3 n2EC = normalMatrix*n2;
-    cout << "n2EC = " << n2EC << endl;
-
-    cout << "normalMatrix = " << endl << normalMatrix << endl;
-
-
 }
 
 //---------------------------------------------------------------------------------------
@@ -128,12 +110,14 @@ void LoadMeshObj_Example::setupMatrices() {
 
     modelToWorldMatrix = glm::mat4(1, 0, 0, 0,
                                    0, 1, 0, 0,
-                                   0, 0, 1, -5,
+                                   0, 0, 1, 0,
                                    0, 0, 0, 1);
+
+    // Translate the object into view.
+    modelToWorldMatrix = translate(modelToWorldMatrix, -5.0f, 4.0f, -10.0f);
 
     modelViewMatrix = worldToCameraMatrix * modelToWorldMatrix;
     normalMatrix = mat3(modelViewMatrix);
-
 
     shaderProgram.enable();
         // Register uniform matrix data to vertex shader
@@ -147,7 +131,7 @@ void LoadMeshObj_Example::setupMatrices() {
 void LoadMeshObj_Example::draw()
 {
     shaderProgram.enable();
-        glDrawElements(GL_TRIANGLES, mesh.getNumIndices(), GL_UNSIGNED_SHORT, nullptr);
+        glDrawArrays(GL_TRIANGLES, 0, mesh.getNumVertices());
     shaderProgram.disable();
 
     GlUtils::checkGLErrors(__FILE__, __LINE__);
@@ -209,9 +193,7 @@ void LoadMeshObj_Example::updateUniformData() {
 
 //---------------------------------------------------------------------------------------
 void LoadMeshObj_Example::cleanup() {
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
-    glDeleteBuffers(1, &vbo_indices);
     glDeleteBuffers(1, &vbo_normals);
     glDeleteBuffers(1, &vbo_vertices);
     glDeleteBuffers(1, &vao);
@@ -221,8 +203,10 @@ void LoadMeshObj_Example::cleanup() {
 void LoadMeshObj_Example::keyInput(int key, int scancode, int action, int mods) {
     GlfwOpenGlWindow::keyInput(key, scancode, action, mods);
     static const float xDelta = 0.5f;
+    static const float yDelta = 0.5f;
     static const float zDelta = 0.5f;
 
+    // Light Source Movement
     if (key == GLFW_KEY_LEFT) {
        lightPositionEC += vec3(-1*xDelta, 0.0f, 0.0f);
     }
@@ -234,6 +218,26 @@ void LoadMeshObj_Example::keyInput(int key, int scancode, int action, int mods) 
     }
     else if (key == GLFW_KEY_DOWN) {
        lightPositionEC += vec3(0.0f, 0.0f, zDelta);
+    }
+
+    // Object Movement
+    if (key == GLFW_KEY_A) {
+        modelToWorldMatrix = translate(modelToWorldMatrix, -1*xDelta, 0.0f, 0.0f);
+    }
+    else if (key == GLFW_KEY_D) {
+        modelToWorldMatrix = translate(modelToWorldMatrix, xDelta, 0.0f, 0.0f);
+    }
+    else if (key == GLFW_KEY_W) {
+        modelToWorldMatrix = translate(modelToWorldMatrix, 0.0f, yDelta, 0.0f);
+    }
+    else if (key == GLFW_KEY_S) {
+        modelToWorldMatrix = translate(modelToWorldMatrix, 0.0f, -1*yDelta, 0.0f);
+    }
+    else if (key == GLFW_KEY_R) {
+        modelToWorldMatrix = translate(modelToWorldMatrix, 0.0f, 0.0f, -1*zDelta);
+    }
+    else if (key == GLFW_KEY_F) {
+        modelToWorldMatrix = translate(modelToWorldMatrix, 0.0f, 0.0f, zDelta);
     }
 
     // TODO Remove debug statement.

@@ -46,7 +46,6 @@ private:
     GLuint vao;
     GLuint vbo_vertices;
     GLuint vbo_normals;
-    GLuint vbo_indices;
 
     LoadMeshObj_Example();
 

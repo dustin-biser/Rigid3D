@@ -21,11 +21,11 @@ void main() {
     vec4 vertexPositionEC = ModelViewMatrix * vec4(vertexPosition, 1.0);
     
     // Light source vector
-    vec3 s = normalize(vec3( vec4(lightPositionEC, 1.0) - vertexPositionEC));
+    vec3 s = normalize(lightPositionEC - vec3(vertexPositionEC));
     
     // Diffuse shading equation
     vertexColorOut = Ld * Kd * max( dot(s, normalEC), 0.0);
     
     // Final vertex position in NDC-Space
-    gl_Position = ProjectionMatrix * ModelViewMatrix * vec4(vertexPosition, 1.0);
+    gl_Position = ProjectionMatrix * vertexPositionEC;
 }

@@ -1,4 +1,4 @@
-#version 330
+#version 400
 
 smooth in vec4 vertexColorOut;
 
