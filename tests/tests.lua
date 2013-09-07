@@ -9,7 +9,8 @@ testLibDirectories = {"../ext/glew-1.10.0/lib",
                       "/usr/local/lib/glfw-3.0.1",
                       "../lib"}
 
-testIncludeDirList = {"../ext/glew-1.10.0/include",
+testIncludeDirList = {"include/utils",
+                      "../ext/glew-1.10.0/include",
                       "../ext/gtest/include",
                       "../ext/gtest/",
                       "../include",
