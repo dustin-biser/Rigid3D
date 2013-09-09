@@ -9,7 +9,6 @@
 #include <glm/glm.hpp>
 #include <sstream>
 
-using namespace GlUtils;
 using namespace std;
 
 namespace {
