@@ -39,13 +39,13 @@ void LoadMeshObj_Example::setupGLBuffers()
     // Register vertex positions with OpenGL
     glGenBuffers(1, &vbo_vertices);
     glBindBuffer(GL_ARRAY_BUFFER, vbo_vertices);
-    glBufferData(GL_ARRAY_BUFFER, mesh.getNumVertexBytes(), mesh.getVertexDataPtr(), GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, susanMesh.getNumVertexBytes(), susanMesh.getVertexDataPtr(), GL_STATIC_DRAW);
     glVertexAttribPointer(position_AttribLocation, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
     // Register normals with OpenGL
     glGenBuffers(1, &vbo_normals);
     glBindBuffer(GL_ARRAY_BUFFER, vbo_normals);
-    glBufferData(GL_ARRAY_BUFFER, mesh.getNumNormalBytes(), mesh.getNormalDataPtr(), GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, susanMesh.getNumNormalBytes(), susanMesh.getNormalDataPtr(), GL_STATIC_DRAW);
     glVertexAttribPointer(normal_AttribLocation, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -59,7 +59,7 @@ void LoadMeshObj_Example::setupGLBuffers()
  */
 void LoadMeshObj_Example::init()
 {
-    mesh.fromObjFile("../data/cube.obj");
+    susanMesh.fromObjFile("../data/susan.obj");
 
     glGenVertexArrays(1, &vao);
     glBindVertexArray(vao);
@@ -114,7 +114,7 @@ void LoadMeshObj_Example::setupMatrices() {
                                    0, 0, 0, 1);
 
     // Translate the object into view.
-    modelToWorldMatrix = translate(modelToWorldMatrix, -5.0f, 4.0f, -10.0f);
+    modelToWorldMatrix = translate(modelToWorldMatrix, -1.0f, 1.0f, -2.0f);
 
     modelViewMatrix = worldToCameraMatrix * modelToWorldMatrix;
     normalMatrix = mat3(modelViewMatrix);
@@ -131,7 +131,7 @@ void LoadMeshObj_Example::setupMatrices() {
 void LoadMeshObj_Example::draw()
 {
     shaderProgram.enable();
-        glDrawArrays(GL_TRIANGLES, 0, mesh.getNumVertices());
+        glDrawArrays(GL_TRIANGLES, 0, susanMesh.getNumVertices());
     shaderProgram.disable();
 
     GlUtils::checkGLErrors(__FILE__, __LINE__);
@@ -203,7 +203,7 @@ void LoadMeshObj_Example::cleanup() {
 void LoadMeshObj_Example::keyInput(int key, int scancode, int action, int mods) {
     GlfwOpenGlWindow::keyInput(key, scancode, action, mods);
     static const float xDelta = 0.5f;
-    static const float yDelta = 0.5f;
+    static const float yDelta = 0.2f;
     static const float zDelta = 0.5f;
 
     // Light Source Movement

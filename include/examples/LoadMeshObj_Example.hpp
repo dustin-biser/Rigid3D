@@ -21,8 +21,11 @@ public:
     static shared_ptr<GlfwOpenGlWindow> getInstance();
 
 private:
+    // Mesh Objects
+    Mesh susanMesh;
+
+    // Shader Program Data
     ShaderProgram shaderProgram;
-    Mesh mesh;
     Frustum frustum;
     mat4 modelToWorldMatrix;
     mat4 worldToCameraMatrix;
