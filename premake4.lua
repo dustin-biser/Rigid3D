@@ -73,6 +73,7 @@ solution "Rigid3D"
 dofile("tests/tests.lua")
 
 -- Create a project for each demo
-CreateDemo("LoadMeshObj_Example", "src/examples/LoadMeshObj_Example.cpp", "src/GlfwOpenGlWindow.cpp")
 CreateDemo("Glfw-Example", "src/examples/Glfw-Example.cpp")
 CreateDemo("GlfwOpenGlWindowExample", "src/examples/GlfwOpenGlWindowExample.cpp", "src/GlfwOpenGlWindow.cpp")
+CreateDemo("LoadMeshObj_Example", "src/examples/LoadMeshObj_Example.cpp", "src/GlfwOpenGlWindow.cpp")
+CreateDemo("MultipleObjects_Example", "src/examples/MultipleObjects_Example.cpp", "src/GlfwOpenGlWindow.cpp")

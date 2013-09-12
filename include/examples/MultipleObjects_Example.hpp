@@ -1,5 +1,5 @@
-#ifndef LOADMESHOBJ_EXAMPLE_HPP_
-#define LOADMESHOBJ_EXAMPLE_HPP_
+#ifndef MULTIPLE_OBJECTS_EXAMPLE_HPP_
+#define MULTIPLE_OBJECTS_EXAMPLE_HPP_
 
 #include <GlfwOpenGlWindow.hpp>
 #include <GlUtils.hpp>
@@ -9,10 +9,10 @@
 using namespace GlUtils;
 using namespace glm;
 
-class LoadMeshObj_Example : public GlfwOpenGlWindow {
+class MultipleObjects_Example : public GlfwOpenGlWindow {
 
 public:
-    ~LoadMeshObj_Example() { }
+    ~MultipleObjects_Example() { }
 
     virtual void resize(int width, int height);
 
@@ -22,7 +22,13 @@ public:
 
 private:
     // Mesh Objects
-    Mesh mesh;
+    Mesh susanMesh;
+    Mesh sphereMesh;
+    Mesh cubeMesh;
+    Mesh torusMesh;
+
+    enum class MeshType {CUBE, SPHERE, TORUS, SUSAN};
+    MeshType renderTarget;
 
     // Shader Program Data
     ShaderProgram shaderProgram;
@@ -43,14 +49,16 @@ private:
 
     // Lighting Parameters
     vec3 lightPositionEC; // light position in Eye Coordinate Space
+    vec3 Ia; // Ambient light intensity over RGB spectrum.
+    vec3 Id; // Diffuse light intensity over RGB specturm.
     vec3 Kd; // coefficient of diffuse reflectivity
-    vec3 Ld; // light source diffuse intensity
+    vec3 Ka; // coefficient of ambient reflectivity
 
     GLuint vao;
     GLuint vbo_vertices;
     GLuint vbo_normals;
 
-    LoadMeshObj_Example();
+    MultipleObjects_Example();
 
     virtual void init();
     virtual void logic();
@@ -65,4 +73,4 @@ private:
 
 };
 
-#endif /* LOADMESHOBJ_EXAMPLE_HPP_ */
+#endif /* MULTIPLE_OBJECTS_EXAMPLE_HPP_ */
