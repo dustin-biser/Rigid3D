@@ -5,13 +5,14 @@
 #include <glm/gtx/transform.hpp>
 #include <iostream>
 #include <memory>
+#include <ctime>
 
 using namespace std;
 using namespace MathUtils;
 
 int main() {
     shared_ptr<GlfwOpenGlWindow> meshDemo = MultipleObjects_Example::getInstance();
-    meshDemo->create(800, 600, "Load Mesh Object Example");
+    meshDemo->create(800, 600, "Load Multiple Mesh Objects Example");
 
     return 0;
 }
@@ -30,8 +31,9 @@ shared_ptr<GlfwOpenGlWindow> MultipleObjects_Example::getInstance() {
 MultipleObjects_Example::MultipleObjects_Example() {
     // Set light and material properties for all objects.
     lightPositionEC = vec3(0.0f, 0.0f, 5.0f);
-    Ia = vec3(0.2f, 0.2f, 0.2f);
-    Id = vec3(0.6f, 0.2f, 0.8f);
+    Ia = vec3(0.1f, 0.1f, 0.1f);
+//    Id = vec3(0.6f, 0.2f, 0.8f);
+    Id = vec3(0.9f, 0.6f, 0.6f);
     Ka = vec3(1.0f, 1.0f, 1.0f);
     Kd = vec3(1.0f, 1.0f, 1.0f);
 
@@ -101,7 +103,7 @@ void MultipleObjects_Example::init()
 {
     susanMesh.fromObjFile("../data/susan.obj");
     sphereMesh.fromObjFile("../data/sphere.obj");
-    cubeMesh.fromObjFile("../data/cube2.obj");
+    cubeMesh.fromObjFile("../data/cube.obj");
     torusMesh.fromObjFile("../data/torus.obj");
 
 
@@ -111,6 +113,8 @@ void MultipleObjects_Example::init()
     setupShaders();
     setupGLBuffers();
     setupMatrices();
+
+    glClearColor(0.3f, 0.3f, 0.4f, 1.0f);
 }
 
 //---------------------------------------------------------------------------------------
@@ -231,6 +235,7 @@ void MultipleObjects_Example::resize(int width, int height)
 //---------------------------------------------------------------------------------------
 void MultipleObjects_Example::logic() {
     updateMatrices();
+    rotateLightSource();
     updateUniformData();
 }
 
@@ -255,6 +260,21 @@ void MultipleObjects_Example::updateUniformData() {
         // Pass in uniform data
         glUniform3fv(lightPositionEC_UniformLocation, 1, glm::value_ptr(lightPositionEC));
     shaderProgram.disable();
+}
+
+//---------------------------------------------------------------------------------------
+void MultipleObjects_Example::rotateLightSource() {
+    static float t = 0.0f;
+    const float period = 15.0f;
+    const float omega = 2 * MathUtils::PI / period;
+    const float radius = 5.0f;
+
+    t += 0.01f;
+    if ( t > period) { t = 0.0f; }
+
+    float x = radius * sin(omega * t);
+    float z = radius * cos(omega * t);
+    lightPositionEC = vec3(x, 0.0f, z);
 }
 
 //---------------------------------------------------------------------------------------

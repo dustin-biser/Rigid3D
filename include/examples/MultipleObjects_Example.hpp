@@ -70,6 +70,7 @@ private:
     void setupMatrices();
     void updateMatrices();
     void updateUniformData();
+    void rotateLightSource();
 
 };
 
