@@ -101,10 +101,10 @@ void MultipleObjects_Example::setupGLBuffers()
  */
 void MultipleObjects_Example::init()
 {
-    susanMesh.fromObjFile("../data/susan.obj");
-    sphereMesh.fromObjFile("../data/sphere.obj");
-    cubeMesh.fromObjFile("../data/cube.obj");
-    torusMesh.fromObjFile("../data/torus.obj");
+    susanMesh.fromObjFile("../data/meshes/susan.obj");
+    sphereMesh.fromObjFile("../data/meshes/sphere.obj");
+    cubeMesh.fromObjFile("../data/meshes/cube.obj");
+    torusMesh.fromObjFile("../data/meshes/torus.obj");
 
 
     glGenVertexArrays(1, &vao);
@@ -119,7 +119,8 @@ void MultipleObjects_Example::init()
 
 //---------------------------------------------------------------------------------------
 void MultipleObjects_Example::setupShaders() {
-    shaderProgram.loadFromFile("../data/AmbientDiffuseLighting.vert", "../data/AmbientDiffuseLighting.frag");
+    shaderProgram.loadFromFile("../data/shaders/AmbientDiffuseLighting.vert",
+                               "../data/shaders/AmbientDiffuseLighting.frag");
 
     // Acquire vertex attribute locations.
     position_AttribLocation = shaderProgram.getAttribLocation("vertexPosition");

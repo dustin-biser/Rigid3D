@@ -59,7 +59,7 @@ void LoadMeshObj_Example::setupGLBuffers()
  */
 void LoadMeshObj_Example::init()
 {
-    mesh.fromObjFile("../data/susan.obj");
+    mesh.fromObjFile("../data/meshes/susan.obj");
 
     glGenVertexArrays(1, &vao);
     glBindVertexArray(vao);
@@ -71,7 +71,8 @@ void LoadMeshObj_Example::init()
 
 //---------------------------------------------------------------------------------------
 void LoadMeshObj_Example::setupShaders() {
-    shaderProgram.loadFromFile("../data/DiffuseLighting.vert", "../data/UniformVertexColors.frag");
+    shaderProgram.loadFromFile("../data/shaders/DiffuseLighting.vert",
+                               "../data/shaders/UniformVertexColors.frag");
 
     // Acquire vertex attribute locations.
     position_AttribLocation = shaderProgram.getAttribLocation("vertexPosition");
