@@ -221,7 +221,7 @@ namespace GlUtils {
 
         if (result == -1) {
             stringstream errorMessage;
-            errorMessage << "Error obtaining vertex uniform location: " << uniformName;
+            errorMessage << "Error obtaining uniform location: " << uniformName;
             throw ShaderException(errorMessage.str());
         }
 
@@ -247,7 +247,7 @@ namespace GlUtils {
 
         if (result == -1) {
             stringstream errorMessage;
-            errorMessage << "Error obtaining vertex attribute location: " << attributeName;
+            errorMessage << "Error obtaining attribute location: " << attributeName;
             throw ShaderException(errorMessage.str());
         }
 
