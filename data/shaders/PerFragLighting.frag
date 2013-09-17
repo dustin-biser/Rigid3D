@@ -5,11 +5,11 @@ in vec3 normal;
 
 layout (location = 0) out vec4 fragColor;
 
-vec3 ambientIntensity; // Environmental ambient light intensity for each RGB component.
+uniform vec3 ambientIntensity; // Environmental ambient light intensity for each RGB component.
 
 struct LightProperties {
-    vec4 position;  // Light position in eye coordinate space.
-    vec3 intensity; // Light intensity for each RGB component.
+    vec3 position;      // Light position in eye coordinate space.
+    vec3 rgbIntensity;  // Light intensity for each RGB component.
 };
 uniform LightProperties lightSource;
 
@@ -23,9 +23,9 @@ struct MaterialProperties {
 uniform MaterialProperties material;
 
 vec3 phongLightIntensity(vec3 fragPosition, vec3 fragNormal) {
-    vec3 l = normalize(lightSource.position - fragPosition)); // Direction from fragment to light source.
+    vec3 l = normalize(lightSource.position - fragPosition); // Direction from fragment to light source.
     vec3 v = normalize(-fragPosition.xyz); // Direction from fragment to viewer (origin - fragPosition).
-    vec3 h = normalize(v + s); // Halfway vector.
+    vec3 h = normalize(v + l); // Halfway vector.
 
     vec3 ambient = ambientIntensity * material.Ka;
 
@@ -34,11 +34,11 @@ vec3 phongLightIntensity(vec3 fragPosition, vec3 fragNormal) {
     
     vec3 specular = vec3(0.0);
     if (n_dot_l > 0.0) {
-        vec3 n_dot_h = max(dot(n, h), 0.0);
-        specular = material.Ks * pow(n_dot_h, material.shininessFactor); 
+        float n_dot_h = max(dot(fragNormal, h), 0.0);
+        specular = vec3(material.Ks * pow(n_dot_h, material.shininessFactor)); 
     }    
    
-    return material.emission + ambient + lightSource.intensity * (diffuse + specular);
+    return material.emission + ambient + lightSource.rgbIntensity * (diffuse + specular);
 }
 
 void main() {
