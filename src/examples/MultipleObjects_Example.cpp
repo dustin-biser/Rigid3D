@@ -6,6 +6,7 @@
 #include <iostream>
 #include <memory>
 #include <ctime>
+#include <array>
 
 using namespace std;
 using namespace MathUtils;
@@ -30,12 +31,8 @@ shared_ptr<GlfwOpenGlWindow> MultipleObjects_Example::getInstance() {
 //---------------------------------------------------------------------------------------
 MultipleObjects_Example::MultipleObjects_Example() {
     // Set light and material properties for all objects.
-    lightPositionEC = vec3(0.0f, 0.0f, 5.0f);
-    Ia = vec3(0.1f, 0.1f, 0.1f);
-//    Id = vec3(0.6f, 0.2f, 0.8f);
-    Id = vec3(0.9f, 0.6f, 0.6f);
-    Ka = vec3(1.0f, 1.0f, 1.0f);
-    Kd = vec3(1.0f, 1.0f, 1.0f);
+    lightSource.position = vec3(0.0f, 0.0f, 5.0f);
+    lightSource.rgbIntensity = vec3(0.9f, 0.6f, 0.6f);
 
     renderTarget = MeshType::CUBE;
 }
@@ -78,13 +75,13 @@ void MultipleObjects_Example::setupGLBuffers()
     glGenBuffers(1, &vbo_vertices);
     glBindBuffer(GL_ARRAY_BUFFER, vbo_vertices);
     glBufferData(GL_ARRAY_BUFFER, totalVertexBytes, vertexDataPtr, GL_STATIC_DRAW);
-    glVertexAttribPointer(position_AttribLocation, 3, GL_FLOAT, GL_FALSE, 0, 0);
+    glVertexAttribPointer(shaderProgram.getAttribLocation("vertexPosition"), 3, GL_FLOAT, GL_FALSE, 0, 0);
 
     // Register normals with OpenGL
     glGenBuffers(1, &vbo_normals);
     glBindBuffer(GL_ARRAY_BUFFER, vbo_normals);
     glBufferData(GL_ARRAY_BUFFER, totalNormalBytes, normalDataPtr, GL_STATIC_DRAW);
-    glVertexAttribPointer(normal_AttribLocation, 3, GL_FLOAT, GL_FALSE, 0, 0);
+    glVertexAttribPointer(shaderProgram.getAttribLocation("vertexNormal"), 3, GL_FLOAT, GL_FALSE, 0, 0);
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
@@ -106,10 +103,6 @@ void MultipleObjects_Example::init()
     cubeMesh.fromObjFile("../data/meshes/cube.obj");
     torusMesh.fromObjFile("../data/meshes/torus.obj");
 
-
-    glGenVertexArrays(1, &vao);
-    glBindVertexArray(vao);
-
     setupShaders();
     setupGLBuffers();
     setupMatrices();
@@ -119,35 +112,24 @@ void MultipleObjects_Example::init()
 
 //---------------------------------------------------------------------------------------
 void MultipleObjects_Example::setupShaders() {
-    shaderProgram.loadFromFile("../data/shaders/AmbientDiffuseLighting.vert",
-                               "../data/shaders/AmbientDiffuseLighting.frag");
+    shaderProgram.loadFromFile("../data/shaders/PerFragLighting.vert",
+                               "../data/shaders/PerFragLighting.frag");
 
-    // Acquire vertex attribute locations.
-    position_AttribLocation = shaderProgram.getAttribLocation("vertexPosition");
-    normal_AttribLocation = shaderProgram.getAttribLocation("vertexNormal");
-    projectionMatrix_UniformLoc = shaderProgram.getUniformLocation("ProjectionMatrix");
-    modelViewMatrix_UniformLoc = shaderProgram.getUniformLocation("ModelViewMatrix");
-    normalMatrix_UniformLoc = shaderProgram.getUniformLocation("NormalMatrix");
+    shaderProgram.setUniform("ambientIntensity", vec3(0.1f, 0.1f, 0.1f));
+    shaderProgram.setUniform("lightSource.position", lightSource.position);
+    shaderProgram.setUniform("lightSource.rgbIntensity", lightSource.rgbIntensity);
+    shaderProgram.setUniform("material.Ka", vec3(1.0f, 1.0f, 1.0f));
+    shaderProgram.setUniform("material.Kd", vec3(1.0f, 1.0f, 1.0f));
+    shaderProgram.setUniform("material.Ks", 0.5f);
+    shaderProgram.setUniform("material.shininessFactor", 200.0f);
 
-    lightPositionEC_UniformLocation = shaderProgram.getUniformLocation("lightPositionEC");
-    GLint Ka_UniformLocation = shaderProgram.getUniformLocation("Ka");
-    GLint Kd_UniformLocation = shaderProgram.getUniformLocation("Kd");
-    GLint Ia_UniformLocation = shaderProgram.getUniformLocation("Ia");
-    GLint Id_UniformLocation = shaderProgram.getUniformLocation("Id");
-
-    shaderProgram.enable();
-        // Enable vertex attribute arrays so we can send position data to vertex shader.
-        glEnableVertexAttribArray(position_AttribLocation);
-        // Enable normal attribute arrays so we can send normal data to vertex shader.
-        glEnableVertexAttribArray(normal_AttribLocation);
-
-        // Pass in uniform data
-        glUniform3fv(lightPositionEC_UniformLocation, 1, glm::value_ptr(lightPositionEC));
-        glUniform3fv(Ka_UniformLocation, 1, glm::value_ptr(Ka));
-        glUniform3fv(Kd_UniformLocation, 1, glm::value_ptr(Kd));
-        glUniform3fv(Ia_UniformLocation, 1, glm::value_ptr(Ia));
-        glUniform3fv(Id_UniformLocation, 1, glm::value_ptr(Id));
-    shaderProgram.disable();
+    // Generate VAO and enable vertex attribute arrays for positions and normals.
+    glGenVertexArrays(1, &vao);
+    glBindVertexArray(vao);
+    GLint position_Location = shaderProgram.getAttribLocation("vertexPosition");
+    glEnableVertexAttribArray(position_Location);
+    GLint normal_Location = shaderProgram.getAttribLocation("vertexNormal");
+    glEnableVertexAttribArray(normal_Location);
 
     GlUtils::checkGLErrors(__FILE__, __LINE__);
 }
@@ -172,12 +154,9 @@ void MultipleObjects_Example::setupMatrices() {
     modelViewMatrix = worldToCameraMatrix * modelToWorldMatrix;
     normalMatrix = mat3(modelViewMatrix);
 
-    shaderProgram.enable();
-        // Register uniform matrix data to vertex shader
-        glUniformMatrix4fv(projectionMatrix_UniformLoc, 1, GL_FALSE, glm::value_ptr(cameraToClipMatrix));
-        glUniformMatrix4fv(modelViewMatrix_UniformLoc, 1, GL_FALSE, glm::value_ptr(modelViewMatrix));
-        glUniformMatrix3fv(normalMatrix_UniformLoc, 1, GL_FALSE, glm::value_ptr(normalMatrix));
-    shaderProgram.disable();
+    shaderProgram.setUniform("ModelViewMatrix", modelViewMatrix);
+    shaderProgram.setUniform("NormalMatrix", normalMatrix);
+    shaderProgram.setUniform("ProjectionMatrix", cameraToClipMatrix);
 }
 
 //---------------------------------------------------------------------------------------
@@ -236,7 +215,9 @@ void MultipleObjects_Example::resize(int width, int height)
 //---------------------------------------------------------------------------------------
 void MultipleObjects_Example::logic() {
     updateMatrices();
-    rotateLightSource();
+    if (pauseLightSource == false) {
+        rotateLightSource();
+    }
     updateUniformData();
 }
 
@@ -245,22 +226,14 @@ void MultipleObjects_Example::updateMatrices() {
     modelViewMatrix = worldToCameraMatrix * modelToWorldMatrix;
     normalMatrix = mat3(modelViewMatrix);
 
-    // Pass updated matrix data to vertex shader
-    shaderProgram.enable();
-        glUniformMatrix4fv(projectionMatrix_UniformLoc, 1, GL_FALSE, glm::value_ptr(cameraToClipMatrix));
-        glUniformMatrix4fv(modelViewMatrix_UniformLoc, 1, GL_FALSE, glm::value_ptr(modelViewMatrix));
-        glUniformMatrix3fv(normalMatrix_UniformLoc, 1, GL_FALSE, glm::value_ptr(normalMatrix));
-    shaderProgram.disable();
-
-    GlUtils::checkGLErrors(__FILE__, __LINE__);
+    shaderProgram.setUniform("ModelViewMatrix", modelViewMatrix);
+    shaderProgram.setUniform("NormalMatrix", normalMatrix);
+    shaderProgram.setUniform("ProjectionMatrix", cameraToClipMatrix);
 }
 
 //---------------------------------------------------------------------------------------
 void MultipleObjects_Example::updateUniformData() {
-    shaderProgram.enable();
-        // Pass in uniform data
-        glUniform3fv(lightPositionEC_UniformLocation, 1, glm::value_ptr(lightPositionEC));
-    shaderProgram.disable();
+    shaderProgram.setUniform("lightSource.position", lightSource.position);
 }
 
 //---------------------------------------------------------------------------------------
@@ -275,7 +248,7 @@ void MultipleObjects_Example::rotateLightSource() {
 
     float x = radius * sin(omega * t);
     float z = radius * cos(omega * t);
-    lightPositionEC = vec3(x, 0.0f, z);
+    lightSource.position = vec3(x, 0.0f, z);
 }
 
 //---------------------------------------------------------------------------------------
@@ -296,40 +269,42 @@ void MultipleObjects_Example::keyInput(int key, int scancode, int action, int mo
     // Select Render Target
     if (key == GLFW_KEY_1) {
         renderTarget = MeshType::CUBE;
-    } else if (key == GLFW_KEY_2) {
+    } else if ((key == GLFW_KEY_2) && (action == GLFW_PRESS)) {
         renderTarget = MeshType::SPHERE;
-    } else if (key == GLFW_KEY_3) {
+    } else if ((key == GLFW_KEY_3) && (action == GLFW_PRESS)) {
         renderTarget = MeshType::TORUS;
-    } else if (key == GLFW_KEY_4) {
+    } else if ((key == GLFW_KEY_4) && (action == GLFW_PRESS)) {
         renderTarget = MeshType::SUSAN;
     }
 
     // Light Source Movement
-    if (key == GLFW_KEY_LEFT) {
-        lightPositionEC += vec3(-1 * xDelta, 0.0f, 0.0f);
-    } else if (key == GLFW_KEY_RIGHT) {
-        lightPositionEC += vec3(xDelta, 0.0f, 0.0f);
-    } else if (key == GLFW_KEY_UP) {
-        lightPositionEC += vec3(0.0f, 0.0f, -1 * zDelta);
-    } else if (key == GLFW_KEY_DOWN) {
-        lightPositionEC += vec3(0.0f, 0.0f, zDelta);
+    if ((key == GLFW_KEY_LEFT) && (action == GLFW_PRESS)) {
+        lightSource.position += vec3(-1 * xDelta, 0.0f, 0.0f);
+    } else if ((key == GLFW_KEY_RIGHT) && (action == GLFW_PRESS)) {
+        lightSource.position += vec3(xDelta, 0.0f, 0.0f);
+    } else if ((key == GLFW_KEY_UP) && (action == GLFW_PRESS)) {
+        lightSource.position += vec3(0.0f, 0.0f, -1 * zDelta);
+    } else if ((key == GLFW_KEY_DOWN)  && (action == GLFW_PRESS)) {
+        lightSource.position += vec3(0.0f, 0.0f, zDelta);
+    } else if ((key == GLFW_KEY_SPACE) && (action == GLFW_PRESS)) {
+        pauseLightSource = !pauseLightSource;
     }
 
     // Object Movement
-    if (key == GLFW_KEY_A) {
+    if ((key == GLFW_KEY_A) && (action == GLFW_PRESS)) {
         modelToWorldMatrix = translate(modelToWorldMatrix, -1 * xDelta, 0.0f, 0.0f);
-    } else if (key == GLFW_KEY_D) {
+    } else if ((key == GLFW_KEY_D) && (action == GLFW_PRESS)) {
         modelToWorldMatrix = translate(modelToWorldMatrix, xDelta, 0.0f, 0.0f);
-    } else if (key == GLFW_KEY_W) {
+    } else if ((key == GLFW_KEY_W) && (action == GLFW_PRESS)) {
         modelToWorldMatrix = translate(modelToWorldMatrix, 0.0f, yDelta, 0.0f);
-    } else if (key == GLFW_KEY_S) {
+    } else if ((key == GLFW_KEY_S) && (action == GLFW_PRESS)) {
         modelToWorldMatrix = translate(modelToWorldMatrix, 0.0f, -1 * yDelta, 0.0f);
-    } else if (key == GLFW_KEY_R) {
+    } else if ((key == GLFW_KEY_R) && (action == GLFW_PRESS)) {
         modelToWorldMatrix = translate(modelToWorldMatrix, 0.0f, 0.0f, -1 * zDelta);
-    } else if (key == GLFW_KEY_F) {
+    } else if ((key == GLFW_KEY_F) && (action == GLFW_PRESS)) {
         modelToWorldMatrix = translate(modelToWorldMatrix, 0.0f, 0.0f, zDelta);
     }
 
     // TODO Remove debug statement.
-    cout << "lightPositionEC = " << lightPositionEC << endl << endl;
+    cout << "lightSource.position = " << lightSource.position << endl << endl;
 }

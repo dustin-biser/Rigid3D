@@ -144,9 +144,9 @@ void GlfwOpenGlWindow::centerWindow() {
 //----------------------------------------------------------------------------------------
 void GlfwOpenGlWindow::setupGl() {
     // Render only the front face of geometry.
-//    glEnable(GL_CULL_FACE);
-//    glCullFace(GL_BACK);
-//    glFrontFace(GL_CCW);
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_BACK);
+    glFrontFace(GL_CCW);
 
     // Setup depth testing
     glEnable(GL_DEPTH_TEST);

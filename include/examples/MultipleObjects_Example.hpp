@@ -1,5 +1,5 @@
-#ifndef MULTIPLE_OBJECTS_EXAMPLE_HPP_
-#define MULTIPLE_OBJECTS_EXAMPLE_HPP_
+#ifndef MULITPLE_OBJECTS_EXAMPLE_HPP
+#define MULITPLE_OBJECTS_EXAMPLE_HPP
 
 #include <GlfwOpenGlWindow.hpp>
 #include <GlUtils.hpp>
@@ -39,27 +39,28 @@ private:
     mat4 cameraToClipMatrix;
     mat3 normalMatrix;
 
-    // Vertex attribute locations
-    GLint position_AttribLocation;
-    GLint normal_AttribLocation;
-    GLint projectionMatrix_UniformLoc;
-    GLint modelViewMatrix_UniformLoc;
-    GLint normalMatrix_UniformLoc;
-    GLint lightPositionEC_UniformLocation;
+    struct LightSource {
+        vec3 position;      // Light position in eye coordinate space.
+        vec3 rgbIntensity;  // Light intensity for each RGB component.
+    };
+    LightSource lightSource;
 
-    // Lighting Parameters
-    vec3 lightPositionEC; // light position in Eye Coordinate Space
-    vec3 Ia; // Ambient light intensity over RGB spectrum.
-    vec3 Id; // Diffuse light intensity over RGB specturm.
-    vec3 Kd; // coefficient of diffuse reflectivity
-    vec3 Ka; // coefficient of ambient reflectivity
+    struct MaterialProperties {
+        vec3 emission;  // Emission light intensity from material for each RGB component.
+        vec3 Ka;        // Coefficients of ambient reflectivity for each RGB component.
+        vec3 Kd;        // Coefficients of diffuse reflectivity for each RGB component.
+        float Ks;       // Coefficient of specular reflectivity, uniform across each RGB component.
+        float shininessFactor;   // Specular shininess factor.
+    };
+    MaterialProperties material;
+
+    bool pauseLightSource = false;
 
     GLuint vao;
     GLuint vbo_vertices;
     GLuint vbo_normals;
 
     MultipleObjects_Example();
-
     virtual void init();
     virtual void logic();
     virtual void draw();
@@ -74,4 +75,4 @@ private:
 
 };
 
-#endif /* MULTIPLE_OBJECTS_EXAMPLE_HPP_ */
+#endif /* MULITPLE_OBJECTS_EXAMPLE_HPP */
