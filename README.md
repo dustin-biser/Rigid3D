@@ -5,7 +5,7 @@ Rigid3D
 * Mesa3D
 * glm
 * glew
-* SFML
+* GLFW
 * GlUtils
 
 On linux systems, make sure to append the directores containing the above
