@@ -38,11 +38,11 @@ namespace GlUtils {
     public:
         ShaderProgram();
 
-        ShaderProgram(const string &vertexShaderFile, const string &fragmentShaderFile);
+        ShaderProgram(const char * ShaderFile, const char * fragmentShaderFile);
 
         ~ShaderProgram();
 
-        void loadFromFile(const string &vertexShaderFile, const string &fragmentShaderFile);
+        void loadFromFile(const char * vertexShaderFile, const char * fragmentShaderFile);
 
         void enable();
 
@@ -50,9 +50,9 @@ namespace GlUtils {
 
         GLuint getProgramObject();
 
-        GLint getUniformLocation(const string &uniformName);
+        GLint getUniformLocation(const char * uniformName);
 
-        GLint getAttribLocation(const string &attributeName);
+        GLint getAttribLocation(const char * attributeName);
 
         void setUniform(const char * uniformName, bool b);
 
@@ -86,7 +86,7 @@ namespace GlUtils {
 
         void initializeShaders();
 
-        void extractSourceCode(const string &sourceFileName, Shader &shader);
+        void extractSourceCode(const char * sourceFileName, Shader &shader);
 
         void createVertexShader();
 

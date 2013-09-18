@@ -27,7 +27,7 @@ namespace GlUtils {
      * @param vertexShaderFile - location to vertex shader source file.
      * @param fragmentShaderFile - location to fragment shader source file.
      */
-    ShaderProgram::ShaderProgram(const string &vertexShaderFile, const string &fragmentShaderFile) {
+    ShaderProgram::ShaderProgram(const char * vertexShaderFile, const char * fragmentShaderFile) {
         initializeShaders();
 
         loadFromFile(vertexShaderFile, fragmentShaderFile);
@@ -52,8 +52,8 @@ namespace GlUtils {
      *   - shader files contain compilation errors.
      *   - shader files result in link errors when linked together.
      */
-    void ShaderProgram::loadFromFile(const string &vertexShaderFile,
-            const string &fragmentShaderFile) {
+    void ShaderProgram::loadFromFile(const char * vertexShaderFile,
+            const char * fragmentShaderFile) {
         checkGLErrors(__FILE__, __LINE__);
         extractSourceCode(vertexShaderFile, vertexShader);
         extractSourceCode(fragmentShaderFile, fragmentShader);
@@ -182,10 +182,10 @@ namespace GlUtils {
      *
      * @throws ShaderException if \c sourceFile cannot be found or opened for reading.
      */
-    void ShaderProgram::extractSourceCode(const string &sourceFile, Shader &shader) {
+    void ShaderProgram::extractSourceCode(const char * sourceFile, Shader &shader) {
         ifstream file;
 
-        file.open(sourceFile.c_str());
+        file.open(sourceFile);
         if (!file) {
             stringstream strStream;
             strStream << "Error -- Failed to open file: " << sourceFile << endl;
@@ -218,8 +218,8 @@ namespace GlUtils {
      * uniform variable within the shader program or if \c uniformName
      * starts with the reserved prefix "gl_".
      */
-    GLint ShaderProgram::getUniformLocation(const string &uniformName) {
-        GLint result = glGetUniformLocation(programObject, (const GLchar *)uniformName.c_str());
+    GLint ShaderProgram::getUniformLocation(const char * uniformName) {
+        GLint result = glGetUniformLocation(programObject, (const GLchar *)uniformName);
 
         if (result == -1) {
             stringstream errorMessage;
@@ -242,8 +242,8 @@ namespace GlUtils {
      * attribute variable within the shader program or if \c attributeName
      * starts with the reserved prefix "gl_".
      */
-    GLint ShaderProgram::getAttribLocation(const string &attributeName) {
-        GLint result = glGetAttribLocation(programObject, (const GLchar *)attributeName.c_str());
+    GLint ShaderProgram::getAttribLocation(const char * attributeName) {
+        GLint result = glGetAttribLocation(programObject, (const GLchar *)attributeName);
 
         if (result == -1) {
             stringstream errorMessage;
