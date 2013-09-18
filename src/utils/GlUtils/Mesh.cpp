@@ -35,7 +35,8 @@ void Mesh::loadFromObjFile(const char* objFileName){
     }
 
     string line;
-    int vertexIndexA, vertexIndexB, vertexIndexC, normalIndex;
+    int vertexIndexA, vertexIndexB, vertexIndexC;
+    int normalIndexA, normalIndexB, normalIndexC;
     vector<vec3> tmp_normals;
     vector<vec3> tmp_vertices;
 
@@ -63,24 +64,30 @@ void Mesh::loadFromObjFile(const char* objFileName){
             tmp_normals.push_back(normal);
         }
         else if (line.substr(0, 2) == "f ") {
+
+            // TODO (Dustin)  Handle the case when a face has 3 difference
+            // normals, as is the case for smooth shading.
+
             // Get vertex indices and which normal to assign to those vertices.
-            sscanf(line.c_str(), "f %d//%d %d//%d %d//%d", &vertexIndexA, &normalIndex,
-                                                           &vertexIndexB, &normalIndex,
-                                                           &vertexIndexC, &normalIndex);
+            sscanf(line.c_str(), "f %d//%d %d//%d %d//%d", &vertexIndexA, &normalIndexA,
+                                                           &vertexIndexB, &normalIndexB,
+                                                           &vertexIndexC, &normalIndexC);
 
             // .obj file uses indices that start at 1, so subtract one so they start at 0.
             vertexIndexA--;
             vertexIndexB--;
             vertexIndexC--;
-            normalIndex--;
+            normalIndexA--;
+            normalIndexB--;
+            normalIndexC--;
 
             glm_vertices.push_back(tmp_vertices[vertexIndexA]);
             glm_vertices.push_back(tmp_vertices[vertexIndexB]);
             glm_vertices.push_back(tmp_vertices[vertexIndexC]);
 
-            glm_normals.push_back(tmp_normals[normalIndex]);
-            glm_normals.push_back(tmp_normals[normalIndex]);
-            glm_normals.push_back(tmp_normals[normalIndex]);
+            glm_normals.push_back(tmp_normals[normalIndexA]);
+            glm_normals.push_back(tmp_normals[normalIndexB]);
+            glm_normals.push_back(tmp_normals[normalIndexC]);
         }
     }
 
