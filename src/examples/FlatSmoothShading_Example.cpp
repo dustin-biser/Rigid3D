@@ -344,14 +344,26 @@ void FlatSmoothShading_Example::keyInput(int key, int scancode, int action, int 
     if ((action == GLFW_PRESS) || (action == GLFW_REPEAT)) {
         if (key == GLFW_KEY_LEFT) {
             lightSource.position -= vec3(xDelta, 0.0f, 0.0f);
+            cout << "lightSource.position = " << lightSource.position << endl;
         } else if (key == GLFW_KEY_RIGHT) {
             lightSource.position += vec3(xDelta, 0.0f, 0.0f);
+            cout << "lightSource.position = " << lightSource.position << endl;
         } else if (key == GLFW_KEY_UP) {
             lightSource.position += vec3(0.0f, yDelta, 0.0f);
+            cout << "lightSource.position = " << lightSource.position << endl;
         } else if (key == GLFW_KEY_DOWN)  {
             lightSource.position -= vec3(0.0f, yDelta, 0.0f);
-        } else if (key == GLFW_KEY_SPACE) {
+            cout << "lightSource.position = " << lightSource.position << endl;
+        }  else if (key == GLFW_KEY_P) {
+            lightSource.position -= vec3(0.0f, 0.0f, zDelta);
+            cout << "lightSource.position = " << lightSource.position << endl;
+        }  else if (key == GLFW_KEY_L) {
+            lightSource.position += vec3(0.0f, 0.0f, zDelta);
+            cout << "lightSource.position = " << lightSource.position << endl;
+        }
+        else if (key == GLFW_KEY_SPACE) {
             pauseLightSource = !pauseLightSource;
+            cout << "lightSource.position = " << lightSource.position << endl;
         }
     }
 
