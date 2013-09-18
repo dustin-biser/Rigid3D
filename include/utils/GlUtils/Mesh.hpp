@@ -12,11 +12,11 @@ namespace GlUtils {
 
     class Mesh {
     private:
-        vector<float> vertices;
-        vector<float>  normals;
+        vector<vec3> vertices;
+        static const short num_elements_per_vertex = 3;
 
-        vector<vec3> glm_vertices;
-        vector<vec3> glm_normals;
+        vector<vec3>  normals;
+        static const short num_elements_per_normal = 3;
 
     public:
         Mesh(const char* objFileName);
@@ -25,7 +25,7 @@ namespace GlUtils {
 
         ~Mesh() { }
 
-        void fromObjFile(const char* objFileName);
+        void fromObjFile(const char * objFileName);
 
         const float * getVertexDataPtr() const;
 

@@ -19,18 +19,18 @@ Mesh::Mesh(const char* objFileName) {
 
 //----------------------------------------------------------------------------------------
 void Mesh::loadFromObjFile(const char* objFileName){
-    // Reset datastructures before loading them with data.
+    // Reset datastructures before loading them with data.  Useful if new .obj
+    // file contains a mesh with less vertex/normal data than previously parsed file.
     vertices.resize(0);
     normals.resize(0);
-    glm_vertices.resize(0);
-    glm_normals.resize(0);
 
     ifstream in(objFileName, ios::in);
     in.exceptions(std::ifstream::badbit);
 
     if (!in) {
         stringstream errorMessage;
-        errorMessage << "Unable to open .obj file: " << objFileName << endl;
+        errorMessage << "Unable to open .obj file: " << objFileName
+                     << " within method Mesh::loadFromObjFile." << endl;
         throw GlUtilsException(errorMessage.str());
     }
 
@@ -64,16 +64,11 @@ void Mesh::loadFromObjFile(const char* objFileName){
             tmp_normals.push_back(normal);
         }
         else if (line.substr(0, 2) == "f ") {
-
-            // TODO (Dustin)  Handle the case when a face has 3 difference
-            // normals, as is the case for smooth shading.
-
-            // Get vertex indices and which normal to assign to those vertices.
             sscanf(line.c_str(), "f %d//%d %d//%d %d//%d", &vertexIndexA, &normalIndexA,
                                                            &vertexIndexB, &normalIndexB,
                                                            &vertexIndexC, &normalIndexC);
 
-            // .obj file uses indices that start at 1, so subtract one so they start at 0.
+            // .obj file uses indices that start at 1, so subtract 1 so they start at 0.
             vertexIndexA--;
             vertexIndexB--;
             vertexIndexC--;
@@ -81,33 +76,15 @@ void Mesh::loadFromObjFile(const char* objFileName){
             normalIndexB--;
             normalIndexC--;
 
-            glm_vertices.push_back(tmp_vertices[vertexIndexA]);
-            glm_vertices.push_back(tmp_vertices[vertexIndexB]);
-            glm_vertices.push_back(tmp_vertices[vertexIndexC]);
+            vertices.push_back(tmp_vertices[vertexIndexA]);
+            vertices.push_back(tmp_vertices[vertexIndexB]);
+            vertices.push_back(tmp_vertices[vertexIndexC]);
 
-            glm_normals.push_back(tmp_normals[normalIndexA]);
-            glm_normals.push_back(tmp_normals[normalIndexB]);
-            glm_normals.push_back(tmp_normals[normalIndexC]);
+            normals.push_back(tmp_normals[normalIndexA]);
+            normals.push_back(tmp_normals[normalIndexB]);
+            normals.push_back(tmp_normals[normalIndexC]);
         }
     }
-
-    // Copy data to vertex vector
-    for(glm::vec3 v : glm_vertices) {
-        vertices.push_back(v.x);
-        vertices.push_back(v.y);
-        vertices.push_back(v.z);
-    }
-
-    // Copy data to normal vector
-    for(glm::vec3 v : glm_normals) {
-        normals.push_back(v.x);
-        normals.push_back(v.y);
-        normals.push_back(v.z);
-    }
-
-    // Clear data from glm_vertices and glm_normals, no longer needed.
-    glm_vertices.resize(0);
-    glm_normals.resize(0);
 }
 
 //----------------------------------------------------------------------------------------
@@ -122,12 +99,16 @@ void Mesh::fromObjFile(const char* objFileName) {
 
 //----------------------------------------------------------------------------------------
 const float * Mesh::getVertexDataPtr() const {
-    return const_cast<float *>(vertices.data());
+    // Return the first float within the first vec3 of the vertices vector.  All
+    // data is contiguous in memory.
+    return const_cast<float *>(&((vertices.data())->x));
 }
 
 //----------------------------------------------------------------------------------------
 const float * Mesh::getNormalDataPtr() const {
-    return const_cast<float *>(normals.data());
+    // Return the first float within the first vec3 of the normals vector.  All
+    // data is contiguous in memory.
+    return const_cast<float *>(&((normals.data())->x));
 }
 
 //----------------------------------------------------------------------------------------
@@ -137,7 +118,7 @@ const float * Mesh::getNormalDataPtr() const {
  * @return size_t
  */
 size_t Mesh::getNumVertexBytes() const {
-    return vertices.size() * sizeof(float);
+    return vertices.size() * num_elements_per_vertex * sizeof(float);
 }
 
 //----------------------------------------------------------------------------------------
@@ -147,7 +128,7 @@ size_t Mesh::getNumVertexBytes() const {
  * @return size_t
  */
 size_t Mesh::getNumNormalBytes() const {
-    return normals.size() * sizeof(float);
+    return normals.size() * num_elements_per_normal * sizeof(float);
 }
 
 //----------------------------------------------------------------------------------------
@@ -157,7 +138,7 @@ size_t Mesh::getNumNormalBytes() const {
  * composed of 3 floats {x,y,z}.
  */
 size_t Mesh::getNumVertices() const {
-    return (size_t)(vertices.size() / 3.0f);
+    return (size_t)vertices.size();
 }
 
 //----------------------------------------------------------------------------------------
@@ -167,5 +148,5 @@ size_t Mesh::getNumVertices() const {
  * composed of 3 floats {x,y,z}.
  */
 size_t Mesh::getNumNormals() const {
-   return (size_t)(normals.size() / 3.0f);
+   return (size_t)normals.size();
 }
