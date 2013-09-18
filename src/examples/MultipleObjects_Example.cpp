@@ -137,26 +137,26 @@ void MultipleObjects_Example::setupShaders() {
 //---------------------------------------------------------------------------------------
 void MultipleObjects_Example::setupMatrices() {
     frustum = Frustum(45.0f, 4.0f/3.0f, 1.0f, 100.0f);
-    cameraToClipMatrix = frustum.getPerspectiveMatrix();
+    projectionMatrix = frustum.getPerspectiveMatrix();
 
-    worldToCameraMatrix = glm::lookAt(glm::vec3(0.0f, 0.0, 5.0),
+    viewMatrix = glm::lookAt(glm::vec3(0.0f, 0.0, 5.0),
                                       glm::vec3(0.0 , 0.0, -1.0),
                                       glm::vec3(0.0, 1.0, 0.0));
 
-    modelToWorldMatrix = glm::mat4(1, 0, 0, 0,
+    modelMatrix = glm::mat4(1, 0, 0, 0,
                                    0, 1, 0, 0,
                                    0, 0, 1, 0,
                                    0, 0, 0, 1);
 
     // Translate the object into view.
-    modelToWorldMatrix = translate(modelToWorldMatrix, 0.0f, 0.0f, -0.3f);
+    modelMatrix = translate(modelMatrix, 0.0f, 0.0f, -0.3f);
 
-    modelViewMatrix = worldToCameraMatrix * modelToWorldMatrix;
+    modelViewMatrix = viewMatrix * modelMatrix;
     normalMatrix = mat3(modelViewMatrix);
 
     shaderProgram.setUniform("ModelViewMatrix", modelViewMatrix);
     shaderProgram.setUniform("NormalMatrix", normalMatrix);
-    shaderProgram.setUniform("ProjectionMatrix", cameraToClipMatrix);
+    shaderProgram.setUniform("ProjectionMatrix", projectionMatrix);
 }
 
 //---------------------------------------------------------------------------------------
@@ -198,14 +198,14 @@ void MultipleObjects_Example::resize(int width, int height)
     if (width > height) {
         // Shrink the x scale in eye-coordinate space, so that when geometry is
         // projected to ndc-space, it is widened out to become square.
-        cameraToClipMatrix[0][0] = frustumXScale / aspectRatio;
-        cameraToClipMatrix[1][1] = frustumYScale;
+        projectionMatrix[0][0] = frustumXScale / aspectRatio;
+        projectionMatrix[1][1] = frustumYScale;
     }
     else {
         // Shrink the y scale in eye-coordinate space, so that when geometry is
         // projected to ndc-space, it is widened out to become square.
-        cameraToClipMatrix[0][0] = frustumXScale;
-        cameraToClipMatrix[1][1] = frustumYScale * aspectRatio;
+        projectionMatrix[0][0] = frustumXScale;
+        projectionMatrix[1][1] = frustumYScale * aspectRatio;
     }
 
     // Use entire window for rendering.
@@ -223,12 +223,12 @@ void MultipleObjects_Example::logic() {
 
 //---------------------------------------------------------------------------------------
 void MultipleObjects_Example::updateMatrices() {
-    modelViewMatrix = worldToCameraMatrix * modelToWorldMatrix;
+    modelViewMatrix = viewMatrix * modelMatrix;
     normalMatrix = mat3(modelViewMatrix);
 
     shaderProgram.setUniform("ModelViewMatrix", modelViewMatrix);
     shaderProgram.setUniform("NormalMatrix", normalMatrix);
-    shaderProgram.setUniform("ProjectionMatrix", cameraToClipMatrix);
+    shaderProgram.setUniform("ProjectionMatrix", projectionMatrix);
 }
 
 //---------------------------------------------------------------------------------------
@@ -292,17 +292,17 @@ void MultipleObjects_Example::keyInput(int key, int scancode, int action, int mo
 
     // Object Movement
     if ((key == GLFW_KEY_A) && (action == GLFW_PRESS)) {
-        modelToWorldMatrix = translate(modelToWorldMatrix, -1 * xDelta, 0.0f, 0.0f);
+        modelMatrix = translate(modelMatrix, -1 * xDelta, 0.0f, 0.0f);
     } else if ((key == GLFW_KEY_D) && (action == GLFW_PRESS)) {
-        modelToWorldMatrix = translate(modelToWorldMatrix, xDelta, 0.0f, 0.0f);
+        modelMatrix = translate(modelMatrix, xDelta, 0.0f, 0.0f);
     } else if ((key == GLFW_KEY_W) && (action == GLFW_PRESS)) {
-        modelToWorldMatrix = translate(modelToWorldMatrix, 0.0f, yDelta, 0.0f);
+        modelMatrix = translate(modelMatrix, 0.0f, yDelta, 0.0f);
     } else if ((key == GLFW_KEY_S) && (action == GLFW_PRESS)) {
-        modelToWorldMatrix = translate(modelToWorldMatrix, 0.0f, -1 * yDelta, 0.0f);
+        modelMatrix = translate(modelMatrix, 0.0f, -1 * yDelta, 0.0f);
     } else if ((key == GLFW_KEY_R) && (action == GLFW_PRESS)) {
-        modelToWorldMatrix = translate(modelToWorldMatrix, 0.0f, 0.0f, -1 * zDelta);
+        modelMatrix = translate(modelMatrix, 0.0f, 0.0f, -1 * zDelta);
     } else if ((key == GLFW_KEY_F) && (action == GLFW_PRESS)) {
-        modelToWorldMatrix = translate(modelToWorldMatrix, 0.0f, 0.0f, zDelta);
+        modelMatrix = translate(modelMatrix, 0.0f, 0.0f, zDelta);
     }
 
     // TODO Remove debug statement.

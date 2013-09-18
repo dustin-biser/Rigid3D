@@ -33,10 +33,10 @@ private:
     // Shader Program Data
     ShaderProgram shaderProgram;
     Frustum frustum;
-    mat4 modelToWorldMatrix;
-    mat4 worldToCameraMatrix;
+    mat4 modelMatrix;
+    mat4 viewMatrix;
     mat4 modelViewMatrix;
-    mat4 cameraToClipMatrix;
+    mat4 projectionMatrix;
     mat3 normalMatrix;
 
     struct LightSource {
