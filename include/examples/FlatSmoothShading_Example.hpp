@@ -1,5 +1,5 @@
-#ifndef MULITPLE_OBJECTS_EXAMPLE_HPP
-#define MULITPLE_OBJECTS_EXAMPLE_HPP
+#ifndef FLAT_SMOOTH_SHADING_EXAMPLE_HPP
+#define FLAT_SMOOTH_SHADING_EXAMPLE_HPP
 
 #include <GlfwOpenGlWindow.hpp>
 #include <GlUtils.hpp>
@@ -9,10 +9,27 @@
 using namespace GlUtils;
 using namespace glm;
 
-class MultipleObjects_Example : public GlfwOpenGlWindow {
+/**
+ * @brief Demo Instructions
+ *
+ * Shading Type:
+ * Press F1 for flat shading.
+ * Press F2 for smooth shading.
+ *
+ * Mesh Type:
+ * Numbers 1 through 4 change the mesh type.
+ *
+ * Object Movement Keys:
+ * a, s, d, w, r, f move the mesh object.
+ *
+ * Light Movement Keys:
+ * up, down, left, right, p, l move the light source.
+ */
+
+class FlatSmoothShading_Example : public GlfwOpenGlWindow {
 
 public:
-    ~MultipleObjects_Example() { }
+    ~FlatSmoothShading_Example() { }
 
     virtual void resize(int width, int height);
 
@@ -22,13 +39,20 @@ public:
 
 private:
     // Mesh Objects
-    Mesh susanMesh;
-    Mesh sphereMesh;
-    Mesh cubeMesh;
-    Mesh torusMesh;
+    Mesh susanMeshFlat;
+    Mesh sphereMeshFlat;
+    Mesh cubeMeshFlat;
+    Mesh torusMeshFlat;
+    Mesh susanMeshSmooth;
+    Mesh sphereMeshSmooth;
+    Mesh cubeMeshSmooth;
+    Mesh torusMeshSmooth;
 
     enum class MeshType {CUBE, SPHERE, TORUS, SUSAN};
+    enum class ShadingType {FLAT, SMOOTH};
+
     MeshType renderTarget;
+    ShadingType shadingType;
 
     // Shader Program Data
     ShaderProgram shaderProgram;
@@ -60,7 +84,7 @@ private:
     GLuint vbo_vertices;
     GLuint vbo_normals;
 
-    MultipleObjects_Example();
+    FlatSmoothShading_Example();
     virtual void init();
     virtual void logic();
     virtual void draw();
@@ -75,4 +99,4 @@ private:
 
 };
 
-#endif /* MULITPLE_OBJECTS_EXAMPLE_HPP */
+#endif /* FLAT_SMOOTH_SHADING_EXAMPLE_HPP */
