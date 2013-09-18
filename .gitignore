@@ -10,3 +10,6 @@
 **bin
 **bin/*
 ext/gtest/test1_example
+
+# Ignore hidden directories
+.settings
