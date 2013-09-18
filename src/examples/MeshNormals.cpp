@@ -42,9 +42,6 @@ void MeshNormals::init()
     meshFlat.fromObjFile("../data/meshes/sphere.obj");
     meshSmooth.fromObjFile("../data/meshes/sphere_smooth.obj");
 
-    glGenVertexArrays(1, &vao);
-    glBindVertexArray(vao);
-
     setupShaders();
     setupGLBuffers();
     setupMatrices();
@@ -77,13 +74,13 @@ void MeshNormals::setupGLBuffers()
     glGenBuffers(1, &vbo_vertices);
     glBindBuffer(GL_ARRAY_BUFFER, vbo_vertices);
     glBufferData(GL_ARRAY_BUFFER, totalVertexBytes, vertexDataPtr, GL_STATIC_DRAW);
-    glVertexAttribPointer(position_AttribLocation, 3, GL_FLOAT, GL_FALSE, 0, 0);
+    glVertexAttribPointer(shaderProgram.getAttribLocation("vertexPosition"), 3, GL_FLOAT, GL_FALSE, 0, 0);
 
     // Register normals with OpenGL
     glGenBuffers(1, &vbo_normals);
     glBindBuffer(GL_ARRAY_BUFFER, vbo_normals);
     glBufferData(GL_ARRAY_BUFFER, totalNormalBytes, normalDataPtr, GL_STATIC_DRAW);
-    glVertexAttribPointer(normal_AttribLocation, 3, GL_FLOAT, GL_FALSE, 0, 0);
+    glVertexAttribPointer(shaderProgram.getAttribLocation("vertexNormal"), 3, GL_FLOAT, GL_FALSE, 0, 0);
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
@@ -98,19 +95,10 @@ void MeshNormals::setupShaders() {
     shaderProgram.loadFromFile("../data/shaders/PerFragLighting.vert",
                                "../data/shaders/TestNormals.frag");
 
-    // Acquire vertex attribute locations.
-    position_AttribLocation = shaderProgram.getAttribLocation("vertexPosition");
-    normal_AttribLocation = shaderProgram.getAttribLocation("vertexNormal");
-    projectionMatrix_UniformLoc = shaderProgram.getUniformLocation("ProjectionMatrix");
-    modelViewMatrix_UniformLoc = shaderProgram.getUniformLocation("ModelViewMatrix");
-    normalMatrix_UniformLoc = shaderProgram.getUniformLocation("NormalMatrix");
-
-    shaderProgram.enable();
-        // Enable vertex attribute arrays so we can send position data to vertex shader.
-        glEnableVertexAttribArray(position_AttribLocation);
-        // Enable normal attribute arrays so we can send normal data to vertex shader.
-        glEnableVertexAttribArray(normal_AttribLocation);
-    shaderProgram.disable();
+    glGenVertexArrays(1, &vao);
+    glBindVertexArray(vao);
+    glEnableVertexAttribArray(shaderProgram.getAttribLocation("vertexPosition"));
+    glEnableVertexAttribArray(shaderProgram.getAttribLocation("vertexNormal"));
 
     GlUtils::checkGLErrors(__FILE__, __LINE__);
 }
@@ -118,29 +106,21 @@ void MeshNormals::setupShaders() {
 //---------------------------------------------------------------------------------------
 void MeshNormals::setupMatrices() {
     frustum = Frustum(45.0f, 4.0f/3.0f, 1.0f, 100.0f);
-    cameraToClipMatrix = frustum.getPerspectiveMatrix();
+    projectionMatrix = frustum.getPerspectiveMatrix();
 
-    worldToCameraMatrix = glm::lookAt(glm::vec3(0.0f, 0.0, 5.0),
+    viewMatrix = glm::lookAt(glm::vec3(0.0f, 0.0, 5.0),
                                       glm::vec3(0.0 , 0.0, -1.0),
                                       glm::vec3(0.0, 1.0, 0.0));
 
-    modelToWorldMatrix = glm::mat4(1, 0, 0, 0,
+    modelMatrix = glm::mat4(1, 0, 0, 0,
                                    0, 1, 0, 0,
                                    0, 0, 1, 0,
                                    0, 0, 0, 1);
 
     // Translate the object into view.
-    modelToWorldMatrix = translate(modelToWorldMatrix, 0.0f, 0.0f, -0.3f);
+    modelMatrix = translate(modelMatrix, 0.0f, 0.0f, -0.3f);
 
-    modelViewMatrix = worldToCameraMatrix * modelToWorldMatrix;
-    normalMatrix = mat3(modelViewMatrix);
-
-    shaderProgram.enable();
-        // Register uniform matrix data to vertex shader
-        glUniformMatrix4fv(projectionMatrix_UniformLoc, 1, GL_FALSE, glm::value_ptr(cameraToClipMatrix));
-        glUniformMatrix4fv(modelViewMatrix_UniformLoc, 1, GL_FALSE, glm::value_ptr(modelViewMatrix));
-        glUniformMatrix3fv(normalMatrix_UniformLoc, 1, GL_FALSE, glm::value_ptr(normalMatrix));
-    shaderProgram.disable();
+    updateMatrices();
 }
 
 //---------------------------------------------------------------------------------------
@@ -174,14 +154,14 @@ void MeshNormals::resize(int width, int height)
     if (width > height) {
         // Shrink the x scale in eye-coordinate space, so that when geometry is
         // projected to ndc-space, it is widened out to become square.
-        cameraToClipMatrix[0][0] = frustumXScale / aspectRatio;
-        cameraToClipMatrix[1][1] = frustumYScale;
+        projectionMatrix[0][0] = frustumXScale / aspectRatio;
+        projectionMatrix[1][1] = frustumYScale;
     }
     else {
         // Shrink the y scale in eye-coordinate space, so that when geometry is
         // projected to ndc-space, it is widened out to become square.
-        cameraToClipMatrix[0][0] = frustumXScale;
-        cameraToClipMatrix[1][1] = frustumYScale * aspectRatio;
+        projectionMatrix[0][0] = frustumXScale;
+        projectionMatrix[1][1] = frustumYScale * aspectRatio;
     }
 
     // Use entire window for rendering.
@@ -195,17 +175,12 @@ void MeshNormals::logic() {
 
 //---------------------------------------------------------------------------------------
 void MeshNormals::updateMatrices() {
-    modelViewMatrix = worldToCameraMatrix * modelToWorldMatrix;
+    modelViewMatrix = viewMatrix * modelMatrix;
     normalMatrix = mat3(modelViewMatrix);
 
-    // Pass updated matrix data to vertex shader
-    shaderProgram.enable();
-        glUniformMatrix4fv(projectionMatrix_UniformLoc, 1, GL_FALSE, glm::value_ptr(cameraToClipMatrix));
-        glUniformMatrix4fv(modelViewMatrix_UniformLoc, 1, GL_FALSE, glm::value_ptr(modelViewMatrix));
-        glUniformMatrix3fv(normalMatrix_UniformLoc, 1, GL_FALSE, glm::value_ptr(normalMatrix));
-    shaderProgram.disable();
-
-    GlUtils::checkGLErrors(__FILE__, __LINE__);
+    shaderProgram.setUniform("ModelViewMatrix", modelViewMatrix);
+    shaderProgram.setUniform("NormalMatrix", normalMatrix);
+    shaderProgram.setUniform("ProjectionMatrix", projectionMatrix);
 }
 
 //---------------------------------------------------------------------------------------
@@ -225,17 +200,17 @@ void MeshNormals::keyInput(int key, int scancode, int action, int mods) {
 
     // Object Movement
     if ((key == GLFW_KEY_A) && (action == GLFW_PRESS)) {
-        modelToWorldMatrix = translate(modelToWorldMatrix, -1 * xDelta, 0.0f, 0.0f);
+        modelMatrix = translate(modelMatrix, -1 * xDelta, 0.0f, 0.0f);
     } else if ((key == GLFW_KEY_D) && (action == GLFW_PRESS)) {
-        modelToWorldMatrix = translate(modelToWorldMatrix, xDelta, 0.0f, 0.0f);
+        modelMatrix = translate(modelMatrix, xDelta, 0.0f, 0.0f);
     } else if ((key == GLFW_KEY_W) && (action == GLFW_PRESS)) {
-        modelToWorldMatrix = translate(modelToWorldMatrix, 0.0f, yDelta, 0.0f);
+        modelMatrix = translate(modelMatrix, 0.0f, yDelta, 0.0f);
     } else if ((key == GLFW_KEY_S) && (action == GLFW_PRESS)) {
-        modelToWorldMatrix = translate(modelToWorldMatrix, 0.0f, -1 * yDelta, 0.0f);
+        modelMatrix = translate(modelMatrix, 0.0f, -1 * yDelta, 0.0f);
     } else if ((key == GLFW_KEY_R) && (action == GLFW_PRESS)) {
-        modelToWorldMatrix = translate(modelToWorldMatrix, 0.0f, 0.0f, -1 * zDelta);
+        modelMatrix = translate(modelMatrix, 0.0f, 0.0f, -1 * zDelta);
     } else if ((key == GLFW_KEY_F) && (action == GLFW_PRESS)) {
-        modelToWorldMatrix = translate(modelToWorldMatrix, 0.0f, 0.0f, zDelta);
+        modelMatrix = translate(modelMatrix, 0.0f, 0.0f, zDelta);
     }
 
     // Change Render Target

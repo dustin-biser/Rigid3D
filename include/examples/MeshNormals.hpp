@@ -29,18 +29,11 @@ private:
     // Shader Program Data
     ShaderProgram shaderProgram;
     Frustum frustum;
-    mat4 modelToWorldMatrix;
-    mat4 worldToCameraMatrix;
+    mat4 modelMatrix;
+    mat4 viewMatrix;
     mat4 modelViewMatrix;
-    mat4 cameraToClipMatrix;
+    mat4 projectionMatrix;
     mat3 normalMatrix;
-
-    // Vertex attribute locations
-    GLint position_AttribLocation;
-    GLint normal_AttribLocation;
-    GLint projectionMatrix_UniformLoc;
-    GLint modelViewMatrix_UniformLoc;
-    GLint normalMatrix_UniformLoc;
 
     GLuint vao;
     GLuint vbo_vertices;
