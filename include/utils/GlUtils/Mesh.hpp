@@ -19,7 +19,7 @@ namespace GlUtils {
         static const short num_elements_per_normal = 3;
 
     public:
-        Mesh(const char* objFileName);
+        Mesh(const char * objFileName);
 
         Mesh() { }
 
@@ -35,13 +35,13 @@ namespace GlUtils {
 
         size_t getNumNormalBytes() const;
 
-        size_t getNumVertices() const;
+        unsigned int getNumVertices() const;
 
-        size_t getNumNormals() const;
+        unsigned int getNumNormals() const;
 
 
     private:
-        void loadFromObjFile(const char* objFileName);
+        void loadFromObjFile(const char * objFileName);
     };
 }
 

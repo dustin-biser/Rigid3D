@@ -13,12 +13,12 @@ using namespace std;
  *
  * @param objFileName - path to .obj file
  */
-Mesh::Mesh(const char* objFileName) {
+Mesh::Mesh(const char * objFileName) {
     loadFromObjFile(objFileName);
 }
 
 //----------------------------------------------------------------------------------------
-void Mesh::loadFromObjFile(const char* objFileName){
+void Mesh::loadFromObjFile(const char * objFileName){
     // Reset datastructures before loading them with data.  Useful if new .obj
     // file contains a mesh with less vertex/normal data than previously parsed file.
     vertices.resize(0);
@@ -93,7 +93,7 @@ void Mesh::loadFromObjFile(const char* objFileName){
  *
  * @param objFileName - path to .obj file
  */
-void Mesh::fromObjFile(const char* objFileName) {
+void Mesh::fromObjFile(const char * objFileName) {
     loadFromObjFile(objFileName);
 }
 
@@ -137,8 +137,8 @@ size_t Mesh::getNumNormalBytes() const {
  * @return the number of vertices for this \c Mesh, where each vertex is
  * composed of 3 floats {x,y,z}.
  */
-size_t Mesh::getNumVertices() const {
-    return (size_t)vertices.size();
+unsigned int Mesh::getNumVertices() const {
+    return vertices.size();
 }
 
 //----------------------------------------------------------------------------------------
@@ -147,6 +147,6 @@ size_t Mesh::getNumVertices() const {
  * @return the number of normals for this \c Mesh, where each normal is
  * composed of 3 floats {x,y,z}.
  */
-size_t Mesh::getNumNormals() const {
-   return (size_t)normals.size();
+unsigned int Mesh::getNumNormals() const {
+   return normals.size();
 }
