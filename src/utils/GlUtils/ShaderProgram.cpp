@@ -14,11 +14,9 @@ namespace GlUtils {
     /**
      * Constructs a \c ShaderProgram with no attached shaders.  Vertex and fragment
      * shader programs can be attached to this \c ShaderProgram by calling the
-     * method \c loadFromFile(...).
+     * method \c ShaderProgram::loadFromFile.
      */
-    ShaderProgram::ShaderProgram() {
-        initializeShaders();
-    }
+    ShaderProgram::ShaderProgram() : programObject(0) { }
 
     //------------------------------------------------------------------------------------
     /**
@@ -28,15 +26,7 @@ namespace GlUtils {
      * @param fragmentShaderFile - location to fragment shader source file.
      */
     ShaderProgram::ShaderProgram(const char * vertexShaderFile, const char * fragmentShaderFile) {
-        initializeShaders();
-
         loadFromFile(vertexShaderFile, fragmentShaderFile);
-    }
-
-    //------------------------------------------------------------------------------------
-    void ShaderProgram::initializeShaders() {
-        vertexShader = Shader();
-        fragmentShader = Shader();
     }
 
     //------------------------------------------------------------------------------------
@@ -65,6 +55,8 @@ namespace GlUtils {
         compileShader(fragmentShader);
 
         createShaderProgram();
+
+        cleanUpResources();
     }
 
     ShaderProgram::~ShaderProgram() {
@@ -391,6 +383,12 @@ namespace GlUtils {
         GLint uniformLocation = getUniformLocation(uniformName);
         glUniformMatrix4fv(uniformLocation, 1, GL_FALSE, glm::value_ptr(m));
         glUseProgram(0);
+    }
+
+    //------------------------------------------------------------------------------------
+    void ShaderProgram::cleanUpResources() {
+        vertexShader.sourceCode.clear();
+        fragmentShader.sourceCode.clear();
     }
 
 } // end namespace GlUtils

@@ -84,8 +84,6 @@ namespace GlUtils {
         Shader fragmentShader;
         GLuint programObject;
 
-        void initializeShaders();
-
         void extractSourceCode(const char * sourceFileName, Shader &shader);
 
         void createVertexShader();
@@ -99,6 +97,8 @@ namespace GlUtils {
         void createShaderProgram();
 
         void checkLinkStatus();
+
+        void cleanUpResources();
     };
 
 } // end namespace GlUtils
