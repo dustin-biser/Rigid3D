@@ -5,9 +5,11 @@
 #include <GlUtils.hpp>
 #include <glm/gtc/reciprocal.hpp>
 #include <vector>
+#include <memory>
 
 using namespace GlUtils;
 using namespace glm;
+using namespace std;
 
 /**
  * @brief Demo Instructions
@@ -39,14 +41,18 @@ public:
 
 private:
     // Mesh Objects
-    Mesh susanMeshFlat;
-    Mesh sphereMeshFlat;
-    Mesh cubeMeshFlat;
-    Mesh torusMeshFlat;
-    Mesh susanMeshSmooth;
-    Mesh sphereMeshSmooth;
-    Mesh cubeMeshSmooth;
-    Mesh torusMeshSmooth;
+    shared_ptr<Mesh> susanMeshFlat;
+    shared_ptr<Mesh> sphereMeshFlat;
+    shared_ptr<Mesh> cubeMeshFlat;
+    shared_ptr<Mesh> torusMeshFlat;
+    shared_ptr<Mesh> susanMeshSmooth;
+    shared_ptr<Mesh> sphereMeshSmooth;
+    shared_ptr<Mesh> cubeMeshSmooth;
+    shared_ptr<Mesh> torusMeshSmooth;
+    shared_ptr<MeshConsolidator> meshConsolidator;
+
+    vector<BatchInfo> batchInfoVec;
+
 
     enum class MeshType {CUBE, SPHERE, TORUS, SUSAN};
     enum class ShadingType {FLAT, SMOOTH};
@@ -85,6 +91,7 @@ private:
     GLuint vbo_normals;
 
     FlatSmoothShading_Example();
+
     virtual void init();
     virtual void logic();
     virtual void draw();

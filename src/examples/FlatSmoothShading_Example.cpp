@@ -4,11 +4,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtx/transform.hpp>
 #include <iostream>
-#include <memory>
-#include <ctime>
-#include <array>
 
-using namespace std;
 using namespace MathUtils;
 
 int main() {
@@ -29,7 +25,9 @@ shared_ptr<GlfwOpenGlWindow> FlatSmoothShading_Example::getInstance() {
 }
 
 //---------------------------------------------------------------------------------------
-FlatSmoothShading_Example::FlatSmoothShading_Example() {
+FlatSmoothShading_Example::FlatSmoothShading_Example()
+        : pauseLightSource(false), vao(0), vbo_vertices(0), vbo_normals(0) {
+
     // Set light and material properties for all objects.
     lightSource.position = vec3(0.0f, 0.0f, 5.0f);
     lightSource.rgbIntensity = vec3(0.9f, 0.9f, 0.9f);
@@ -39,99 +37,63 @@ FlatSmoothShading_Example::FlatSmoothShading_Example() {
 }
 
 //---------------------------------------------------------------------------------------
-void FlatSmoothShading_Example::setupGLBuffers()
-{
-    //-- Concatenate vertex data from all meshes.
-    size_t totalVertexBytes = cubeMeshFlat.getNumVertexBytes() + sphereMeshFlat.getNumVertexBytes() +
-                              torusMeshFlat.getNumVertexBytes() + susanMeshFlat.getNumVertexBytes() +
-                              cubeMeshSmooth.getNumVertexBytes() + sphereMeshSmooth.getNumVertexBytes() +
-                              torusMeshSmooth.getNumVertexBytes() + susanMeshSmooth.getNumVertexBytes();
-
-    float * vertexDataPtr = (float *)malloc(totalVertexBytes);
-    float * data = vertexDataPtr;
-    memcpy(data, cubeMeshFlat.getVertexDataPtr(), cubeMeshFlat.getNumVertexBytes());
-    data += cubeMeshFlat.getNumVertexBytes() / sizeof(float);
-    memcpy(data, sphereMeshFlat.getVertexDataPtr(), sphereMeshFlat.getNumVertexBytes());
-    data += sphereMeshFlat.getNumVertexBytes() / sizeof(float);
-    memcpy(data, torusMeshFlat.getVertexDataPtr(), torusMeshFlat.getNumVertexBytes());
-    data += torusMeshFlat.getNumVertexBytes() / sizeof(float);
-    memcpy(data, susanMeshFlat.getVertexDataPtr(), susanMeshFlat.getNumVertexBytes());
-    data += susanMeshFlat.getNumVertexBytes() / sizeof(float);
-    memcpy(data, cubeMeshSmooth.getVertexDataPtr(), cubeMeshSmooth.getNumVertexBytes());
-    data += cubeMeshSmooth.getNumVertexBytes() / sizeof(float);
-    memcpy(data, sphereMeshSmooth.getVertexDataPtr(), sphereMeshSmooth.getNumVertexBytes());
-    data += sphereMeshSmooth.getNumVertexBytes() / sizeof(float);
-    memcpy(data, torusMeshSmooth.getVertexDataPtr(), torusMeshSmooth.getNumVertexBytes());
-    data += torusMeshSmooth.getNumVertexBytes() / sizeof(float);
-    memcpy(data, susanMeshSmooth.getVertexDataPtr(), susanMeshSmooth.getNumVertexBytes());
-    data += susanMeshSmooth.getNumVertexBytes() / sizeof(float);
-
-    //-- Concatenate normal data from all meshes.
-    size_t totalNormalBytes = cubeMeshFlat.getNumNormalBytes() + sphereMeshFlat.getNumNormalBytes() +
-                              torusMeshFlat.getNumNormalBytes() + susanMeshFlat.getNumNormalBytes() +
-                              cubeMeshSmooth.getNumNormalBytes() + sphereMeshFlat.getNumNormalBytes() +
-                              torusMeshSmooth.getNumNormalBytes() + susanMeshFlat.getNumNormalBytes();
-
-    float * normalDataPtr = (float *)malloc(totalNormalBytes);
-    data = normalDataPtr;
-    memcpy(data, cubeMeshFlat.getNormalDataPtr(), cubeMeshFlat.getNumNormalBytes());
-    data += cubeMeshFlat.getNumNormalBytes() / sizeof(float);
-    memcpy(data, sphereMeshFlat.getNormalDataPtr(), sphereMeshFlat.getNumNormalBytes());
-    data += sphereMeshFlat.getNumNormalBytes() / sizeof(float);
-    memcpy(data, torusMeshFlat.getNormalDataPtr(), torusMeshFlat.getNumNormalBytes());
-    data += torusMeshFlat.getNumNormalBytes() / sizeof(float);
-    memcpy(data, susanMeshFlat.getNormalDataPtr(), susanMeshFlat.getNumNormalBytes());
-    data += susanMeshFlat.getNumNormalBytes() / sizeof(float);
-    memcpy(data, cubeMeshSmooth.getNormalDataPtr(), cubeMeshSmooth.getNumNormalBytes());
-    data += cubeMeshSmooth.getNumNormalBytes() / sizeof(float);
-    memcpy(data, sphereMeshSmooth.getNormalDataPtr(), sphereMeshSmooth.getNumNormalBytes());
-    data += sphereMeshSmooth.getNumNormalBytes() / sizeof(float);
-    memcpy(data, torusMeshSmooth.getNormalDataPtr(), torusMeshSmooth.getNumNormalBytes());
-    data += torusMeshSmooth.getNumNormalBytes() / sizeof(float);
-    memcpy(data, susanMeshSmooth.getNormalDataPtr(), susanMeshSmooth.getNumNormalBytes());
-    data += susanMeshSmooth.getNumNormalBytes() / sizeof(float);
-
-    // Register vertex positions with OpenGL within the context of the bound VAO.
-    glGenBuffers(1, &vbo_vertices);
-    glBindBuffer(GL_ARRAY_BUFFER, vbo_vertices);
-    glBufferData(GL_ARRAY_BUFFER, totalVertexBytes, vertexDataPtr, GL_STATIC_DRAW);
-    glVertexAttribPointer(shaderProgram.getAttribLocation("vertexPosition"), 3, GL_FLOAT, GL_FALSE, 0, 0);
-
-    // Register normals with OpenGL within the context of the bound VAO.
-    glGenBuffers(1, &vbo_normals);
-    glBindBuffer(GL_ARRAY_BUFFER, vbo_normals);
-    glBufferData(GL_ARRAY_BUFFER, totalNormalBytes, normalDataPtr, GL_STATIC_DRAW);
-    glVertexAttribPointer(shaderProgram.getAttribLocation("vertexNormal"), 3, GL_FLOAT, GL_FALSE, 0, 0);
-
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-    delete vertexDataPtr; vertexDataPtr = nullptr;
-    delete normalDataPtr; normalDataPtr = nullptr;
-    data = nullptr;
-    GlUtils::checkGLErrors(__FILE__, __LINE__);
-}
-
-//---------------------------------------------------------------------------------------
 /*
  * Called after the window and OpenGL are initialized. Called exactly once,
  * before the main loop.
  */
 void FlatSmoothShading_Example::init()
 {
-    cubeMeshFlat.fromObjFile("../data/meshes/cube.obj");
-    sphereMeshFlat.fromObjFile("../data/meshes/sphere.obj");
-    torusMeshFlat.fromObjFile("../data/meshes/torus.obj");
-    susanMeshFlat.fromObjFile("../data/meshes/susan.obj");
-    cubeMeshSmooth.fromObjFile("../data/meshes/cube_smooth.obj");
-    sphereMeshSmooth.fromObjFile("../data/meshes/sphere_smooth.obj");
-    torusMeshSmooth.fromObjFile("../data/meshes/torus_smooth.obj");
-    susanMeshSmooth.fromObjFile("../data/meshes/susan_smooth.obj");
+    cubeMeshFlat = make_shared<Mesh>("../data/meshes/cube.obj");
+    sphereMeshFlat = make_shared<Mesh>("../data/meshes/sphere.obj");
+    torusMeshFlat = make_shared<Mesh>("../data/meshes/torus.obj");
+    susanMeshFlat = make_shared<Mesh>("../data/meshes/susan.obj");
+    cubeMeshSmooth = make_shared<Mesh>("../data/meshes/cube_smooth.obj");
+    sphereMeshSmooth = make_shared<Mesh>("../data/meshes/sphere_smooth.obj");
+    torusMeshSmooth = make_shared<Mesh>("../data/meshes/torus_smooth.obj");
+    susanMeshSmooth = make_shared<Mesh>("../data/meshes/susan_smooth.obj");
+
+    initializer_list<Mesh> meshList = {*cubeMeshFlat, *sphereMeshFlat,
+                                       *torusMeshFlat, *susanMeshFlat,
+                                       *cubeMeshSmooth, *sphereMeshSmooth,
+                                       *torusMeshSmooth, *susanMeshSmooth};
+
+    meshConsolidator = make_shared<MeshConsolidator>(meshList);
+    meshConsolidator->getBatchInfo(batchInfoVec);
+
+    cubeMeshFlat.reset();
+    sphereMeshFlat.reset();
+    torusMeshFlat.reset();
+    susanMeshFlat.reset();
+    cubeMeshSmooth.reset();
+    sphereMeshSmooth.reset();
+    torusMeshSmooth.reset();
+    susanMeshSmooth.reset();
 
     setupShaders();
     setupGLBuffers();
     setupMatrices();
 
     glClearColor(0.3f, 0.3f, 0.4f, 1.0f);
+}
+
+//---------------------------------------------------------------------------------------
+void FlatSmoothShading_Example::setupGLBuffers()
+{
+    // Register vertex positions with OpenGL within the context of the bound VAO.
+    glGenBuffers(1, &vbo_vertices);
+    glBindBuffer(GL_ARRAY_BUFFER, vbo_vertices);
+    glBufferData(GL_ARRAY_BUFFER, meshConsolidator->getNumVertexBytes(), meshConsolidator->getVertexDataPtr(), GL_STATIC_DRAW);
+    glVertexAttribPointer(shaderProgram.getAttribLocation("vertexPosition"), 3, GL_FLOAT, GL_FALSE, 0, 0);
+
+    // Register normals with OpenGL within the context of the bound VAO.
+    glGenBuffers(1, &vbo_normals);
+    glBindBuffer(GL_ARRAY_BUFFER, vbo_normals);
+    glBufferData(GL_ARRAY_BUFFER, meshConsolidator->getNumNormalBytes(), meshConsolidator->getNormalDataPtr(), GL_STATIC_DRAW);
+    glVertexAttribPointer(shaderProgram.getAttribLocation("vertexNormal"), 3, GL_FLOAT, GL_FALSE, 0, 0);
+
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+    GlUtils::checkGLErrors(__FILE__, __LINE__);
 }
 
 //---------------------------------------------------------------------------------------
@@ -186,43 +148,34 @@ void FlatSmoothShading_Example::setupMatrices() {
 //---------------------------------------------------------------------------------------
 void FlatSmoothShading_Example::draw()
 {
-    static const GLint cubeFlatStartIndex = 0;
-    static const GLint sphereFlatStartIndex = cubeMeshFlat.getNumVertices();
-    static const GLint torusFlatStartIndex = sphereFlatStartIndex + sphereMeshFlat.getNumVertices();
-    static const GLint susanFlatStartIndex = torusFlatStartIndex + torusMeshFlat.getNumVertices();
-    static const GLint cubeSmoothStartIndex = susanFlatStartIndex + susanMeshFlat.getNumVertices();
-    static const GLint sphereSmoothStartIndex = cubeSmoothStartIndex + cubeMeshSmooth.getNumVertices();
-    static const GLint torusSmoothStartIndex = sphereSmoothStartIndex + sphereMeshSmooth.getNumVertices();
-    static const GLint susanSmoothStartIndex = torusSmoothStartIndex + torusMeshSmooth.getNumVertices();
-
     shaderProgram.enable();
         switch (renderTarget) {
         case (MeshType::CUBE):
             if (shadingType == ShadingType::FLAT) {
-                glDrawArrays(GL_TRIANGLES, cubeFlatStartIndex, cubeMeshFlat.getNumVertices());
+                glDrawArrays(GL_TRIANGLES, batchInfoVec.at(0).startIndex, batchInfoVec.at(0).numIndices);
             } else {
-                glDrawArrays(GL_TRIANGLES, cubeSmoothStartIndex, cubeMeshSmooth.getNumVertices());
+                glDrawArrays(GL_TRIANGLES, batchInfoVec.at(4).startIndex, batchInfoVec.at(4).numIndices);
             }
             break;
         case (MeshType::SPHERE):
             if (shadingType == ShadingType::FLAT) {
-                glDrawArrays(GL_TRIANGLES, sphereFlatStartIndex, sphereMeshFlat.getNumVertices());
+                glDrawArrays(GL_TRIANGLES, batchInfoVec.at(1).startIndex, batchInfoVec.at(1).numIndices);
             } else {
-                glDrawArrays(GL_TRIANGLES, sphereSmoothStartIndex, sphereMeshSmooth.getNumVertices());
+                glDrawArrays(GL_TRIANGLES, batchInfoVec.at(5).startIndex, batchInfoVec.at(5).numIndices);
             }
             break;
         case (MeshType::TORUS):
             if (shadingType == ShadingType::FLAT) {
-                glDrawArrays(GL_TRIANGLES, torusFlatStartIndex, torusMeshFlat.getNumVertices());
+                glDrawArrays(GL_TRIANGLES, batchInfoVec.at(2).startIndex, batchInfoVec.at(2).numIndices);
             } else {
-                glDrawArrays(GL_TRIANGLES, torusSmoothStartIndex, torusMeshSmooth.getNumVertices());
+                glDrawArrays(GL_TRIANGLES, batchInfoVec.at(6).startIndex, batchInfoVec.at(6).numIndices);
             }
             break;
         case (MeshType::SUSAN):
             if (shadingType == ShadingType::FLAT) {
-                glDrawArrays(GL_TRIANGLES, susanFlatStartIndex, susanMeshFlat.getNumVertices());
+                glDrawArrays(GL_TRIANGLES, batchInfoVec.at(3).startIndex, batchInfoVec.at(3).numIndices);
             } else {
-                glDrawArrays(GL_TRIANGLES, susanSmoothStartIndex, susanMeshSmooth.getNumVertices());
+                glDrawArrays(GL_TRIANGLES, batchInfoVec.at(7).startIndex, batchInfoVec.at(7).numIndices);
             }
             break;
         }

@@ -10,6 +10,7 @@
 
 #include <Frustum.hpp>
 #include <Mesh.hpp>
+#include <MeshConsolidator.hpp>
 #include <ShaderProgram.hpp>
 #include <GlErrorCheck.hpp>
 #include <GlmOutStream.hpp>
