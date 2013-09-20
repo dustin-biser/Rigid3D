@@ -13,7 +13,7 @@ using namespace MathUtils;
 
 int main() {
     shared_ptr<GlfwOpenGlWindow> meshDemo = FlatSmoothShading_Example::getInstance();
-    meshDemo->create(800, 600, "Load Multiple Mesh Objects Example");
+    meshDemo->create(1280, 720, "Flat Versus Smooth Shading Example");
 
     return 0;
 }
@@ -91,13 +91,13 @@ void FlatSmoothShading_Example::setupGLBuffers()
     memcpy(data, susanMeshSmooth.getNormalDataPtr(), susanMeshSmooth.getNumNormalBytes());
     data += susanMeshSmooth.getNumNormalBytes() / sizeof(float);
 
-    // Register vertex positions with OpenGL
+    // Register vertex positions with OpenGL within the context of the bound VAO.
     glGenBuffers(1, &vbo_vertices);
     glBindBuffer(GL_ARRAY_BUFFER, vbo_vertices);
     glBufferData(GL_ARRAY_BUFFER, totalVertexBytes, vertexDataPtr, GL_STATIC_DRAW);
     glVertexAttribPointer(shaderProgram.getAttribLocation("vertexPosition"), 3, GL_FLOAT, GL_FALSE, 0, 0);
 
-    // Register normals with OpenGL
+    // Register normals with OpenGL within the context of the bound VAO.
     glGenBuffers(1, &vbo_normals);
     glBindBuffer(GL_ARRAY_BUFFER, vbo_normals);
     glBufferData(GL_ARRAY_BUFFER, totalNormalBytes, normalDataPtr, GL_STATIC_DRAW);
@@ -143,8 +143,8 @@ void FlatSmoothShading_Example::setupShaders() {
     shaderProgram.setUniform("lightSource.position", lightSource.position);
     shaderProgram.setUniform("lightSource.rgbIntensity", lightSource.rgbIntensity);
     shaderProgram.setUniform("material.Ka", vec3(1.0f, 1.0f, 1.0f));
-    shaderProgram.setUniform("material.Kd", vec3(0.1f, 0.1f, 0.8f));
-    shaderProgram.setUniform("material.Ks", 0.2f);
+    shaderProgram.setUniform("material.Kd", vec3(0.1f, 0.3f, 0.8f));
+    shaderProgram.setUniform("material.Ks", 0.3f);
     shaderProgram.setUniform("material.shininessFactor", 50.0f);
 
     // Generate VAO and enable vertex attribute arrays for positions and normals.
@@ -160,7 +160,7 @@ void FlatSmoothShading_Example::setupShaders() {
 
 //---------------------------------------------------------------------------------------
 void FlatSmoothShading_Example::setupMatrices() {
-    frustum = Frustum(45.0f, 4.0f/3.0f, 1.0f, 100.0f);
+    frustum = Frustum(45.0f, 1280.0f/720.0f, 1.0f, 100.0f);
     projectionMatrix = frustum.getPerspectiveMatrix();
 
     viewMatrix = glm::lookAt(glm::vec3(0.0f, 0.0, 5.0),
