@@ -54,7 +54,7 @@ namespace {  // limit class visibility to this file.
      * shaders.  If all goes well, programObject should not equal 0.
      */
     TEST_F(ShaderProgram_Test, test_loadFromFile){
-        shaderProgram->loadFromFile("../data/GoodShader.vert", "../data/GoodShader.frag");
+        shaderProgram->loadFromFile("../data/shaders/GoodShader.vert", "../data/shaders/GoodShader.frag");
 
         EXPECT_NE((unsigned int)0, shaderProgram->getProgramObject());
     }
@@ -63,31 +63,31 @@ namespace {  // limit class visibility to this file.
      * @brief ShaderException should be thrown on vertex shader compilation error.
      */
     TEST_F(ShaderProgram_Test, test_throws_on_vertex_compilation_error){
-        ASSERT_THROW(shaderProgram->loadFromFile("../data/Shader_withSyntaxError.vert",
-        "../data/GoodShader.frag"), ShaderException);
+        ASSERT_THROW(shaderProgram->loadFromFile("../data/shaders/Shader_withSyntaxError.vert",
+        "../data/shaders/GoodShader.frag"), ShaderException);
     }
 
     /**
      * @brief ShaderException should be thrown on fragment shader compilation error.
      */
     TEST_F(ShaderProgram_Test, test_throws_on_frag_compilation_error){
-        ASSERT_THROW(shaderProgram->loadFromFile("../data/GoodShader.vert",
-        "../data/Shader_withSyntaxError.frag"), ShaderException);
+        ASSERT_THROW(shaderProgram->loadFromFile("../data/shaders/GoodShader.vert",
+        "../data/shaders/Shader_withSyntaxError.frag"), ShaderException);
     }
 
     /**
      * @brief ShaderException should be thrown on linker error.
      */
     TEST_F(ShaderProgram_Test, test_throws_on_linker_error){
-        ASSERT_THROW(shaderProgram->loadFromFile("../data/GoodShader.vert",
-        "../data/Shader_withLinkerError.frag"), ShaderException);
+        ASSERT_THROW(shaderProgram->loadFromFile("../data/shaders/GoodShader.vert",
+        "../data/shaders/Shader_withLinkerError.frag"), ShaderException);
     }
 
     /**
      * @brief Test getUniformLocation
      */
     TEST_F(ShaderProgram_Test, test_getUniformLocation){
-        shaderProgram->loadFromFile("../data/GoodShader.vert", "../data/GoodShader.frag");
+        shaderProgram->loadFromFile("../data/shaders/GoodShader.vert", "../data/shaders/GoodShader.frag");
 
         EXPECT_NE(-1, shaderProgram->getUniformLocation("colorUniform"));
     }
@@ -96,7 +96,7 @@ namespace {  // limit class visibility to this file.
      * @brief Test getAttribLocation
      */
     TEST_F(ShaderProgram_Test, test_getAttribLocation){
-        shaderProgram->loadFromFile("../data/GoodShader.vert", "../data/GoodShader.frag");
+        shaderProgram->loadFromFile("../data/shaders/GoodShader.vert", "../data/shaders/GoodShader.frag");
 
         EXPECT_NE(-1, shaderProgram->getAttribLocation("position"));
     }

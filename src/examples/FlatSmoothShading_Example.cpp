@@ -9,7 +9,7 @@ using namespace MathUtils;
 
 int main() {
     shared_ptr<GlfwOpenGlWindow> meshDemo = FlatSmoothShading_Example::getInstance();
-    meshDemo->create(1280, 720, "Flat Versus Smooth Shading Example");
+    meshDemo->create(800, 600, "Flat Versus Smooth Shading Example");
 
     return 0;
 }
@@ -43,31 +43,16 @@ FlatSmoothShading_Example::FlatSmoothShading_Example()
  */
 void FlatSmoothShading_Example::init()
 {
-    cubeMeshFlat = make_shared<Mesh>("../data/meshes/cube.obj");
-    sphereMeshFlat = make_shared<Mesh>("../data/meshes/sphere.obj");
-    torusMeshFlat = make_shared<Mesh>("../data/meshes/torus.obj");
-    susanMeshFlat = make_shared<Mesh>("../data/meshes/susan.obj");
-    cubeMeshSmooth = make_shared<Mesh>("../data/meshes/cube_smooth.obj");
-    sphereMeshSmooth = make_shared<Mesh>("../data/meshes/sphere_smooth.obj");
-    torusMeshSmooth = make_shared<Mesh>("../data/meshes/torus_smooth.obj");
-    susanMeshSmooth = make_shared<Mesh>("../data/meshes/susan_smooth.obj");
+    meshConsolidator =  {"../data/meshes/cube.obj",
+                         "../data/meshes/sphere.obj",
+                         "../data/meshes/torus.obj",
+                         "../data/meshes/susan.obj",
+                         "../data/meshes/cube_smooth.obj",
+                         "../data/meshes/sphere_smooth.obj",
+                         "../data/meshes/torus_smooth.obj",
+                         "../data/meshes/susan_smooth.obj"};
 
-    initializer_list<Mesh> meshList = {*cubeMeshFlat, *sphereMeshFlat,
-                                       *torusMeshFlat, *susanMeshFlat,
-                                       *cubeMeshSmooth, *sphereMeshSmooth,
-                                       *torusMeshSmooth, *susanMeshSmooth};
-
-    meshConsolidator = make_shared<MeshConsolidator>(meshList);
-    meshConsolidator->getBatchInfo(batchInfoVec);
-
-    cubeMeshFlat.reset();
-    sphereMeshFlat.reset();
-    torusMeshFlat.reset();
-    susanMeshFlat.reset();
-    cubeMeshSmooth.reset();
-    sphereMeshSmooth.reset();
-    torusMeshSmooth.reset();
-    susanMeshSmooth.reset();
+    meshConsolidator.getBatchInfo(batchInfoVec);
 
     setupShaders();
     setupGLBuffers();
@@ -82,13 +67,13 @@ void FlatSmoothShading_Example::setupGLBuffers()
     // Register vertex positions with OpenGL within the context of the bound VAO.
     glGenBuffers(1, &vbo_vertices);
     glBindBuffer(GL_ARRAY_BUFFER, vbo_vertices);
-    glBufferData(GL_ARRAY_BUFFER, meshConsolidator->getNumVertexBytes(), meshConsolidator->getVertexDataPtr(), GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, meshConsolidator.getNumVertexBytes(), meshConsolidator.getVertexDataPtr(), GL_STATIC_DRAW);
     glVertexAttribPointer(shaderProgram.getAttribLocation("vertexPosition"), 3, GL_FLOAT, GL_FALSE, 0, 0);
 
     // Register normals with OpenGL within the context of the bound VAO.
     glGenBuffers(1, &vbo_normals);
     glBindBuffer(GL_ARRAY_BUFFER, vbo_normals);
-    glBufferData(GL_ARRAY_BUFFER, meshConsolidator->getNumNormalBytes(), meshConsolidator->getNormalDataPtr(), GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, meshConsolidator.getNumNormalBytes(), meshConsolidator.getNormalDataPtr(), GL_STATIC_DRAW);
     glVertexAttribPointer(shaderProgram.getAttribLocation("vertexNormal"), 3, GL_FLOAT, GL_FALSE, 0, 0);
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -122,7 +107,7 @@ void FlatSmoothShading_Example::setupShaders() {
 
 //---------------------------------------------------------------------------------------
 void FlatSmoothShading_Example::setupMatrices() {
-    frustum = Frustum(45.0f, 1280.0f/720.0f, 1.0f, 100.0f);
+    frustum = Frustum(45.0f, 800.0f/600.0f, 1.0f, 100.0f);
     projectionMatrix = frustum.getPerspectiveMatrix();
 
     viewMatrix = glm::lookAt(glm::vec3(0.0f, 0.0, 5.0),

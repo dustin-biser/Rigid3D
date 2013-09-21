@@ -31,7 +31,7 @@ void Mesh::loadFromObjFile(const char * objFileName){
         stringstream errorMessage;
         errorMessage << "Unable to open .obj file: " << objFileName
                      << " within method Mesh::loadFromObjFile." << endl;
-        throw GlUtilsException(errorMessage.str());
+        throw GlUtilsException(errorMessage.str().c_str());
     }
 
     string line;
@@ -46,7 +46,7 @@ void Mesh::loadFromObjFile(const char * objFileName){
         } catch(const ifstream::failure & e) {
             stringstream errorMessage;
             errorMessage << "Error calling getline() -- " << e.what() << endl;
-            throw GlUtilsException(errorMessage.str());
+            throw GlUtilsException(errorMessage.str().c_str());
         }
 
         if (line.substr(0,2) == "v ") {

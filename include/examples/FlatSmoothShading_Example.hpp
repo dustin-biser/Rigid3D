@@ -40,19 +40,9 @@ public:
     static shared_ptr<GlfwOpenGlWindow> getInstance();
 
 private:
-    // Mesh Objects
-    shared_ptr<Mesh> susanMeshFlat;
-    shared_ptr<Mesh> sphereMeshFlat;
-    shared_ptr<Mesh> cubeMeshFlat;
-    shared_ptr<Mesh> torusMeshFlat;
-    shared_ptr<Mesh> susanMeshSmooth;
-    shared_ptr<Mesh> sphereMeshSmooth;
-    shared_ptr<Mesh> cubeMeshSmooth;
-    shared_ptr<Mesh> torusMeshSmooth;
-    shared_ptr<MeshConsolidator> meshConsolidator;
-
+    // Mesh and Batch Containers
+    MeshConsolidator meshConsolidator;
     vector<BatchInfo> batchInfoVec;
-
 
     enum class MeshType {CUBE, SPHERE, TORUS, SUSAN};
     enum class ShadingType {FLAT, SMOOTH};
@@ -97,8 +87,8 @@ private:
     virtual void draw();
     virtual void keyInput(int key, int scancode, int action, int mods);
 
-    void setupGLBuffers();
     void setupShaders();
+    void setupGLBuffers();
     void setupMatrices();
     void updateMatrices();
     void updateUniformData();

@@ -9,17 +9,17 @@ namespace GlUtils {
 
     class GlUtilsException : public exception {
     public:
-        GlUtilsException(const string & message = "GlUtilsException Occurred.")
+        GlUtilsException(const char * message = "GlUtilsException Occurred.")
             : errorMessage(message) { }
 
         virtual ~GlUtilsException() noexcept { }
 
         virtual const char * what() const noexcept {
-            return errorMessage.c_str();
+            return errorMessage;
         }
 
     private:
-        string errorMessage;
+        const char * errorMessage;
     };
 
 }

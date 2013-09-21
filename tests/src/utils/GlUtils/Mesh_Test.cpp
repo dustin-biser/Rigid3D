@@ -39,7 +39,7 @@ namespace {  // limit class visibility to this file.
 
         // Ran once before all tests.
         static void SetUpTestCase() {
-            mesh = make_shared<Mesh>("../data/cube.obj");
+            mesh = make_shared<Mesh>("../data/meshes/cube.obj");
         }
 
         // Ran once after all tests have finished.
