@@ -67,3 +67,4 @@ CreateDemo("GlfwOpenGlWindowExample", "src/examples/GlfwOpenGlWindowExample.cpp"
 CreateDemo("LoadMeshObj_Example", "src/examples/LoadMeshObj_Example.cpp", "src/GlfwOpenGlWindow.cpp")
 CreateDemo("FlatSmoothShading_Example", "src/examples/FlatSmoothShading_Example.cpp", "src/GlfwOpenGlWindow.cpp")
 CreateDemo("MeshNormals", "src/examples/MeshNormals.cpp", "src/GlfwOpenGlWindow.cpp")
+CreateDemo("MultipleObjects", "src/examples/MultipleObjects.cpp", "src/GlfwOpenGlWindow.cpp")
