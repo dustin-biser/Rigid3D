@@ -27,15 +27,10 @@ using namespace std;
  * Light Movement Keys:
  * up, down, left, right, p, l move the light source.
  */
-
 class FlatSmoothShading_Example : public GlfwOpenGlWindow {
 
 public:
     ~FlatSmoothShading_Example() { }
-
-    virtual void resize(int width, int height);
-
-    virtual void cleanup();
 
     static shared_ptr<GlfwOpenGlWindow> getInstance();
 
@@ -52,11 +47,9 @@ private:
 
     // Shader Program Data
     ShaderProgram shaderProgram;
-    Frustum frustum;
     mat4 modelMatrix;
     mat4 viewMatrix;
     mat4 modelViewMatrix;
-    mat4 projectionMatrix;
     mat3 normalMatrix;
 
     struct LightSource {
@@ -80,12 +73,13 @@ private:
     GLuint vbo_vertices;
     GLuint vbo_normals;
 
-    FlatSmoothShading_Example();
+    FlatSmoothShading_Example(); // Singleton, prevent direct construction.
 
     virtual void init();
     virtual void logic();
     virtual void draw();
     virtual void keyInput(int key, int scancode, int action, int mods);
+    virtual void cleanup();
 
     void setupShaders();
     void setupGLBuffers();

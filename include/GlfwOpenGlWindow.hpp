@@ -10,12 +10,17 @@
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include <Frustum.hpp>
+#include <glm/glm.hpp>
 #include <string>
 #include <memory>
 #include <boost/utility.hpp>
 
 using namespace std;
-using namespace boost;
+using namespace GlUtils;
+
+using boost::noncopyable;
+using glm::mat4;
 
 ///@brief Singleton
 class GlfwOpenGlWindow : private noncopyable {
@@ -31,12 +36,14 @@ public:
 
     virtual void create(int width, int height, const string & windowTitle);
 
-
     virtual void close();
 
 protected:
-    GLFWwindow *window;
+    GLFWwindow * window;
     string windowTitle;
+
+    mat4 projectionMatrix;
+    Frustum frustum;
 
     static shared_ptr<GlfwOpenGlWindow> p_instance;
 
@@ -52,11 +59,15 @@ protected:
 
     void centerWindow();
 
+    void setupViewFrustum();
+
+    void setupProjectionMatrix();
+
     virtual void init() { }
 
     virtual void logic() { }
 
-    virtual void draw();
+    virtual void draw() { }
 
     virtual void cleanup() { }
 

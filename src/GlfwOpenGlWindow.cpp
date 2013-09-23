@@ -1,9 +1,12 @@
 #include <GlfwOpenGlWindow.hpp>
 #include <GlfwException.hpp>
 #include <GlErrorCheck.hpp>
+#include <MathUtils/MathUtils.hpp>
 #include <sstream>
 
-using namespace std;
+using MathUtils::degreesToRadians;
+using MathUtils::cotangent;
+
 
 shared_ptr<GlfwOpenGlWindow> GlfwOpenGlWindow::p_instance = nullptr;
 
@@ -21,12 +24,29 @@ void GlfwOpenGlWindow::windowResizeHandler(GLFWwindow * window, int width, int h
 }
 
 //----------------------------------------------------------------------------------------
-/**
- * @brief Window resize call back function to be overridden by derived classes.
- */
-void GlfwOpenGlWindow::resize(int widith, int height) {
+void GlfwOpenGlWindow::resize(int width, int height) {
+    float aspectRatio = ((float) width) / height;
+    float frustumYScale = cotangent(degreesToRadians(frustum.getFieldOfViewY() / 2));
 
+    float frustumXScale = frustumYScale;
+
+    if (width > height) {
+        // Shrink the x scale in eye-coordinate space, so that when geometry is
+        // projected to ndc-space, it is widened out to become square.
+        projectionMatrix[0][0] = frustumXScale / aspectRatio;
+        projectionMatrix[1][1] = frustumYScale;
+    }
+    else {
+        // Shrink the y scale in eye-coordinate space, so that when geometry is
+        // projected to ndc-space, it is widened out to become square.
+        projectionMatrix[0][0] = frustumXScale;
+        projectionMatrix[1][1] = frustumYScale * aspectRatio;
+    }
+
+    // Use entire window for rendering.
+    glViewport(0, 0, width, height);
 }
+
 
 //----------------------------------------------------------------------------------------
 /**
@@ -81,6 +101,8 @@ void GlfwOpenGlWindow::create(int width, int height, const string & windowTitle)
     while(glGetError() != GL_NO_ERROR);
 
     setupGl();
+    setupViewFrustum();
+    setupProjectionMatrix();
     init();
 
     while (!glfwWindowShouldClose(window)) {
@@ -142,6 +164,20 @@ void GlfwOpenGlWindow::centerWindow() {
 }
 
 //----------------------------------------------------------------------------------------
+void GlfwOpenGlWindow::setupViewFrustum() {
+    int windowWidth, windowHeight;
+    glfwGetWindowSize(window, &windowWidth, &windowHeight);
+
+    float aspectRatio = (float) windowWidth / (float) windowHeight;
+    frustum = Frustum(45.0f, aspectRatio, 1.0f, 100.0f);
+}
+
+//----------------------------------------------------------------------------------------
+void GlfwOpenGlWindow::setupProjectionMatrix() {
+    projectionMatrix = frustum.getPerspectiveMatrix();
+}
+
+//----------------------------------------------------------------------------------------
 void GlfwOpenGlWindow::setupGl() {
     // Render only the front face of geometry.
     glEnable(GL_CULL_FACE);
@@ -164,9 +200,4 @@ void GlfwOpenGlWindow::setupGl() {
  */
 void GlfwOpenGlWindow::close() {
     glfwSetWindowShouldClose(window, GL_TRUE);
-}
-
-//----------------------------------------------------------------------------------------
-void GlfwOpenGlWindow::draw() {
-    // To be overridden by derived class
 }

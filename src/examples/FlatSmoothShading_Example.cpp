@@ -46,11 +46,11 @@ void FlatSmoothShading_Example::init()
     meshConsolidator =  {"../data/meshes/cube.obj",
                          "../data/meshes/sphere.obj",
                          "../data/meshes/torus.obj",
-                         "../data/meshes/susan.obj",
+                         "../data/meshes/bunny.obj",
                          "../data/meshes/cube_smooth.obj",
                          "../data/meshes/sphere_smooth.obj",
                          "../data/meshes/torus_smooth.obj",
-                         "../data/meshes/susan_smooth.obj"};
+                         "../data/meshes/bunny_smooth.obj"};
 
     meshConsolidator.getBatchInfo(batchInfoVec);
 
@@ -107,9 +107,6 @@ void FlatSmoothShading_Example::setupShaders() {
 
 //---------------------------------------------------------------------------------------
 void FlatSmoothShading_Example::setupMatrices() {
-    frustum = Frustum(45.0f, 800.0f/600.0f, 1.0f, 100.0f);
-    projectionMatrix = frustum.getPerspectiveMatrix();
-
     viewMatrix = glm::lookAt(glm::vec3(0.0f, 0.0, 5.0),
                                       glm::vec3(0.0 , 0.0, -1.0),
                                       glm::vec3(0.0, 1.0, 0.0));
@@ -167,31 +164,6 @@ void FlatSmoothShading_Example::draw()
     shaderProgram.disable();
 
     GlUtils::checkGLErrors(__FILE__, __LINE__);
-}
-
-//---------------------------------------------------------------------------------------
-void FlatSmoothShading_Example::resize(int width, int height)
-{
-    float aspectRatio = ((float) width) / height;
-    float frustumYScale = cotangent(degreesToRadians(frustum.getFieldOfViewY() / 2));
-
-    float frustumXScale = frustumYScale * frustum.getAspectRatio();
-
-    if (width > height) {
-        // Shrink the x scale in eye-coordinate space, so that when geometry is
-        // projected to ndc-space, it is widened out to become square.
-        projectionMatrix[0][0] = frustumXScale / aspectRatio;
-        projectionMatrix[1][1] = frustumYScale;
-    }
-    else {
-        // Shrink the y scale in eye-coordinate space, so that when geometry is
-        // projected to ndc-space, it is widened out to become square.
-        projectionMatrix[0][0] = frustumXScale;
-        projectionMatrix[1][1] = frustumYScale * aspectRatio;
-    }
-
-    // Use entire window for rendering.
-    glViewport(0, 0, width, height);
 }
 
 //---------------------------------------------------------------------------------------

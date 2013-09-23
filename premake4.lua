@@ -1,6 +1,6 @@
 -- Important: Link order matters for static libraries!  Make sure dependent
 -- libraries come before the libraries they depend on.
-linkLibs = {"GlUtils", "MathUtils", "glfw3","GLU", "GLEW", "GL", "X11", "Xxf86vm", "pthread", "Xi", "Xrandr"}
+linkLibs = {"GlUtils", "glfw3","GLU", "GLEW", "GL", "X11", "Xxf86vm", "pthread", "Xi", "Xrandr"}
 
 libDirectories = {"ext/glew-1.10.0/lib",
                   "/usr/local/lib/Mesa-9.1.4",
@@ -42,17 +42,6 @@ solution "Rigid3D"
         buildoptions{"-std=c++11"}
         includedirs(includeDirList)
         files {"src/utils/GlUtils/*.cpp"}
-
-    -- Build Static Library for MathUtils code.
-    project "MathUtils"
-        kind "StaticLib"
-        language "C++"
-        location "build"
-        objdir "build/obj"
-        targetdir "lib"
-        buildoptions{"-std=c++11"}
-        includedirs(includeDirList)
-        files {"src/utils/MathUtils/*.cpp"}
 
     -- Function for creating demo programs.
     function CreateDemo(projName, ...)

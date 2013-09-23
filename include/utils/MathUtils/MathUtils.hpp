@@ -8,6 +8,6 @@
 #ifndef MATHUTILS_HPP_
 #define MATHUTILS_HPP_
 
-#include <Trigonometry.hpp>
+#include "Trigonometry.hpp"
 
 #endif /* MATHUTILS_HPP_ */

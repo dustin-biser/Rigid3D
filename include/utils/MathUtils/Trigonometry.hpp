@@ -9,7 +9,9 @@
 
 #include <math.h>
 
-using namespace std;
+using std::tan;
+using std::sin;
+using std::cos;
 
 namespace MathUtils {
 
@@ -17,17 +19,17 @@ namespace MathUtils {
 
     //-----------------------------------------------------------------------------------
     inline float cotangent(float radians) {
-        return (float) (1 / tan(radians));
+        return (float) (1.0 / tan(radians));
     }
 
     //-----------------------------------------------------------------------------------
     inline float cosecant(float radians) {
-        return (float) (1 / sin(radians));
+        return (float) (1.0 / sin(radians));
     }
 
     //-----------------------------------------------------------------------------------
     inline float secant(float radians) {
-        return (float) (1 / cos(radians));
+        return (float) (1.0 / cos(radians));
     }
 
     //-----------------------------------------------------------------------------------
