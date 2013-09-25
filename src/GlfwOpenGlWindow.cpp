@@ -107,10 +107,10 @@ void GlfwOpenGlWindow::create(int width, int height, const string & windowTitle)
 
     while (!glfwWindowShouldClose(window)) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        glfwPollEvents();
         logic();
         draw();
         glfwSwapBuffers(window);
-        glfwPollEvents();
     }
 
     cleanup();
