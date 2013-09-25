@@ -16,7 +16,7 @@ namespace GlUtils {
      * shader programs can be attached to this \c ShaderProgram by calling the
      * method \c ShaderProgram::loadFromFile.
      */
-    ShaderProgram::ShaderProgram() : programObject(0) { }
+    ShaderProgram::ShaderProgram() : programObject(0), activeProgram(0) { }
 
     //------------------------------------------------------------------------------------
     /**
@@ -25,7 +25,9 @@ namespace GlUtils {
      * @param vertexShaderFile - location to vertex shader source file.
      * @param fragmentShaderFile - location to fragment shader source file.
      */
-    ShaderProgram::ShaderProgram(const char * vertexShaderFile, const char * fragmentShaderFile) {
+    ShaderProgram::ShaderProgram(const char * vertexShaderFile, const char * fragmentShaderFile)
+            : programObject(0), activeProgram(0) {
+
         loadFromFile(vertexShaderFile, fragmentShaderFile);
     }
 
@@ -254,10 +256,11 @@ namespace GlUtils {
      * @param b
      */
     void ShaderProgram::setUniform(const char * uniformName, bool b) {
+        glGetIntegerv(GL_CURRENT_PROGRAM, (GLint *)&activeProgram);
         glUseProgram(programObject);
         GLint uniformLocation = getUniformLocation(uniformName);
         glUniform1i(uniformLocation, b);
-        glUseProgram(0);
+        glUseProgram(activeProgram);
     }
 
     //------------------------------------------------------------------------------------
@@ -268,10 +271,11 @@ namespace GlUtils {
      * @param i
      */
     void ShaderProgram::setUniform(const char * uniformName, int i) {
+        glGetIntegerv(GL_CURRENT_PROGRAM, (GLint *)&activeProgram);
         glUseProgram(programObject);
         GLint uniformLocation = getUniformLocation(uniformName);
         glUniform1i(uniformLocation, i);
-        glUseProgram(0);
+        glUseProgram(activeProgram);
     }
 
     //------------------------------------------------------------------------------------
@@ -282,10 +286,11 @@ namespace GlUtils {
      * @param ui
      */
     void ShaderProgram::setUniform(const char * uniformName, unsigned int ui) {
+        glGetIntegerv(GL_CURRENT_PROGRAM, (GLint *)&activeProgram);
         glUseProgram(programObject);
         GLint uniformLocation = getUniformLocation(uniformName);
         glUniform1ui(uniformLocation, ui);
-        glUseProgram(0);
+        glUseProgram(activeProgram);
     }
 
     //------------------------------------------------------------------------------------
@@ -296,10 +301,27 @@ namespace GlUtils {
      * @param f
      */
     void ShaderProgram::setUniform(const char * uniformName, float f) {
+        glGetIntegerv(GL_CURRENT_PROGRAM, (GLint *)&activeProgram);
         glUseProgram(programObject);
         GLint uniformLocation = getUniformLocation(uniformName);
         glUniform1f(uniformLocation, f);
-        glUseProgram(0);
+        glUseProgram(activeProgram);
+    }
+
+    //------------------------------------------------------------------------------------
+    /**
+     * Set the value of a uniform variable within the shader program.
+     *
+     * @param uniformName - name of the uniform variable to be set.
+     * @param x
+     * @param y
+     */
+    void ShaderProgram::setUniform(const char * uniformName, float x, float y) {
+        glGetIntegerv(GL_CURRENT_PROGRAM, (GLint *)&activeProgram);
+        glUseProgram(programObject);
+        GLint uniformLocation = getUniformLocation(uniformName);
+        glUniform2f(uniformLocation, x, y);
+        glUseProgram(activeProgram);
     }
 
     //------------------------------------------------------------------------------------
@@ -312,10 +334,29 @@ namespace GlUtils {
      * @param z
      */
     void ShaderProgram::setUniform(const char * uniformName, float x, float y, float z) {
+        glGetIntegerv(GL_CURRENT_PROGRAM, (GLint *)&activeProgram);
         glUseProgram(programObject);
         GLint uniformLocation = getUniformLocation(uniformName);
-        glUniform3f(uniformLocation, x, y, z);;
-        glUseProgram(0);
+        glUniform3f(uniformLocation, x, y, z);
+        glUseProgram(activeProgram);
+    }
+
+    //------------------------------------------------------------------------------------
+    /**
+     * Set the value of a uniform variable within the shader program.
+     *
+     * @param uniformName - name of the uniform variable to be set.
+     * @param x
+     * @param y
+     * @param z
+     * @param w
+     */
+    void ShaderProgram::setUniform(const char * uniformName, float x, float y, float z, float w) {
+        glGetIntegerv(GL_CURRENT_PROGRAM, (GLint *)&activeProgram);
+        glUseProgram(programObject);
+        GLint uniformLocation = getUniformLocation(uniformName);
+        glUniform4f(uniformLocation, x, y, z, w);
+        glUseProgram(activeProgram);
     }
 
     //------------------------------------------------------------------------------------
@@ -326,10 +367,7 @@ namespace GlUtils {
      * @param v
      */
     void ShaderProgram::setUniform(const char * uniformName, vec2 v) {
-        glUseProgram(programObject);
-        GLint uniformLocation = getUniformLocation(uniformName);
-        glUniform2fv(uniformLocation, 1, glm::value_ptr(v));;
-        glUseProgram(0);
+        this->setUniform(uniformName, v.x, v.y);
     }
 
     //------------------------------------------------------------------------------------
@@ -348,13 +386,25 @@ namespace GlUtils {
      * Set the value of a uniform variable within the shader program.
      *
      * @param uniformName - name of the uniform variable to be set.
+     * @param v
+     */
+    void ShaderProgram::setUniform(const char * uniformName, vec4 v) {
+        this->setUniform(uniformName, v.x, v.y, v.z, v.w);
+    }
+
+    //------------------------------------------------------------------------------------
+    /**
+     * Set the value of a uniform variable within the shader program.
+     *
+     * @param uniformName - name of the uniform variable to be set.
      * @param m
      */
     void ShaderProgram::setUniform(const char * uniformName, mat2 & m) {
+        glGetIntegerv(GL_CURRENT_PROGRAM, (GLint *)&activeProgram);
         glUseProgram(programObject);
         GLint uniformLocation = getUniformLocation(uniformName);
         glUniformMatrix2fv(uniformLocation, 1, GL_FALSE, glm::value_ptr(m));
-        glUseProgram(0);
+        glUseProgram(activeProgram);
     }
 
     //------------------------------------------------------------------------------------
@@ -365,10 +415,11 @@ namespace GlUtils {
      * @param m
      */
     void ShaderProgram::setUniform(const char * uniformName, mat3 & m) {
+        glGetIntegerv(GL_CURRENT_PROGRAM, (GLint *)&activeProgram);
         glUseProgram(programObject);
         GLint uniformLocation = getUniformLocation(uniformName);
         glUniformMatrix3fv(uniformLocation, 1, GL_FALSE, glm::value_ptr(m));
-        glUseProgram(0);
+        glUseProgram(activeProgram);
     }
 
     //------------------------------------------------------------------------------------
@@ -379,16 +430,21 @@ namespace GlUtils {
      * @param m
      */
     void ShaderProgram::setUniform(const char * uniformName, mat4 & m) {
+        glGetIntegerv(GL_CURRENT_PROGRAM, (GLint *)&activeProgram);
         glUseProgram(programObject);
         GLint uniformLocation = getUniformLocation(uniformName);
         glUniformMatrix4fv(uniformLocation, 1, GL_FALSE, glm::value_ptr(m));
-        glUseProgram(0);
+        glUseProgram(activeProgram);
     }
 
     //------------------------------------------------------------------------------------
     void ShaderProgram::cleanUpResources() {
         vertexShader.sourceCode.clear();
         fragmentShader.sourceCode.clear();
+    }
+
+    //------------------------------------------------------------------------------------
+    void ShaderProgram::setActiveProgram() {
     }
 
 } // end namespace GlUtils

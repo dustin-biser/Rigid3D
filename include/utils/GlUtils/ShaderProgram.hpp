@@ -7,11 +7,7 @@
 #include <string>
 
 using std::string;
-using glm::vec2;
-using glm::vec3;
-using glm::mat2;
-using glm::mat3;
-using glm::mat4;
+using namespace glm;
 
 namespace GlUtils {
 
@@ -62,11 +58,17 @@ namespace GlUtils {
 
         void setUniform(const char * uniformName, float f);
 
+        void setUniform(const char * uniformName, float x, float y);
+
         void setUniform(const char * uniformName, float x, float y, float z);
+
+        void setUniform(const char * uniformName, float x, float y, float z, float w);
 
         void setUniform(const char * uniformName, vec2 v);
 
         void setUniform(const char * uniformName, vec3 v);
+
+        void setUniform(const char * uniformName, vec4 v);
 
         void setUniform(const char * uniformName, mat2 & m);
 
@@ -83,6 +85,7 @@ namespace GlUtils {
         Shader vertexShader;
         Shader fragmentShader;
         GLuint programObject;
+        GLuint activeProgram;
 
         void extractSourceCode(const char * sourceFileName, Shader &shader);
 
@@ -99,6 +102,8 @@ namespace GlUtils {
         void checkLinkStatus();
 
         void cleanUpResources();
+
+        void setActiveProgram();
     };
 
 } // end namespace GlUtils
