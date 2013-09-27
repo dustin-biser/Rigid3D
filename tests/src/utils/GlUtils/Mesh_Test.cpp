@@ -125,7 +125,7 @@ TEST_F(Mesh_Cube_Test, test_order_of_normal_vectors){
 
     int count = 0;
     do {
-        for(int i = 0, n = 0; n < expectedTotalNormals / 2; i++, n +=3) {
+        for(size_t i = 0, n = 0; n < expectedTotalNormals / 2; i++, n +=3) {
             expectedNormals.push_back(normalSet[i]);
             expectedNormals.push_back(normalSet[i]);
             expectedNormals.push_back(normalSet[i]);

@@ -17,7 +17,6 @@ testIncludeDirList = {"include/utils",
                       "../include/utils",
                       "../include/utils/GlUtils",
                       "/usr/local/lib/glm-0.9.4.3",
-                      "/usr/local/include/SFML-2.1",
                       "/usr/local/include",
                       "/usr/include"}
 
@@ -42,3 +41,4 @@ SetupTest("Mesh_Test", "src/utils/GlUtils/Mesh_Test.cpp")
 SetupTest("MeshConsolidator_Test", "src/utils/GlUtils/MeshConsolidator_Test.cpp")
 SetupTest("ShaderProgram_Test", "src/utils/GlUtils/ShaderProgram_Test.cpp", "../src/GlfwOpenGlWindow.cpp")
 SetupTest("GlmOutStream_Test", "src/utils/GlUtils/GlmOutStream_Test.cpp")
+SetupTest("RunAllTests", "src/**")
