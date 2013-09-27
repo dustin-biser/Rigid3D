@@ -10,17 +10,21 @@
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+
 #include <Frustum.hpp>
-#include <glm/glm.hpp>
+using GlUtils::Frustum;
+
 #include <string>
 #include <memory>
-#include <boost/utility.hpp>
+using std::string;
+using std::shared_ptr;
 
-using namespace std;
-using namespace GlUtils;
-
-using boost::noncopyable;
+#include <glm/glm.hpp>
 using glm::mat4;
+
+#include <boost/utility.hpp>
+using boost::noncopyable;
+
 
 ///@brief Singleton
 class GlfwOpenGlWindow : private noncopyable {

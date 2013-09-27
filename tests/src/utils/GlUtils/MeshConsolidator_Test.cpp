@@ -110,22 +110,22 @@ TEST_F(MeshConsolidator_WithObjFiles_Test, test_batchInfoVec) {
 //---------------------------------------------------------------------------------------
 TEST_F(MeshConsolidator_WithObjFiles_Test, test_first_batchInfo) {
     BatchInfo batchInfo = batchInfoVec.at(0);
-    EXPECT_EQ(0, batchInfo.startIndex);
-    EXPECT_EQ(36, batchInfo.numIndices);
+    EXPECT_EQ(0u, batchInfo.startIndex);
+    EXPECT_EQ(36u, batchInfo.numIndices);
 }
 
 //---------------------------------------------------------------------------------------
 TEST_F(MeshConsolidator_WithObjFiles_Test, test_second_batchInfo) {
     BatchInfo batchInfo = batchInfoVec.at(1);
-    EXPECT_EQ(36, batchInfo.startIndex);
-    EXPECT_EQ(36, batchInfo.numIndices);
+    EXPECT_EQ(36u, batchInfo.startIndex);
+    EXPECT_EQ(36u, batchInfo.numIndices);
 }
 
 //---------------------------------------------------------------------------------------
 TEST_F(MeshConsolidator_WithObjFiles_Test, test_third_batchInfo) {
     BatchInfo batchInfo = batchInfoVec.at(2);
-    EXPECT_EQ(72, batchInfo.startIndex);
-    EXPECT_EQ(36, batchInfo.numIndices);
+    EXPECT_EQ(72u, batchInfo.startIndex);
+    EXPECT_EQ(36u, batchInfo.numIndices);
 }
 
 //---------------------------------------------------------------------------------------
@@ -188,22 +188,22 @@ TEST_F(MeshConsolidator_WithMeshes_Test, test_batchInfoVec) {
 //---------------------------------------------------------------------------------------
 TEST_F(MeshConsolidator_WithMeshes_Test, test_first_batchInfo) {
     BatchInfo batchInfo = batchInfoVec.at(0);
-    EXPECT_EQ(0, batchInfo.startIndex);
-    EXPECT_EQ(36, batchInfo.numIndices);
+    EXPECT_EQ(0u, batchInfo.startIndex);
+    EXPECT_EQ(36u, batchInfo.numIndices);
 }
 
 //---------------------------------------------------------------------------------------
 TEST_F(MeshConsolidator_WithMeshes_Test, test_second_batchInfo) {
     BatchInfo batchInfo = batchInfoVec.at(1);
-    EXPECT_EQ(36, batchInfo.startIndex);
-    EXPECT_EQ(36, batchInfo.numIndices);
+    EXPECT_EQ(36u, batchInfo.startIndex);
+    EXPECT_EQ(36u, batchInfo.numIndices);
 }
 
 //---------------------------------------------------------------------------------------
 TEST_F(MeshConsolidator_WithMeshes_Test, test_third_batchInfo) {
     BatchInfo batchInfo = batchInfoVec.at(2);
-    EXPECT_EQ(72, batchInfo.startIndex);
-    EXPECT_EQ(36, batchInfo.numIndices);
+    EXPECT_EQ(72u, batchInfo.startIndex);
+    EXPECT_EQ(36u, batchInfo.numIndices);
 }
 
 //---------------------------------------------------------------------------------------

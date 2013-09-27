@@ -23,19 +23,20 @@
 							<builder arguments="conf=debug CXX=clang" autoBuildTarget="" cleanBuildTarget="clean" command="make" enableAutoBuild="true" id="cdt.managedbuild.builder.gnu.cross.753898336" incrementalBuildTarget="" keepEnvironmentInBuildfile="false" managedBuildOn="false" name="Gnu Make Builder" superClass="cdt.managedbuild.builder.gnu.cross">
 								<outputEntries>
 									<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="outputPath" name=""/>
-									<entry flags="VALUE_WORKSPACE_PATH" kind="outputPath" name="bin"/>
+									<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="outputPath" name="bin"/>
 								</outputEntries>
 							</builder>
 							<tool id="cdt.managedbuild.tool.gnu.cross.c.compiler.740715675" name="Cross GCC Compiler" superClass="cdt.managedbuild.tool.gnu.cross.c.compiler">
 								<option id="gnu.c.compiler.option.include.paths.100816422" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="/usr/local/include"/>
 									<listOptionValue builtIn="false" value="/usr/local/lib/glm-0.9.4.3"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/include/utils/GlUtils}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/include}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/include/examples}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/include/utils}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/include/utils/MathUtils}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/tests/include/utils}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/Rigid3D/include/utils/GlUtils}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/Rigid3D/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/Rigid3D/include/examples}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/Rigid3D/include/utils}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/Rigid3D/include/utils/MathUtils}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/Rigid3D/tests/include/utils}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/Rigid3D/tests/include}&quot;"/>
 								</option>
 								<option id="gnu.c.compiler.option.preprocessor.def.symbols.1429203995" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="__GXX_EXPERIMENTAL_CXX0X__=1"/>
@@ -45,15 +46,15 @@
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.cross.cpp.compiler.1548255601" name="Cross G++ Compiler" superClass="cdt.managedbuild.tool.gnu.cross.cpp.compiler">
 								<option id="gnu.cpp.compiler.option.include.paths.1382980904" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/include/utils/MathUtils}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/include/utils/GlUtils}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/include/utils}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/tests/include}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/tests/include/utils}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/include}&quot;"/>
 									<listOptionValue builtIn="false" value="/usr/local/include"/>
 									<listOptionValue builtIn="false" value="/usr/local/lib/glm-0.9.4.3"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/include/examples}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/Rigid3D/include/utils/GlUtils}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/Rigid3D/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/Rigid3D/include/examples}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/Rigid3D/include/utils}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/Rigid3D/include/utils/MathUtils}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/Rigid3D/tests/include/utils}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/Rigid3D/tests/include}&quot;"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.preprocessor.def.1028643768" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="__GXX_EXPERIMENTAL_CXX0X__=1"/>
@@ -64,10 +65,7 @@
 							<tool id="cdt.managedbuild.tool.gnu.cross.c.linker.1687600139" name="Cross GCC Linker" superClass="cdt.managedbuild.tool.gnu.cross.c.linker"/>
 							<tool id="cdt.managedbuild.tool.gnu.cross.cpp.linker.2067278097" name="Cross G++ Linker" superClass="cdt.managedbuild.tool.gnu.cross.cpp.linker">
 								<option id="gnu.cpp.link.option.paths.1614713458" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths"/>
-								<option id="gnu.cpp.link.option.libs.759133590" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
-									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="&quot;${workspace_loc:/SFML-OpenGL-Code/lib/libGlUtils.so}&quot;"/>
-									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="&quot;${workspace_loc:/SFML-OpenGL-Code/lib/libgtest.a}&quot;"/>
-								</option>
+								<option id="gnu.cpp.link.option.libs.759133590" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs"/>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.953459030" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
 									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
@@ -78,6 +76,13 @@
 								<option id="gnu.both.asm.option.include.paths.183965763" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="/usr/local/include"/>
 									<listOptionValue builtIn="false" value="/usr/local/lib/glm-0.9.4.3"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/Rigid3D/include/utils/GlUtils}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/Rigid3D/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/Rigid3D/include/examples}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/Rigid3D/include/utils}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/Rigid3D/include/utils/MathUtils}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/Rigid3D/tests/include/utils}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/Rigid3D/tests/include}&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.1230348297" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
@@ -85,19 +90,19 @@
 					</folderInfo>
 					<sourceEntries>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="data"/>
-						<entry excluding="examples|utils|utils/GlUtils" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="include"/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="include/examples"/>
-						<entry excluding="GlUtils" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="include/utils"/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="include/utils/GlUtils"/>
-						<entry excluding="examples|utils|utils/GlUtils" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="src"/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="src/examples"/>
-						<entry excluding="GlUtils" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="src/utils"/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="src/utils/GlUtils"/>
-						<entry excluding="utils" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="tests/include"/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="tests/include/utils"/>
-						<entry excluding="utils|utils/GlUtils" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="tests/src"/>
-						<entry excluding="GlUtils" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="tests/src/utils"/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="tests/src/utils/GlUtils"/>
+						<entry excluding="examples|utils/GlUtils|utils" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="include"/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="include/examples"/>
+						<entry excluding="GlUtils" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="include/utils"/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="include/utils/GlUtils"/>
+						<entry excluding="examples|utils/GlUtils|utils" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src/examples"/>
+						<entry excluding="GlUtils" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src/utils"/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src/utils/GlUtils"/>
+						<entry excluding="utils" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="tests/include"/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="tests/include/utils"/>
+						<entry excluding="utils/GlUtils|utils" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="tests/src"/>
+						<entry excluding="GlUtils" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="tests/src/utils"/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="tests/src/utils/GlUtils"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
