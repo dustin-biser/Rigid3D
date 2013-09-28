@@ -1,6 +1,6 @@
 -- Important: Link order matters for static libraries!  Make sure dependent
 -- libraries come before the libraries they depend on.
-linkLibs = {"GlUtils", "glfw3","GLU", "GLEW", "GL", "X11", "Xxf86vm", "pthread", "Xi", "Xrandr"}
+linkLibs = {"freetype-gl", "freetype", "GlUtils", "glfw3","GLU", "GLEW", "GL", "X11", "Xxf86vm", "pthread", "Xi", "Xrandr"}
 
 libDirectories = {"ext/glew-1.10.0/lib",
                   "/usr/local/lib/Mesa-9.1.4",
@@ -10,6 +10,7 @@ libDirectories = {"ext/glew-1.10.0/lib",
 
 includeDirList = {"ext",
                   "ext/glew-1.10.0/include",
+                  "ext/freetype-gl",
                   "include",
                   "include/examples",
                   "include/utils",
@@ -17,7 +18,9 @@ includeDirList = {"ext",
                   "include/utils/MathUtils",
                   "/usr/local/lib/glm-0.9.4.3",
                   "/usr/local/include",
-                  "/usr/include"}
+                  "/usr/include",
+                  "/usr/include/freetype2/freetype",
+                  "/usr/include/freetype2"}
 
 solution "Rigid3D"
     configurations { "Debug", "Release" }
@@ -68,3 +71,4 @@ CreateDemo("LoadMeshObj_Example", "src/examples/LoadMeshObj_Example.cpp", "src/G
 CreateDemo("FlatSmoothShading_Example", "src/examples/FlatSmoothShading_Example.cpp", "src/GlfwOpenGlWindow.cpp")
 CreateDemo("MeshNormals", "src/examples/MeshNormals.cpp", "src/GlfwOpenGlWindow.cpp")
 CreateDemo("MultipleObjects", "src/examples/MultipleObjects.cpp", "src/GlfwOpenGlWindow.cpp")
+CreateDemo("FreetypeGl_Example", "src/examples/FreetypeGl_Example.cpp", "src/GlfwOpenGlWindow.cpp")

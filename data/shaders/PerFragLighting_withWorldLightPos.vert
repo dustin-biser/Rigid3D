@@ -23,7 +23,7 @@ void main()
 {
     // Transform vertex position and normal to eye coordinate space.
     normal = normalize(NormalMatrix * vertexNormal);
-    position = vec3( ViewMatrix * ModelMatrix * vec4(vertexPosition, 1.0) );
+    position = vec3( ViewMatrix * (ModelMatrix * vec4(vertexPosition, 1.0)) );
     
     lightPos = vec3(ViewMatrix * vec4(lightSource.position, 1.0));
     lightRgb = lightSource.rgbIntensity;
