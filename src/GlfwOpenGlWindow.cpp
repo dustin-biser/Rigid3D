@@ -26,7 +26,7 @@ void GlfwOpenGlWindow::windowResizeHandler(GLFWwindow * window, int width, int h
 //----------------------------------------------------------------------------------------
 void GlfwOpenGlWindow::resize(int width, int height) {
     float aspectRatio = ((float) width) / height;
-    float frustumYScale = cotangent(degreesToRadians(frustum.getFieldOfViewY() / 2));
+    float frustumYScale = cotangent(degreesToRadians(camera.getFieldOfViewY() / 2));
 
     float frustumXScale = frustumYScale;
 
@@ -107,7 +107,7 @@ void GlfwOpenGlWindow::create(int width, int height, const string & windowTitle)
     while(glGetError() != GL_NO_ERROR);
 
     setupGl();
-    setupViewFrustum();
+    setupCamera();
     setupProjectionMatrix();
     init();
 
@@ -170,17 +170,17 @@ void GlfwOpenGlWindow::centerWindow() {
 }
 
 //----------------------------------------------------------------------------------------
-void GlfwOpenGlWindow::setupViewFrustum() {
+void GlfwOpenGlWindow::setupCamera() {
     int windowWidth, windowHeight;
     glfwGetWindowSize(window, &windowWidth, &windowHeight);
 
     float aspectRatio = (float) windowWidth / (float) windowHeight;
-    frustum = Frustum(45.0f, aspectRatio, 1.0f, 100.0f);
+    camera = Camera(45.0f, aspectRatio, 1.0f, 100.0f);
 }
 
 //----------------------------------------------------------------------------------------
 void GlfwOpenGlWindow::setupProjectionMatrix() {
-    projectionMatrix = frustum.getPerspectiveMatrix();
+    projectionMatrix = camera.getProjectionMatrix();
 }
 
 //----------------------------------------------------------------------------------------

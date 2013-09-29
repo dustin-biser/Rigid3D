@@ -1,5 +1,5 @@
 /**
- * @brief Abstract class for other classes to inherit that want access to an
+ * @brief Abstract class for other classes to inherit from that want access to an
  * GLFW OpenGL context and rendering window.
  *
  * @author Dustin Biser
@@ -11,8 +11,8 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
-#include <Frustum.hpp>
-using GlUtils::Frustum;
+#include <Camera.hpp>
+using GlUtils::Camera;
 
 #include <string>
 #include <memory>
@@ -47,7 +47,7 @@ protected:
     string windowTitle;
 
     mat4 projectionMatrix;
-    Frustum frustum;
+    Camera camera;
 
     static shared_ptr<GlfwOpenGlWindow> p_instance;
 
@@ -63,7 +63,7 @@ protected:
 
     void centerWindow();
 
-    void setupViewFrustum();
+    void setupCamera();
 
     void setupProjectionMatrix();
 
