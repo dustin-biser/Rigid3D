@@ -6,10 +6,16 @@
 #define GLMOUTSTREAM_HPP_
 
 #include <glm/glm.hpp>
-#include <iostream>
-#include <iomanip>
+#include <glm/gtc/quaternion.hpp>
+using glm::quat;
 
-using namespace std;
+#include <iostream>
+using std::ostream;
+using std::endl;
+
+#include <iomanip>
+using std::fixed;
+using std::setprecision;
 
 std::ostream &operator<< (std::ostream &out, const glm::vec2 &vec) {
     out << "vec2:[" << fixed << setprecision(4)
@@ -62,5 +68,12 @@ std::ostream &operator<< (std::ostream &out, const glm::mat4 &mat) {
     return out;
 }
 
+std::ostream &operator<< (std::ostream &out, const glm::quat &q) {
+    out << "quat:[" << fixed << setprecision(4)
+        << q.w << " " << q.x << " "<< q.y << " " << q.z
+        << "]";
+
+    return out;
+}
 
 #endif /* GLMOUTSTREAM_HPP_ */

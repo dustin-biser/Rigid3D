@@ -6,10 +6,13 @@
 
 #include "gtest/gtest.h"
 #include "GlmOutStream.hpp"
-#include <glm/glm.hpp>
-#include <sstream>
 
-using namespace std;
+#include <sstream>
+using std::ostringstream;
+using std::streambuf;
+using std::stringstream;
+using std::cout;
+
 
 namespace {
 
@@ -96,6 +99,19 @@ TEST_F(GlmOutStream_Test, test_mat4_format) {
          <<  "     [2.0000 6.0000 10.0000 14.0000]" << endl
          <<  "     [3.0000 7.0000 11.0000 15.0000]" << endl
          <<  "     [4.0000 8.0000 12.0000 16.0000]";
+
+    EXPECT_EQ(sbuf.str(), strCout.str());
+}
+
+TEST_F(GlmOutStream_Test, test_quat_format) {
+    quat q(1.0f,  // q_w
+           2.0f,  // q_x
+           3.0f,  // q_y
+           4.0f); // q_z
+
+    cout << q;
+    stringstream sbuf;
+    sbuf <<  "quat:[1.0000 2.0000 3.0000 4.0000]";
 
     EXPECT_EQ(sbuf.str(), strCout.str());
 }
