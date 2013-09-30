@@ -1,8 +1,7 @@
-/*
- * Frustum.hpp
+/**
+ * @brief Frustum
  *
- *  Created on: Jul 10, 2013
- *      Author: dustin
+ * @author Dustin Biser
  */
 
 #ifndef FRUSTUM_HPP_
@@ -10,50 +9,46 @@
 
 #include <glm/gtc/matrix_transform.hpp>
 
+#include <glm/glm.hpp>
+using glm::mat4;
+
 namespace GlUtils {
 
     class Frustum {
     public:
+        Frustum();
 
-        Frustum()
-                : fieldOfViewY(45.0f),
-                  aspectRatio(4.0f / 3.0f),
-                  nearZPlane(1.0f),
-                  farZPlane(100.0f) { }
+        Frustum(float left, float right, float bottom, float top, float zNear, float zFar);
 
-        Frustum(float fieldOfViewY, float aspectRatio, float nearZPlane, float farZPlane)
-                : fieldOfViewY(fieldOfViewY),
-                  aspectRatio(aspectRatio),
-                  nearZPlane(nearZPlane),
-                  farZPlane(farZPlane) { }
+        Frustum(float fieldOfViewY, float aspectRatio, float zNear, float zFar);
 
+        // Getters
+        glm::mat4 getProjectionMatrix();
+        float getFieldOfViewY();
+        float getAspectRatio();
+        float getNearZDistance();
+        float getFarZDistance();
 
-        glm::mat4 getPerspectiveMatrix() {
-            return glm::perspective(fieldOfViewY, aspectRatio, nearZPlane, farZPlane);
-        }
+        // Setters
+        void setFieldOfViewY(float fieldOfViewY);
+        void setAspectRatio(float aspectRatio);
+        void setNearZDistance(float zNear);
+        void setFarZDistance(float zFar);
 
-        float getFieldOfViewY() {
-            return fieldOfViewY;
-        }
-
-        float getAspectRatio() {
-            return aspectRatio;
-        }
-
-        float getNearZPlaneDistance() {
-            return nearZPlane;
-        }
-
-        float getFarZPlaneDistance() {
-            return farZPlane;
-        }
+        bool isPerspective();
+        bool isOrthographic();
 
     private:
         float fieldOfViewY;
         float aspectRatio;
-        float nearZPlane;
-        float farZPlane;
+        float zNear;
+        float zFar;
+        bool _isPerspective;
+        bool recalcPerspectiveMatrix;
 
+        mat4 projectionMatrix;
+
+        const static short floatTolerance = 5;
     };
 
 } // end namespace GlUtils
