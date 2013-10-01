@@ -39,8 +39,8 @@ MeshNormals::MeshNormals() : renderTarget(MeshType::FLAT) {
  */
 void MeshNormals::init()
 {
-    meshFlat.fromObjFile("../data/meshes/sphere.obj");
-    meshSmooth.fromObjFile("../data/meshes/sphere_smooth.obj");
+    meshFlat.fromObjFile("../data/meshes/bunny_lowres.obj");
+    meshSmooth.fromObjFile("../data/meshes/bunny_smooth.obj");
 
     setupShaders();
     setupGLBuffers();
@@ -112,10 +112,7 @@ void MeshNormals::setupMatrices() {
                                       glm::vec3(0.0 , 0.0, -1.0),
                                       glm::vec3(0.0, 1.0, 0.0));
 
-    modelMatrix = glm::mat4(1, 0, 0, 0,
-                                   0, 1, 0, 0,
-                                   0, 0, 1, 0,
-                                   0, 0, 0, 1);
+    modelMatrix = glm::mat4();
 
     // Translate the object into view.
     modelMatrix = translate(modelMatrix, 0.0f, 0.0f, -0.3f);
