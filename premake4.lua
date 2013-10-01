@@ -65,10 +65,11 @@ solution "Rigid3D"
 dofile("tests/tests.lua")
 
 -- Create a project for each demo
+--CreateDemo("FreetypeGl_Example", "src/examples/FreetypeGl_Example.cpp", "src/GlfwOpenGlWindow.cpp")
 CreateDemo("Glfw-Example", "src/examples/Glfw-Example.cpp")
 CreateDemo("GlfwOpenGlWindowExample", "src/examples/GlfwOpenGlWindowExample.cpp", "src/GlfwOpenGlWindow.cpp")
 CreateDemo("LoadMeshObj_Example", "src/examples/LoadMeshObj_Example.cpp", "src/GlfwOpenGlWindow.cpp")
 CreateDemo("FlatSmoothShading_Example", "src/examples/FlatSmoothShading_Example.cpp", "src/GlfwOpenGlWindow.cpp")
 CreateDemo("MeshNormals", "src/examples/MeshNormals.cpp", "src/GlfwOpenGlWindow.cpp")
 CreateDemo("MultipleObjects", "src/examples/MultipleObjects.cpp", "src/GlfwOpenGlWindow.cpp")
-CreateDemo("FreetypeGl_Example", "src/examples/FreetypeGl_Example.cpp", "src/GlfwOpenGlWindow.cpp")
+CreateDemo("CameraExample", "src/examples/CameraExample.cpp", "src/GlfwOpenGlWindow.cpp")

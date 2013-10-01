@@ -1,8 +1,5 @@
 #include <Frustum.hpp>
 
-#include <glm/gtc/ulp.hpp>
-using glm::float_distance;
-
 using namespace GlUtils;
 
 //----------------------------------------------------------------------------------------
@@ -69,7 +66,7 @@ Frustum::Frustum(float fieldOfViewY, float aspectRatio, float zNear, float zFar)
 }
 
 //----------------------------------------------------------------------------------------
-glm::mat4 Frustum::getProjectionMatrix() {
+mat4 Frustum::getProjectionMatrix() const {
     if (recalcPerspectiveMatrix) {
         projectionMatrix = glm::perspective(fieldOfViewY, aspectRatio, zNear, zFar);
         recalcPerspectiveMatrix = false;
@@ -78,63 +75,55 @@ glm::mat4 Frustum::getProjectionMatrix() {
 }
 
 //----------------------------------------------------------------------------------------
-float Frustum::getFieldOfViewY() {
+float Frustum::getFieldOfViewY() const {
     return fieldOfViewY;
 }
 
 //----------------------------------------------------------------------------------------
-float Frustum::getAspectRatio() {
+float Frustum::getAspectRatio() const {
     return aspectRatio;
 }
 
 //----------------------------------------------------------------------------------------
-float Frustum::getNearZDistance() {
+float Frustum::getNearZDistance() const {
     return zNear;
 }
 
 //----------------------------------------------------------------------------------------
-float Frustum::getFarZDistance() {
+float Frustum::getFarZDistance() const {
     return zFar;
 }
 
 //----------------------------------------------------------------------------------------
-bool Frustum::isPerspective() {
+bool Frustum::isPerspective() const {
     return _isPerspective;
 }
 
 //----------------------------------------------------------------------------------------
-bool Frustum::isOrthographic() {
+bool Frustum::isOrthographic() const {
     return !_isPerspective;
 }
 
 //----------------------------------------------------------------------------------------
 void Frustum::setFieldOfViewY(float fieldOfViewY) {
-    if (float_distance(this->fieldOfViewY, fieldOfViewY) > (unsigned)floatTolerance) {
-        this->fieldOfViewY = fieldOfViewY;
-        recalcPerspectiveMatrix = true;
-    }
+    this->fieldOfViewY = fieldOfViewY;
+    recalcPerspectiveMatrix = true;
 }
 
 //----------------------------------------------------------------------------------------
 void Frustum::setAspectRatio(float aspectRatio) {
-    if (float_distance(this->aspectRatio, aspectRatio) > (unsigned)floatTolerance) {
-        this->aspectRatio = aspectRatio;
-        recalcPerspectiveMatrix = true;
-    }
+    this->aspectRatio = aspectRatio;
+    recalcPerspectiveMatrix = true;
 }
 
 //----------------------------------------------------------------------------------------
 void Frustum::setNearZDistance(float zNear) {
-    if (float_distance(this->zNear, zNear) > (unsigned)floatTolerance) {
-        this->zNear = zNear;
-        recalcPerspectiveMatrix = true;
-    }
+    this->zNear = zNear;
+    recalcPerspectiveMatrix = true;
 }
 
 //----------------------------------------------------------------------------------------
 void Frustum::setFarZDistance(float zFar) {
-    if (float_distance(this->zFar, zFar) > (unsigned)floatTolerance) {
-        this->zFar = zFar;
-        recalcPerspectiveMatrix = true;
-    }
+    this->zFar = zFar;
+    recalcPerspectiveMatrix = true;
 }

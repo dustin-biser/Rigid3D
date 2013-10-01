@@ -46,11 +46,11 @@ void FlatSmoothShading_Example::init()
     meshConsolidator =  {"../data/meshes/cube.obj",
                          "../data/meshes/sphere.obj",
                          "../data/meshes/torus.obj",
-                         "../data/meshes/bunny.obj",
+                         "../data/meshes/susan.obj",
                          "../data/meshes/cube_smooth.obj",
                          "../data/meshes/sphere_smooth.obj",
                          "../data/meshes/torus_smooth.obj",
-                         "../data/meshes/bunny_smooth.obj"};
+                         "../data/meshes/susan_smooth.obj"};
 
     meshConsolidator.getBatchInfo(batchInfoVec);
 

@@ -103,7 +103,7 @@ void LoadMeshObj_Example::setupShaders() {
 //---------------------------------------------------------------------------------------
 void LoadMeshObj_Example::setupMatrices() {
     frustum = Frustum(45.0f, 4.0f/3.0f, 1.0f, 100.0f);
-    cameraToClipMatrix = frustum.getPerspectiveMatrix();
+    cameraToClipMatrix = frustum.getProjectionMatrix();
 
     worldToCameraMatrix = glm::lookAt(glm::vec3(0.0f, 0.0, 5.0),
                                       glm::vec3(0.0 , 0.0, -1.0),

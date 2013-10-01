@@ -106,7 +106,7 @@ void MeshNormals::setupShaders() {
 //---------------------------------------------------------------------------------------
 void MeshNormals::setupMatrices() {
     frustum = Frustum(45.0f, 4.0f/3.0f, 1.0f, 100.0f);
-    projectionMatrix = frustum.getPerspectiveMatrix();
+    projectionMatrix = frustum.getProjectionMatrix();
 
     viewMatrix = glm::lookAt(glm::vec3(0.0f, 0.0, 5.0),
                                       glm::vec3(0.0 , 0.0, -1.0),

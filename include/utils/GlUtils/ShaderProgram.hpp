@@ -64,17 +64,17 @@ namespace GlUtils {
 
         void setUniform(const char * uniformName, float x, float y, float z, float w);
 
-        void setUniform(const char * uniformName, vec2 v);
+        void setUniform(const char * uniformName, const vec2 & v);
 
-        void setUniform(const char * uniformName, vec3 v);
+        void setUniform(const char * uniformName, const vec3 & v);
 
-        void setUniform(const char * uniformName, vec4 v);
+        void setUniform(const char * uniformName, const vec4 & v);
 
-        void setUniform(const char * uniformName, mat2 & m);
+        void setUniform(const char * uniformName, const mat2 & m);
 
-        void setUniform(const char * uniformName, mat3 & m);
+        void setUniform(const char * uniformName, const mat3 & m);
 
-        void setUniform(const char * uniformName, mat4 & m);
+        void setUniform(const char * uniformName, const mat4 & m);
 
     private:
         struct Shader {

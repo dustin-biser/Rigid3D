@@ -23,11 +23,11 @@ namespace GlUtils {
         Frustum(float fieldOfViewY, float aspectRatio, float zNear, float zFar);
 
         // Getters
-        glm::mat4 getProjectionMatrix();
-        float getFieldOfViewY();
-        float getAspectRatio();
-        float getNearZDistance();
-        float getFarZDistance();
+        mat4 getProjectionMatrix() const;
+        float getFieldOfViewY() const;
+        float getAspectRatio() const;
+        float getNearZDistance() const;
+        float getFarZDistance() const;
 
         // Setters
         void setFieldOfViewY(float fieldOfViewY);
@@ -35,20 +35,20 @@ namespace GlUtils {
         void setNearZDistance(float zNear);
         void setFarZDistance(float zFar);
 
-        bool isPerspective();
-        bool isOrthographic();
+        bool isPerspective() const;
+        bool isOrthographic() const;
 
-    private:
+    protected:
         float fieldOfViewY;
         float aspectRatio;
         float zNear;
         float zFar;
         bool _isPerspective;
-        bool recalcPerspectiveMatrix;
+        mutable bool recalcPerspectiveMatrix;
 
-        mat4 projectionMatrix;
+        mutable mat4 projectionMatrix;
 
-        const static short floatTolerance = 5;
+        const static unsigned short floatTolerance = 5;
     };
 
 } // end namespace GlUtils
