@@ -5,16 +5,23 @@
  */
 
 #include "gtest/gtest.h"
-#include "TestUtils.hpp"
-#include "Mesh.hpp"
-#include "glm/glm.hpp"
-#include <memory>
-#include <vector>
 
-using namespace GlUtils;
-using namespace TestUtils;
-using namespace std;
-using namespace glm;
+#include "Mesh.hpp"
+using GlUtils::Mesh;
+
+#include "TestUtils.hpp"
+using namespace TestUtils::predicates;
+
+#include "glm/glm.hpp"
+using glm::vec3;
+
+#include <memory>
+using std::shared_ptr;
+using std::make_shared;
+
+#include <vector>
+using std::vector;
+
 
 namespace {  // limit class visibility to this file.
 
@@ -133,5 +140,5 @@ TEST_F(Mesh_Cube_Test, test_order_of_normal_vectors){
         count++;
     } while(count < 2);
 
-    ASSERT_VECTORS_EQ(expectedNormals, normals);
+    EXPECT_TRUE(vectors_eq(expectedNormals, normals));
 }
