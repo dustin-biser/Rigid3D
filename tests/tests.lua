@@ -1,7 +1,7 @@
 -- Note that all directoires and files are given with respect to where this file is located.
 
 -- Function for creating tests
---testLinkLibs = {"GlUtils", "glfw3", "GLEW", "GL", "gtest" }
+testLinkLibs = {"GlUtils", "glfw3", "GLEW", "GL", "gtest" }
 
 testLibDirectories = {"../ext/glew-1.10.0/lib",
                       "/usr/local/lib/Mesa-9.1.4",
@@ -37,8 +37,10 @@ function SetupTest(testName,  ...)
 end
 
 -- Create Unit Tests
+SetupTest("RunAllTests", "src/**")
 SetupTest("Mesh_Test", "src/utils/GlUtils/Mesh_Test.cpp")
 SetupTest("MeshConsolidator_Test", "src/utils/GlUtils/MeshConsolidator_Test.cpp")
 SetupTest("ShaderProgram_Test", "src/utils/GlUtils/ShaderProgram_Test.cpp", "../src/GlfwOpenGlWindow.cpp")
 SetupTest("GlmOutStream_Test", "src/utils/GlUtils/GlmOutStream_Test.cpp")
-SetupTest("RunAllTests", "src/**")
+SetupTest("Camera_Test", "src/utils/GlUtils/Camera_Test.cpp")
+SetupTest("TestUtils_Predicates_Test", "src/utils/TestUtils_Predicates_Test.cpp")

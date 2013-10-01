@@ -366,7 +366,7 @@ namespace GlUtils {
      * @param uniformName - name of the uniform variable to be set.
      * @param v
      */
-    void ShaderProgram::setUniform(const char * uniformName, vec2 v) {
+    void ShaderProgram::setUniform(const char * uniformName, const vec2 & v) {
         this->setUniform(uniformName, v.x, v.y);
     }
 
@@ -377,7 +377,7 @@ namespace GlUtils {
      * @param uniformName - name of the uniform variable to be set.
      * @param v
      */
-    void ShaderProgram::setUniform(const char * uniformName, vec3 v) {
+    void ShaderProgram::setUniform(const char * uniformName, const vec3 & v) {
         this->setUniform(uniformName, v.x, v.y, v.z);
     }
 
@@ -388,7 +388,7 @@ namespace GlUtils {
      * @param uniformName - name of the uniform variable to be set.
      * @param v
      */
-    void ShaderProgram::setUniform(const char * uniformName, vec4 v) {
+    void ShaderProgram::setUniform(const char * uniformName, const vec4 & v) {
         this->setUniform(uniformName, v.x, v.y, v.z, v.w);
     }
 
@@ -399,7 +399,7 @@ namespace GlUtils {
      * @param uniformName - name of the uniform variable to be set.
      * @param m
      */
-    void ShaderProgram::setUniform(const char * uniformName, mat2 & m) {
+    void ShaderProgram::setUniform(const char * uniformName, const mat2 & m) {
         glGetIntegerv(GL_CURRENT_PROGRAM, (GLint *)&activeProgram);
         glUseProgram(programObject);
         GLint uniformLocation = getUniformLocation(uniformName);
@@ -414,7 +414,7 @@ namespace GlUtils {
      * @param uniformName - name of the uniform variable to be set.
      * @param m
      */
-    void ShaderProgram::setUniform(const char * uniformName, mat3 & m) {
+    void ShaderProgram::setUniform(const char * uniformName, const mat3 & m) {
         glGetIntegerv(GL_CURRENT_PROGRAM, (GLint *)&activeProgram);
         glUseProgram(programObject);
         GLint uniformLocation = getUniformLocation(uniformName);
@@ -429,7 +429,7 @@ namespace GlUtils {
      * @param uniformName - name of the uniform variable to be set.
      * @param m
      */
-    void ShaderProgram::setUniform(const char * uniformName, mat4 & m) {
+    void ShaderProgram::setUniform(const char * uniformName, const mat4 & m) {
         glGetIntegerv(GL_CURRENT_PROGRAM, (GLint *)&activeProgram);
         glUseProgram(programObject);
         GLint uniformLocation = getUniformLocation(uniformName);
