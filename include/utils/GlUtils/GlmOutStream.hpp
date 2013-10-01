@@ -1,9 +1,6 @@
 /**
- * @brief To aid in printing common GLM types to designated output streams.
+ * @brief To aid in printing common \c glm types to designated output streams.
  */
-
-#ifndef GLMOUTSTREAM_HPP_
-#define GLMOUTSTREAM_HPP_
 
 #include <glm/glm.hpp>
 #include <glm/gtc/quaternion.hpp>
@@ -17,63 +14,65 @@ using std::endl;
 using std::fixed;
 using std::setprecision;
 
-std::ostream &operator<< (std::ostream &out, const glm::vec2 &vec) {
-    out << "vec2:[" << fixed << setprecision(4)
-        << vec.x << " " << vec.y
-        << "]";
+namespace glm { namespace detail {
 
-    return out;
-}
+    inline std::ostream &operator<< (std::ostream &out, const glm::vec2 &vec) {
+        out << "vec2:[" << fixed << setprecision(4)
+            << vec.x << " " << vec.y
+            << "]";
 
-std::ostream &operator<< (std::ostream &out, const glm::vec3 &vec) {
-    out << "vec3:[" << fixed << setprecision(4)
-        << vec.x << " " << vec.y << " "<< vec.z
-        << "]";
+        return out;
+    }
 
-    return out;
-}
+    inline std::ostream &operator<< (std::ostream &out, const glm::vec3 &vec) {
+        out << "vec3:[" << fixed << setprecision(4)
+            << vec.x << " " << vec.y << " "<< vec.z
+            << "]";
 
-std::ostream &operator<< (std::ostream &out, const glm::vec4 &vec) {
-    out << "vec4:[" << fixed << setprecision(4)
-        << vec.x << " " << vec.y << " "<< vec.z << " " << vec.w
-        << "]";
+        return out;
+    }
 
-    return out;
-}
+    inline std::ostream &operator<< (std::ostream &out, const glm::vec4 &vec) {
+        out << "vec4:[" << fixed << setprecision(4)
+            << vec.x << " " << vec.y << " "<< vec.z << " " << vec.w
+            << "]";
 
-std::ostream &operator<< (std::ostream &out, const glm::mat2 &mat) {
-    out << "mat2:" << fixed << setprecision(4)
-        << "["      << mat[0][0] << " " << mat[1][0] << "]" << endl
-        << "     [" << mat[0][1] << " " << mat[1][1] << "]";
+        return out;
+    }
 
-    return out;
-}
+    inline std::ostream &operator<< (std::ostream &out, const glm::mat2 &mat) {
+        out << "mat2:" << fixed << setprecision(4)
+            << "["      << mat[0][0] << " " << mat[1][0] << "]" << endl
+            << "     [" << mat[0][1] << " " << mat[1][1] << "]";
 
-std::ostream &operator<< (std::ostream &out, const glm::mat3 &mat) {
-    out << "mat3:" << fixed << setprecision(4)
-        << "["      << mat[0][0] << " " << mat[1][0] << " " << mat[2][0] << "]" << endl
-        << "     [" << mat[0][1] << " " << mat[1][1] << " " << mat[2][1] << "]" << endl
-        << "     [" << mat[0][2] << " " << mat[1][2] << " " << mat[2][2] << "]";
+        return out;
+    }
 
-    return out;
-}
+    inline std::ostream &operator<< (std::ostream &out, const glm::mat3 &mat) {
+        out << "mat3:" << fixed << setprecision(4)
+            << "["      << mat[0][0] << " " << mat[1][0] << " " << mat[2][0] << "]" << endl
+            << "     [" << mat[0][1] << " " << mat[1][1] << " " << mat[2][1] << "]" << endl
+            << "     [" << mat[0][2] << " " << mat[1][2] << " " << mat[2][2] << "]";
 
-std::ostream &operator<< (std::ostream &out, const glm::mat4 &mat) {
-    out << "mat4:" << fixed << setprecision(4)
-        << "["      << mat[0][0] << " " << mat[1][0] << " " << mat[2][0] << " " << mat[3][0] << "]" << endl
-        << "     [" << mat[0][1] << " " << mat[1][1] << " " << mat[2][1] << " " << mat[3][1] << "]" << endl
-        << "     [" << mat[0][2] << " " << mat[1][2] << " " << mat[2][2] << " " << mat[3][2] << "]" << endl
-        << "     [" << mat[0][3] << " " << mat[1][3] << " " << mat[2][3] << " " << mat[3][3] << "]";
+        return out;
+    }
 
-    return out;
-}
+    inline std::ostream &operator<< (std::ostream &out, const glm::mat4 &mat) {
+        out << "mat4:" << fixed << setprecision(4)
+            << "["      << mat[0][0] << " " << mat[1][0] << " " << mat[2][0] << " " << mat[3][0] << "]" << endl
+            << "     [" << mat[0][1] << " " << mat[1][1] << " " << mat[2][1] << " " << mat[3][1] << "]" << endl
+            << "     [" << mat[0][2] << " " << mat[1][2] << " " << mat[2][2] << " " << mat[3][2] << "]" << endl
+            << "     [" << mat[0][3] << " " << mat[1][3] << " " << mat[2][3] << " " << mat[3][3] << "]";
 
-std::ostream &operator<< (std::ostream &out, const glm::quat &q) {
-    out << "quat:[" << fixed << setprecision(4)
-        << q.w << " " << q.x << " "<< q.y << " " << q.z
-        << "]";
+        return out;
+    }
 
-    return out;
-}
+    inline std::ostream &operator<< (std::ostream &out, const glm::quat &q) {
+        out << "quat:[" << fixed << setprecision(4)
+            << q.w << " " << q.x << " "<< q.y << " " << q.z
+            << "]";
 
-#endif /* GLMOUTSTREAM_HPP_ */
+        return out;
+    }
+
+}} // end namespace glm::detail
