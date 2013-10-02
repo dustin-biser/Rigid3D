@@ -1,6 +1,6 @@
 /**
  * @brief Abstract class for other classes to inherit from that want access to an
- * GLFW OpenGL context and rendering window.
+ * GLFW OpenGL context window for rendering.
  *
  * @author Dustin Biser
  */
@@ -24,7 +24,6 @@ using glm::mat4;
 
 #include <boost/utility.hpp>
 using boost::noncopyable;
-
 
 ///@brief Singleton
 class GlfwOpenGlWindow : private noncopyable {
@@ -55,11 +54,14 @@ protected:
 
     static void error_callback(int error, const char* description);
 
-    static void keyInputHandler(GLFWwindow* window, int key, int scancode, int action, int mods);
+    static void keyInputCallBack(GLFWwindow* window, int key, int scancode, int action, int mods);
     virtual void keyInput(int key, int scancode, int action, int mods);
 
-    static void windowResizeHandler(GLFWwindow * window, int width, int height);
+    static void windowResizeCallBack(GLFWwindow * window, int width, int height);
     virtual void resize(int width, int height);
+
+    static void mouseScrollCallBack(GLFWwindow * window, double xOffSet, double yOffSet);
+    virtual void mouseScroll(double xOffSet, double yOffSet) { }
 
     void centerWindow();
 

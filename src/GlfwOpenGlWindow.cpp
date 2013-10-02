@@ -19,7 +19,7 @@ void GlfwOpenGlWindow::error_callback(int error, const char* description) {
 /**
  * @brief Window resize call back function to be registered with GLFW.
  */
-void GlfwOpenGlWindow::windowResizeHandler(GLFWwindow * window, int width, int height) {
+void GlfwOpenGlWindow::windowResizeCallBack(GLFWwindow * window, int width, int height) {
     getInstance()->resize(width, height);
 }
 
@@ -90,8 +90,8 @@ void GlfwOpenGlWindow::create(int width, int height, const string & windowTitle)
 
     centerWindow();
     glfwMakeContextCurrent(window);
-    glfwSetKeyCallback(window, keyInputHandler);
-    glfwSetWindowSizeCallback(window, windowResizeHandler);
+    glfwSetKeyCallback(window, keyInputCallBack);
+    glfwSetWindowSizeCallback(window, windowResizeCallBack);
 
     // Initialize OpenGL extensions with GLEW
     glewExperimental = GL_TRUE;
@@ -134,7 +134,7 @@ GlfwOpenGlWindow::~GlfwOpenGlWindow() {
 /**
  * @brief Keyboard input call back function to be registered with GLFW.
  */
-void GlfwOpenGlWindow::keyInputHandler(GLFWwindow* window, int key, int scancode,
+void GlfwOpenGlWindow::keyInputCallBack(GLFWwindow* window, int key, int scancode,
         int action, int mods) {
     getInstance()->keyInput(key, scancode, action, mods);
 }
@@ -146,6 +146,14 @@ void GlfwOpenGlWindow::keyInputHandler(GLFWwindow* window, int key, int scancode
 void GlfwOpenGlWindow::keyInput(int key, int scancode, int action, int mods) {
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
         glfwSetWindowShouldClose(window, GL_TRUE);
+}
+
+//----------------------------------------------------------------------------------------
+/**
+ * @brief Mouse scroll call back function to be registered with GLFW.
+ */
+void GlfwOpenGlWindow::mouseScrollCallBack(GLFWwindow * window, double xOffSet, double yOffSet) {
+    getInstance()->mouseScroll(xOffSet, yOffSet);
 }
 
 //----------------------------------------------------------------------------------------
