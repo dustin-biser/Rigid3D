@@ -124,7 +124,7 @@ void FlatSmoothShading_Example::setupMatrices() {
 
     shaderProgram.setUniform("ModelViewMatrix", modelViewMatrix);
     shaderProgram.setUniform("NormalMatrix", normalMatrix);
-    shaderProgram.setUniform("ProjectionMatrix", projectionMatrix);
+    shaderProgram.setUniform("ProjectionMatrix", camera.getProjectionMatrix());
 }
 
 //---------------------------------------------------------------------------------------
@@ -182,7 +182,7 @@ void FlatSmoothShading_Example::updateMatrices() {
 
     shaderProgram.setUniform("ModelViewMatrix", modelViewMatrix);
     shaderProgram.setUniform("NormalMatrix", normalMatrix);
-    shaderProgram.setUniform("ProjectionMatrix", projectionMatrix);
+    shaderProgram.setUniform("ProjectionMatrix", camera.getProjectionMatrix());
 }
 
 //---------------------------------------------------------------------------------------

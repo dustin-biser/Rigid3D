@@ -105,7 +105,18 @@ bool Frustum::isOrthographic() const {
 }
 
 //----------------------------------------------------------------------------------------
+/**
+ * Sets the \c Frustum field of view angle.
+ *
+ * @note If parameter \c fieldOfViewY is negative, the fieldOfViewY for the \c
+ * Frustum is set to zero.
+ *
+ * @param fieldOfViewY
+ */
 void Frustum::setFieldOfViewY(float fieldOfViewY) {
+    if (fieldOfViewY < 0.0f) {
+        fieldOfViewY = 0.0f;
+    }
     this->fieldOfViewY = fieldOfViewY;
     recalcPerspectiveMatrix = true;
 }
@@ -126,4 +137,9 @@ void Frustum::setNearZDistance(float zNear) {
 void Frustum::setFarZDistance(float zFar) {
     this->zFar = zFar;
     recalcPerspectiveMatrix = true;
+}
+
+//----------------------------------------------------------------------------------------
+void Frustum::setProjectionMatrix(const mat4 & projectionMatrix) {
+    this->projectionMatrix = projectionMatrix;
 }

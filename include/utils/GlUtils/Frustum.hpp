@@ -34,6 +34,7 @@ namespace GlUtils {
         void setAspectRatio(float aspectRatio);
         void setNearZDistance(float zNear);
         void setFarZDistance(float zFar);
+        void setProjectionMatrix(const mat4 & projectionMatrix);
 
         bool isPerspective() const;
         bool isOrthographic() const;

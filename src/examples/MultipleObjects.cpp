@@ -108,7 +108,7 @@ void MultipleObjects::setupMatrices() {
 
     shaderProgram.setUniform("ViewMatrix", viewMatrix);
     shaderProgram.setUniform("NormalMatrix", normalMatrix);
-    shaderProgram.setUniform("ProjectionMatrix", projectionMatrix);
+    shaderProgram.setUniform("ProjectionMatrix", camera.getProjectionMatrix());
 }
 
 //---------------------------------------------------------------------------------------
@@ -245,7 +245,7 @@ void MultipleObjects::logic() {
 //---------------------------------------------------------------------------------------
 void MultipleObjects::updateMatrices() {
     shaderProgram.setUniform("NormalMatrix", normalMatrix);
-    shaderProgram.setUniform("ProjectionMatrix", projectionMatrix);
+    shaderProgram.setUniform("ProjectionMatrix", camera.getProjectionMatrix());
 }
 
 //---------------------------------------------------------------------------------------

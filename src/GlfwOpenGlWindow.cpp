@@ -29,6 +29,7 @@ void GlfwOpenGlWindow::resize(int width, int height) {
     float frustumYScale = cotangent(degreesToRadians(camera.getFieldOfViewY() / 2));
 
     float frustumXScale = frustumYScale;
+    mat4 projectionMatrix = camera.getProjectionMatrix();
 
     if (width > height) {
         // Shrink the x scale in eye-coordinate space, so that when geometry is
@@ -42,6 +43,8 @@ void GlfwOpenGlWindow::resize(int width, int height) {
         projectionMatrix[0][0] = frustumXScale;
         projectionMatrix[1][1] = frustumYScale * aspectRatio;
     }
+
+    camera.setProjectionMatrix(projectionMatrix);
 
     // Use entire window for rendering.
     glViewport(0, 0, width, height);
@@ -92,6 +95,7 @@ void GlfwOpenGlWindow::create(int width, int height, const string & windowTitle)
     glfwMakeContextCurrent(window);
     glfwSetKeyCallback(window, keyInputCallBack);
     glfwSetWindowSizeCallback(window, windowResizeCallBack);
+    glfwSetScrollCallback(window, mouseScrollCallBack);
 
     // Initialize OpenGL extensions with GLEW
     glewExperimental = GL_TRUE;
@@ -108,7 +112,6 @@ void GlfwOpenGlWindow::create(int width, int height, const string & windowTitle)
 
     setupGl();
     setupCamera();
-    setupProjectionMatrix();
     init();
 
     while (!glfwWindowShouldClose(window)) {
@@ -184,11 +187,6 @@ void GlfwOpenGlWindow::setupCamera() {
 
     float aspectRatio = (float) windowWidth / (float) windowHeight;
     camera = Camera(45.0f, aspectRatio, 1.0f, 100.0f);
-}
-
-//----------------------------------------------------------------------------------------
-void GlfwOpenGlWindow::setupProjectionMatrix() {
-    projectionMatrix = camera.getProjectionMatrix();
 }
 
 //----------------------------------------------------------------------------------------

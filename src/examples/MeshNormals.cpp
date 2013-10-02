@@ -29,7 +29,11 @@ shared_ptr<GlfwOpenGlWindow> MeshNormals::getInstance() {
 }
 
 //---------------------------------------------------------------------------------------
-MeshNormals::MeshNormals() : renderTarget(MeshType::FLAT) {
+MeshNormals::MeshNormals()
+    : renderTarget(MeshType::FLAT),
+      vao(0),
+      vbo_vertices(0),
+      vbo_normals(0) {
 
 }
 //---------------------------------------------------------------------------------------

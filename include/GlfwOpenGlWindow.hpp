@@ -44,10 +44,7 @@ public:
 protected:
     GLFWwindow * window;
     string windowTitle;
-
-    mat4 projectionMatrix;
     Camera camera;
-
     static shared_ptr<GlfwOpenGlWindow> p_instance;
 
     GlfwOpenGlWindow() : window(nullptr) { }
@@ -66,8 +63,6 @@ protected:
     void centerWindow();
 
     void setupCamera();
-
-    void setupProjectionMatrix();
 
     virtual void init() { }
 
