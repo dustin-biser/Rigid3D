@@ -14,9 +14,7 @@ using boost::math::float_distance;
 
 #include <cmath>
 
-#include <iostream>
-using std::cout;
-using std::endl;
+#include <limits>
 
 namespace TestUtils {
     namespace predicates {
@@ -24,11 +22,7 @@ namespace TestUtils {
     // Floating point numbers must be less than this distance apart to be considered equal.
     const int ulpTolerance = 5;
 
-//    inline void ASSERT_ARRAY_EQ(const float * expected, const float * actual, size_t length) {
-//        for(size_t i = 0; i < length; i++) {
-//            ASSERT_FLOAT_EQ(expected[i], actual[i]);
-//        }
-//    }
+    const float epsilon = std::numeric_limits<float>::epsilon();
 
     inline bool array_eq(const float * expected, const float * actual, size_t length) {
         for(size_t i = 0; i < length; i++) {
@@ -39,70 +33,55 @@ namespace TestUtils {
 
         return true;
     }
+    //-----------------------------------------------------------------------------------
+    inline bool float_eq_ulp(float a, float b) {
+        return (std::abs((int)float_distance(a, b)) < ulpTolerance);
+    }
 
-//    inline void ASSERT_VEC3_EQ(const vec3 & expected, const vec3 & actual) {
-//        ASSERT_FLOAT_EQ(expected.x, actual.x);
-//        ASSERT_FLOAT_EQ(expected.y, actual.y);
-//        ASSERT_FLOAT_EQ(expected.z, actual.z);
-//    }
-//
-//    inline void ASSERT_VEC4_EQ(const vec4 & expected, const vec4 & actual) {
-//        ASSERT_FLOAT_EQ(expected.x, actual.x);
-//        ASSERT_FLOAT_EQ(expected.y, actual.y);
-//        ASSERT_FLOAT_EQ(expected.z, actual.z);
-//        ASSERT_FLOAT_EQ(expected.w, actual.w);
-//    }
-//
-//    inline void ASSERT_MAT3_EQ(const mat3 & expected, const mat3 & actual) {
-//        ASSERT_VEC3_EQ(expected[0], actual[0]);
-//        ASSERT_VEC3_EQ(expected[1], actual[1]);
-//        ASSERT_VEC3_EQ(expected[2], actual[2]);
-//    }
-//
-//    inline void ASSERT_MAT4_EQ(const mat4 & expected, const mat4 & actual) {
-//        ASSERT_VEC4_EQ(expected[0], actual[0]);
-//        ASSERT_VEC4_EQ(expected[1], actual[1]);
-//        ASSERT_VEC4_EQ(expected[2], actual[2]);
-//        ASSERT_VEC4_EQ(expected[3], actual[3]);
-//    }
+    //-----------------------------------------------------------------------------------
+    inline bool float_neq_ulp(float a, float b) {
+        return !float_eq_ulp(a, b);
+    }
 
-//    inline void ASSERT_VECTORS_EQ(const vector<vec3> & expected, const vector<vec3> & actual) {
-//        EXPECT_EQ(expected.size(), actual.size());
-//
-//        for(size_t i = 0; i < expected.size(); i++) {
-//            ASSERT_VEC3_EQ(expected.at(i), actual.at(i));
-//        }
-//    }
+    //-----------------------------------------------------------------------------------
+    /**
+     * Relative epsilon float comparison.
+     */
+    inline bool float_eq(float a, float b) {
+        return (std::fabs(a - b) <= epsilon * (std::fabs(a) + std::fabs(b) + 1.0f));
+    }
 
+    //-----------------------------------------------------------------------------------
+    /**
+     * Relative epsilon float comparison.
+     */
+    inline bool float_neq(float a, float b) {
+        return !float_eq(a, b);
+    }
 
     //-----------------------------------------------------------------------------------
     inline bool vec3_eq(const vec3 & expected, const vec3 & actual) {
-        return ( (std::abs((int)float_distance(expected.x, actual.x)) < ulpTolerance) &&
-                 (std::abs((int)float_distance(expected.y, actual.y)) < ulpTolerance) &&
-                 (std::abs((int)float_distance(expected.z, actual.z)) < ulpTolerance) );
+        return ( float_eq(expected.x, actual.x) &&
+                 float_eq(expected.y, actual.y) &&
+                 float_eq(expected.z, actual.z) );
     }
 
     //-----------------------------------------------------------------------------------
     inline bool vec3_neq(const vec3 & expected, const vec3 & actual) {
-        return ( (std::abs((int)float_distance(expected.x, actual.x)) >= ulpTolerance) ||
-                 (std::abs((int)float_distance(expected.y, actual.y)) >= ulpTolerance) ||
-                 (std::abs((int)float_distance(expected.z, actual.z)) >= ulpTolerance) );
+        return !vec3_eq(expected, actual);
     }
 
     //-----------------------------------------------------------------------------------
     inline bool vec4_eq(const vec4 & expected, const vec4 & actual) {
-        return ( (std::abs((int)float_distance(expected.x, actual.x)) < ulpTolerance) &&
-                 (std::abs((int)float_distance(expected.y, actual.y)) < ulpTolerance) &&
-                 (std::abs((int)float_distance(expected.z, actual.z)) < ulpTolerance) &&
-                 (std::abs((int)float_distance(expected.w, actual.w)) < ulpTolerance) );
+        return ( float_eq(expected.x, actual.x) &&
+                 float_eq(expected.y, actual.y) &&
+                 float_eq(expected.z, actual.z) &&
+                 float_eq(expected.w, actual.w) );
     }
 
     //-----------------------------------------------------------------------------------
     inline bool vec4_neq(const vec4 & expected, const vec4 & actual) {
-        return ( (std::abs((int)float_distance(expected.x, actual.x)) >= ulpTolerance) ||
-                 (std::abs((int)float_distance(expected.y, actual.y)) >= ulpTolerance) ||
-                 (std::abs((int)float_distance(expected.z, actual.z)) >= ulpTolerance) ||
-                 (std::abs((int)float_distance(expected.w, actual.w)) >= ulpTolerance) );
+        return !vec4_eq(expected, actual);
     }
 
     //-----------------------------------------------------------------------------------

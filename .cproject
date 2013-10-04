@@ -20,7 +20,7 @@
 							<option id="cdt.managedbuild.option.gnu.cross.prefix.573261785" name="Prefix" superClass="cdt.managedbuild.option.gnu.cross.prefix"/>
 							<option id="cdt.managedbuild.option.gnu.cross.path.536533597" name="Path" superClass="cdt.managedbuild.option.gnu.cross.path"/>
 							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.ELF" id="cdt.managedbuild.targetPlatform.gnu.cross.1429149082" isAbstract="false" osList="all" superClass="cdt.managedbuild.targetPlatform.gnu.cross"/>
-							<builder arguments="conf=debug CXX=clang" autoBuildTarget="" cleanBuildTarget="clean" command="make" enableAutoBuild="true" id="cdt.managedbuild.builder.gnu.cross.753898336" incrementalBuildTarget="" keepEnvironmentInBuildfile="false" managedBuildOn="false" name="Gnu Make Builder" superClass="cdt.managedbuild.builder.gnu.cross">
+							<builder arguments="config=debug CXX=clang" autoBuildTarget="" cleanBuildTarget="clean" command="make" enableAutoBuild="true" id="cdt.managedbuild.builder.gnu.cross.753898336" incrementalBuildTarget="" keepEnvironmentInBuildfile="false" managedBuildOn="false" name="Gnu Make Builder" superClass="cdt.managedbuild.builder.gnu.cross">
 								<outputEntries>
 									<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="outputPath" name=""/>
 									<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="outputPath" name="bin"/>
