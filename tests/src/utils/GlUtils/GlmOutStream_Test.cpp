@@ -67,8 +67,8 @@ TEST_F(GlmOutStream_Test, test_mat2_format) {
     cout << m;
 
     stringstream sbuf;
-    sbuf <<  "mat2:[1.0000 3.0000]" << endl
-         <<  "     [2.0000 4.0000]";
+    sbuf << endl << "mat2:[1.0000 3.0000]" << endl
+                 << "     [2.0000 4.0000]";
 
     EXPECT_EQ(sbuf.str(), strCout.str());
 }
@@ -80,9 +80,9 @@ TEST_F(GlmOutStream_Test, test_mat3_format) {
     cout << m;
 
     stringstream sbuf;
-    sbuf <<  "mat3:[1.0000 4.0000 7.0000]" << endl
-         <<  "     [2.0000 5.0000 8.0000]" << endl
-         <<  "     [3.0000 6.0000 9.0000]";
+    sbuf <<  endl << "mat3:[1.0000 4.0000 7.0000]" << endl
+                  << "     [2.0000 5.0000 8.0000]" << endl
+                  << "     [3.0000 6.0000 9.0000]";
 
     EXPECT_EQ(sbuf.str(), strCout.str());
 }
@@ -95,10 +95,10 @@ TEST_F(GlmOutStream_Test, test_mat4_format) {
     cout << m;
 
     stringstream sbuf;
-    sbuf <<  "mat4:[1.0000 5.0000 9.0000 13.0000]" << endl
-         <<  "     [2.0000 6.0000 10.0000 14.0000]" << endl
-         <<  "     [3.0000 7.0000 11.0000 15.0000]" << endl
-         <<  "     [4.0000 8.0000 12.0000 16.0000]";
+    sbuf << endl <<  "mat4:[1.0000 5.0000 9.0000 13.0000]" << endl
+                 <<  "     [2.0000 6.0000 10.0000 14.0000]" << endl
+                 <<  "     [3.0000 7.0000 11.0000 15.0000]" << endl
+                 <<  "     [4.0000 8.0000 12.0000 16.0000]";
 
     EXPECT_EQ(sbuf.str(), strCout.str());
 }

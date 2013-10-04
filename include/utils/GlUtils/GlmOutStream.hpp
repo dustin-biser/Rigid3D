@@ -41,7 +41,7 @@ namespace glm { namespace detail {
     }
 
     inline std::ostream &operator<< (std::ostream &out, const glm::mat2 &mat) {
-        out << "mat2:" << fixed << setprecision(4)
+        out << endl << "mat2:" << fixed << setprecision(4)
             << "["      << mat[0][0] << " " << mat[1][0] << "]" << endl
             << "     [" << mat[0][1] << " " << mat[1][1] << "]";
 
@@ -49,7 +49,7 @@ namespace glm { namespace detail {
     }
 
     inline std::ostream &operator<< (std::ostream &out, const glm::mat3 &mat) {
-        out << "mat3:" << fixed << setprecision(4)
+        out << endl << "mat3:" << fixed << setprecision(4)
             << "["      << mat[0][0] << " " << mat[1][0] << " " << mat[2][0] << "]" << endl
             << "     [" << mat[0][1] << " " << mat[1][1] << " " << mat[2][1] << "]" << endl
             << "     [" << mat[0][2] << " " << mat[1][2] << " " << mat[2][2] << "]";
@@ -58,7 +58,7 @@ namespace glm { namespace detail {
     }
 
     inline std::ostream &operator<< (std::ostream &out, const glm::mat4 &mat) {
-        out << "mat4:" << fixed << setprecision(4)
+        out << endl << "mat4:" << fixed << setprecision(4)
             << "["      << mat[0][0] << " " << mat[1][0] << " " << mat[2][0] << " " << mat[3][0] << "]" << endl
             << "     [" << mat[0][1] << " " << mat[1][1] << " " << mat[2][1] << " " << mat[3][1] << "]" << endl
             << "     [" << mat[0][2] << " " << mat[1][2] << " " << mat[2][2] << " " << mat[3][2] << "]" << endl
