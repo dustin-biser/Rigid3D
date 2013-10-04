@@ -14,10 +14,12 @@ using std::endl;
 using std::fixed;
 using std::setprecision;
 
+#define GLM_OUT_STREAM_PRECISION 6
+
 namespace glm { namespace detail {
 
     inline std::ostream &operator<< (std::ostream &out, const glm::vec2 &vec) {
-        out << "vec2:[" << fixed << setprecision(4)
+        out << "vec2:[" << fixed << setprecision(GLM_OUT_STREAM_PRECISION)
             << vec.x << " " << vec.y
             << "]";
 
@@ -25,7 +27,7 @@ namespace glm { namespace detail {
     }
 
     inline std::ostream &operator<< (std::ostream &out, const glm::vec3 &vec) {
-        out << "vec3:[" << fixed << setprecision(4)
+        out << "vec3:[" << fixed << setprecision(GLM_OUT_STREAM_PRECISION)
             << vec.x << " " << vec.y << " "<< vec.z
             << "]";
 
@@ -33,7 +35,7 @@ namespace glm { namespace detail {
     }
 
     inline std::ostream &operator<< (std::ostream &out, const glm::vec4 &vec) {
-        out << "vec4:[" << fixed << setprecision(4)
+        out << "vec4:[" << fixed << setprecision(GLM_OUT_STREAM_PRECISION)
             << vec.x << " " << vec.y << " "<< vec.z << " " << vec.w
             << "]";
 
@@ -41,7 +43,7 @@ namespace glm { namespace detail {
     }
 
     inline std::ostream &operator<< (std::ostream &out, const glm::mat2 &mat) {
-        out << endl << "mat2:" << fixed << setprecision(4)
+        out << endl << "mat2:" << fixed << setprecision(GLM_OUT_STREAM_PRECISION)
             << "["      << mat[0][0] << " " << mat[1][0] << "]" << endl
             << "     [" << mat[0][1] << " " << mat[1][1] << "]";
 
@@ -49,7 +51,7 @@ namespace glm { namespace detail {
     }
 
     inline std::ostream &operator<< (std::ostream &out, const glm::mat3 &mat) {
-        out << endl << "mat3:" << fixed << setprecision(4)
+        out << endl << "mat3:" << fixed << setprecision(GLM_OUT_STREAM_PRECISION)
             << "["      << mat[0][0] << " " << mat[1][0] << " " << mat[2][0] << "]" << endl
             << "     [" << mat[0][1] << " " << mat[1][1] << " " << mat[2][1] << "]" << endl
             << "     [" << mat[0][2] << " " << mat[1][2] << " " << mat[2][2] << "]";
@@ -58,7 +60,7 @@ namespace glm { namespace detail {
     }
 
     inline std::ostream &operator<< (std::ostream &out, const glm::mat4 &mat) {
-        out << endl << "mat4:" << fixed << setprecision(4)
+        out << endl << "mat4:" << fixed << setprecision(GLM_OUT_STREAM_PRECISION)
             << "["      << mat[0][0] << " " << mat[1][0] << " " << mat[2][0] << " " << mat[3][0] << "]" << endl
             << "     [" << mat[0][1] << " " << mat[1][1] << " " << mat[2][1] << " " << mat[3][1] << "]" << endl
             << "     [" << mat[0][2] << " " << mat[1][2] << " " << mat[2][2] << " " << mat[3][2] << "]" << endl
@@ -68,7 +70,7 @@ namespace glm { namespace detail {
     }
 
     inline std::ostream &operator<< (std::ostream &out, const glm::quat &q) {
-        out << "quat:[" << fixed << setprecision(4)
+        out << "quat:[" << fixed << setprecision(GLM_OUT_STREAM_PRECISION)
             << q.w << " " << q.x << " "<< q.y << " " << q.z
             << "]";
 
