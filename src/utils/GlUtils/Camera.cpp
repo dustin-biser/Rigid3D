@@ -3,28 +3,24 @@ using glm::conjugate;
 using glm::normalize;
 using glm::cross;
 using glm::mat3;
+using glm::dot;
 
 #include <glm/gtx/transform.hpp>
 using glm::translate;
-using glm::transpose;
 
 #include <glm/gtx/quaternion.hpp>
 using glm::rotate;
 using glm::quat_cast;
+using glm::toQuat;
 
 #include <glm/gtc/quaternion.hpp>
 using glm::angleAxis;
 
+#include <glm/gtx/norm.hpp>
+using glm::length2;
+
 #include "MathUtils.hpp"
 using MathUtils::radiansToDegrees;
-
-///////////////////////////////
-// TODO (Dustin) Remove.
-#include "glm/gtc/quaternion.hpp"
-using glm::length;
-#include <iostream>
-using namespace std;
-///////////////////////////////
 
 using namespace GlUtils;
 
@@ -33,7 +29,8 @@ using namespace GlUtils;
  * Default Constructor
  */
 Camera::Camera()
-    : recalcViewMatrix(true) {
+    : recalcViewMatrix(true),
+      rotationHitCount(0) {
 
     this->initLocalCoordinateSystem();
 }
@@ -54,11 +51,11 @@ Camera::Camera()
  */
 Camera::Camera(float left, float right, float bottom, float top, float zNear, float zFar)
     : Frustum(left,  right,  bottom,  top,  zNear, zFar),
-      recalcViewMatrix(true) {
+      recalcViewMatrix(true),
+      rotationHitCount(0) {
 
     this->initLocalCoordinateSystem();
 }
-
 
 //----------------------------------------------------------------------------------------
 /**
@@ -78,24 +75,10 @@ Camera::Camera(float left, float right, float bottom, float top, float zNear, fl
  */
 Camera::Camera(float fieldOfViewY, float aspectRatio, float zNear, float zFar)
     : Frustum(fieldOfViewY,  aspectRatio,  zNear,  zFar),
-      recalcViewMatrix(true) {
+      recalcViewMatrix(true),
+      rotationHitCount(0) {
 
     this->initLocalCoordinateSystem();
-}
-
-//----------------------------------------------------------------------------------------
-/**
- * Sets the world position of the \c Camera.
- * @param x
- * @param y
- * @param z
- */
-void Camera::setPosition(float x, float y, float z) {
-    eyePosition.x = x;
-    eyePosition.y = y;
-    eyePosition.z = z;
-
-    recalcViewMatrix = true;
 }
 
 //----------------------------------------------------------------------------------------
@@ -124,7 +107,20 @@ void Camera::initLocalCoordinateSystem() {
  * @param y
  * @param z
  */
-void Camera::setPosition(const vec3 &v) {
+void Camera::setPosition(float x, float y, float z) {
+    eyePosition.x = x;
+    eyePosition.y = y;
+    eyePosition.z = z;
+
+    recalcViewMatrix = true;
+}
+
+//----------------------------------------------------------------------------------------
+/**
+ * Sets the world position of the \c Camera.
+ * @param v
+ */
+void Camera::setPosition(const glm::vec3 &v) {
     setPosition(v.x, v.y, v.z);
 }
 
@@ -132,7 +128,7 @@ void Camera::setPosition(const vec3 &v) {
 /**
  * @return the world position of the \c Camera.
  */
-vec3 Camera::getPosition() const {
+glm::vec3 Camera::getPosition() const {
     return eyePosition;
 }
 
@@ -141,7 +137,7 @@ vec3 Camera::getPosition() const {
 /**
  * @return the \c Camera's left direction vector given in world space coordinates.
  */
-vec3 Camera::getLeftDirection() const {
+glm::vec3 Camera::getLeftDirection() const {
     return l;
 }
 
@@ -149,7 +145,7 @@ vec3 Camera::getLeftDirection() const {
 /**
  * @return the \c Camera's up direction vector given in world space coordinates.
  */
-vec3 Camera::getUpDirection() const {
+glm::vec3 Camera::getUpDirection() const {
     return u;
 }
 
@@ -157,25 +153,38 @@ vec3 Camera::getUpDirection() const {
 /**
  * @return the \c Camera's forward direction vector given in world space coordinates.
  */
-vec3 Camera::getForwardDirection() const {
+glm::vec3 Camera::getForwardDirection() const {
     return f;
 }
+
+//----------------------------------------------------------------------------------------
+/**
+ * @note Orientation of the Camera is given by a float quaternion of the form
+ * \c (cos(theta/2), sin(theta/2) * u), where the axis of rotation \c u is given in
+ * world space coordinates.
+ *
+ * @return the \c Camera's orientation in the form of a float quaternion.
+ */
+glm::quat Camera::getOrientation() const {
+    return orientation;
+}
+
 //----------------------------------------------------------------------------------------
 /**
  * @return a 4x4 view matrix representing the \c Camera object's view transformation.
  */
-mat4 Camera::getViewMatrix() const {
+glm::mat4 Camera::getViewMatrix() const {
     if (recalcViewMatrix) {
         // Compute inverse rotation q
-        quat q = orientation;
+        glm::quat q = orientation;
         q.x *= -1.0f;
         q.y *= -1.0f;
         q.z *= -1.0f;
-        viewMatrix = mat4_cast(q);
+        viewMatrix = glm::mat4_cast(q);
 
         // Translate by inverse eyePosition.
-        vec3 v = -1.0f * eyePosition;
-        mat4 m = viewMatrix;
+        glm::vec3 v = -1.0f * eyePosition;
+        glm::mat4 m = viewMatrix;
         viewMatrix[3] = m[0] * v[0] + m[1] * v[1] + m[2] * v[2] + m[3];
 
         recalcViewMatrix = false;
@@ -185,56 +194,86 @@ mat4 Camera::getViewMatrix() const {
 }
 
 //----------------------------------------------------------------------------------------
+void Camera::normalizeCamera() {
+    l = normalize(l);
+    u = normalize(u);
+    f = normalize(f);
+    orientation = normalize(orientation);
+}
+
+//----------------------------------------------------------------------------------------
+void Camera::registerRotation() {
+    rotationHitCount++;
+
+    if (rotationHitCount > rotationHitCountMax) {
+        rotationHitCount = 0;
+        normalizeCamera();
+    }
+}
+
+//----------------------------------------------------------------------------------------
 /**
- * Rotates \c Camera about its local negative z-axis (forward direction) by \c angle radians.
+ * Rotates \c Camera about its local negative z-axis (forward direction)
+ * by \c angle radians.
  *
- * @note Rotation is counter-clockwise if \c angle > 0, and clockwise if \c angle is < 0.
+ * @note Rotation is counter-clockwise if \c angle > 0, and clockwise if
+ * \c angle is < 0.
  *
  * @param angle - rotation angle in radians.
  */
 void Camera::roll(float angle) {
-    quat q = angleAxis(angle, f);
+    glm::quat q = angleAxis(angle, f);
 
     u = glm::rotate(q, u);
     l = glm::rotate(q, l);
 
     orientation = q * orientation;
+
+    registerRotation();
     recalcViewMatrix = true;
 }
 
 //----------------------------------------------------------------------------------------
 /**
- * Rotates \c Camera about its local x (left direction) axis by \c angle radians.
+ * Rotates \c Camera about its local x (left direction) axis by \c angle
+ * radians.
  *
- * @note Rotation is counter-clockwise if \c angle > 0, and clockwise if \c angle is < 0.
+ * @note Rotation is counter-clockwise if \c angle > 0, and clockwise if
+ * \c angle is < 0.
  *
  * @param angle - rotation angle in radians.
  */
 void Camera::pitch(float angle) {
-    quat q = angleAxis(angle, -1.0f * l);
+    glm::quat q = angleAxis(angle, -1.0f * l);
 
     u = glm::rotate(q, u);
     f = glm::rotate(q, f);
 
     orientation = q * orientation;
+
+    registerRotation();
     recalcViewMatrix = true;
 }
 
 //----------------------------------------------------------------------------------------
 /**
- * Rotates \c Camera about its local y (up direction) axis by \c angle radians.
+ * Rotates \c Camera about its local y (up direction) axis by \c angle
+ * radians.
  *
- * @note Rotation is counter-clockwise if \c angle > 0, and clockwise if \c angle is < 0.
+ * @note Rotation is counter-clockwise if \c angle > 0, and clockwise if
+ * \c angle is < 0.
  *
  * @param angle - rotation angle in radians.
  */
 void Camera::yaw(float angle) {
-    quat q = angleAxis(angle, u);
+    glm::quat q = angleAxis(angle, u);
 
     l = glm::rotate(q, l);
     f = glm::rotate(q, f);
 
     orientation = q * orientation;
+
+    registerRotation();
     recalcViewMatrix = true;
 }
 
@@ -243,18 +282,22 @@ void Camera::yaw(float angle) {
  * Rotates \c Camera by \c angle radians about \c axis whose components are expressed using
  * the \c Camera's local coordinate system.
  *
+ * @note Counter-clockwise rotation for angle > 0, and clockwise rotation otherwise.
+ *
  * @param angle
  * @param axis
  */
-void Camera::rotate(float angle, const vec3 & axis) {
-    vec3 n = normalize(axis);
-    quat q = angleAxis(angle, n);
+void Camera::rotate(float angle, const glm::vec3 & axis) {
+    glm::vec3 n = normalize(axis);
+    glm::quat q = angleAxis(angle, n);
 
     l = glm::rotate(q, l);
     u = glm::rotate(q, u);
     f = glm::rotate(q, f);
 
     orientation = q * orientation;
+
+    registerRotation();
     recalcViewMatrix = true;
 }
 
@@ -280,7 +323,7 @@ void Camera::translate(float x, float y, float z) {
  *
  * @param v
  */
-void Camera::translate(const vec3& v) {
+void Camera::translate(const glm::vec3& v) {
     translate(v.x, v.y, v.z);
 }
 
@@ -310,23 +353,63 @@ void Camera::translateRelative(float left, float up, float forward) {
  *
  * @param v
  */
-void Camera::translateRelative(const vec3& v) {
+void Camera::translateRelative(const glm::vec3& v) {
     translateRelative(v.x, v.y, v.z);
 }
 
 //----------------------------------------------------------------------------------------
-void Camera::lookAt(const vec3 & center) {
+void Camera::lookAt(const glm::vec3 & center) {
     this->lookAt(center.x, center.y, center.z);
 }
 
 //----------------------------------------------------------------------------------------
 void Camera::lookAt(float centerX, float centerY, float centerZ) {
-    // TODO (Dustin) implement this method.
+    // f = center - eye.
+    f.x = centerX - eyePosition.x;
+    f.y = centerY - eyePosition.y;
+    f.z = centerZ - eyePosition.z;
+    f = normalize(f);
+
+    // The following projects u onto the plane defined by the point eyePosition,
+    // and the normal f. The goal is to rotate u so that it is orthogonal to f,
+    // while attempting to keep u's orientation close to its previous direction.
+    {
+        // Borrow l vector for calculation, so we don't have to allocate a
+        // new vector.
+        l = eyePosition + u;
+
+        float t = -1.0f * dot(f, u);
+
+        // Move point l in the normal direction, f, by t units so that it is
+        // on the plane.
+        l.x += t * f.x;
+        l.y += t * f.y;
+        l.z += t * f.z;
+
+        u = l - eyePosition;
+        u = normalize(u);
+    }
+
+    // Update l vector given new f and u vectors.
+    l = cross(u, f);
+
+    // If f and u are no longer orthogonal, make them so.
+    if (dot(f, u) > 1e-7f) {
+        u = cross(f, l);
+    }
+
+    mat3 m;
+    m[0] = -1.0f * l;
+    m[1] = u;
+    m[2] = -1.0f * f;
+    orientation = toQuat(m);
+
+    registerRotation();
+    recalcViewMatrix = true;
 }
 
 //----------------------------------------------------------------------------------------
-void Camera::lookAt(const vec3 & eye, const vec3 & center, const vec3 & up) {
-    // TODO (Dustin) What to do when eye is approx equal to center?
+void Camera::lookAt(const glm::vec3 & eye, const glm::vec3 & center, const glm::vec3 & up) {
     eyePosition = eye;
 
     // Orient Camera basis vectors.
@@ -340,7 +423,9 @@ void Camera::lookAt(const vec3 & eye, const vec3 & center, const vec3 & up) {
     m[0] = -1.0f * l; // first column, representing new x-axis orientation
     m[1] = u;         // second column, representing new y-axis orientation
     m[2] = -1.0f * f; // third column, representing new z-axis orientation
-//    m = transpose(m);
 
     orientation = quat_cast(m);
+
+    registerRotation();
+    recalcViewMatrix = true;
 }

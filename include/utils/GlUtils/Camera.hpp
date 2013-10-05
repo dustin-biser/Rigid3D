@@ -10,11 +10,7 @@
 
 #define GLM_FORCE_RADIANS
 #include <glm/glm.hpp>
-using glm::vec3;
-using glm::mat4;
-
 #include <glm/gtc/quaternion.hpp>
-using glm::quat;
 using glm::mat4_cast;
 
 #include <Frustum.hpp>
@@ -34,17 +30,22 @@ namespace GlUtils {
      */
     class Camera : public Frustum {
     private:
-        vec3 eyePosition; // Location of camera in world coordinates.
-        quat orientation; // Orientation of camera basis vectors specified in world coordinates.
+        glm::vec3 eyePosition; // Location of camera in world coordinates.
+        glm::quat orientation; // Orientation of camera basis vectors specified in world coordinates.
 
-        vec3 l; // Camera's left direction vector, given in world coordinates.
-        vec3 u; // Camera's up direction vector, given in world coordinates.
-        vec3 f; // Camera's forward direction vector, given in world coordinates.
+        glm::vec3 l; // Camera's left direction vector, given in world coordinates.
+        glm::vec3 u; // Camera's up direction vector, given in world coordinates.
+        glm::vec3 f; // Camera's forward direction vector, given in world coordinates.
 
         mutable bool recalcViewMatrix;
-        mutable mat4 viewMatrix;
+        mutable glm::mat4 viewMatrix;
+
+        unsigned short rotationHitCount;
+        static const unsigned short rotationHitCountMax = 2000;
 
         void initLocalCoordinateSystem();
+        void registerRotation();
+        void normalizeCamera();
 
     public:
         Camera();
@@ -53,31 +54,30 @@ namespace GlUtils {
 
         // Setters
         void setPosition(float x, float y, float z);
-        void setPosition(const vec3 &v);
+        void setPosition(const glm::vec3 &v);
 
         // Getters
-        vec3 getPosition() const;
-        vec3 getLeftDirection() const;
-        vec3 getUpDirection() const;
-        vec3 getForwardDirection() const;
-        mat4 getViewMatrix() const;
+        glm::vec3 getPosition() const;
+        glm::vec3 getLeftDirection() const;
+        glm::vec3 getUpDirection() const;
+        glm::vec3 getForwardDirection() const;
+        glm::quat getOrientation() const;
+        glm::mat4 getViewMatrix() const;
 
         // Actions
-        void lookAt(const vec3 & center);
+        void lookAt(const glm::vec3 & center);
         void lookAt(float centerX, float centerY, float centerZ);
-        void lookAt(const vec3 & eye,
-                    const vec3 & center,
-                    const vec3 & up);
-
+        void lookAt(const glm::vec3 & eye,
+                    const glm::vec3 & center,
+                    const glm::vec3 & up);
         void roll(float angle);
         void pitch(float angle);
         void yaw(float angle);
-        void rotate(float angle, const vec3 & axis);
-
+        void rotate(float angle, const glm::vec3 & axis);
         void translate(float x, float y, float z);
-        void translate(const vec3 &v);
+        void translate(const glm::vec3 &v);
         void translateRelative(float left, float up, float forward);
-        void translateRelative(const vec3 &v);
+        void translateRelative(const glm::vec3 &v);
     };
 }
 

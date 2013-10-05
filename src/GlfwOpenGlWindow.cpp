@@ -29,7 +29,7 @@ void GlfwOpenGlWindow::resize(int width, int height) {
     float frustumYScale = cotangent(degreesToRadians(camera.getFieldOfViewY() / 2));
 
     float frustumXScale = frustumYScale;
-    mat4 projectionMatrix = camera.getProjectionMatrix();
+    glm::mat4 projectionMatrix = camera.getProjectionMatrix();
 
     if (width > height) {
         // Shrink the x scale in eye-coordinate space, so that when geometry is
@@ -49,7 +49,6 @@ void GlfwOpenGlWindow::resize(int width, int height) {
     // Use entire window for rendering.
     glViewport(0, 0, width, height);
 }
-
 
 //----------------------------------------------------------------------------------------
 /**

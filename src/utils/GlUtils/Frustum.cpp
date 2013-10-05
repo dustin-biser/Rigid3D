@@ -66,7 +66,7 @@ Frustum::Frustum(float fieldOfViewY, float aspectRatio, float zNear, float zFar)
 }
 
 //----------------------------------------------------------------------------------------
-mat4 Frustum::getProjectionMatrix() const {
+glm::mat4 Frustum::getProjectionMatrix() const {
     if (recalcPerspectiveMatrix) {
         projectionMatrix = glm::perspective(fieldOfViewY, aspectRatio, zNear, zFar);
         recalcPerspectiveMatrix = false;
@@ -116,6 +116,8 @@ bool Frustum::isOrthographic() const {
 void Frustum::setFieldOfViewY(float fieldOfViewY) {
     if (fieldOfViewY < 0.0f) {
         fieldOfViewY = 0.0f;
+    } else if (fieldOfViewY > 180.0f) {
+        fieldOfViewY = 180.0f;
     }
     this->fieldOfViewY = fieldOfViewY;
     recalcPerspectiveMatrix = true;
@@ -140,6 +142,6 @@ void Frustum::setFarZDistance(float zFar) {
 }
 
 //----------------------------------------------------------------------------------------
-void Frustum::setProjectionMatrix(const mat4 & projectionMatrix) {
+void Frustum::setProjectionMatrix(const glm::mat4 & projectionMatrix) {
     this->projectionMatrix = projectionMatrix;
 }

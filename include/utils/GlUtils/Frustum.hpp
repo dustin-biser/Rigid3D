@@ -10,7 +10,6 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 #include <glm/glm.hpp>
-using glm::mat4;
 
 namespace GlUtils {
 
@@ -23,7 +22,7 @@ namespace GlUtils {
         Frustum(float fieldOfViewY, float aspectRatio, float zNear, float zFar);
 
         // Getters
-        mat4 getProjectionMatrix() const;
+        glm::mat4 getProjectionMatrix() const;
         float getFieldOfViewY() const;
         float getAspectRatio() const;
         float getNearZDistance() const;
@@ -34,7 +33,7 @@ namespace GlUtils {
         void setAspectRatio(float aspectRatio);
         void setNearZDistance(float zNear);
         void setFarZDistance(float zFar);
-        void setProjectionMatrix(const mat4 & projectionMatrix);
+        void setProjectionMatrix(const glm::mat4 & projectionMatrix);
 
         bool isPerspective() const;
         bool isOrthographic() const;
@@ -47,7 +46,7 @@ namespace GlUtils {
         bool _isPerspective;
         mutable bool recalcPerspectiveMatrix;
 
-        mutable mat4 projectionMatrix;
+        mutable glm::mat4 projectionMatrix;
 
         const static unsigned short floatTolerance = 5;
     };

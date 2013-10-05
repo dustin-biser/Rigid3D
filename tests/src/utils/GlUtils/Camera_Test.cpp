@@ -12,6 +12,10 @@ using namespace TestUtils::predicates;
 #include <glm/glm.hpp>
 using glm::vec3;
 using glm::vec4;
+using glm::dot;
+
+#include <glm/gtx/norm.hpp>
+using glm::length2;
 
 #include <GlUtils/Camera.hpp>
 using GlUtils::Camera;
@@ -44,6 +48,17 @@ namespace {  // limit class visibility to this file.
         void expect_view_matrix_was_not_modified() {
             EXPECT_PRED2(mat4_eq, mat4(), camera.getViewMatrix());
         }
+
+        void expect_orthogonal_camera_vectors() {
+            vec3 l = camera.getLeftDirection();
+            vec3 u = camera.getUpDirection();
+            vec3 f = camera.getForwardDirection();
+
+            EXPECT_FLOAT_EQ(0.0f, dot(l, u));
+            EXPECT_FLOAT_EQ(0.0f, dot(l, f));
+            EXPECT_FLOAT_EQ(0.0f, dot(f, u));
+        }
+
     };
 
     const vec3 Camera_Test::left_default = vec3(-1.0f, 0.0f, 0.0f);
@@ -136,4 +151,24 @@ TEST_F(Camera_Test, test_translate_zVec){
 
     expect_camera_vectors_were_not_modified();
     EXPECT_PRED2(vec3_eq, zDelta, camera.getPosition());
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////
+// Test Translations
+//////////////////////////////////////////////////////////////////////////////////////////
+//----------------------------------------------------------------------------------------
+TEST_F(Camera_Test, test_lookAt_rightOfOrigin) {
+    vec3 eye(0.0f, 0.0f, 0.0f);
+    vec3 center(10.0f, 0.0f, 0.0f);
+    vec3 up(0.0f, 1.0f, 0.0f);
+
+    camera.lookAt(eye, center, up);
+
+    mat3 m(0.0f, 0.0f, -1.0f,  // first column
+           0.0f, 1.0f,  0.0f,  // second column
+           1.0f, 0.0f,  0.0f); // third column
+    mat4 viewMatrix(m);
+
+
+    EXPECT_PRED2(mat4_eq, viewMatrix, camera.getViewMatrix());
 }

@@ -20,7 +20,6 @@ using std::string;
 using std::shared_ptr;
 
 #include <glm/glm.hpp>
-using glm::mat4;
 
 #include <boost/utility.hpp>
 using boost::noncopyable;
