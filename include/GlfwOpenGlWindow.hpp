@@ -45,8 +45,9 @@ protected:
     string windowTitle;
     Camera camera;
     static shared_ptr<GlfwOpenGlWindow> p_instance;
+    bool paused;
 
-    GlfwOpenGlWindow() : window(nullptr) { }
+    GlfwOpenGlWindow();
 
     static void error_callback(int error, const char* description);
 

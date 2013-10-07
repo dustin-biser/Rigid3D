@@ -38,27 +38,27 @@ namespace {
 TEST_F(GlmOutStream_Test, test_vec2_ints) {
     glm::vec2 v(1,2);
     cout << v;
-    EXPECT_EQ("vec2:[1.0000 2.0000]", strCout.str());
+    EXPECT_EQ("vec2:[1.000000 2.000000]", strCout.str());
 
 }
 
 TEST_F(GlmOutStream_Test, test_vec2_floats) {
     glm::vec2 v(1.0f, 2.0f);
     cout << v;
-    EXPECT_EQ("vec2:[1.0000 2.0000]", strCout.str());
+    EXPECT_EQ("vec2:[1.000000 2.000000]", strCout.str());
 
 }
 
 TEST_F(GlmOutStream_Test, test_vec3_floats) {
     glm::vec3 v(1.0f, 2.0f, 3.0f);
     cout << v;
-    EXPECT_EQ("vec3:[1.0000 2.0000 3.0000]", strCout.str());
+    EXPECT_EQ("vec3:[1.000000 2.000000 3.000000]", strCout.str());
 }
 
 TEST_F(GlmOutStream_Test, test_vec4_floats) {
     glm::vec4 v(1,2,3,4);
     cout << v;
-    EXPECT_EQ("vec4:[1.0000 2.0000 3.0000 4.0000]", strCout.str());
+    EXPECT_EQ("vec4:[1.000000 2.000000 3.000000 4.000000]", strCout.str());
 }
 
 TEST_F(GlmOutStream_Test, test_mat2_format) {
@@ -67,8 +67,8 @@ TEST_F(GlmOutStream_Test, test_mat2_format) {
     cout << m;
 
     stringstream sbuf;
-    sbuf << endl << "mat2:[1.0000 3.0000]" << endl
-                 << "     [2.0000 4.0000]";
+    sbuf << endl << "mat2:[1.000000 3.000000]" << endl
+                 << "     [2.000000 4.000000]";
 
     EXPECT_EQ(sbuf.str(), strCout.str());
 }
@@ -80,9 +80,9 @@ TEST_F(GlmOutStream_Test, test_mat3_format) {
     cout << m;
 
     stringstream sbuf;
-    sbuf <<  endl << "mat3:[1.0000 4.0000 7.0000]" << endl
-                  << "     [2.0000 5.0000 8.0000]" << endl
-                  << "     [3.0000 6.0000 9.0000]";
+    sbuf <<  endl << "mat3:[1.000000 4.000000 7.000000]" << endl
+                  << "     [2.000000 5.000000 8.000000]" << endl
+                  << "     [3.000000 6.000000 9.000000]";
 
     EXPECT_EQ(sbuf.str(), strCout.str());
 }
@@ -95,10 +95,10 @@ TEST_F(GlmOutStream_Test, test_mat4_format) {
     cout << m;
 
     stringstream sbuf;
-    sbuf << endl <<  "mat4:[1.0000 5.0000 9.0000 13.0000]" << endl
-                 <<  "     [2.0000 6.0000 10.0000 14.0000]" << endl
-                 <<  "     [3.0000 7.0000 11.0000 15.0000]" << endl
-                 <<  "     [4.0000 8.0000 12.0000 16.0000]";
+    sbuf << endl <<  "mat4:[1.000000 5.000000 9.000000 13.000000]" << endl
+                 <<  "     [2.000000 6.000000 10.000000 14.000000]" << endl
+                 <<  "     [3.000000 7.000000 11.000000 15.000000]" << endl
+                 <<  "     [4.000000 8.000000 12.000000 16.000000]";
 
     EXPECT_EQ(sbuf.str(), strCout.str());
 }
@@ -111,7 +111,7 @@ TEST_F(GlmOutStream_Test, test_quat_format) {
 
     cout << q;
     stringstream sbuf;
-    sbuf <<  "quat:[1.0000 2.0000 3.0000 4.0000]";
+    sbuf <<  "quat:[1.000000 2.000000 3.000000 4.000000]";
 
     EXPECT_EQ(sbuf.str(), strCout.str());
 }

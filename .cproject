@@ -29,7 +29,6 @@
 							<tool id="cdt.managedbuild.tool.gnu.cross.c.compiler.740715675" name="Cross GCC Compiler" superClass="cdt.managedbuild.tool.gnu.cross.c.compiler">
 								<option id="gnu.c.compiler.option.include.paths.100816422" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="/usr/local/include"/>
-									<listOptionValue builtIn="false" value="/usr/local/lib/glm-0.9.4.3"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/ext/freetype-gl}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/include/utils/GlUtils}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/include/examples}&quot;"/>
@@ -38,6 +37,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/include/utils/MathUtils}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/tests/include/utils}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/tests/include}&quot;"/>
+									<listOptionValue builtIn="false" value="/usr/local/lib/glm-0.9.4.6"/>
 								</option>
 								<option id="gnu.c.compiler.option.preprocessor.def.symbols.1429203995" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="__GXX_EXPERIMENTAL_CXX0X__=1"/>
@@ -48,7 +48,6 @@
 							<tool id="cdt.managedbuild.tool.gnu.cross.cpp.compiler.1548255601" name="Cross G++ Compiler" superClass="cdt.managedbuild.tool.gnu.cross.cpp.compiler">
 								<option id="gnu.cpp.compiler.option.include.paths.1382980904" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="/usr/local/include"/>
-									<listOptionValue builtIn="false" value="/usr/local/lib/glm-0.9.4.3"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/include/examples}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/include/utils}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/include/utils/MathUtils}&quot;"/>
@@ -57,6 +56,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/tests/include/utils}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/include/utils/GlUtils}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/include}&quot;"/>
+									<listOptionValue builtIn="false" value="/usr/local/lib/glm-0.9.4.6"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.preprocessor.def.1028643768" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="__GXX_EXPERIMENTAL_CXX0X__=1"/>

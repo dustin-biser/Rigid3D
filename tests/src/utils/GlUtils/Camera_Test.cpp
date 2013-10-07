@@ -66,6 +66,8 @@ namespace {  // limit class visibility to this file.
     const vec3 Camera_Test::forward_default = vec3(0.0f, 0.0f, -1.0f);
 }
 
+// TODO (Dustin) Add tests for roll, pitch, yaw, rotate, translateRelative.
+
 //////////////////////////////////////////////////////////////////////////////////////////
 // Test Default Values
 //////////////////////////////////////////////////////////////////////////////////////////
@@ -154,14 +156,23 @@ TEST_F(Camera_Test, test_translate_zVec){
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
-// Test Translations
+// Test lookAt
 //////////////////////////////////////////////////////////////////////////////////////////
+/**
+ * @note The computed 3x3 upper left of the view matrix after calling lookAt
+ * should equal:
+ * v = |x0 x1 x2|
+ *     |y0 y1 y2|
+ *     |z0 z1 z2|
+ * where -l=(x0, x1, x2), u=(y0, y1, y2), -f=(z0, z1, z2) are the camera basis vectors
+ * given in world coordinates.  The columns of the computed view matrix thus describes
+ * the world basis vectors using camera coordinates.
+ */
 //----------------------------------------------------------------------------------------
 TEST_F(Camera_Test, test_lookAt_rightOfOrigin) {
     vec3 eye(0.0f, 0.0f, 0.0f);
-    vec3 center(10.0f, 0.0f, 0.0f);
+    vec3 center(1.0f, 0.0f, 0.0f);
     vec3 up(0.0f, 1.0f, 0.0f);
-
     camera.lookAt(eye, center, up);
 
     mat3 m(0.0f, 0.0f, -1.0f,  // first column
@@ -169,6 +180,148 @@ TEST_F(Camera_Test, test_lookAt_rightOfOrigin) {
            1.0f, 0.0f,  0.0f); // third column
     mat4 viewMatrix(m);
 
+    EXPECT_PRED2(mat4_eq, viewMatrix, camera.getViewMatrix());
+}
+
+//----------------------------------------------------------------------------------------
+TEST_F(Camera_Test, test_lookAt_rightOfOrigin2) {
+    vec3 center(1.0f, 0.0f, 0.0f);
+    camera.lookAt(center);
+
+    mat3 m(0.0f, 0.0f, -1.0f,  // first column
+           0.0f, 1.0f,  0.0f,  // second column
+           1.0f, 0.0f,  0.0f); // third column
+    mat4 viewMatrix(m);
+
+    EXPECT_PRED2(mat4_eq, viewMatrix, camera.getViewMatrix());
+}
+
+//----------------------------------------------------------------------------------------
+TEST_F(Camera_Test, test_lookAt_leftOfOrigin) {
+    vec3 eye(0.0f, 0.0f, 0.0f);
+    vec3 center(-1.0f, 0.0f, 0.0f);
+    vec3 up(0.0f, 1.0f, 0.0f);
+    camera.lookAt(eye, center, up);
+
+    mat3 m(0.0f, 0.0f, 1.0f,  // first column
+           0.0f, 1.0f,  0.0f,  // second column
+           -1.0f, 0.0f,  0.0f); // third column
+    mat4 viewMatrix(m);
+
+    EXPECT_PRED2(mat4_eq, viewMatrix, camera.getViewMatrix());
+}
+
+//----------------------------------------------------------------------------------------
+TEST_F(Camera_Test, test_lookAt_leftOfOrigin2) {
+    vec3 center(-1.0f, 0.0f, 0.0f);
+    camera.lookAt(center);
+
+    mat3 m(0.0f, 0.0f, 1.0f,  // first column
+           0.0f, 1.0f,  0.0f,  // second column
+           -1.0f, 0.0f,  0.0f); // third column
+    mat4 viewMatrix(m);
+
+    EXPECT_PRED2(mat4_eq, viewMatrix, camera.getViewMatrix());
+}
+
+//----------------------------------------------------------------------------------------
+TEST_F(Camera_Test, test_lookAt_forward) {
+    vec3 eye(0.0f, 0.0f, 0.0f);
+    vec3 center(0.0f, 0.0f, -1.0f);
+    vec3 up(0.0f, 1.0f, 0.0f);
+    camera.lookAt(eye, center, up);
+
+    EXPECT_PRED2(mat4_eq, mat4(), camera.getViewMatrix());
+}
+
+//----------------------------------------------------------------------------------------
+TEST_F(Camera_Test, test_lookAt_forward2) {
+    vec3 center(0.0f, 0.0f, -1.0f);
+    camera.lookAt(center);
+
+    EXPECT_PRED2(mat4_eq, mat4(), camera.getViewMatrix());
+}
+
+//----------------------------------------------------------------------------------------
+TEST_F(Camera_Test, test_lookAt_backward) {
+    vec3 eye(0.0f, 0.0f, 0.0f);
+    vec3 center(0.0f, 0.0f, 1.0f);
+    vec3 up(0.0f, 1.0f, 0.0f);
+    camera.lookAt(eye, center, up);
+
+    mat3 m(-1.0f, 0.0f, 0.0f,   // first column
+            0.0f, 1.0f, 0.0f,   // second column
+            0.0f, 0.0f, -1.0f); // third column
+    mat4 viewMatrix(m);
+
+    EXPECT_PRED2(mat4_eq, viewMatrix, camera.getViewMatrix());
+}
+
+//----------------------------------------------------------------------------------------
+TEST_F(Camera_Test, test_lookAt_backward2) {
+    vec3 center(0.0f, 0.0f, 1.0f);
+    camera.lookAt(center);
+
+    mat3 m(-1.0f, 0.0f, 0.0f,   // first column
+            0.0f, 1.0f, 0.0f,   // second column
+            0.0f, 0.0f, -1.0f); // third column
+    mat4 viewMatrix(m);
+
+    EXPECT_PRED2(mat4_eq, viewMatrix, camera.getViewMatrix());
+}
+
+//----------------------------------------------------------------------------------------
+TEST_F(Camera_Test, test_lookAt_up) {
+    vec3 eye(0.0f, 0.0f, 0.0f);
+    vec3 center(0.0f, 1.0f, 0.0f);
+    vec3 up(0.0f, 0.0f, 1.0f);
+    camera.lookAt(eye, center, up);
+
+    mat3 m(1.0f, 0.0f, 0.0f,   // first column
+           0.0f, 0.0f, -1.0f,   // second column
+           0.0f, 1.0f, 0.0f); // third column
+    mat4 viewMatrix(m);
+
+    EXPECT_PRED2(mat4_eq, viewMatrix, camera.getViewMatrix());
+}
+
+//----------------------------------------------------------------------------------------
+TEST_F(Camera_Test, test_lookAt_up2) {
+    vec3 center(0.0f, 1.0f, 0.0f);
+    camera.lookAt(center);
+
+    mat3 m(1.0f, 0.0f, 0.0f,   // first column
+           0.0f, 0.0f, -1.0f,   // second column
+           0.0f, 1.0f, 0.0f); // third column
+    mat4 viewMatrix(m);
+
+    EXPECT_PRED2(mat4_eq, viewMatrix, camera.getViewMatrix());
+}
+
+//----------------------------------------------------------------------------------------
+TEST_F(Camera_Test, test_lookAt_down) {
+    vec3 eye(0.0f, 0.0f, 0.0f);
+    vec3 center(0.0f, -1.0f, 0.0f);
+    vec3 up(0.0f, 0.0f, -1.0f);
+    camera.lookAt(eye, center, up);
+
+    mat3 m(1.0f, 0.0f, 0.0f,   // first column
+           0.0f, 0.0f, 1.0f,   // second column
+           0.0f, -1.0f, 0.0f); // third column
+    mat4 viewMatrix(m);
+
+    EXPECT_PRED2(mat4_eq, viewMatrix, camera.getViewMatrix());
+}
+
+//----------------------------------------------------------------------------------------
+TEST_F(Camera_Test, test_lookAt_down2) {
+    vec3 center(0.0f, -1.0f, 0.0f);
+    camera.lookAt(center);
+
+    mat3 m(1.0f, 0.0f, 0.0f,   // first column
+           0.0f, 0.0f, 1.0f,   // second column
+           0.0f, -1.0f, 0.0f); // third column
+    mat4 viewMatrix(m);
 
     EXPECT_PRED2(mat4_eq, viewMatrix, camera.getViewMatrix());
 }

@@ -119,7 +119,7 @@ void MeshNormals::setupMatrices() {
     modelMatrix = glm::mat4();
 
     // Translate the object into view.
-    modelMatrix = translate(modelMatrix, 0.0f, 0.0f, -0.3f);
+    modelMatrix = translate(modelMatrix, vec3(0.0f, 0.0f, -0.3f));
 
     updateMatrices();
 }
@@ -201,17 +201,17 @@ void MeshNormals::keyInput(int key, int scancode, int action, int mods) {
 
     // Object Movement
     if ((key == GLFW_KEY_A) && (action == GLFW_PRESS)) {
-        modelMatrix = translate(modelMatrix, -1 * xDelta, 0.0f, 0.0f);
+        modelMatrix = translate(modelMatrix, vec3(-1 * xDelta, 0.0f, 0.0f));
     } else if ((key == GLFW_KEY_D) && (action == GLFW_PRESS)) {
-        modelMatrix = translate(modelMatrix, xDelta, 0.0f, 0.0f);
+        modelMatrix = translate(modelMatrix, vec3(xDelta, 0.0f, 0.0f));
     } else if ((key == GLFW_KEY_W) && (action == GLFW_PRESS)) {
-        modelMatrix = translate(modelMatrix, 0.0f, yDelta, 0.0f);
+        modelMatrix = translate(modelMatrix, vec3(0.0f, yDelta, 0.0f));
     } else if ((key == GLFW_KEY_S) && (action == GLFW_PRESS)) {
-        modelMatrix = translate(modelMatrix, 0.0f, -1 * yDelta, 0.0f);
+        modelMatrix = translate(modelMatrix, vec3(0.0f, -1 * yDelta, 0.0f));
     } else if ((key == GLFW_KEY_R) && (action == GLFW_PRESS)) {
-        modelMatrix = translate(modelMatrix, 0.0f, 0.0f, -1 * zDelta);
+        modelMatrix = translate(modelMatrix, vec3(0.0f, 0.0f, -1 * zDelta));
     } else if ((key == GLFW_KEY_F) && (action == GLFW_PRESS)) {
-        modelMatrix = translate(modelMatrix, 0.0f, 0.0f, zDelta);
+        modelMatrix = translate(modelMatrix, vec3(0.0f, 0.0f, zDelta));
     }
 
     // Change Render Target

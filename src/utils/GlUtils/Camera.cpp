@@ -7,6 +7,7 @@ using glm::dot;
 
 #include <glm/gtx/transform.hpp>
 using glm::translate;
+using glm::transpose;
 
 #include <glm/gtx/quaternion.hpp>
 using glm::rotate;
@@ -15,9 +16,6 @@ using glm::toQuat;
 
 #include <glm/gtc/quaternion.hpp>
 using glm::angleAxis;
-
-#include <glm/gtx/norm.hpp>
-using glm::length2;
 
 #include "MathUtils.hpp"
 using MathUtils::radiansToDegrees;
@@ -363,12 +361,20 @@ void Camera::lookAt(const glm::vec3 & center) {
 }
 
 //----------------------------------------------------------------------------------------
+/*
+ * TODO (Dustin) Make lookAt more robust.
+ * A better algorithm may be to compute the transformation or quaternion
+ * that takes previous f to new f, then rotate u and l by it.  This will handle the
+ * case when new f = prior u.
+ */
 void Camera::lookAt(float centerX, float centerY, float centerZ) {
     // f = center - eye.
     f.x = centerX - eyePosition.x;
     f.y = centerY - eyePosition.y;
     f.z = centerZ - eyePosition.z;
     f = normalize(f);
+
+    // XXX (Dustin) It's possible that f = u here.
 
     // The following projects u onto the plane defined by the point eyePosition,
     // and the normal f. The goal is to rotate u so that it is orthogonal to f,
@@ -399,9 +405,9 @@ void Camera::lookAt(float centerX, float centerY, float centerZ) {
     }
 
     mat3 m;
-    m[0] = -1.0f * l;
-    m[1] = u;
-    m[2] = -1.0f * f;
+    m[0] = -1.0f * l; // Camera's local x axis
+    m[1] = u;         // Camera's local y axis
+    m[2] = -1.0f * f; // Camera's local z axis
     orientation = toQuat(m);
 
     registerRotation();
@@ -423,7 +429,6 @@ void Camera::lookAt(const glm::vec3 & eye, const glm::vec3 & center, const glm::
     m[0] = -1.0f * l; // first column, representing new x-axis orientation
     m[1] = u;         // second column, representing new y-axis orientation
     m[2] = -1.0f * f; // third column, representing new z-axis orientation
-
     orientation = quat_cast(m);
 
     registerRotation();

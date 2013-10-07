@@ -41,7 +41,7 @@ namespace GlUtils {
         mutable glm::mat4 viewMatrix;
 
         unsigned short rotationHitCount;
-        static const unsigned short rotationHitCountMax = 2000;
+        static const unsigned short rotationHitCountMax = 1000;
 
         void initLocalCoordinateSystem();
         void registerRotation();

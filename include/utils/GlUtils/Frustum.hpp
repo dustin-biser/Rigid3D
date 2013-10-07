@@ -7,9 +7,8 @@
 #ifndef FRUSTUM_HPP_
 #define FRUSTUM_HPP_
 
-#include <glm/gtc/matrix_transform.hpp>
-
 #include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
 namespace GlUtils {
 

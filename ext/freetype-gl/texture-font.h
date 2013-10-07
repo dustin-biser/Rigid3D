@@ -232,6 +232,16 @@ typedef struct
      * Font filename
      */
     char * filename;
+    
+    /**
+     * Font memory buffer
+     */
+    char * font_file_buffer;
+    
+    /**
+     * Font memory buffer size.
+     */
+    unsigned int font_file_buffer_size;
 
     /**
      * Font size
@@ -339,6 +349,29 @@ typedef struct
   texture_font_new( texture_atlas_t * atlas,
                     const char * filename,
                     const float size );
+
+
+/**
+ * This function creates a new texture font from given in memory buffer,
+ * memory buffer size and font size.  The texture atlas is used to store
+ * glyph on demand. Note the depth of the atlas will determine if the font
+ * is rendered as alpha channel only (depth = 1) or RGB (depth = 3) that
+ * correspond to subpixel rendering (if available on your freetype
+ * implementation).
+ *
+ * @param atlas                     A texture atlas
+ * @param font_file_buffer          A font file loaded into memory.
+ * @param font_file_buffer_size     The size of the font file memory buffer.
+ * @param font_size                 Size of font to be created (in points)
+ *
+ * @return A new empty font (no glyph inside yet)
+ *
+ */
+texture_font_t *
+texture_font_new_memory_buffer( texture_atlas_t * atlas,
+                                const char * font_file_buffer,
+                                const unsigned int font_file_buffer_size,
+                                const float font_size );
 
 
 /**

@@ -16,7 +16,7 @@ testIncludeDirList = {"include/utils",
                       "../include",
                       "../include/utils",
                       "../include/utils/GlUtils",
-                      "/usr/local/lib/glm-0.9.4.3",
+                      "../../glm",
                       "/usr/local/include",
                       "/usr/include"}
 
@@ -29,7 +29,7 @@ function SetupTest(testName,  ...)
     targetdir "bin"
     includedirs(testIncludeDirList)
     libdirs(testLibDirectories)
-    links {"GlUtils", "gtest"}
+    links("gtest")
     links(linkLibs)
     linkoptions "-lpthread"
     buildoptions{"-std=c++11"}

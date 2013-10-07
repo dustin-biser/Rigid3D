@@ -3,7 +3,6 @@
 	<name>Rigid3D</name>
 	<comment></comment>
 	<projects>
-		<project>freetype-gl-read-only</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

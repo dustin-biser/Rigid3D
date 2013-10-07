@@ -11,6 +11,12 @@ using MathUtils::cotangent;
 shared_ptr<GlfwOpenGlWindow> GlfwOpenGlWindow::p_instance = nullptr;
 
 //----------------------------------------------------------------------------------------
+GlfwOpenGlWindow::GlfwOpenGlWindow()
+ : window(nullptr), paused(false) {
+
+}
+
+//----------------------------------------------------------------------------------------
 void GlfwOpenGlWindow::error_callback(int error, const char* description) {
     throw GlfwException(description);
 }
@@ -114,15 +120,16 @@ void GlfwOpenGlWindow::create(int width, int height, const string & windowTitle)
     init();
 
     while (!glfwWindowShouldClose(window)) {
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glfwPollEvents();
-        logic();
-        draw();
-        glfwSwapBuffers(window);
+        if (!paused) {
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+            logic();
+            draw();
+            glfwSwapBuffers(window);
+        }
     }
 
     cleanup();
-
     glfwDestroyWindow(window);
 }
 
@@ -148,6 +155,9 @@ void GlfwOpenGlWindow::keyInputCallBack(GLFWwindow* window, int key, int scancod
 void GlfwOpenGlWindow::keyInput(int key, int scancode, int action, int mods) {
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
         glfwSetWindowShouldClose(window, GL_TRUE);
+
+    if (key == GLFW_KEY_F10 && action == GLFW_PRESS)
+        paused = !paused;
 }
 
 //----------------------------------------------------------------------------------------
@@ -202,6 +212,7 @@ void GlfwOpenGlWindow::setupGl() {
     glDepthRange(0.0f, 1.0f);
     glEnable(GL_DEPTH_CLAMP);
 
+    glClearDepth(1.0f);
     glClearColor(0.3, 0.5, 0.7, 1.0);
 }
 

@@ -101,10 +101,10 @@ void MultipleObjects::setupMatrices() {
 
     normalMatrix = mat3(viewMatrix * identity);
 
-    modelMatrix_grid = translate(identity, 0.0f, -3.8f, -10.0f);
-    modelMatrix_bunny = translate(identity, -3.0f, -3.6f, -11.5f);
-    modelMatrix_tyrannosaurus = translate(identity, 3.0f, -2.4f, -9.8f);
-    modelMatrix_sphere = translate(identity, -0.5f, -3.0f, -6.5f);
+    modelMatrix_grid = translate(identity, vec3(0.0f, -3.8f, -10.0f));
+    modelMatrix_bunny = translate(identity, vec3(-3.0f, -3.6f, -11.5f));
+    modelMatrix_tyrannosaurus = translate(identity, vec3(3.0f, -2.4f, -9.8f));
+    modelMatrix_sphere = translate(identity, vec3(-0.5f, -3.0f, -6.5f));
 
     shaderProgram.setUniform("ViewMatrix", viewMatrix);
     shaderProgram.setUniform("NormalMatrix", normalMatrix);
@@ -225,7 +225,7 @@ void MultipleObjects::drawLight() {
     // Place cube at light source position and shrink uniformly.
     modelMatrix_light = mat4();
     modelMatrix_light = translate(modelMatrix_light, lightSource.position);
-    modelMatrix_light = scale(modelMatrix_light, 0.2f, 0.2f, 0.2f);
+    modelMatrix_light = scale(modelMatrix_light, vec3(0.2f, 0.2f, 0.2f));
 
     shaderProgram.setUniform("ModelMatrix", modelMatrix_light);
     shaderProgram.enable();
@@ -338,17 +338,17 @@ void MultipleObjects::keyInput(int key, int scancode, int action, int mods) {
     // Object Movement
     if ((action == GLFW_PRESS) || (action == GLFW_REPEAT)) {
         if (key == GLFW_KEY_A) {
-            *modelMatrix = translate(*modelMatrix, -1 * xDelta, 0.0f, 0.0f);
+            *modelMatrix = translate(*modelMatrix, vec3(-1 * xDelta, 0.0f, 0.0f));
         } else if (key == GLFW_KEY_D) {
-            *modelMatrix = translate(*modelMatrix, xDelta, 0.0f, 0.0f);
+            *modelMatrix = translate(*modelMatrix, vec3(xDelta, 0.0f, 0.0f));
         } else if (key == GLFW_KEY_W) {
-            *modelMatrix = translate(*modelMatrix, 0.0f, yDelta, 0.0f);
+            *modelMatrix = translate(*modelMatrix, vec3(0.0f, yDelta, 0.0f));
         } else if (key == GLFW_KEY_S) {
-            *modelMatrix = translate(*modelMatrix, 0.0f, -1 * yDelta, 0.0f);
+            *modelMatrix = translate(*modelMatrix, vec3(0.0f, -1 * yDelta, 0.0f));
         } else if (key == GLFW_KEY_R) {
-            *modelMatrix = translate(*modelMatrix, 0.0f, 0.0f, -1 * zDelta);
+            *modelMatrix = translate(*modelMatrix, vec3(0.0f, 0.0f, -1 * zDelta));
         } else if (key == GLFW_KEY_F) {
-            *modelMatrix = translate(*modelMatrix, 0.0f, 0.0f, zDelta);
+            *modelMatrix = translate(*modelMatrix, vec3(0.0f, 0.0f, zDelta));
         }
     }
 }

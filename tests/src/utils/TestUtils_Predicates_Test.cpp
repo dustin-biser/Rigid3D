@@ -9,14 +9,6 @@ using namespace TestUtils::predicates;
 using boost::math::float_next;
 using boost::math::float_prior;
 
-////////////////////////////
-// TODO (Dustin) Remove debug statements
-#include <iostream>
-#include <iomanip>
-using namespace std;
-////////////////////////////
-
-
 namespace {  // limit class visibility to this file.
 
     class TestUtils_Predicates_Test: public ::testing::Test {
@@ -34,6 +26,71 @@ namespace {  // limit class visibility to this file.
 
     const float TestUtils_Predicates_Test::e = TestUtils::predicates::epsilon;
 
+}
+//////////////////////////////////////////////////////////////////////////////////////////
+// Test float_eq_ulp
+//////////////////////////////////////////////////////////////////////////////////////////
+//----------------------------------------------------------------------------------------
+TEST_F(TestUtils_Predicates_Test, test_float_eq_ulp_1) {
+    float a = 1e-4;
+    float b = float_next(a);
+
+    EXPECT_PRED2(float_eq_ulp, a, b);
+}
+
+//----------------------------------------------------------------------------------------
+TEST_F(TestUtils_Predicates_Test, test_float_eq_ulp_2) {
+    float a = 1e-4;
+    float b = float_next(a);
+    b = float_next(b);
+
+    EXPECT_PRED2(float_eq_ulp, a, b);
+}
+
+//----------------------------------------------------------------------------------------
+TEST_F(TestUtils_Predicates_Test, test_float_eq_ulp_3) {
+    float a = 1e-4;
+    float b = float_next(a);
+    b = float_next(b);
+    b = float_next(b);
+
+    EXPECT_PRED2(float_eq_ulp, a, b);
+}
+
+//----------------------------------------------------------------------------------------
+TEST_F(TestUtils_Predicates_Test, test_float_eq_ulp_4) {
+    float a = 1234.5f;
+    float b = float_next(a);
+    b = float_next(b);
+    b = float_next(b);
+    b = float_next(b);
+
+    EXPECT_PRED2(float_eq_ulp, a, b);
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////
+// Test float_eq_ulp
+//////////////////////////////////////////////////////////////////////////////////////////
+//----------------------------------------------------------------------------------------
+TEST_F(TestUtils_Predicates_Test, test_float_neq_ulp_1) {
+    float a = 1e-4;
+    float b = float_next(a);
+    for (int i = 0; i < 4; i++) {
+        b = float_next(b);
+    }
+
+    EXPECT_PRED2(float_neq_ulp, a, b);
+}
+
+//----------------------------------------------------------------------------------------
+TEST_F(TestUtils_Predicates_Test, test_float_neq_ulp_2) {
+    float a = 10.0f;
+    float b = float_prior(a);
+    for (int i = 0; i < 4; i++) {
+        b = float_prior(b);
+    }
+
+    EXPECT_PRED2(float_neq_ulp, a, b);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////

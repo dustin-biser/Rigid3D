@@ -56,6 +56,25 @@ private:
     GLuint vbo_vertices;
     GLuint vbo_normals;
 
+    // Key Input
+    bool key_r_down = false;
+    bool key_f_down = false;
+    bool key_q_down = false;
+    bool key_e_down = false;
+    bool key_w_down = false;
+    bool key_s_down = false;
+    bool key_a_down = false;
+    bool key_d_down = false;
+    bool key_left_down = false;
+    bool key_right_down = false;
+    bool key_up_down = false;
+    bool key_down_down = false;
+
+    bool lookAt_bunny = false;
+    bool lookAt_sphere = false;
+    bool lookAt_tyrannosaurus = false;
+    bool lookAt_light = false;
+
     CameraExample(); // Singleton, prevent direct construction.
 
     virtual void init();
@@ -75,6 +94,7 @@ private:
     void drawTyrannosaurus();
     void drawSphere();
     void drawLight();
+    void processKeyInput();
 };
 
 

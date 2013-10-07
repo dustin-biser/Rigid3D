@@ -115,7 +115,7 @@ void LoadMeshObj_Example::setupMatrices() {
                                    0, 0, 0, 1);
 
     // Translate the object into view.
-    modelToWorldMatrix = translate(modelToWorldMatrix, -1.0f, 1.0f, -2.0f);
+    modelToWorldMatrix = translate(modelToWorldMatrix, vec3(-1.0f, 1.0f, -2.0f));
 
     modelViewMatrix = worldToCameraMatrix * modelToWorldMatrix;
     normalMatrix = mat3(modelViewMatrix);
@@ -223,22 +223,22 @@ void LoadMeshObj_Example::keyInput(int key, int scancode, int action, int mods) 
 
     // Object Movement
     if (key == GLFW_KEY_A) {
-        modelToWorldMatrix = translate(modelToWorldMatrix, -1*xDelta, 0.0f, 0.0f);
+        modelToWorldMatrix = translate(modelToWorldMatrix, vec3(-1*xDelta, 0.0f, 0.0f));
     }
     else if (key == GLFW_KEY_D) {
-        modelToWorldMatrix = translate(modelToWorldMatrix, xDelta, 0.0f, 0.0f);
+        modelToWorldMatrix = translate(modelToWorldMatrix, vec3(xDelta, 0.0f, 0.0f));
     }
     else if (key == GLFW_KEY_W) {
-        modelToWorldMatrix = translate(modelToWorldMatrix, 0.0f, yDelta, 0.0f);
+        modelToWorldMatrix = translate(modelToWorldMatrix, vec3(0.0f, yDelta, 0.0f));
     }
     else if (key == GLFW_KEY_S) {
-        modelToWorldMatrix = translate(modelToWorldMatrix, 0.0f, -1*yDelta, 0.0f);
+        modelToWorldMatrix = translate(modelToWorldMatrix, vec3(0.0f, -1*yDelta, 0.0f));
     }
     else if (key == GLFW_KEY_R) {
-        modelToWorldMatrix = translate(modelToWorldMatrix, 0.0f, 0.0f, -1*zDelta);
+        modelToWorldMatrix = translate(modelToWorldMatrix, vec3(0.0f, 0.0f, -1*zDelta));
     }
     else if (key == GLFW_KEY_F) {
-        modelToWorldMatrix = translate(modelToWorldMatrix, 0.0f, 0.0f, zDelta);
+        modelToWorldMatrix = translate(modelToWorldMatrix, vec3(0.0f, 0.0f, zDelta));
     }
 
     // TODO Remove debug statement.

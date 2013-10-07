@@ -117,7 +117,7 @@ void FlatSmoothShading_Example::setupMatrices() {
                             0, 0, 0, 1);
 
     // Translate the object into view.
-    modelMatrix = translate(modelMatrix, 0.0f, 0.0f, -0.3f);
+    modelMatrix = translate(modelMatrix, vec3(0.0f, 0.0f, -0.3f));
 
     modelViewMatrix = viewMatrix * modelMatrix;
     normalMatrix = mat3(modelViewMatrix);
@@ -280,17 +280,17 @@ void FlatSmoothShading_Example::keyInput(int key, int scancode, int action, int 
     // Object Movement
     if ((action == GLFW_PRESS) || (action == GLFW_REPEAT)) {
         if (key == GLFW_KEY_A) {
-            modelMatrix = translate(modelMatrix, -1 * xDelta, 0.0f, 0.0f);
+            modelMatrix = translate(modelMatrix, vec3(-1 * xDelta, 0.0f, 0.0f));
         } else if (key == GLFW_KEY_D) {
-            modelMatrix = translate(modelMatrix, xDelta, 0.0f, 0.0f);
+            modelMatrix = translate(modelMatrix, vec3(xDelta, 0.0f, 0.0f));
         } else if (key == GLFW_KEY_W) {
-            modelMatrix = translate(modelMatrix, 0.0f, yDelta, 0.0f);
+            modelMatrix = translate(modelMatrix, vec3(0.0f, yDelta, 0.0f));
         } else if (key == GLFW_KEY_S) {
-            modelMatrix = translate(modelMatrix, 0.0f, -1 * yDelta, 0.0f);
+            modelMatrix = translate(modelMatrix, vec3(0.0f, -1 * yDelta, 0.0f));
         } else if (key == GLFW_KEY_R) {
-            modelMatrix = translate(modelMatrix, 0.0f, 0.0f, -1 * zDelta);
+            modelMatrix = translate(modelMatrix, vec3(0.0f, 0.0f, -1 * zDelta));
         } else if (key == GLFW_KEY_F) {
-            modelMatrix = translate(modelMatrix, 0.0f, 0.0f, zDelta);
+            modelMatrix = translate(modelMatrix, vec3(0.0f, 0.0f, zDelta));
         }
     }
 }
