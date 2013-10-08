@@ -43,6 +43,8 @@ public:
 protected:
     GLFWwindow * window;
     string windowTitle;
+    int windowWidth;
+    int windowHeight;
     Camera camera;
     static shared_ptr<GlfwOpenGlWindow> p_instance;
     bool paused;

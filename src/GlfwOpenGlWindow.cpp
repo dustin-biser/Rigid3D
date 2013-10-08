@@ -31,6 +31,8 @@ void GlfwOpenGlWindow::windowResizeCallBack(GLFWwindow * window, int width, int 
 
 //----------------------------------------------------------------------------------------
 void GlfwOpenGlWindow::resize(int width, int height) {
+    windowWidth = width;
+    windowHeight = height;
     float aspectRatio = ((float) width) / height;
     float frustumYScale = cotangent(degreesToRadians(camera.getFieldOfViewY() / 2));
 
@@ -71,6 +73,8 @@ shared_ptr<GlfwOpenGlWindow> GlfwOpenGlWindow::getInstance() {
 
 //----------------------------------------------------------------------------------------
 void GlfwOpenGlWindow::create(int width, int height, const string & windowTitle) {
+    windowWidth = width;
+    windowHeight = height;
     glfwSetErrorCallback(error_callback);
 
     if (glfwInit() == GL_FALSE) {

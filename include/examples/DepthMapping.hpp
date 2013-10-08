@@ -1,0 +1,66 @@
+#ifndef DEPTH_MAPPING_HPP
+#define DEPTH_MAPPING_HPP
+
+#include <GlfwOpenGlWindow.hpp>
+#include <GlUtils.hpp>
+
+#include <glm/glm.hpp>
+using glm::mat4;
+
+#include <vector>
+using std::vector;
+
+using namespace GlUtils;
+
+/**
+ * @brief Demo Instructions
+ *
+ * Mesh Type:
+ * Numbers 1 through 4 change the mesh type.
+ *
+ * Object Movement Keys:
+ * a, s, d, w, r, f move the mesh object.
+ */
+class DepthMapping : public GlfwOpenGlWindow {
+
+public:
+    ~DepthMapping() { }
+
+    static shared_ptr<GlfwOpenGlWindow> getInstance();
+
+private:
+    // Mesh and Batch Containers
+    MeshConsolidator meshConsolidator;
+    vector<BatchInfo> batchInfoVec;
+
+    // Matrices
+    mat4 modelMatrix_grid;
+    mat4 modelMatrix_bunny;
+    mat4 modelMatrix_sphere;
+
+    ShaderProgram shaderProgram;
+
+    GLuint vao;
+    GLuint vbo_vertices;
+    GLuint vbo_normals;
+
+    DepthMapping(); // Singleton, prevent direct construction.
+
+    virtual void init();
+    virtual void logic();
+    virtual void draw();
+    virtual void keyInput(int key, int scancode, int action, int mods);
+    virtual void cleanup();
+
+    void setupShaders();
+    void setupGLBuffers();
+    void setupMatrices();
+    void updateMatrices();
+    void updateUniformData();
+    void drawGrid();
+    void drawBunny();
+    void drawTyrannosaurus();
+    void drawSphere();
+};
+
+#endif /* DEPTH_MAPPING_HPP */

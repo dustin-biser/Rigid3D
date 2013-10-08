@@ -74,3 +74,4 @@ CreateDemo("MeshNormals", "src/examples/MeshNormals.cpp", "src/GlfwOpenGlWindow.
 CreateDemo("DepthMapping", "src/examples/DepthMapping.cpp", "src/GlfwOpenGlWindow.cpp")
 CreateDemo("MultipleObjects", "src/examples/MultipleObjects.cpp", "src/GlfwOpenGlWindow.cpp")
 CreateDemo("CameraExample", "src/examples/CameraExample.cpp", "src/GlfwOpenGlWindow.cpp")
+CreateDemo("ShadowMap", "src/examples/ShadowMap.cpp", "src/GlfwOpenGlWindow.cpp")
