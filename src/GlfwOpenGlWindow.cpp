@@ -157,11 +157,15 @@ void GlfwOpenGlWindow::keyInputCallBack(GLFWwindow* window, int key, int scancod
  * @brief Keyboard input call back function to be overridden by derived classes.
  */
 void GlfwOpenGlWindow::keyInput(int key, int scancode, int action, int mods) {
-    if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
-        glfwSetWindowShouldClose(window, GL_TRUE);
-
-    if (key == GLFW_KEY_F10 && action == GLFW_PRESS)
-        paused = !paused;
+    if (action == GLFW_PRESS) {
+        if (key == GLFW_KEY_ESCAPE) {
+            glfwSetWindowShouldClose(window, GL_TRUE);
+        } else if (key == GLFW_KEY_F10) {
+            paused = !paused;
+        } else if (key == GLFW_KEY_F8) {
+            reloadShaderProgram();
+        }
+    }
 }
 
 //----------------------------------------------------------------------------------------

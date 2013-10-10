@@ -67,14 +67,11 @@ protected:
     void setupCamera();
 
     virtual void init() { }
-
-    virtual void logic() { }
-
-    virtual void draw() { }
-
-    virtual void cleanup() { }
-
     virtual void setupGl();
+    virtual void reloadShaderProgram() { }
+    virtual void logic() { }
+    virtual void draw() { }
+    virtual void cleanup() { }
 
 };
 
