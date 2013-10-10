@@ -46,7 +46,12 @@ namespace GlUtils {
      */
     void ShaderProgram::loadFromFile(const char * vertexShaderFile,
             const char * fragmentShaderFile) {
+        if (programObject != 0) {
+            // A program object was previously created, so delete it along with both shaders.
+            deleteShaders();
+        }
         checkGLErrors(__FILE__, __LINE__);
+
         extractSourceCode(vertexShaderFile, vertexShader);
         extractSourceCode(fragmentShaderFile, fragmentShader);
 
@@ -62,9 +67,7 @@ namespace GlUtils {
     }
 
     ShaderProgram::~ShaderProgram() {
-        glDeleteShader(vertexShader.shaderObject);
-        glDeleteShader(fragmentShader.shaderObject);
-        glDeleteProgram(programObject);
+        deleteShaders();
     }
 
     //------------------------------------------------------------------------------------
@@ -163,7 +166,7 @@ namespace GlUtils {
      *
      * @return a \c GLuint representing the program object for this \c ShaderProgram
      */
-    GLuint ShaderProgram::getProgramObject() {
+GLuint ShaderProgram::getProgramObject() const {
         return programObject;
     }
 
@@ -212,7 +215,7 @@ namespace GlUtils {
      * uniform variable within the shader program or if \c uniformName
      * starts with the reserved prefix "gl_".
      */
-    GLint ShaderProgram::getUniformLocation(const char * uniformName) {
+    GLint ShaderProgram::getUniformLocation(const char * uniformName) const {
         GLint result = glGetUniformLocation(programObject, (const GLchar *)uniformName);
 
         if (result == -1) {
@@ -236,7 +239,7 @@ namespace GlUtils {
      * attribute variable within the shader program or if \c attributeName
      * starts with the reserved prefix "gl_".
      */
-    GLint ShaderProgram::getAttribLocation(const char * attributeName) {
+    GLint ShaderProgram::getAttribLocation(const char * attributeName) const {
         GLint result = glGetAttribLocation(programObject, (const GLchar *)attributeName);
 
         if (result == -1) {
@@ -444,7 +447,10 @@ namespace GlUtils {
     }
 
     //------------------------------------------------------------------------------------
-    void ShaderProgram::setActiveProgram() {
+    void ShaderProgram::deleteShaders() {
+        glDeleteShader(vertexShader.shaderObject);
+        glDeleteShader(fragmentShader.shaderObject);
+        glDeleteProgram(programObject);
     }
 
 } // end namespace GlUtils

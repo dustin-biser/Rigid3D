@@ -50,11 +50,11 @@ namespace GlUtils {
 
         void disable();
 
-        GLuint getProgramObject();
+        GLuint getProgramObject() const;
 
-        GLint getUniformLocation(const char * uniformName);
+        GLint getUniformLocation(const char * uniformName) const;
 
-        GLint getAttribLocation(const char * attributeName);
+        GLint getAttribLocation(const char * attributeName) const;
 
         void setUniform(const char * uniformName, bool b);
 
@@ -109,7 +109,8 @@ namespace GlUtils {
 
         void cleanUpResources();
 
-        void setActiveProgram();
+        void deleteShaders();
+
     };
 
 } // end namespace GlUtils
