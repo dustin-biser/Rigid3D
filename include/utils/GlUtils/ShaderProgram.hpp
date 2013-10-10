@@ -91,13 +91,12 @@ namespace GlUtils {
         Shader vertexShader;
         Shader fragmentShader;
         GLuint programObject;
+        GLuint prevProgramObject;
         GLuint activeProgram;
 
         void extractSourceCode(const char * sourceFileName, Shader &shader);
 
-        void createVertexShader();
-
-        void createFragmentShader();
+        void createShader(GLenum shaderType);
 
         void compileShader(const Shader &shader);
 

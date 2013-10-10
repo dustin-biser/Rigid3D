@@ -1,12 +1,19 @@
 #include <ShaderProgram.hpp>
 #include <ShaderException.hpp>
 #include <GlErrorCheck.hpp>
-#include <glm/gtc/type_ptr.hpp>
-#include <fstream>
-#include <iostream>
-#include <sstream>
 
-using namespace std;
+#include <glm/gtc/type_ptr.hpp>
+using glm::value_ptr;
+
+#include <fstream>
+using std::ifstream;
+
+#include <iostream>
+using std::cerr;
+
+#include <sstream>
+using std::stringstream;
+
 
 namespace GlUtils {
 
@@ -16,7 +23,7 @@ namespace GlUtils {
      * shader programs can be attached to this \c ShaderProgram by calling the
      * method \c ShaderProgram::loadFromFile.
      */
-    ShaderProgram::ShaderProgram() : programObject(0), activeProgram(0) { }
+    ShaderProgram::ShaderProgram() : programObject(0), prevProgramObject(0), activeProgram(0) { }
 
     //------------------------------------------------------------------------------------
     /**
@@ -26,7 +33,7 @@ namespace GlUtils {
      * @param fragmentShaderFile - location to fragment shader source file.
      */
     ShaderProgram::ShaderProgram(const char * vertexShaderFile, const char * fragmentShaderFile)
-            : programObject(0), activeProgram(0) {
+            : programObject(0), prevProgramObject(0), activeProgram(0) {
 
         loadFromFile(vertexShaderFile, fragmentShaderFile);
     }
@@ -47,21 +54,48 @@ namespace GlUtils {
     void ShaderProgram::loadFromFile(const char * vertexShaderFile,
             const char * fragmentShaderFile) {
         if (programObject != 0) {
-            // A program object was previously created, so delete it along with both shaders.
-            deleteShaders();
+            // Shader program was previously loaded, so get previous program object.
+            prevProgramObject = programObject;
         }
-        checkGLErrors(__FILE__, __LINE__);
 
-        extractSourceCode(vertexShaderFile, vertexShader);
-        extractSourceCode(fragmentShaderFile, fragmentShader);
+        bool success = false;
+        try {
+            extractSourceCode(vertexShaderFile, vertexShader);
+            extractSourceCode(fragmentShaderFile, fragmentShader);
 
-        createVertexShader();
-        compileShader(vertexShader);
+            createShader(GL_VERTEX_SHADER);
+            compileShader(vertexShader);
 
-        createFragmentShader();
-        compileShader(fragmentShader);
+            createShader(GL_FRAGMENT_SHADER);
+            compileShader(fragmentShader);
 
-        createShaderProgram();
+            createShaderProgram();
+            success = true;
+        } catch (const ShaderException & se) {
+            if (prevProgramObject != 0) {
+                // A shader program was previously loaded, so just write the
+                // compile/link error to cerr and fall back to previous loaded program.
+                cerr << se.what();
+                programObject = prevProgramObject;
+            } else {
+                // This is the first type loading shader, so throw error to stop program.
+                throw se;
+            }
+        }
+
+        if ((prevProgramObject != 0) && (success)) {
+            // Delete previous program and shaders.
+            GLsizei count;
+            GLuint numShaders = 2;
+            GLuint shaders[numShaders];
+            glGetAttachedShaders(prevProgramObject, numShaders, &count, shaders);
+            glDeleteShader(shaders[0]);
+            glDeleteShader(shaders[1]);
+            glDeleteProgram(prevProgramObject);
+            prevProgramObject = 0;
+
+            checkGLErrors(__FILE__, __LINE__);
+        }
 
         cleanUpResources();
     }
@@ -71,14 +105,17 @@ namespace GlUtils {
     }
 
     //------------------------------------------------------------------------------------
-    void ShaderProgram::createVertexShader() {
-        vertexShader.shaderObject = glCreateShader( GL_VERTEX_SHADER );
-        checkGLErrors(__FILE__, __LINE__);
-    }
-
-    //------------------------------------------------------------------------------------
-    void ShaderProgram::createFragmentShader() {
-        fragmentShader.shaderObject = glCreateShader( GL_FRAGMENT_SHADER);
+    void ShaderProgram::createShader(GLenum shaderType) {
+        switch (shaderType) {
+        case GL_VERTEX_SHADER:
+            vertexShader.shaderObject = glCreateShader( GL_VERTEX_SHADER );
+            break;
+        case GL_FRAGMENT_SHADER:
+            fragmentShader.shaderObject = glCreateShader( GL_FRAGMENT_SHADER);
+            break;
+        default:
+            break;
+        }
         checkGLErrors(__FILE__, __LINE__);
     }
 
@@ -123,10 +160,11 @@ namespace GlUtils {
     //------------------------------------------------------------------------------------
     void ShaderProgram::createShaderProgram() {
         programObject = glCreateProgram();
-        checkGLErrors(__FILE__, __LINE__);
 
         glAttachShader(programObject, vertexShader.shaderObject);
         glAttachShader(programObject, fragmentShader.shaderObject);
+
+        checkGLErrors(__FILE__, __LINE__);
 
         glLinkProgram(programObject);
         checkLinkStatus();
