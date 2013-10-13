@@ -53,7 +53,7 @@ void shadeWithShadow() {
     
     float shadow = textureProj(shadowMap, shadowCoord);
     
-    // Use ambient light only, if the fragment is in shadow.
+    // If fragment is in shadow diminish diffuse and specular parts.
     if (shadow == 0) {
         shadow = 0.35f;
     }

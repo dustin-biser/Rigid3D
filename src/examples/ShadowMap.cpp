@@ -38,11 +38,13 @@ shared_ptr<GlfwOpenGlWindow> ShadowMap::getInstance() {
 //---------------------------------------------------------------------------------------
 ShadowMap::ShadowMap()
         : vao(0), vbo_vertices(0), vbo_normals(0) {
-    light.position = vec3(-2.0f, 3.0f, 2.0f);
-    light.rgbIntensity = vec3(0.7f, 0.7f, 0.7f);
-    light.projectionMatrix = glm::perspective(45.0f, 1.5f, 1.0f, 100.0f);
-    light.viewMatrix = glm::lookAt(light.position, vec3(-2.0f, -1.0f, -6.0f),
-            vec3(0.0f, 1.0f, 0.0f));
+    spotLight.position = vec3(-2.0f, 5.0f, 2.0f);
+    spotLight.rgbIntensity = vec3(1.0f, 1.0f, 1.0f);
+    spotLight.projectionMatrix = glm::perspective(45.0f, 1.5f, 1.0f, 100.0f);
+    spotLight.center = vec3(0.0f, 0.0f, -15.0f);
+    spotLight.viewMatrix = glm::lookAt(spotLight.position, spotLight.center, vec3(0.0f, 1.0f, 0.0f));
+    spotLight.exponent = 5.0f;
+    spotLight.conicAngle = 90.0f;
 }
 
 //---------------------------------------------------------------------------------------
@@ -52,7 +54,7 @@ ShadowMap::ShadowMap()
  */
 void ShadowMap::init()
 {
-    meshConsolidator =  {"../data/meshes/grid.obj",
+    meshConsolidator =  {"../data/meshes/grid3d.obj",
                          "../data/meshes/wall.obj",
                          "../data/meshes/wall_back.obj",
                          "../data/meshes/bunny_smooth.obj",
@@ -65,21 +67,24 @@ void ShadowMap::init()
     setupMatrices();
     setupShadowFBO();
 
-    glDepthMask(GL_TRUE);
+    glDepthMask(GL_TRUE); // Enable depth buffer for writing to.
     glDepthFunc(GL_LEQUAL);
     glDepthRange(0.0f, 1.0f);
     glDisable(GL_DEPTH_CLAMP);
 
-    glClearColor(0.3f, 0.3f, 0.4f, 1.0f);
+//    glClearColor(0.3f, 0.3f, 0.4f, 1.0f);
+    glClearColor(0.01f, 0.01f, 0.01f, 1.0f);
 }
 
 //---------------------------------------------------------------------------------------
 void ShadowMap::setupShaders() {
     shaderProgram.loadFromFile("../data/shaders/ADS_withShadow.vert",
-                               "../data/shaders/ADS_withShadow.frag");
+                               "../data/shaders/ADS_shadow_spotlight.frag");
 
     shaderProgram.setUniform("ambientIntensity", vec3(0.01f, 0.01f, 0.01f));
-    shaderProgram.setUniform("light.rgbIntensity", light.rgbIntensity);
+    shaderProgram.setUniform("spotLight.rgbIntensity", spotLight.rgbIntensity);
+    shaderProgram.setUniform("spotLight.exponent", spotLight.exponent);
+    shaderProgram.setUniform("spotLight.conicAngle", spotLight.conicAngle);
 
     // Generate VAO and enable vertex attribute arrays for positions and normals.
     glGenVertexArrays(1, &vao);
@@ -138,8 +143,6 @@ void ShadowMap::setupMatrices() {
                              vec4(0.0f,0.5f,0.0f,0.0f),
                              vec4(0.0f,0.0f,0.5f,0.0f),
                              vec4(0.5f,0.5f,0.5f,1.0f) );
-
-    lightSPV = shadowBiasMatrix * light.projectionMatrix * light.viewMatrix;
 }
 
 //---------------------------------------------------------------------------------------
@@ -152,8 +155,8 @@ void ShadowMap::setupShadowFBO() {
     glBindTexture(GL_TEXTURE_2D, depthTexture);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, shadowMapWidth, shadowMapHeight, 0,
             GL_DEPTH_COMPONENT, GL_UNSIGNED_BYTE, NULL);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
 
@@ -190,10 +193,10 @@ void ShadowMap::setupShadowFBO() {
 //---------------------------------------------------------------------------------------
 void ShadowMap::draw()
 {
-    // Pass 1 (shadow map generation).
-    renderDepthPass = true;
-    viewMatrix = light.viewMatrix;
-    projectionMatrix = light.projectionMatrix;
+    // Pass 1 (Save shadow map to FBO).
+    spotLight.viewMatrix = glm::lookAt(spotLight.position, spotLight.center, vec3(0.0f, 1.0f, 0.0f));
+    viewMatrix = spotLight.viewMatrix;
+    projectionMatrix = spotLight.projectionMatrix;
     glBindFramebuffer(GL_FRAMEBUFFER, shadowFBO);
     glClear(GL_DEPTH_BUFFER_BIT);
     glViewport(0, 0, shadowMapWidth, shadowMapHeight);
@@ -206,11 +209,11 @@ void ShadowMap::draw()
     glFlush();
     glFinish();
 
-    //  Pass 2 (shade scene with shadows)
-    renderDepthPass = false;
+    //  Pass 2 (Shade scene with shadows)
     viewMatrix = camera.getViewMatrix();
     projectionMatrix = camera.getProjectionMatrix();
-    shaderProgram.setUniform("light.position", vec3(viewMatrix * vec4(light.position, 1.0)));
+    shaderProgram.setUniform("spotLight.position", vec3(viewMatrix * vec4(spotLight.position, 1.0)));
+    shaderProgram.setUniform("spotLight.center", vec3(viewMatrix * vec4(spotLight.center, 1.0)));
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glViewport(0, 0, windowWidth, windowHeight);
@@ -244,7 +247,7 @@ void ShadowMap::drawGrid() {
     updateMaterialProperties(m);
 
     modelMatrix = modelMatrix_grid;
-    modelMatrix = scale(modelMatrix, vec3(50.0f, 50.0f, 50.0f));
+    modelMatrix = scale(modelMatrix, vec3(50.0f, 1.1f, 50.0f));
     updateMatrices();
 
     shaderProgram.enable();
@@ -323,16 +326,16 @@ void ShadowMap::drawSphere() {
 
 //---------------------------------------------------------------------------------------
 void ShadowMap::drawLight() {
-    material_light.emission = vec3(1.0f, 1.0f, 1.0f);
+    material_light.emission = spotLight.rgbIntensity;
     material_light.Ka = vec3(1.0f, 1.0f, 1.0f);
     material_light.Kd = vec3(0.1f, 0.3f, 0.8f);
     material_light.Ks = 1.0f;
     material_light.shininess = 1000.0f;
     updateMaterialProperties(material_light);
 
-    // Place cube at light source position and shrink uniformly.
+    // Place a sphere at light source position and shrink uniformly.
     modelMatrix_light = mat4();
-    modelMatrix_light = translate(modelMatrix_light, light.position);
+    modelMatrix_light = translate(modelMatrix_light, spotLight.position);
     modelMatrix_light = scale(modelMatrix_light, vec3(0.2f, 0.2f, 0.2f));
 
     modelMatrix = modelMatrix_light;
@@ -351,8 +354,11 @@ void ShadowMap::logic() {
 //---------------------------------------------------------------------------------------
 void ShadowMap::updateMatrices() {
     mat4 modelViewMatrix = viewMatrix * modelMatrix;
+    mat3 normalMatrix = transpose(inverse(mat3(viewMatrix)));
+    lightSPV = shadowBiasMatrix * spotLight.projectionMatrix * spotLight.viewMatrix;
+
     shaderProgram.setUniform("ModelViewMatrix", modelViewMatrix);
-    shaderProgram.setUniform("NormalMatrix", mat3(modelViewMatrix));
+    shaderProgram.setUniform("NormalMatrix", normalMatrix);
     shaderProgram.setUniform("MVP", projectionMatrix * modelViewMatrix);
     shaderProgram.setUniform("ShadowMatrix", lightSPV * modelMatrix);
 
@@ -424,7 +430,7 @@ void ShadowMap::processKeyInput( ) {
         camera.lookAt(vec3(-2.5f, -3.0f, -9.3f));
     }
     if (lookAt_light) {
-        camera.lookAt(vec3(-2.0f, 3.0f, 2.0f));
+        camera.lookAt(spotLight.position);
     }
 }
 
@@ -509,6 +515,27 @@ void ShadowMap::keyInput(int key, int scancode, int action, int mods) {
             key_down_down = false;
         }
     }
+
+    // Move SpotLight
+    vec3 xDelta = vec3(0.2f, 0.0f, 0.0f);
+    vec3 yDelta = vec3(0.0f, 0.2f, 0.0f);
+    vec3 zDelta = vec3(0.0f, 0.0f, 0.2f);
+    if ((action == GLFW_PRESS) || (action == GLFW_REPEAT)) {
+        if (key == GLFW_KEY_H) {
+            spotLight.position -= xDelta;
+        } else if (key == GLFW_KEY_K) {
+            spotLight.position += xDelta;
+        } else if (key == GLFW_KEY_U) {
+            spotLight.position += yDelta;
+        } else if (key == GLFW_KEY_J) {
+            spotLight.position -= yDelta;
+        } else if (key == GLFW_KEY_O) {
+            spotLight.position -= zDelta;
+        } else if (key == GLFW_KEY_L) {
+            spotLight.position += zDelta;
+        }
+    }
+
 }
 
 //---------------------------------------------------------------------------------------
@@ -531,5 +558,34 @@ void ShadowMap::mouseScroll(double xOffSet, double yOffSet) {
 
     cout << "fieldOfViewY: " << fieldOfViewY << endl;
     camera.setFieldOfViewY(fieldOfViewY);
+}
+
+//---------------------------------------------------------------------------------------
+void ShadowMap::reloadShaderProgram() {
+    shaderProgram.loadFromFile("../data/shaders/ADS_withShadow.vert",
+                               "../data/shaders/ADS_shadow_spotlight.frag");
+
+    shaderProgram.setUniform("ambientIntensity", vec3(0.01f, 0.01f, 0.01f));
+    shaderProgram.setUniform("spotLight.rgbIntensity", spotLight.rgbIntensity);
+    shaderProgram.setUniform("spotLight.exponent", spotLight.exponent);
+    shaderProgram.setUniform("spotLight.conicAngle", spotLight.conicAngle);
+
+    // Generate VAO and enable vertex attribute arrays for positions and normals.
+    GLint position_Location = shaderProgram.getAttribLocation("vertexPosition");
+    glEnableVertexAttribArray(position_Location);
+    GLint normal_Location = shaderProgram.getAttribLocation("vertexNormal");
+    glEnableVertexAttribArray(normal_Location);
+
+    // Get subroutine indices from fragment shader.
+    subroutineIndex_renderDepthValues = glGetSubroutineIndex(shaderProgram.getProgramObject(),
+            GL_FRAGMENT_SHADER, "recordDepthValues");
+
+    subroutineIndex_shadeWithShadow = glGetSubroutineIndex(shaderProgram.getProgramObject(),
+            GL_FRAGMENT_SHADER, "shadeWithShadow");
+
+    shaderProgram.setUniform("shadowMap", 0); // Use Texture Unit 0.
+
+    checkGLErrors(__FILE__, __LINE__);
+    cout << "Loading Shader Program" << endl;
 }
 

@@ -51,13 +51,16 @@ private:
 
     bool renderDepthPass;
 
-    struct LightSource {
+    struct SpotLight {
         vec3 position;      // Light position in world space.
+        vec3 center;  // Where spot light is center on in eye coordinate space.
         vec3 rgbIntensity;  // Light intensity for each RGB component.
         mat4 projectionMatrix;
         mat4 viewMatrix;
+        float exponent;  // Angular attenuation exponent.
+        float conicAngle;  // Half angle of light cone (between 0 and 90 degrees).
     };
-    LightSource light;
+    SpotLight spotLight;
 
     struct MaterialProperties {
         vec3 emission;  // Emission light intensity from material for each RGB component.
@@ -97,6 +100,7 @@ private:
     virtual void keyInput(int key, int scancode, int action, int mods);
     virtual void mouseScroll(double xOffSet, double yOffSet);
     virtual void cleanup();
+    virtual void reloadShaderProgram();
 
     void setupShaders();
     void setupShadowFBO();
@@ -112,7 +116,6 @@ private:
     void drawSphere();
     void drawLight();
     void processKeyInput();
-    void renderFrustum(const Frustum & f);
 };
 
 #endif /* SHADOW_MAP_HPP_ */

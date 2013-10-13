@@ -8,14 +8,6 @@ using MathUtils::degreesToRadians;
 using glm::translate;
 using glm::scale;
 
-////////////////////////////////////////
-// TODO (Dustin) Remove, not needed
-#include <glm/gtx/norm.hpp>
-using glm::length2;
-#include <iostream>
-using namespace std;
-////////////////////////////////////////
-
 int main() {
     shared_ptr<GlfwOpenGlWindow> meshDemo = CameraExample::getInstance();
     meshDemo->create(800, 600, "Rendering Multiple Objects");
@@ -50,7 +42,7 @@ void CameraExample::init()
 {
     meshConsolidator =  {"../data/meshes/grid.obj",
                          "../data/meshes/bunny_smooth.obj",
-                         "../data/meshes/tyrannosaurus_smooth.obj",
+                         "../data/meshes/ship.obj",
                          "../data/meshes/sphere_smooth.obj",
                          "../data/meshes/cube.obj"};
 
@@ -114,7 +106,7 @@ void CameraExample::setupMatrices() {
 
     modelMatrix_grid = translate(identity, vec3(0.0f, -3.8f, -10.0f));
     modelMatrix_bunny = translate(identity, vec3(-3.0f, -3.6f, -11.5f));
-    modelMatrix_tyrannosaurus = translate(identity, vec3(3.0f, -2.4f, -9.8f));
+    modelMatrix_tyrannosaurus = translate(identity, vec3(3.0f, 5.0f, -9.8f));
     modelMatrix_sphere = translate(identity, vec3(-1.5f, -3.0f, -6.5f));
 
     shaderProgram.setUniform("ViewMatrix", camera.getViewMatrix());
@@ -252,23 +244,6 @@ void CameraExample::drawLight() {
 void CameraExample::logic() {
     updateUniformData();
     processKeyInput();
-
-    ////////////////////////////////////////////////////////
-    // TODO (Dustin) Remove debug statements.
-    quat q = camera.getOrientation();
-    cout << "orientation: " << q << ", length2: " << length2(q) << endl;
-    vec3 l = camera.getLeftDirection();
-    vec3 f = camera.getForwardDirection();
-    vec3 u = camera.getUpDirection();
-    cout << "left: " << l << ", \tlength2: " << length2(l) << endl;
-    cout << "forward: " << f << ", \tlength2: " << length2(f) << endl;
-    cout << "up: " << u << ", \tlength2: " << length2(u) << endl;
-    cout << "dot(l,f): " << dot(l, f) << endl;
-    cout << "dot(l,u): " << dot(l, u) << endl;
-    cout << "dot(f,u): " << dot(f, u) << endl;
-    cout << "view matrix determinant: " << determinant(mat3(camera.getViewMatrix())) << endl;
-    cout << endl;
-    ////////////////////////////////////////////////////////
 }
 
 //---------------------------------------------------------------------------------------
