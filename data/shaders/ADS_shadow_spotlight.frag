@@ -74,13 +74,14 @@ void shadeWithShadow() {
     sum = sum * 0.25;
 
     float diminishFactor = 0.35;
-    if (sum == 0) {
-        diffuse *= (1-sum) * diminishFactor + sum;
+    float linearInterp = (1 - sum) * diminishFactor + sum;
+    if (sum < 0.00001) {
+        diffuse *= linearInterp;
         specular = vec3(0.0);
     }
     else if (sum < 1) {
-        diffuse *= (1-sum) * diminishFactor + sum;
-        specular *= (1-sum) * diminishFactor + sum;
+        diffuse *= linearInterp;
+        specular *= linearInterp;
     }
     
     fragColor = vec4(diffuse + specular + ambient + material.emission, 1.0);
