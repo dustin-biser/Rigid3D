@@ -82,6 +82,9 @@ namespace GlUtils {
 
         void setUniform(const char * uniformName, const mat4 & m);
 
+        void setUniformSubroutinesuiv(GLenum shaderType, const char * subroutineName);
+
+
     private:
         struct Shader {
             string sourceCode;

@@ -36,11 +36,13 @@ DepthMapping::DepthMapping()
  */
 void DepthMapping::init()
 {
-    meshConsolidator =  {"../data/meshes/shadow_box.obj",
-                         "../data/meshes/bunny_smooth.obj",
-                         "../data/meshes/sphere_smooth.obj"};
+    meshConsolidator =  {
+            {"shadow_box", "../data/meshes/shadow_box.obj"},
+            {"bunny_smooth", "../data/meshes/bunny_smooth.obj"},
+            {"sphere_smooth", "../data/meshes/sphere_smooth.obj"}
+    };
 
-    meshConsolidator.getBatchInfo(batchInfoVec);
+    meshConsolidator.getBatchInfo(batchInfoMap);
 
     setupShaders();
     setupGLBuffers();
@@ -98,7 +100,7 @@ void DepthMapping::setupMatrices() {
 //---------------------------------------------------------------------------------------
 void DepthMapping::draw()
 {
-    drawGrid();
+    drawWalls();
     drawBunny();
     drawSphere();
 
@@ -106,10 +108,10 @@ void DepthMapping::draw()
 }
 
 //---------------------------------------------------------------------------------------
-void DepthMapping::drawGrid() {
+void DepthMapping::drawWalls() {
     shaderProgram.setUniform("ModelMatrix", modelMatrix_grid);
     shaderProgram.enable();
-    glDrawArrays(GL_TRIANGLES, batchInfoVec.at(0).startIndex, batchInfoVec.at(0).numIndices);
+    glDrawArrays(GL_TRIANGLES, batchInfoMap.at("shadow_box").startIndex, batchInfoMap.at("shadow_box").numIndices);
     shaderProgram.disable();
 }
 
@@ -117,7 +119,7 @@ void DepthMapping::drawGrid() {
 void DepthMapping::drawBunny() {
     shaderProgram.setUniform("ModelMatrix", modelMatrix_bunny);
     shaderProgram.enable();
-    glDrawArrays(GL_TRIANGLES, batchInfoVec.at(1).startIndex, batchInfoVec.at(1).numIndices);
+    glDrawArrays(GL_TRIANGLES, batchInfoMap.at("bunny_smooth").startIndex, batchInfoMap.at("bunny_smooth").numIndices);
     shaderProgram.disable();
 }
 
@@ -125,7 +127,7 @@ void DepthMapping::drawBunny() {
 void DepthMapping::drawSphere() {
     shaderProgram.setUniform("ModelMatrix", modelMatrix_sphere);
     shaderProgram.enable();
-    glDrawArrays(GL_TRIANGLES, batchInfoVec.at(2).startIndex, batchInfoVec.at(2).numIndices);
+    glDrawArrays(GL_TRIANGLES, batchInfoMap.at("sphere_smooth").startIndex, batchInfoMap.at("sphere_smooth").numIndices);
     shaderProgram.disable();
 }
 

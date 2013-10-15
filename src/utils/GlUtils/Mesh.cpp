@@ -1,11 +1,17 @@
 #include <Mesh.hpp>
+
 #include <fstream>
+using std::ifstream;
+
 #include <sstream>
+using std::istringstream;
+
 #include <iostream>
+using std::endl;
+
 #include <GlUtilsException.hpp>
 
 using namespace GlUtils;
-using namespace std;
 
 //----------------------------------------------------------------------------------------
 /**

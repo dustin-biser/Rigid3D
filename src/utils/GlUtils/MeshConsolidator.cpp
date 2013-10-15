@@ -2,7 +2,6 @@
 #include <GlUtilsException.hpp>
 #include <cstring>
 #include <cstdlib>
-#include <Mesh.hpp>
 
 using namespace GlUtils;
 
@@ -21,79 +20,89 @@ MeshConsolidator::MeshConsolidator()
 
 //----------------------------------------------------------------------------------------
 /**
- * Constructs a \c MeshConsolidator object from a list of \c const \c Mesh pointers.
- * @param meshList
+ * Constructs a \c MeshConsolidator object from an \c unordered_map with keys equal to
+ * c-string identifiers, and mapped values equal to const references to Mesh objects.
+ *
+ * @param meshMap
  */
-MeshConsolidator::MeshConsolidator(initializer_list<const Mesh *> meshList)
+MeshConsolidator::MeshConsolidator(initializer_list<pair<const char *, const Mesh *> > list)
         : totalVertexBytes(0), totalNormalBytes(0) {
 
-    vector<const Mesh *> meshVector = meshList;
-    processMeshes(meshVector);
+    unordered_map<const char *, const Mesh *> meshMap;
+    for(auto key_value : list) {
+        meshMap[key_value.first] = key_value.second;
+    }
+
+    processMeshes(meshMap);
 }
 
 //----------------------------------------------------------------------------------------
 /**
- * Constructs a \c MeshConsolidator object from a list of \c Wavefront \c .obj file names.
- * @param fileNameList
+ * Constructs a \c MeshConsolidator object from an \c unordered_map with keys equal to
+ * c-string identifiers, and mapped values equal to Wavefront .obj file names.
+ *
+ * @param meshMap
  */
-MeshConsolidator::MeshConsolidator(initializer_list<const char *> fileNameList)
+MeshConsolidator::MeshConsolidator(initializer_list<pair<const char *, const char *> > list)
         : totalVertexBytes(0), totalNormalBytes(0) {
 
+    // Need to keep Mesh objects in memory for processing until the end of this block.
+    // Use vector<shared_ptr<Mesh>> as memory requirements could be large for some Meshes.
     // Meshes will auto-destruct at the end of this method when vector goes out of scope.
     vector<shared_ptr<Mesh> > meshVector;
-    meshVector.resize(fileNameList.size());
+    meshVector.resize(list.size());
 
-    // Use Mesh instances to process each .obj file one at a time.
-    unsigned int i = 0;
-    for(const char * fileName : fileNameList) {
-        meshVector.at(i) = make_shared<Mesh>(fileName);
+    unordered_map<const char *, const Mesh *> meshMap;
+    int i = 0;
+    for(auto key_value : list) {
+        const char * meshId = key_value.first;
+        const char * meshFileName = key_value.second;
+        meshVector[i] = make_shared<Mesh>(meshFileName);
+        meshMap[meshId] = meshVector[i].get();
         i++;
     }
 
-    vector<const Mesh *> readyMeshes;
-    for(shared_ptr<Mesh> meshPtr : meshVector) {
-        readyMeshes.push_back(meshPtr.get());
-    }
-
-    processMeshes(readyMeshes);
+    processMeshes(meshMap);
 }
 
 //----------------------------------------------------------------------------------------
-void MeshConsolidator::processMeshes(const vector<const Mesh *> & meshVector) {
-    batchInfoVec.resize(meshVector.size());
+void MeshConsolidator::processMeshes(const unordered_map<const char *, const Mesh *> & meshMap) {
 
-    for(const Mesh * m : meshVector) {
-        totalVertexBytes += m->getNumVertexBytes();
-        totalNormalBytes += m->getNumNormalBytes();
+    // Calculate the total number of bytes for both vertex and normal data.
+    for(auto key_value: meshMap) {
+        const Mesh & mesh = *(key_value.second);
+        totalVertexBytes += mesh.getNumVertexBytes();
+        totalNormalBytes += mesh.getNumNormalBytes();
     }
 
     vertexDataPtr_head = shared_ptr<float>((float *)malloc(totalVertexBytes), free);
     if (vertexDataPtr_head.get() == (float *)0) {
-        throw GlUtilsException("Unable to allocate system memory within class MeshConsolidator::processMeshes()");
+        throw GlUtilsException("Unable to allocate system memory within method MeshConsolidator::processMeshes");
     }
 
     normalDataPtr_head = shared_ptr<float>((float *)malloc(totalNormalBytes), free);
     if (vertexDataPtr_head.get() == (float *)0) {
-        throw GlUtilsException("Unable to allocate system memory within class MeshConsolidator::processMeshes()");
+        throw GlUtilsException("Unable to allocate system memory within method MeshConsolidator::processMeshes");
     }
 
     // Assign pointers to beginning of memory blocks.
     vertexDataPtr_tail = vertexDataPtr_head.get();
     normalDataPtr_tail = normalDataPtr_head.get();
 
-    unsigned int meshNumber = 0;
-    for(const Mesh * m : meshVector) {
-        consolidateMesh(*m, meshNumber);
-        meshNumber++;
+    for(auto key_value : meshMap) {
+        const char * meshId = key_value.first;
+        const Mesh & mesh = *(key_value.second);
+        consolidateMesh(meshId, mesh);
     }
 }
 
 //----------------------------------------------------------------------------------------
 MeshConsolidator::~MeshConsolidator() {
+    // All resources auto freed by shared pointers.
 }
 
 //----------------------------------------------------------------------------------------
-void MeshConsolidator::consolidateMesh(const Mesh & mesh, unsigned int meshNumber) {
+void MeshConsolidator::consolidateMesh(const char * meshId, const Mesh & mesh) {
     unsigned int startIndex = (vertexDataPtr_tail - vertexDataPtr_head.get()) / num_floats_per_vertex;
     unsigned int numIndices = mesh.getNumVertices();
 
@@ -103,7 +112,7 @@ void MeshConsolidator::consolidateMesh(const Mesh & mesh, unsigned int meshNumbe
     memcpy(normalDataPtr_tail, mesh.getNormalDataPtr(), mesh.getNumNormalBytes());
     normalDataPtr_tail += mesh.getNumNormalBytes() / sizeof(float);
 
-    batchInfoVec.at(meshNumber) = BatchInfo(startIndex, numIndices);
+    batchInfoMap[meshId] = BatchInfo(startIndex, numIndices);
 }
 
 //----------------------------------------------------------------------------------------
@@ -119,9 +128,11 @@ void MeshConsolidator::consolidateMesh(const Mesh & mesh, unsigned int meshNumbe
  *
  * @param outVector
  */
-void MeshConsolidator::getBatchInfo(vector<BatchInfo> & outVector) const {
-    for(const BatchInfo &b : this->batchInfoVec) {
-        outVector.push_back(b);
+void MeshConsolidator::getBatchInfo(unordered_map<const char *, BatchInfo> & batchInfoMap) const {
+    for(const auto & key_value : this->batchInfoMap) {
+        const char * meshId = key_value.first;
+        BatchInfo batchInfo = key_value.second;
+        batchInfoMap[meshId] = batchInfo;
     }
 }
 

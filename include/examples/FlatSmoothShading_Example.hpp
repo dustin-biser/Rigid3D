@@ -7,6 +7,8 @@
 #include <vector>
 #include <memory>
 
+using std::unordered_map;
+
 using namespace GlUtils;
 using namespace glm;
 using namespace std;
@@ -37,7 +39,7 @@ public:
 private:
     // Mesh and Batch Containers
     MeshConsolidator meshConsolidator;
-    vector<BatchInfo> batchInfoVec;
+    unordered_map<const char *, BatchInfo> batchInfoMap;
 
     enum class MeshType {CUBE, SPHERE, TORUS, SUSAN};
     enum class ShadingType {FLAT, SMOOTH};

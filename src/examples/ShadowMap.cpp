@@ -14,6 +14,10 @@ using glm::infinitePerspective;
 using glm::perspective;
 using glm::translate;
 using glm::scale;
+using glm::inverse;
+
+#include <unordered_map>
+using std::unordered_map;
 
 #include <cstdio>
 using std::printf;
@@ -54,13 +58,16 @@ ShadowMap::ShadowMap()
  */
 void ShadowMap::init()
 {
-    meshConsolidator =  {"../data/meshes/grid3d.obj",
-                         "../data/meshes/wall.obj",
-                         "../data/meshes/wall_back.obj",
-                         "../data/meshes/bunny_smooth.obj",
-                         "../data/meshes/sphere_smooth.obj" };
+    meshConsolidator = {
+          {"grid3d", "../data/meshes/grid3d.obj"},
+          {"wall", "../data/meshes/wall.obj"},
+          {"wall_back", "../data/meshes/wall_back.obj"},
+          {"bunny", "../data/meshes/bunny_smooth.obj"},
+          {"sphere", "../data/meshes/sphere_smooth.obj"}
+    };
 
-    meshConsolidator.getBatchInfo(batchInfoVec);
+
+    meshConsolidator.getBatchInfo(batchInfoMap);
 
     setupShaders();
     setupGLBuffers();
@@ -72,7 +79,6 @@ void ShadowMap::init()
     glDepthRange(0.0f, 1.0f);
     glDisable(GL_DEPTH_CLAMP);
 
-//    glClearColor(0.3f, 0.3f, 0.4f, 1.0f);
     glClearColor(0.01f, 0.01f, 0.01f, 1.0f);
 }
 
@@ -93,13 +99,6 @@ void ShadowMap::setupShaders() {
     glEnableVertexAttribArray(position_Location);
     GLint normal_Location = shaderProgram.getAttribLocation("vertexNormal");
     glEnableVertexAttribArray(normal_Location);
-
-    // Get subroutine indices from fragment shader.
-    subroutineIndex_renderDepthValues = glGetSubroutineIndex(shaderProgram.getProgramObject(),
-            GL_FRAGMENT_SHADER, "recordDepthValues");
-
-    subroutineIndex_shadeWithShadow = glGetSubroutineIndex(shaderProgram.getProgramObject(),
-            GL_FRAGMENT_SHADER, "shadeWithShadow");
 
     shaderProgram.setUniform("shadowMap", 0); // Use Texture Unit 0.
 
@@ -200,9 +199,7 @@ void ShadowMap::draw()
     glBindFramebuffer(GL_FRAMEBUFFER, shadowFBO);
     glClear(GL_DEPTH_BUFFER_BIT);
     glViewport(0, 0, shadowMapWidth, shadowMapHeight);
-    shaderProgram.enable();
-        glUniformSubroutinesuiv(GL_FRAGMENT_SHADER, 1, &subroutineIndex_renderDepthValues);
-    shaderProgram.disable();
+    shaderProgram.setUniformSubroutinesuiv(GL_FRAGMENT_SHADER, "recordDepthValues");
     glEnable(GL_CULL_FACE);
     glCullFace(GL_FRONT);
     drawScene();
@@ -217,9 +214,7 @@ void ShadowMap::draw()
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glViewport(0, 0, windowWidth, windowHeight);
-    shaderProgram.enable();
-        glUniformSubroutinesuiv(GL_FRAGMENT_SHADER, 1, &subroutineIndex_shadeWithShadow);
-    shaderProgram.disable();
+    shaderProgram.setUniformSubroutinesuiv(GL_FRAGMENT_SHADER, "shadeWithShadow");
     glCullFace(GL_BACK);
     drawScene();
 
@@ -251,7 +246,7 @@ void ShadowMap::drawGrid() {
     updateMatrices();
 
     shaderProgram.enable();
-        glDrawArrays(GL_TRIANGLES, batchInfoVec.at(0).startIndex, batchInfoVec.at(0).numIndices);
+        glDrawArrays(GL_TRIANGLES, batchInfoMap.at("grid3d").startIndex, batchInfoMap.at("grid3d").numIndices);
     shaderProgram.disable();
 
 }
@@ -269,7 +264,7 @@ void ShadowMap::drawLeftWall() {
     updateMatrices();
 
     shaderProgram.enable();
-        glDrawArrays(GL_TRIANGLES, batchInfoVec.at(1).startIndex, batchInfoVec.at(1).numIndices);
+        glDrawArrays(GL_TRIANGLES, batchInfoMap.at("wall").startIndex, batchInfoMap.at("wall").numIndices);
     shaderProgram.disable();
 }
 
@@ -286,7 +281,8 @@ void ShadowMap::drawBackWall() {
     updateMatrices();
 
     shaderProgram.enable();
-        glDrawArrays(GL_TRIANGLES, batchInfoVec.at(2).startIndex, batchInfoVec.at(2).numIndices);
+    glDrawArrays(GL_TRIANGLES, batchInfoMap.at("wall_back").startIndex,
+            batchInfoMap.at("wall_back").numIndices);
     shaderProgram.disable();
 }
 
@@ -303,7 +299,7 @@ void ShadowMap::drawBunny() {
     updateMatrices();
 
     shaderProgram.enable();
-        glDrawArrays(GL_TRIANGLES, batchInfoVec.at(3).startIndex, batchInfoVec.at(3).numIndices);
+        glDrawArrays(GL_TRIANGLES, batchInfoMap.at("bunny").startIndex, batchInfoMap.at("bunny").numIndices);
     shaderProgram.disable();
 }
 
@@ -320,7 +316,7 @@ void ShadowMap::drawSphere() {
     updateMatrices();
 
     shaderProgram.enable();
-        glDrawArrays(GL_TRIANGLES, batchInfoVec.at(4).startIndex, batchInfoVec.at(4).numIndices);
+        glDrawArrays(GL_TRIANGLES, batchInfoMap.at("sphere").startIndex, batchInfoMap.at("sphere").numIndices);
     shaderProgram.disable();
 }
 
@@ -342,7 +338,7 @@ void ShadowMap::drawLight() {
     updateMatrices();
 
     shaderProgram.enable();
-        glDrawArrays(GL_TRIANGLES, batchInfoVec.at(4).startIndex, batchInfoVec.at(4).numIndices);
+        glDrawArrays(GL_TRIANGLES, batchInfoMap.at("sphere").startIndex, batchInfoMap.at("sphere").numIndices);
     shaderProgram.disable();
 }
 
@@ -575,13 +571,6 @@ void ShadowMap::reloadShaderProgram() {
     glEnableVertexAttribArray(position_Location);
     GLint normal_Location = shaderProgram.getAttribLocation("vertexNormal");
     glEnableVertexAttribArray(normal_Location);
-
-    // Get subroutine indices from fragment shader.
-    subroutineIndex_renderDepthValues = glGetSubroutineIndex(shaderProgram.getProgramObject(),
-            GL_FRAGMENT_SHADER, "recordDepthValues");
-
-    subroutineIndex_shadeWithShadow = glGetSubroutineIndex(shaderProgram.getProgramObject(),
-            GL_FRAGMENT_SHADER, "shadeWithShadow");
 
     shaderProgram.setUniform("shadowMap", 0); // Use Texture Unit 0.
 

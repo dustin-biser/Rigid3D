@@ -2,12 +2,15 @@
 #define MESH_CONSOLIDATOR_HPP_
 
 #include <Mesh.hpp>
-#include <initializer_list>
-#include <vector>
-#include <glm/glm.hpp>
 
+#include <initializer_list>
 using std::initializer_list;
-using std::vector;
+
+#include <utility>
+using std::pair;
+
+#include <unordered_map>
+using std::unordered_map;
 
 namespace GlUtils {
 
@@ -78,9 +81,9 @@ namespace GlUtils {
     public:
         MeshConsolidator();
 
-        MeshConsolidator(initializer_list<const Mesh *> meshList);
+        MeshConsolidator(initializer_list<pair<const char *, const Mesh * > > list);
 
-        MeshConsolidator(initializer_list<const char *> fileNameList);
+        MeshConsolidator(initializer_list<pair<const char *, const char *> > list);
 
         ~MeshConsolidator();
 
@@ -92,12 +95,12 @@ namespace GlUtils {
 
         unsigned long getNumNormalBytes() const;
 
-        void getBatchInfo(vector<BatchInfo> & outVector) const;
+        void getBatchInfo(unordered_map<const char *, BatchInfo> & batchInfoMap) const;
 
     private:
-        void processMeshes(const vector<const Mesh *> & meshVector);
+        void processMeshes(const unordered_map<const char *, const Mesh *> & meshMap);
 
-        void consolidateMesh(const Mesh & mesh, unsigned int meshNumber);
+        void consolidateMesh(const char * meshId, const Mesh & mesh);
 
         unsigned long totalVertexBytes;
         unsigned long totalNormalBytes;
@@ -108,7 +111,7 @@ namespace GlUtils {
         shared_ptr<float> normalDataPtr_head;
         float * normalDataPtr_tail;
 
-        vector<BatchInfo> batchInfoVec;
+        unordered_map<const char *, BatchInfo> batchInfoMap;
 
         static const short num_floats_per_vertex = 3;
     };

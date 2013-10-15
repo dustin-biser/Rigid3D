@@ -491,4 +491,19 @@ GLuint ShaderProgram::getProgramObject() const {
         glDeleteProgram(programObject);
     }
 
+    //------------------------------------------------------------------------------------
+    void ShaderProgram::setUniformSubroutinesuiv(GLenum shaderType, const char * subroutineName) {
+        GLuint index = glGetSubroutineIndex(programObject, shaderType, subroutineName);
+        if (index == GL_INVALID_INDEX) {
+            stringstream errorMessage;
+            errorMessage << "Error in method ShaderProgram::setUniformSubroutinesuiv." << endl
+                         << subroutineName << " is not a known subroutine.";
+            throw ShaderException(errorMessage.str());
+        }
+        glUseProgram(programObject);
+        glUniformSubroutinesuiv(shaderType, 1, &index);
+        glUseProgram(activeProgram);
+        checkGLErrors(__FILE__, __LINE__);
+    }
+
 } // end namespace GlUtils

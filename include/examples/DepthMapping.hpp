@@ -10,6 +10,9 @@ using glm::mat4;
 #include <vector>
 using std::vector;
 
+#include <unordered_map>
+using std::unordered_map;
+
 using namespace GlUtils;
 
 /**
@@ -31,7 +34,7 @@ public:
 private:
     // Mesh and Batch Containers
     MeshConsolidator meshConsolidator;
-    vector<BatchInfo> batchInfoVec;
+    unordered_map<const char *, BatchInfo> batchInfoMap;
 
     // Matrices
     mat4 modelMatrix_grid;
@@ -57,9 +60,8 @@ private:
     void setupMatrices();
     void updateMatrices();
     void updateUniformData();
-    void drawGrid();
+    void drawWalls();
     void drawBunny();
-    void drawTyrannosaurus();
     void drawSphere();
 };
 

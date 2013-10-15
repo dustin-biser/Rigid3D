@@ -7,6 +7,9 @@
 #include <vector>
 #include <memory>
 
+#include <unordered_map>
+using std::unordered_map;
+
 using namespace GlUtils;
 using namespace glm;
 using namespace std;
@@ -37,7 +40,7 @@ public:
 private:
     // Mesh and Batch Containers
     MeshConsolidator meshConsolidator;
-    vector<BatchInfo> batchInfoVec;
+    unordered_map<const char *, BatchInfo> batchInfoMap;
 
     // Matrices
     mat4 modelMatrix_grid;

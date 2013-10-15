@@ -40,13 +40,15 @@ CameraExample::CameraExample()
  */
 void CameraExample::init()
 {
-    meshConsolidator =  {"../data/meshes/grid.obj",
-                         "../data/meshes/bunny_smooth.obj",
-                         "../data/meshes/ship.obj",
-                         "../data/meshes/sphere_smooth.obj",
-                         "../data/meshes/cube.obj"};
+    meshConsolidator =  {
+            {"grid", "../data/meshes/grid.obj"},
+            {"bunny_smooth", "../data/meshes/bunny_smooth.obj"},
+            {"tyrannosaurus_smooth", "../data/meshes/tyrannosaurus_smooth.obj"},
+            {"sphere_smooth", "../data/meshes/sphere_smooth.obj"},
+            {"cube", "../data/meshes/cube.obj"}
+    };
 
-    meshConsolidator.getBatchInfo(batchInfoVec);
+    meshConsolidator.getBatchInfo(batchInfoMap);
 
     setupShaders();
     setupGLBuffers();
@@ -106,7 +108,8 @@ void CameraExample::setupMatrices() {
 
     modelMatrix_grid = translate(identity, vec3(0.0f, -3.8f, -10.0f));
     modelMatrix_bunny = translate(identity, vec3(-3.0f, -3.6f, -11.5f));
-    modelMatrix_tyrannosaurus = translate(identity, vec3(3.0f, 5.0f, -9.8f));
+    modelMatrix_tyrannosaurus = translate(identity, vec3(3.0f, -1.5f, -9.8f));
+    modelMatrix_tyrannosaurus = scale(modelMatrix_tyrannosaurus, vec3(1.7f));
     modelMatrix_sphere = translate(identity, vec3(-1.5f, -3.0f, -6.5f));
 
     shaderProgram.setUniform("ViewMatrix", camera.getViewMatrix());
@@ -147,7 +150,7 @@ void CameraExample::drawGrid() {
     modelMatrix_grid[2][2] = 50.0f;
     shaderProgram.setUniform("ModelMatrix", modelMatrix_grid);
     shaderProgram.enable();
-    glDrawArrays(GL_TRIANGLES, batchInfoVec.at(0).startIndex, batchInfoVec.at(0).numIndices);
+    glDrawArrays(GL_TRIANGLES, batchInfoMap.at("grid").startIndex, batchInfoMap.at("grid").numIndices);
     shaderProgram.disable();
 }
 
@@ -168,7 +171,8 @@ void CameraExample::drawBunny() {
 
     shaderProgram.setUniform("ModelMatrix", modelMatrix_bunny);
     shaderProgram.enable();
-    glDrawArrays(GL_TRIANGLES, batchInfoVec.at(1).startIndex, batchInfoVec.at(1).numIndices);
+    glDrawArrays(GL_TRIANGLES, batchInfoMap.at("bunny_smooth").startIndex,
+            batchInfoMap.at("bunny_smooth").numIndices);
     shaderProgram.disable();
 }
 
@@ -189,7 +193,8 @@ void CameraExample::drawTyrannosaurus() {
 
     shaderProgram.setUniform("ModelMatrix", modelMatrix_tyrannosaurus);
     shaderProgram.enable();
-    glDrawArrays(GL_TRIANGLES, batchInfoVec.at(2).startIndex, batchInfoVec.at(2).numIndices);
+    glDrawArrays(GL_TRIANGLES, batchInfoMap.at("tyrannosaurus_smooth").startIndex,
+            batchInfoMap.at("tyrannosaurus_smooth").numIndices);
     shaderProgram.disable();
 }
 
@@ -210,7 +215,8 @@ void CameraExample::drawSphere() {
 
     shaderProgram.setUniform("ModelMatrix", modelMatrix_sphere);
     shaderProgram.enable();
-    glDrawArrays(GL_TRIANGLES, batchInfoVec.at(3).startIndex, batchInfoVec.at(3).numIndices);
+    glDrawArrays(GL_TRIANGLES, batchInfoMap.at("sphere_smooth").startIndex,
+            batchInfoMap.at("sphere_smooth").numIndices);
     shaderProgram.disable();
 }
 
@@ -236,7 +242,8 @@ void CameraExample::drawLight() {
 
     shaderProgram.setUniform("ModelMatrix", modelMatrix_light);
     shaderProgram.enable();
-    glDrawArrays(GL_TRIANGLES, batchInfoVec.at(4).startIndex, batchInfoVec.at(4).numIndices);
+    glDrawArrays(GL_TRIANGLES, batchInfoMap.at("cube").startIndex,
+            batchInfoMap.at("cube").numIndices);
     shaderProgram.disable();
 }
 

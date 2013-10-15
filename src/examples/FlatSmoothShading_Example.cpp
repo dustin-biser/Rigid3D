@@ -5,6 +5,9 @@
 #include <glm/gtx/transform.hpp>
 #include <iostream>
 
+#include <unordered_map>
+using std::unordered_map;
+
 using namespace MathUtils;
 
 int main() {
@@ -43,16 +46,18 @@ FlatSmoothShading_Example::FlatSmoothShading_Example()
  */
 void FlatSmoothShading_Example::init()
 {
-    meshConsolidator =  {"../data/meshes/cube.obj",
-                         "../data/meshes/sphere.obj",
-                         "../data/meshes/torus.obj",
-                         "../data/meshes/susan.obj",
-                         "../data/meshes/cube_smooth.obj",
-                         "../data/meshes/sphere_smooth.obj",
-                         "../data/meshes/torus_smooth.obj",
-                         "../data/meshes/susan_smooth.obj"};
+    meshConsolidator =  {
+            {"cube_flat", "../data/meshes/cube.obj"},
+            {"sphere_flat", "../data/meshes/sphere.obj"},
+            {"torus_flat", "../data/meshes/torus.obj"},
+            {"susan_flat", "../data/meshes/susan.obj"},
+            {"cube_smooth", "../data/meshes/cube_smooth.obj"},
+            {"sphere_smooth", "../data/meshes/sphere_smooth.obj"},
+            {"torus_smooth", "../data/meshes/torus_smooth.obj"},
+            {"susan_smooth", "../data/meshes/susan_smooth.obj"}
+    };
 
-    meshConsolidator.getBatchInfo(batchInfoVec);
+    meshConsolidator.getBatchInfo(batchInfoMap);
 
     setupShaders();
     setupGLBuffers();
@@ -134,30 +139,30 @@ void FlatSmoothShading_Example::draw()
         switch (renderTarget) {
         case (MeshType::CUBE):
             if (shadingType == ShadingType::FLAT) {
-                glDrawArrays(GL_TRIANGLES, batchInfoVec.at(0).startIndex, batchInfoVec.at(0).numIndices);
+                glDrawArrays(GL_TRIANGLES, batchInfoMap.at("cube_flat").startIndex, batchInfoMap.at("cube_flat").numIndices);
             } else {
-                glDrawArrays(GL_TRIANGLES, batchInfoVec.at(4).startIndex, batchInfoVec.at(4).numIndices);
+                glDrawArrays(GL_TRIANGLES, batchInfoMap.at("cube_smooth").startIndex, batchInfoMap.at("cube_smooth").numIndices);
             }
             break;
         case (MeshType::SPHERE):
             if (shadingType == ShadingType::FLAT) {
-                glDrawArrays(GL_TRIANGLES, batchInfoVec.at(1).startIndex, batchInfoVec.at(1).numIndices);
+                glDrawArrays(GL_TRIANGLES, batchInfoMap.at("sphere_flat").startIndex, batchInfoMap.at("sphere_flat").numIndices);
             } else {
-                glDrawArrays(GL_TRIANGLES, batchInfoVec.at(5).startIndex, batchInfoVec.at(5).numIndices);
+                glDrawArrays(GL_TRIANGLES, batchInfoMap.at("sphere_smooth").startIndex, batchInfoMap.at("sphere_smooth").numIndices);
             }
             break;
         case (MeshType::TORUS):
             if (shadingType == ShadingType::FLAT) {
-                glDrawArrays(GL_TRIANGLES, batchInfoVec.at(2).startIndex, batchInfoVec.at(2).numIndices);
+                glDrawArrays(GL_TRIANGLES, batchInfoMap.at("torus_flat").startIndex, batchInfoMap.at("torus_flat").numIndices);
             } else {
-                glDrawArrays(GL_TRIANGLES, batchInfoVec.at(6).startIndex, batchInfoVec.at(6).numIndices);
+                glDrawArrays(GL_TRIANGLES, batchInfoMap.at("torus_smooth").startIndex, batchInfoMap.at("torus_smooth").numIndices);
             }
             break;
         case (MeshType::SUSAN):
             if (shadingType == ShadingType::FLAT) {
-                glDrawArrays(GL_TRIANGLES, batchInfoVec.at(3).startIndex, batchInfoVec.at(3).numIndices);
+                glDrawArrays(GL_TRIANGLES, batchInfoMap.at("susan_flat").startIndex, batchInfoMap.at("susan_flat").numIndices);
             } else {
-                glDrawArrays(GL_TRIANGLES, batchInfoVec.at(7).startIndex, batchInfoVec.at(7).numIndices);
+                glDrawArrays(GL_TRIANGLES, batchInfoMap.at("susan_smooth").startIndex, batchInfoMap.at("susan_smooth").numIndices);
             }
             break;
         }

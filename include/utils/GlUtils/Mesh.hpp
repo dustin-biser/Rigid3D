@@ -2,11 +2,13 @@
 #define MESH_HPP_
 
 #include <glm/glm.hpp>
-#include <vector>
-#include <memory>
+using glm::vec3;
 
-using namespace std;
-using namespace glm;
+#include <vector>
+using std::vector;
+
+#include <memory>
+using std::shared_ptr;
 
 namespace GlUtils {
 

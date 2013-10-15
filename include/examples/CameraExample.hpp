@@ -9,6 +9,9 @@
 #include <MeshConsolidator.hpp>
 #include <GlUtils.hpp>
 
+#include <unordered_map>
+using std::unordered_map;
+
 using namespace GlUtils;
 
 class CameraExample : public GlfwOpenGlWindow {
@@ -21,7 +24,7 @@ public:
 private:
     // Mesh and Batch Containers
     MeshConsolidator meshConsolidator;
-    vector<BatchInfo> batchInfoVec;
+    unordered_map<const char *, BatchInfo> batchInfoMap;
 
     // Matrices
     mat4 modelMatrix_grid;

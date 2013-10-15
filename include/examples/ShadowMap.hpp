@@ -21,7 +21,7 @@ public:
 private:
     // Mesh and Batch Containers
     MeshConsolidator meshConsolidator;
-    vector<BatchInfo> batchInfoVec;
+    unordered_map<const char *, BatchInfo> batchInfoMap;
 
     // Matrices
     mat4 modelMatrix_grid;
@@ -46,10 +46,6 @@ private:
     GLuint vbo_vertices;
     GLuint vbo_normals;
     GLuint shadowFBO;
-    GLuint subroutineIndex_renderDepthValues;
-    GLuint subroutineIndex_shadeWithShadow;
-
-    bool renderDepthPass;
 
     struct SpotLight {
         vec3 position;      // Light position in world space.

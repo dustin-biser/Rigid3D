@@ -8,11 +8,30 @@
 #include "gtest/gtest.h"
 #include "Mesh.hpp"
 #include "glm/glm.hpp"
+
 #include <memory>
-#include <vector>
+using std::shared_ptr;
+
+#include <unordered_map>
+using std::unordered_map;
+
+#include <iostream>
+using std::ostream;
+
+#include <iostream>
+using std::endl;
 
 using namespace GlUtils;
-using std::vector;
+
+// Add ability to print out BatchInfo values.
+namespace GlUtils {
+    ostream & operator << (ostream & out, const BatchInfo & batchInfo) {
+        out << "BatchInfo[startIndex = " << batchInfo.startIndex << ", numIndices = "
+            << batchInfo.numIndices << "]" << endl;
+
+        return out;
+    }
+}
 
 namespace {  // limit class visibility to this file.
 
@@ -30,31 +49,33 @@ namespace {  // limit class visibility to this file.
     class MeshConsolidator_WithObjFiles_Test : public MeshConsolidator_Test {
     protected:
         static MeshConsolidator meshConsolidator;
-        static vector<BatchInfo> batchInfoVec;
+        static unordered_map<const char *, BatchInfo> batchInfoMap;
 
         // Ran once before all tests.
         static void SetUpTestCase() {
-            meshConsolidator = {"../data/meshes/cube.obj",
-                                "../data/meshes/cube_smooth.obj",
-                                "../data/meshes/cube.obj",
-                                "../data/meshes/cube_smooth.obj",
-                                "../data/meshes/cube.obj",
-                                "../data/meshes/cube.obj",
-                                "../data/meshes/cube_smooth.obj",
-                                "../data/meshes/cube_smooth.obj",
-                                "../data/meshes/cube.obj"};
+            meshConsolidator = {
+                    {"mesh1", "../data/meshes/cube.obj"},
+                    {"mesh2", "../data/meshes/cube_smooth.obj"},
+                    {"mesh3", "../data/meshes/cube.obj"},
+                    {"mesh4", "../data/meshes/cube_smooth.obj"},
+                    {"mesh5", "../data/meshes/cube.obj"},
+                    {"mesh6", "../data/meshes/cube.obj"},
+                    {"mesh7", "../data/meshes/cube_smooth.obj"},
+                    {"mesh8", "../data/meshes/cube_smooth.obj"},
+                    {"mesh9", "../data/meshes/cube.obj"}
+            };
 
-            meshConsolidator.getBatchInfo(batchInfoVec);
+            meshConsolidator.getBatchInfo(batchInfoMap);
         }
     };
     // Define static class variables.
     MeshConsolidator MeshConsolidator_WithObjFiles_Test::meshConsolidator;
-    vector<BatchInfo> MeshConsolidator_WithObjFiles_Test::batchInfoVec;
+    unordered_map<const char *, BatchInfo> MeshConsolidator_WithObjFiles_Test::batchInfoMap;
 
     class MeshConsolidator_WithMeshes_Test: public MeshConsolidator_Test {
     protected:
         static MeshConsolidator meshConsolidator;
-        static vector<BatchInfo> batchInfoVec;
+        static unordered_map<const char *, BatchInfo> batchInfoMap;
 
         // Ran once before all tests.
         static void SetUpTestCase() {
@@ -68,18 +89,90 @@ namespace {  // limit class visibility to this file.
             Mesh m8("../data/meshes/cube_smooth.obj");
             Mesh m9("../data/meshes/cube_smooth.obj");
 
-            meshConsolidator = {&m1, &m2, &m3, &m4, &m5, &m6, &m7, &m8, &m9};
-            meshConsolidator.getBatchInfo(batchInfoVec);
+            meshConsolidator = {
+                    {"mesh1", &m1},
+                    {"mesh2", &m2},
+                    {"mesh3", &m3},
+                    {"mesh4", &m4},
+                    {"mesh5", &m5},
+                    {"mesh6", &m6},
+                    {"mesh7", &m7},
+                    {"mesh8", &m8},
+                    {"mesh9", &m9},
+            };
+
+            meshConsolidator.getBatchInfo(batchInfoMap);
         }
     };
+
 
 }
 
 // Define these outside anonymous namespace so their names don't collide with
 // MeshConsolidator_WithObjFiles_Test's member variables.
 MeshConsolidator MeshConsolidator_WithMeshes_Test::meshConsolidator;
-vector<BatchInfo> MeshConsolidator_WithMeshes_Test::batchInfoVec;
+unordered_map<const char *, BatchInfo> MeshConsolidator_WithMeshes_Test::batchInfoMap;
 
+//////////////////////////////////////////////////////////////////////////////////////////
+// Test Helper Functions
+//////////////////////////////////////////////////////////////////////////////////////////
+bool containsKey(const unordered_map<const char *, BatchInfo> batchInfoMap, const char * key) {
+    for(auto key_value : batchInfoMap) {
+        if(key_value.first == key) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool operator == (const BatchInfo & b1, const BatchInfo & b2) {
+    if(b1.startIndex == b2.startIndex) {
+        if(b1.numIndices == b2.numIndices) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    return false;
+}
+
+bool containsValue(const unordered_map<const char *, BatchInfo> batchInfoMap,
+        const BatchInfo & batchInfo) {
+
+    for(auto key_value : batchInfoMap) {
+        if(key_value.second == batchInfo) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+::testing::AssertionResult assertContainsValue(const char* m_expr,
+                                               const char* n_expr,
+                                               const unordered_map<const char *, BatchInfo> & batchInfoMap,
+                                               const BatchInfo & batchInfo) {
+  if (containsValue(batchInfoMap, batchInfo)) {
+    return ::testing::AssertionSuccess();
+  }
+
+  return ::testing::AssertionFailure()
+      << "The mapped-value " << batchInfo << "is not contained in unordered_map";
+}
+
+::testing::AssertionResult assertContainsKey(const char* m_expr,
+                                               const char* n_expr,
+                                               const unordered_map<const char *, BatchInfo> & batchInfoMap,
+                                               const char * key) {
+  if (containsKey(batchInfoMap, key)) {
+    return ::testing::AssertionSuccess();
+  }
+
+  return ::testing::AssertionFailure()
+      << "The key-value " << key << "is not contained in unordered_map";
+}
 
 //////////////////////////////////////////////////////////////////////////////////////////
 // Test with .obj files
@@ -102,30 +195,37 @@ TEST_F(MeshConsolidator_WithObjFiles_Test, test_numNormalBytes){
 }
 
 //---------------------------------------------------------------------------------------
-TEST_F(MeshConsolidator_WithObjFiles_Test, test_batchInfoVec) {
+/*
+ * Test that the batchInfoMap contains:
+ * - Correct number of entries
+ * - Correct key entries, order does not matter.
+ * - Correct value entries, order does not matter.
+ */
+TEST_F(MeshConsolidator_WithObjFiles_Test, test_batchInfoMap) {
     unsigned expected = numberOfCubes;
-    EXPECT_EQ(expected, batchInfoVec.size());
-}
+    EXPECT_EQ(expected, batchInfoMap.size());
+    EXPECT_PRED_FORMAT2(assertContainsKey, batchInfoMap, "mesh1");
+    EXPECT_PRED_FORMAT2(assertContainsKey, batchInfoMap, "mesh2");
+    EXPECT_PRED_FORMAT2(assertContainsKey, batchInfoMap, "mesh3");
+    EXPECT_PRED_FORMAT2(assertContainsKey, batchInfoMap, "mesh4");
+    EXPECT_PRED_FORMAT2(assertContainsKey, batchInfoMap, "mesh5");
+    EXPECT_PRED_FORMAT2(assertContainsKey, batchInfoMap, "mesh6");
+    EXPECT_PRED_FORMAT2(assertContainsKey, batchInfoMap, "mesh7");
+    EXPECT_PRED_FORMAT2(assertContainsKey, batchInfoMap, "mesh8");
+    EXPECT_PRED_FORMAT2(assertContainsKey, batchInfoMap, "mesh9");
 
-//---------------------------------------------------------------------------------------
-TEST_F(MeshConsolidator_WithObjFiles_Test, test_first_batchInfo) {
-    BatchInfo batchInfo = batchInfoVec.at(0);
-    EXPECT_EQ(0u, batchInfo.startIndex);
-    EXPECT_EQ(36u, batchInfo.numIndices);
-}
+    vector<BatchInfo> batchInfoVec;
+    batchInfoVec.reserve(9);
+    for(int i = 0; i < 9; i++) {
+        BatchInfo b;
+        b.startIndex = i*36;
+        b.numIndices = 36;
+        batchInfoVec.push_back(b);
+    }
 
-//---------------------------------------------------------------------------------------
-TEST_F(MeshConsolidator_WithObjFiles_Test, test_second_batchInfo) {
-    BatchInfo batchInfo = batchInfoVec.at(1);
-    EXPECT_EQ(36u, batchInfo.startIndex);
-    EXPECT_EQ(36u, batchInfo.numIndices);
-}
-
-//---------------------------------------------------------------------------------------
-TEST_F(MeshConsolidator_WithObjFiles_Test, test_third_batchInfo) {
-    BatchInfo batchInfo = batchInfoVec.at(2);
-    EXPECT_EQ(72u, batchInfo.startIndex);
-    EXPECT_EQ(36u, batchInfo.numIndices);
+    for(const BatchInfo & b : batchInfoVec) {
+        EXPECT_PRED_FORMAT2(assertContainsValue, batchInfoMap, b);
+    }
 }
 
 //---------------------------------------------------------------------------------------
@@ -180,30 +280,31 @@ TEST_F(MeshConsolidator_WithMeshes_Test, test_numNormalBytes){
 }
 
 //---------------------------------------------------------------------------------------
-TEST_F(MeshConsolidator_WithMeshes_Test, test_batchInfoVec) {
+TEST_F(MeshConsolidator_WithMeshes_Test, test_batchInfoMap) {
     unsigned expected = numberOfCubes;
-    EXPECT_EQ(expected, batchInfoVec.size());
-}
+    EXPECT_EQ(expected, batchInfoMap.size());
+    EXPECT_PRED_FORMAT2(assertContainsKey, batchInfoMap, "mesh1");
+    EXPECT_PRED_FORMAT2(assertContainsKey, batchInfoMap, "mesh2");
+    EXPECT_PRED_FORMAT2(assertContainsKey, batchInfoMap, "mesh3");
+    EXPECT_PRED_FORMAT2(assertContainsKey, batchInfoMap, "mesh4");
+    EXPECT_PRED_FORMAT2(assertContainsKey, batchInfoMap, "mesh5");
+    EXPECT_PRED_FORMAT2(assertContainsKey, batchInfoMap, "mesh6");
+    EXPECT_PRED_FORMAT2(assertContainsKey, batchInfoMap, "mesh7");
+    EXPECT_PRED_FORMAT2(assertContainsKey, batchInfoMap, "mesh8");
+    EXPECT_PRED_FORMAT2(assertContainsKey, batchInfoMap, "mesh9");
 
-//---------------------------------------------------------------------------------------
-TEST_F(MeshConsolidator_WithMeshes_Test, test_first_batchInfo) {
-    BatchInfo batchInfo = batchInfoVec.at(0);
-    EXPECT_EQ(0u, batchInfo.startIndex);
-    EXPECT_EQ(36u, batchInfo.numIndices);
-}
+    vector<BatchInfo> batchInfoVec;
+    batchInfoVec.reserve(9);
+    for(int i = 0; i < 9; i++) {
+        BatchInfo b;
+        b.startIndex = i*36;
+        b.numIndices = 36;
+        batchInfoVec.push_back(b);
+    }
 
-//---------------------------------------------------------------------------------------
-TEST_F(MeshConsolidator_WithMeshes_Test, test_second_batchInfo) {
-    BatchInfo batchInfo = batchInfoVec.at(1);
-    EXPECT_EQ(36u, batchInfo.startIndex);
-    EXPECT_EQ(36u, batchInfo.numIndices);
-}
-
-//---------------------------------------------------------------------------------------
-TEST_F(MeshConsolidator_WithMeshes_Test, test_third_batchInfo) {
-    BatchInfo batchInfo = batchInfoVec.at(2);
-    EXPECT_EQ(72u, batchInfo.startIndex);
-    EXPECT_EQ(36u, batchInfo.numIndices);
+    for(const BatchInfo & b : batchInfoVec) {
+        EXPECT_PRED_FORMAT2(assertContainsValue, batchInfoMap, b);
+    }
 }
 
 //---------------------------------------------------------------------------------------

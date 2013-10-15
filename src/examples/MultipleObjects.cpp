@@ -37,13 +37,15 @@ MultipleObjects::MultipleObjects()
  */
 void MultipleObjects::init()
 {
-    meshConsolidator =  {"../data/meshes/grid.obj",
-                         "../data/meshes/bunny_smooth.obj",
-                         "../data/meshes/tyrannosaurus_smooth.obj",
-                         "../data/meshes/sphere_smooth.obj",
-                         "../data/meshes/cube.obj"};
+    meshConsolidator = {
+            {"grid", "../data/meshes/grid.obj"},
+            {"bunny_smooth", "../data/meshes/bunny_smooth.obj"},
+            {"tyrannosaurus_smooth", "../data/meshes/tyrannosaurus_smooth.obj"},
+            {"sphere_smooth", "../data/meshes/sphere_smooth.obj"},
+            {"cube", "../data/meshes/cube.obj"}
+    };
 
-    meshConsolidator.getBatchInfo(batchInfoVec);
+    meshConsolidator.getBatchInfo(batchInfoMap);
 
     setupShaders();
     setupGLBuffers();
@@ -140,7 +142,7 @@ void MultipleObjects::drawGrid() {
 
     shaderProgram.setUniform("ModelMatrix", modelMatrix_grid);
     shaderProgram.enable();
-    glDrawArrays(GL_TRIANGLES, batchInfoVec.at(0).startIndex, batchInfoVec.at(0).numIndices);
+    glDrawArrays(GL_TRIANGLES, batchInfoMap.at("grid").startIndex, batchInfoMap.at("grid").numIndices);
     shaderProgram.disable();
 }
 
@@ -161,7 +163,7 @@ void MultipleObjects::drawBunny() {
 
     shaderProgram.setUniform("ModelMatrix", modelMatrix_bunny);
     shaderProgram.enable();
-    glDrawArrays(GL_TRIANGLES, batchInfoVec.at(1).startIndex, batchInfoVec.at(1).numIndices);
+    glDrawArrays(GL_TRIANGLES, batchInfoMap.at("bunny_smooth").startIndex, batchInfoMap.at("bunny_smooth").numIndices);
     shaderProgram.disable();
 }
 
@@ -182,7 +184,7 @@ void MultipleObjects::drawTyrannosaurus() {
 
     shaderProgram.setUniform("ModelMatrix", modelMatrix_tyrannosaurus);
     shaderProgram.enable();
-    glDrawArrays(GL_TRIANGLES, batchInfoVec.at(2).startIndex, batchInfoVec.at(2).numIndices);
+    glDrawArrays(GL_TRIANGLES, batchInfoMap.at("tyrannosaurus_smooth").startIndex, batchInfoMap.at("tyrannosaurus_smooth").numIndices);
     shaderProgram.disable();
 }
 
@@ -203,7 +205,7 @@ void MultipleObjects::drawSphere() {
 
     shaderProgram.setUniform("ModelMatrix", modelMatrix_sphere);
     shaderProgram.enable();
-    glDrawArrays(GL_TRIANGLES, batchInfoVec.at(3).startIndex, batchInfoVec.at(3).numIndices);
+    glDrawArrays(GL_TRIANGLES, batchInfoMap.at("sphere_smooth").startIndex, batchInfoMap.at("sphere_smooth").numIndices);
     shaderProgram.disable();
 }
 
@@ -229,7 +231,7 @@ void MultipleObjects::drawLight() {
 
     shaderProgram.setUniform("ModelMatrix", modelMatrix_light);
     shaderProgram.enable();
-    glDrawArrays(GL_TRIANGLES, batchInfoVec.at(4).startIndex, batchInfoVec.at(4).numIndices);
+    glDrawArrays(GL_TRIANGLES, batchInfoMap.at("cube").startIndex, batchInfoMap.at("cube").numIndices);
     shaderProgram.disable();
 }
 
