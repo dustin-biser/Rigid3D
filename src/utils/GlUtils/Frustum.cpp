@@ -14,6 +14,23 @@ Frustum::Frustum()
 }
 
 //----------------------------------------------------------------------------------------
+Frustum::Frustum(const Frustum & frustum)
+    :   fovy(frustum.fovy),
+        aspectRatio(frustum.aspectRatio),
+        zNear(frustum.zNear),
+        zFar(frustum.zFar),
+        _isPerspective(frustum._isPerspective),
+        recalcPerspectiveMatrix(frustum.recalcPerspectiveMatrix),
+        projectionMatrix(frustum.projectionMatrix) {
+
+}
+
+//----------------------------------------------------------------------------------------
+Frustum::~Frustum() {
+
+}
+
+//----------------------------------------------------------------------------------------
 /**
  * Constructs an orthographic projection view \c Frustum.
  *

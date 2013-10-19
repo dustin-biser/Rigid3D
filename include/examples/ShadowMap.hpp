@@ -39,6 +39,9 @@ private:
 
     ShaderProgram shaderProgram;
 
+    RenderableFrustum renderableFrustum;
+    ShaderProgram frustumShader;
+
     int shadowMapHeight;
     int shadowMapWidth;
 
@@ -87,6 +90,7 @@ private:
     bool lookAt_bunny = false;
     bool lookAt_sphere = false;
     bool lookAt_light = true;
+    bool render_light_frustum = false;
 
     ShadowMap(); // Singleton, prevent direct construction.
 

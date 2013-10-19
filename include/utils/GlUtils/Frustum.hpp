@@ -16,9 +16,13 @@ namespace GlUtils {
     public:
         Frustum();
 
+        Frustum(const Frustum & frustum);  // Copy Constructor
+
         Frustum(float left, float right, float bottom, float top, float zNear, float zFar);
 
         Frustum(float fieldOfViewY, float aspectRatio, float zNear, float zFar);
+
+        virtual ~Frustum();
 
         // Getters
         glm::mat4 getProjectionMatrix() const;

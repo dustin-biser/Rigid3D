@@ -70,8 +70,9 @@ void ShadowMap::init()
           {"sphere", "../data/meshes/sphere_smooth.obj"}
     };
 
-
     meshConsolidator.getBatchInfo(batchInfoMap);
+
+    renderableFrustum = RenderableFrustum(spotLight.frustum);
 
     setupShaders();
     setupGLBuffers();
@@ -90,6 +91,9 @@ void ShadowMap::init()
 void ShadowMap::setupShaders() {
     shaderProgram.loadFromFile("../data/shaders/ADS_withShadow.vert",
                                "../data/shaders/ADS_shadow_spotlight.frag");
+
+    frustumShader.loadFromFile("../data/shaders/LightFrustum.vert",
+                               "../data/shaders/LightFrustum.frag");
 
     shaderProgram.setUniform("ambientIntensity", vec3(0.01f, 0.01f, 0.01f));
     shaderProgram.setUniform("spotLight.rgbIntensity", spotLight.rgbIntensity);
@@ -225,7 +229,10 @@ void ShadowMap::draw()
     glCullFace(GL_BACK);
     drawScene();
 
-    drawLightFrustum();
+    if (render_light_frustum) {
+        drawLightFrustum();
+    }
+
     checkGLErrors(__FILE__, __LINE__);
 }
 
@@ -485,6 +492,10 @@ void ShadowMap::keyInput(int key, int scancode, int action, int mods) {
             lookAt_bunny = false;
             lookAt_sphere = false;
             lookAt_light = true;
+        } else if (key == GLFW_KEY_F4) {
+            // Turn on/off light frustum
+            render_light_frustum = !render_light_frustum;
+
         } else if (key == GLFW_KEY_SPACE) {
             // Stop looking at target.
             lookAt_bunny = false;
@@ -589,38 +600,6 @@ void ShadowMap::reloadShaderProgram() {
 
 //---------------------------------------------------------------------------------------
 void ShadowMap::drawLightFrustum() {
-    float fovy = spotLight.frustum.getFieldOfViewY();
-    float zNearDist = spotLight.frustum.getNearZDistance();
-    float zFarDist = spotLight.frustum.getFarZDistance();
-    float tanAngle = tan(fovy/2);
-    float aspect = spotLight.frustum.getAspectRatio();
-
-    float yNear = zNearDist * tanAngle;
-    float xNear = aspect * yNear;
-    float yFar = zFarDist * tanAngle;
-    float xFar = aspect * yFar;
-    float zNear = -1.0f * zNearDist;
-    float zFar = -1.0f * zFarDist;
-
-    vec3 nearLeftTop(-xNear, yNear, zNear);
-    vec3 nearLeftBottom(-xNear, -yNear, zNear);
-    vec3 nearRightBottom(xNear, -yNear, zNear);
-    vec3 nearRightTop(xNear, yNear, zNear);
-
-    vec3 farLeftTop(-xFar, yFar, zFar);
-    vec3 farLeftBottom(-xFar, -yFar, zFar);
-    vec3 farRightBottom(xFar, -yFar, zFar);
-    vec3 farRightTop(xFar, yFar, zFar);
-
-    static vector<vec3> vertices = {
-            nearLeftTop, nearLeftBottom, nearRightBottom, nearRightTop,     // front face
-            farLeftTop, farLeftBottom, farRightBottom, farRightTop,         // far face
-            nearLeftBottom, nearRightBottom, farRightBottom, farLeftBottom, // bottom face
-            nearLeftTop, nearRightTop, farRightTop, farLeftTop,             // top face
-            nearLeftBottom, farLeftBottom, farLeftTop, nearLeftTop,         // left face
-            nearRightBottom, farRightBottom, farRightTop, nearRightTop      // right face
-    };
-
     mat4 t = translate(mat4(), spotLight.position);
     mat4 rotationMatrix;
     rotationMatrix[0] = spotLight.viewMatrix[0];
@@ -628,35 +607,14 @@ void ShadowMap::drawLightFrustum() {
     rotationMatrix[2] = spotLight.viewMatrix[2];
     modelMatrix = t * transpose(rotationMatrix);
 
-    static ShaderProgram lightFrustumShader("../data/shaders/LightFrustum.vert",
-                                            "../data/shaders/LightFrustum.frag");
+    frustumShader.setUniform("vertexColor", vec4(1.0f, 1.0f, 0.0f, 1.0f));
+    frustumShader.setUniform("ModelViewMatrix", camera.getViewMatrix() * modelMatrix);
+    frustumShader.setUniform("ProjectionMatrix", camera.getProjectionMatrix());
 
-    lightFrustumShader.setUniform("vertexColor", vec4(1.0f, 1.0f, 0.0f, 1.0f));
-    lightFrustumShader.setUniform("ModelViewMatrix", camera.getViewMatrix() * modelMatrix);
-    lightFrustumShader.setUniform("ProjectionMatrix", camera.getProjectionMatrix());
+    frustumShader.enable();
+        GLuint vertexIndex = frustumShader.getAttribLocation("vertexPosition");
+        renderableFrustum.render(vertexIndex);
+    frustumShader.disable();
 
-    GLuint vao_frustum;
-    glGenVertexArrays(1, &vao_frustum);
-    glBindVertexArray(vao_frustum);
-    glEnableVertexAttribArray(lightFrustumShader.getAttribLocation("vertexPosition"));
-
-    GLuint vbo_frustum;
-    glGenBuffers(1, &vbo_frustum);
-    glBindBuffer(GL_ARRAY_BUFFER, vbo_frustum);
-    GLsizeiptr numBytes = vertices.size() * 3 * sizeof(float);
-    glBufferData(GL_ARRAY_BUFFER, numBytes, const_cast<float *>(&((vertices.data())->x)), GL_STATIC_DRAW);
-    glVertexAttribPointer(lightFrustumShader.getAttribLocation("vertexPosition"), 3, GL_FLOAT, GL_FALSE, 0, 0);
-    checkGLErrors(__FILE__, __LINE__);
-
-    glBindVertexArray(vao_frustum);
-
-    lightFrustumShader.enable();
-        int indicesPerFace = 4;
-        for(int i = 0; i < 6; i++) {
-            glDrawArrays(GL_LINE_LOOP, i*indicesPerFace, indicesPerFace);
-        }
-    lightFrustumShader.disable();
-
-    glBindVertexArray(0);
     checkGLErrors(__FILE__, __LINE__);
 }
