@@ -51,7 +51,7 @@ private:
         vec3 position;      // Light position in world space.
         vec3 center;  // Where spot light is center on in eye coordinate space.
         vec3 rgbIntensity;  // Light intensity for each RGB component.
-        mat4 projectionMatrix;
+        Frustum frustum;
         mat4 viewMatrix;
         float exponent;  // Angular attenuation exponent.
         float conicAngle;  // Half angle of light cone (between 0 and 90 degrees).
@@ -86,7 +86,7 @@ private:
 
     bool lookAt_bunny = false;
     bool lookAt_sphere = false;
-    bool lookAt_light = false;
+    bool lookAt_light = true;
 
     ShadowMap(); // Singleton, prevent direct construction.
 
@@ -111,6 +111,7 @@ private:
     void drawBunny();
     void drawSphere();
     void drawLight();
+    void drawLightFrustum();
     void processKeyInput();
 };
 

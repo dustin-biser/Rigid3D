@@ -6,6 +6,7 @@ using MathUtils::degreesToRadians;
 
 #include <glm/glm.hpp>
 using glm::transpose;
+using glm::normalize;
 
 #include <glm/gtc/matrix_transform.hpp>
 using glm::infinitePerspective;
@@ -22,9 +23,12 @@ using std::unordered_map;
 #include <cstdio>
 using std::printf;
 
+#include <cmath>
+using std::tan;
+
 int main() {
     shared_ptr<GlfwOpenGlWindow> meshDemo = ShadowMap::getInstance();
-    meshDemo->create(800, 600, "Rendering Multiple Objects");
+    meshDemo->create(800, 600, "Shadow Map Demo");
 
     return 0;
 }
@@ -42,9 +46,9 @@ shared_ptr<GlfwOpenGlWindow> ShadowMap::getInstance() {
 //---------------------------------------------------------------------------------------
 ShadowMap::ShadowMap()
         : vao(0), vbo_vertices(0), vbo_normals(0) {
-    spotLight.position = vec3(-2.0f, 5.0f, 2.0f);
+    spotLight.position = vec3(-2.0f, 6.0f, 2.0f);
     spotLight.rgbIntensity = vec3(1.0f, 1.0f, 1.0f);
-    spotLight.projectionMatrix = glm::perspective(45.0f, 1.5f, 1.0f, 100.0f);
+    spotLight.frustum = Frustum(45.0f, 1.0f, 1.0f, 50.0f);
     spotLight.center = vec3(0.0f, 0.0f, -15.0f);
     spotLight.viewMatrix = glm::lookAt(spotLight.position, spotLight.center, vec3(0.0f, 1.0f, 0.0f));
     spotLight.exponent = 5.0f;
@@ -111,13 +115,15 @@ void ShadowMap::setupGLBuffers()
     // Register vertex positions with OpenGL within the context of the bound VAO.
     glGenBuffers(1, &vbo_vertices);
     glBindBuffer(GL_ARRAY_BUFFER, vbo_vertices);
-    glBufferData(GL_ARRAY_BUFFER, meshConsolidator.getNumVertexBytes(), meshConsolidator.getVertexDataPtr(), GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, meshConsolidator.getNumVertexBytes(),
+            meshConsolidator.getVertexDataPtr(), GL_STATIC_DRAW);
     glVertexAttribPointer(shaderProgram.getAttribLocation("vertexPosition"), 3, GL_FLOAT, GL_FALSE, 0, 0);
 
     // Register normals with OpenGL within the context of the bound VAO.
     glGenBuffers(1, &vbo_normals);
     glBindBuffer(GL_ARRAY_BUFFER, vbo_normals);
-    glBufferData(GL_ARRAY_BUFFER, meshConsolidator.getNumNormalBytes(), meshConsolidator.getNormalDataPtr(), GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, meshConsolidator.getNumNormalBytes(),
+            meshConsolidator.getNormalDataPtr(), GL_STATIC_DRAW);
     glVertexAttribPointer(shaderProgram.getAttribLocation("vertexNormal"), 3, GL_FLOAT, GL_FALSE, 0, 0);
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -128,8 +134,9 @@ void ShadowMap::setupGLBuffers()
 //---------------------------------------------------------------------------------------
 void ShadowMap::setupMatrices() {
     camera.setProjectionMatrix(infinitePerspective(45.0f, (float)windowWidth / windowHeight, 1.0f));
-    camera.setPosition(vec3(4.0f, 2.0f, -5.0f));
-    camera.lookAt(glm::vec3(0.0f, -1.0f, -10.0f));
+//    camera.setPosition(vec3(4.0f, 2.0f, -5.0f));
+    camera.setPosition(vec3(25.0f, 2.0f, 5.0f));
+    camera.lookAt(glm::vec3(0.0f, 0.0f, -10.0f));
 
     mat4 identity = mat4();
     modelMatrix_grid = translate(identity, vec3(0.0f, -3.8f, -10.0f));
@@ -195,7 +202,7 @@ void ShadowMap::draw()
     // Pass 1 (Save shadow map to FBO).
     spotLight.viewMatrix = glm::lookAt(spotLight.position, spotLight.center, vec3(0.0f, 1.0f, 0.0f));
     viewMatrix = spotLight.viewMatrix;
-    projectionMatrix = spotLight.projectionMatrix;
+    projectionMatrix = spotLight.frustum.getProjectionMatrix();
     glBindFramebuffer(GL_FRAMEBUFFER, shadowFBO);
     glClear(GL_DEPTH_BUFFER_BIT);
     glViewport(0, 0, shadowMapWidth, shadowMapHeight);
@@ -218,17 +225,20 @@ void ShadowMap::draw()
     glCullFace(GL_BACK);
     drawScene();
 
+    drawLightFrustum();
     checkGLErrors(__FILE__, __LINE__);
 }
 
 //---------------------------------------------------------------------------------------
 void ShadowMap::drawScene() {
+    glBindVertexArray(vao);
     drawGrid();
     drawLeftWall();
     drawBackWall();
     drawBunny();
     drawSphere();
     drawLight();
+    glBindVertexArray(0);
 }
 
 //---------------------------------------------------------------------------------------
@@ -330,8 +340,7 @@ void ShadowMap::drawLight() {
     updateMaterialProperties(material_light);
 
     // Place a sphere at light source position and shrink uniformly.
-    modelMatrix_light = mat4();
-    modelMatrix_light = translate(modelMatrix_light, spotLight.position);
+    modelMatrix_light = translate(mat4(), spotLight.position);
     modelMatrix_light = scale(modelMatrix_light, vec3(0.2f, 0.2f, 0.2f));
 
     modelMatrix = modelMatrix_light;
@@ -351,7 +360,7 @@ void ShadowMap::logic() {
 void ShadowMap::updateMatrices() {
     mat4 modelViewMatrix = viewMatrix * modelMatrix;
     mat3 normalMatrix = transpose(inverse(mat3(viewMatrix)));
-    lightSPV = shadowBiasMatrix * spotLight.projectionMatrix * spotLight.viewMatrix;
+    lightSPV = shadowBiasMatrix * spotLight.frustum.getProjectionMatrix() * spotLight.viewMatrix;
 
     shaderProgram.setUniform("ModelViewMatrix", modelViewMatrix);
     shaderProgram.setUniform("NormalMatrix", normalMatrix);
@@ -578,3 +587,76 @@ void ShadowMap::reloadShaderProgram() {
     cout << "Loading Shader Program" << endl;
 }
 
+//---------------------------------------------------------------------------------------
+void ShadowMap::drawLightFrustum() {
+    float fovy = spotLight.frustum.getFieldOfViewY();
+    float zNearDist = spotLight.frustum.getNearZDistance();
+    float zFarDist = spotLight.frustum.getFarZDistance();
+    float tanAngle = tan(fovy/2);
+    float aspect = spotLight.frustum.getAspectRatio();
+
+    float yNear = zNearDist * tanAngle;
+    float xNear = aspect * yNear;
+    float yFar = zFarDist * tanAngle;
+    float xFar = aspect * yFar;
+    float zNear = -1.0f * zNearDist;
+    float zFar = -1.0f * zFarDist;
+
+    vec3 nearLeftTop(-xNear, yNear, zNear);
+    vec3 nearLeftBottom(-xNear, -yNear, zNear);
+    vec3 nearRightBottom(xNear, -yNear, zNear);
+    vec3 nearRightTop(xNear, yNear, zNear);
+
+    vec3 farLeftTop(-xFar, yFar, zFar);
+    vec3 farLeftBottom(-xFar, -yFar, zFar);
+    vec3 farRightBottom(xFar, -yFar, zFar);
+    vec3 farRightTop(xFar, yFar, zFar);
+
+    static vector<vec3> vertices = {
+            nearLeftTop, nearLeftBottom, nearRightBottom, nearRightTop,     // front face
+            farLeftTop, farLeftBottom, farRightBottom, farRightTop,         // far face
+            nearLeftBottom, nearRightBottom, farRightBottom, farLeftBottom, // bottom face
+            nearLeftTop, nearRightTop, farRightTop, farLeftTop,             // top face
+            nearLeftBottom, farLeftBottom, farLeftTop, nearLeftTop,         // left face
+            nearRightBottom, farRightBottom, farRightTop, nearRightTop      // right face
+    };
+
+    mat4 t = translate(mat4(), spotLight.position);
+    mat4 rotationMatrix;
+    rotationMatrix[0] = spotLight.viewMatrix[0];
+    rotationMatrix[1] = spotLight.viewMatrix[1];
+    rotationMatrix[2] = spotLight.viewMatrix[2];
+    modelMatrix = t * transpose(rotationMatrix);
+
+    static ShaderProgram lightFrustumShader("../data/shaders/LightFrustum.vert",
+                                            "../data/shaders/LightFrustum.frag");
+
+    lightFrustumShader.setUniform("vertexColor", vec4(1.0f, 1.0f, 0.0f, 1.0f));
+    lightFrustumShader.setUniform("ModelViewMatrix", camera.getViewMatrix() * modelMatrix);
+    lightFrustumShader.setUniform("ProjectionMatrix", camera.getProjectionMatrix());
+
+    GLuint vao_frustum;
+    glGenVertexArrays(1, &vao_frustum);
+    glBindVertexArray(vao_frustum);
+    glEnableVertexAttribArray(lightFrustumShader.getAttribLocation("vertexPosition"));
+
+    GLuint vbo_frustum;
+    glGenBuffers(1, &vbo_frustum);
+    glBindBuffer(GL_ARRAY_BUFFER, vbo_frustum);
+    GLsizeiptr numBytes = vertices.size() * 3 * sizeof(float);
+    glBufferData(GL_ARRAY_BUFFER, numBytes, const_cast<float *>(&((vertices.data())->x)), GL_STATIC_DRAW);
+    glVertexAttribPointer(lightFrustumShader.getAttribLocation("vertexPosition"), 3, GL_FLOAT, GL_FALSE, 0, 0);
+    checkGLErrors(__FILE__, __LINE__);
+
+    glBindVertexArray(vao_frustum);
+
+    lightFrustumShader.enable();
+        int indicesPerFace = 4;
+        for(int i = 0; i < 6; i++) {
+            glDrawArrays(GL_LINE_LOOP, i*indicesPerFace, indicesPerFace);
+        }
+    lightFrustumShader.disable();
+
+    glBindVertexArray(0);
+    checkGLErrors(__FILE__, __LINE__);
+}

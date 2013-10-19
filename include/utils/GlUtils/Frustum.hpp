@@ -38,10 +38,10 @@ namespace GlUtils {
         bool isOrthographic() const;
 
     protected:
-        float fieldOfViewY;
+        float fovy;
         float aspectRatio;
-        float zNear;
-        float zFar;
+        float zNear; // Distance to near z plane.
+        float zFar;  // Distance to far z plane.
         bool _isPerspective;
         mutable bool recalcPerspectiveMatrix;
 

@@ -4,7 +4,7 @@ using namespace GlUtils;
 
 //----------------------------------------------------------------------------------------
 Frustum::Frustum()
-    : fieldOfViewY(0.0f),
+    : fovy(0.0f),
       aspectRatio(0.0f),
       zNear(0.0f),
       zFar(0.0f),
@@ -28,7 +28,7 @@ Frustum::Frustum()
  * @param zFar - distance to far z clipping plane.
  */
 Frustum::Frustum(float left, float right, float bottom, float top, float zNear, float zFar)
-        : fieldOfViewY(0.0f),
+        : fovy(0.0f),
           aspectRatio((right - left) / (top - bottom)),
           zNear(zNear),
           zFar(zFar),
@@ -55,7 +55,7 @@ Frustum::Frustum(float left, float right, float bottom, float top, float zNear, 
  * @param zFar - distance to far z clipping plane (always positive).
  */
 Frustum::Frustum(float fieldOfViewY, float aspectRatio, float zNear, float zFar)
-        : fieldOfViewY(fieldOfViewY),
+        : fovy(fieldOfViewY),
           aspectRatio(aspectRatio),
           zNear(zNear),
           zFar(zFar),
@@ -68,7 +68,7 @@ Frustum::Frustum(float fieldOfViewY, float aspectRatio, float zNear, float zFar)
 //----------------------------------------------------------------------------------------
 glm::mat4 Frustum::getProjectionMatrix() const {
     if (recalcPerspectiveMatrix) {
-        projectionMatrix = glm::perspective(fieldOfViewY, aspectRatio, zNear, zFar);
+        projectionMatrix = glm::perspective(fovy, aspectRatio, zNear, zFar);
         recalcPerspectiveMatrix = false;
     }
     return projectionMatrix;
@@ -76,7 +76,7 @@ glm::mat4 Frustum::getProjectionMatrix() const {
 
 //----------------------------------------------------------------------------------------
 float Frustum::getFieldOfViewY() const {
-    return fieldOfViewY;
+    return fovy;
 }
 
 //----------------------------------------------------------------------------------------
@@ -119,7 +119,7 @@ void Frustum::setFieldOfViewY(float fieldOfViewY) {
     } else if (fieldOfViewY > 180.0f) {
         fieldOfViewY = 180.0f;
     }
-    this->fieldOfViewY = fieldOfViewY;
+    this->fovy = fieldOfViewY;
     recalcPerspectiveMatrix = true;
 }
 
