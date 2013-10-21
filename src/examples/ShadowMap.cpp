@@ -45,7 +45,12 @@ shared_ptr<GlfwOpenGlWindow> ShadowMap::getInstance() {
 
 //---------------------------------------------------------------------------------------
 ShadowMap::ShadowMap()
-        : vao(0), vbo_vertices(0), vbo_normals(0) {
+        : vao(0),
+          vbo_vertices(0),
+          vbo_normals(0),
+          vao_shadowMap(0),
+          vbo_shadowMap_data(0) {
+
     spotLight.position = vec3(-2.0f, 6.0f, 2.0f);
     spotLight.rgbIntensity = vec3(1.0f, 1.0f, 1.0f);
     spotLight.frustum = Frustum(45.0f, 1.0f, 1.0f, 50.0f);
@@ -94,6 +99,9 @@ void ShadowMap::setupShaders() {
 
     frustumShader.loadFromFile("../data/shaders/LightFrustum.vert",
                                "../data/shaders/LightFrustum.frag");
+
+    depthTextureShader.loadFromFile("../data/shaders/PositionNormalTexture.vert",
+                                    "../data/shaders/DepthTexture.frag");
 
     shaderProgram.setUniform("ambientIntensity", vec3(0.01f, 0.01f, 0.01f));
     shaderProgram.setUniform("spotLight.rgbIntensity", spotLight.rgbIntensity);
@@ -160,7 +168,6 @@ void ShadowMap::setupShadowFBO() {
     shadowMapWidth = 1024;
     shadowMapHeight = 1024;
 
-    GLuint depthTexture; // Shadow map texture.
     glGenTextures(1, &depthTexture);
     glBindTexture(GL_TEXTURE_2D, depthTexture);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, shadowMapWidth, shadowMapHeight, 0,
@@ -217,20 +224,31 @@ void ShadowMap::draw()
     glFlush();
     glFinish();
 
-    //  Pass 2 (Shade scene with shadows)
-    viewMatrix = camera.getViewMatrix();
-    projectionMatrix = camera.getProjectionMatrix();
-    shaderProgram.setUniform("spotLight.position", vec3(viewMatrix * vec4(spotLight.position, 1.0)));
-    shaderProgram.setUniform("spotLight.center", vec3(viewMatrix * vec4(spotLight.center, 1.0)));
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glViewport(0, 0, windowWidth, windowHeight);
-    shaderProgram.setUniformSubroutinesuiv(GL_FRAGMENT_SHADER, "shadeWithShadow");
-    glCullFace(GL_BACK);
-    drawScene();
+    if (!render_shadow_map) {
+        //  Pass 2 (Shade scene with shadows)
+        viewMatrix = camera.getViewMatrix();
+        projectionMatrix = camera.getProjectionMatrix();
+        shaderProgram.setUniform("spotLight.position", vec3(viewMatrix * vec4(spotLight.position, 1.0)));
+        shaderProgram.setUniform("spotLight.center", vec3(viewMatrix * vec4(spotLight.center, 1.0)));
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        glViewport(0, 0, windowWidth, windowHeight);
+        shaderProgram.setUniformSubroutinesuiv(GL_FRAGMENT_SHADER, "shadeWithShadow");
+        glCullFace(GL_BACK);
+        drawScene();
 
-    if (render_light_frustum) {
-        drawLightFrustum();
+        if (render_light_frustum) {
+            drawLightFrustum();
+        }
+
+    } else {
+        // Render shadow map
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        glViewport(0, 0, shadowMapWidth, shadowMapHeight);
+        glEnable(GL_CULL_FACE);
+        glCullFace(GL_BACK);
+        drawShadowMap();
     }
 
     checkGLErrors(__FILE__, __LINE__);
@@ -254,8 +272,8 @@ void ShadowMap::drawGrid() {
     m.emission = vec3(0.0f);
     m.Ka = vec3(1.0f, 1.0f, 1.0f);
     m.Kd = vec3(0.2f, 0.2f, 0.2f);
-    m.Ks = 0.3f;
-    m.shininess = 10.0f;
+    m.Ks = 0.0f;
+    m.shininess = 0.0f;
     updateMaterialProperties(m);
 
     modelMatrix = modelMatrix_grid;
@@ -273,8 +291,8 @@ void ShadowMap::drawLeftWall() {
     material_shadowBox.emission = vec3(0.0f);
     material_shadowBox.Ka = vec3(1.0f, 1.0f, 1.0f);
     material_shadowBox.Kd = vec3(0.2f, 0.2f, 0.2f);
-    material_shadowBox.Ks = 0.3f;
-    material_shadowBox.shininess = 10.0f;
+    material_shadowBox.Ks = 0.0f;
+    material_shadowBox.shininess = 0.0f;
     updateMaterialProperties(material_shadowBox);
 
     modelMatrix = modelMatrix_wallLeft;
@@ -290,8 +308,8 @@ void ShadowMap::drawBackWall() {
     material_shadowBox.emission = vec3(0.0f);
     material_shadowBox.Ka = vec3(1.0f, 1.0f, 1.0f);
     material_shadowBox.Kd = vec3(0.2f, 0.2f, 0.2f);
-    material_shadowBox.Ks = 0.3f;
-    material_shadowBox.shininess = 10.0f;
+    material_shadowBox.Ks = 0.0f;
+    material_shadowBox.shininess = 0.0f;
     updateMaterialProperties(material_shadowBox);
 
     modelMatrix = modelMatrix_wallBack;
@@ -359,6 +377,59 @@ void ShadowMap::drawLight() {
 }
 
 //---------------------------------------------------------------------------------------
+void ShadowMap::drawShadowMap() {
+    depthTextureShader.setUniform("MVP", mat4());
+
+    GLint depthTextureLoc = depthTextureShader.getUniformLocation("depthTexture");
+    depthTextureShader.enable();
+        glUniform1i(depthTextureLoc, 0);
+    depthTextureShader.enable();
+
+    if (vao_shadowMap == 0) {
+        glGenVertexArrays(1, &vao_shadowMap);
+    }
+    if (vbo_shadowMap_data == 0) {
+        glGenBuffers(1, &vbo_shadowMap_data);
+    }
+
+    // Initialize vertex position and textureCoord data.
+    vector<float> vertexData = {
+          // position x,y,z         textureCoord s,t
+            -1.0f, 1.0f, 0.0f,      0.0f, 1.0f,  // Top left
+            -1.0f, -1.0f, 0.0f,     0.0f, 0.0f,  // Bottom left
+             1.0f, 1.0f, 0.0f,      1.0f, 1.0f,  // Top right
+
+             -1.0f, -1.0f, 0.0f,    0.0f, 0.0f,  // Bottom left
+             1.0f, -1.0f, 0.0f,     1.0f, 0.0f,  // Bottom right
+             1.0f, 1.0f, 0.0f,      1.0f, 1.0f,  // Top right
+    };
+
+    glBindTexture(GL_TEXTURE_2D, depthTexture);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_NONE);
+
+    glBindVertexArray(vao_shadowMap);
+
+    // Create buffer to hold positions and texture coordinates.
+    glBindBuffer(GL_ARRAY_BUFFER, vbo_shadowMap_data);
+    glBufferData(GL_ARRAY_BUFFER, vertexData.size() * sizeof(float), vertexData.data(), GL_STATIC_DRAW);
+    glVertexAttribPointer(depthTextureShader.getAttribLocation("vertexPosition"), 3, GL_FLOAT,
+            GL_FALSE, 5*sizeof(float), 0);
+    glVertexAttribPointer(depthTextureShader.getAttribLocation("vertexTextureCoord"), 2, GL_FLOAT,
+            GL_FALSE, 5*sizeof(float), (void *)(3 * sizeof(float)));
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+    glEnableVertexAttribArray(depthTextureShader.getAttribLocation("vertexPosition"));
+    glEnableVertexAttribArray(depthTextureShader.getAttribLocation("vertexTextureCoord"));
+    depthTextureShader.enable();
+         glDrawArrays(GL_TRIANGLES, 0, vertexData.size());
+    depthTextureShader.disable();
+
+    glBindVertexArray(0);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_REF_TO_TEXTURE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_FUNC, GL_LESS);
+}
+
+//---------------------------------------------------------------------------------------
 void ShadowMap::logic() {
     processKeyInput();
 }
@@ -388,10 +459,16 @@ void ShadowMap::updateMaterialProperties(const MaterialProperties & m) {
 
 //---------------------------------------------------------------------------------------
 void ShadowMap::cleanup() {
+    glDeleteTextures(1, &depthTexture);
+    glDeleteFramebuffers(1, &shadowFBO);
     glBindVertexArray(0);
+
     glDeleteBuffers(1, &vbo_normals);
     glDeleteBuffers(1, &vbo_vertices);
     glDeleteBuffers(1, &vao);
+
+    glDeleteBuffers(1, &vbo_shadowMap_data);
+    glDeleteBuffers(1, &vao_shadowMap);
 }
 
 //---------------------------------------------------------------------------------------
@@ -495,6 +572,9 @@ void ShadowMap::keyInput(int key, int scancode, int action, int mods) {
         } else if (key == GLFW_KEY_F4) {
             // Turn on/off light frustum
             render_light_frustum = !render_light_frustum;
+        } else if (key == GLFW_KEY_F5) {
+            // Render shadow map view.
+            render_shadow_map = !render_shadow_map;
 
         } else if (key == GLFW_KEY_SPACE) {
             // Stop looking at target.
@@ -586,11 +666,13 @@ void ShadowMap::reloadShaderProgram() {
     shaderProgram.setUniform("spotLight.exponent", spotLight.exponent);
     shaderProgram.setUniform("spotLight.conicAngle", spotLight.conicAngle);
 
-    // Generate VAO and enable vertex attribute arrays for positions and normals.
+    // Bind VAO and enable vertex attribute arrays for positions and normals.
+    glBindVertexArray(vao);
     GLint position_Location = shaderProgram.getAttribLocation("vertexPosition");
     glEnableVertexAttribArray(position_Location);
     GLint normal_Location = shaderProgram.getAttribLocation("vertexNormal");
     glEnableVertexAttribArray(normal_Location);
+    glBindVertexArray(0);
 
     shaderProgram.setUniform("shadowMap", 0); // Use Texture Unit 0.
 

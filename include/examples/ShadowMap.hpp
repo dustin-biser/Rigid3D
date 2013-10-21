@@ -5,9 +5,9 @@
 #ifndef SHADOW_MAP_HPP_
 #define SHADOW_MAP_HPP_
 
-#include <GlfwOpenGlWindow.hpp>
-#include <MeshConsolidator.hpp>
-#include <GlUtils.hpp>
+#include "GlfwOpenGlWindow.hpp"
+#include "MeshConsolidator.hpp"
+#include "GlUtils.hpp"
 
 using namespace GlUtils;
 
@@ -38,9 +38,10 @@ private:
     mat4 lightSPV; // light source matrices ShadowBias * Projection * View.
 
     ShaderProgram shaderProgram;
+    ShaderProgram frustumShader;
+    ShaderProgram depthTextureShader;
 
     RenderableFrustum renderableFrustum;
-    ShaderProgram frustumShader;
 
     int shadowMapHeight;
     int shadowMapWidth;
@@ -49,6 +50,9 @@ private:
     GLuint vbo_vertices;
     GLuint vbo_normals;
     GLuint shadowFBO;
+    GLuint depthTexture;  // Shadow map texture.
+    GLuint vao_shadowMap;
+    GLuint vbo_shadowMap_data;
 
     struct SpotLight {
         vec3 position;      // Light position in world space.
@@ -89,8 +93,9 @@ private:
 
     bool lookAt_bunny = false;
     bool lookAt_sphere = false;
-    bool lookAt_light = true;
+    bool lookAt_light = false;
     bool render_light_frustum = false;
+    bool render_shadow_map = false;
 
     ShadowMap(); // Singleton, prevent direct construction.
 
@@ -116,6 +121,7 @@ private:
     void drawSphere();
     void drawLight();
     void drawLightFrustum();
+    void drawShadowMap();
     void processKeyInput();
 };
 
