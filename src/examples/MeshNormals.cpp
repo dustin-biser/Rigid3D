@@ -43,8 +43,8 @@ MeshNormals::MeshNormals()
  */
 void MeshNormals::init()
 {
-    meshFlat.fromObjFile("../data/meshes/bunny_lowres.obj");
-    meshSmooth.fromObjFile("../data/meshes/bunny_smooth.obj");
+    meshFlat.fromObjFile("../data/meshes/wall_back.obj");
+    meshSmooth.fromObjFile("../data/meshes/wall.obj");
 
     setupShaders();
     setupGLBuffers();
@@ -200,17 +200,17 @@ void MeshNormals::keyInput(int key, int scancode, int action, int mods) {
     static const float zDelta = 0.5f;
 
     // Object Movement
-    if ((key == GLFW_KEY_A) && (action == GLFW_PRESS)) {
+    if (key == GLFW_KEY_A) {
         modelMatrix = translate(modelMatrix, vec3(-1 * xDelta, 0.0f, 0.0f));
-    } else if ((key == GLFW_KEY_D) && (action == GLFW_PRESS)) {
+    } else if (key == GLFW_KEY_D) {
         modelMatrix = translate(modelMatrix, vec3(xDelta, 0.0f, 0.0f));
-    } else if ((key == GLFW_KEY_W) && (action == GLFW_PRESS)) {
+    } else if (key == GLFW_KEY_W) {
         modelMatrix = translate(modelMatrix, vec3(0.0f, yDelta, 0.0f));
-    } else if ((key == GLFW_KEY_S) && (action == GLFW_PRESS)) {
+    } else if (key == GLFW_KEY_S) {
         modelMatrix = translate(modelMatrix, vec3(0.0f, -1 * yDelta, 0.0f));
-    } else if ((key == GLFW_KEY_R) && (action == GLFW_PRESS)) {
+    } else if (key == GLFW_KEY_R) {
         modelMatrix = translate(modelMatrix, vec3(0.0f, 0.0f, -1 * zDelta));
-    } else if ((key == GLFW_KEY_F) && (action == GLFW_PRESS)) {
+    } else if (key == GLFW_KEY_F) {
         modelMatrix = translate(modelMatrix, vec3(0.0f, 0.0f, zDelta));
     }
 
