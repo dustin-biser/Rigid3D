@@ -28,7 +28,7 @@ using std::tan;
 
 int main() {
     shared_ptr<GlfwOpenGlWindow> meshDemo = ShadowMap::getInstance();
-    meshDemo->create(800, 600, "Shadow Map Demo");
+    meshDemo->create(1024, 768, "Shadow Map Demo");
 
     return 0;
 }
@@ -271,9 +271,9 @@ void ShadowMap::drawGrid() {
     MaterialProperties m;
     m.emission = vec3(0.0f);
     m.Ka = vec3(1.0f, 1.0f, 1.0f);
-    m.Kd = vec3(0.2f, 0.2f, 0.2f);
-    m.Ks = 0.0f;
-    m.shininess = 0.0f;
+    m.Kd = vec3(0.4f, 0.4f, 0.4f);
+    material_shadowBox.Ks = 1.0f;
+    material_shadowBox.shininess = 30.0f;
     updateMaterialProperties(m);
 
     modelMatrix = modelMatrix_grid;
@@ -290,9 +290,9 @@ void ShadowMap::drawGrid() {
 void ShadowMap::drawLeftWall() {
     material_shadowBox.emission = vec3(0.0f);
     material_shadowBox.Ka = vec3(1.0f, 1.0f, 1.0f);
-    material_shadowBox.Kd = vec3(0.2f, 0.2f, 0.2f);
-    material_shadowBox.Ks = 0.0f;
-    material_shadowBox.shininess = 0.0f;
+    material_shadowBox.Kd = vec3(0.6f, 0.2f, 0.2f);
+    material_shadowBox.Ks = 1.0f;
+    material_shadowBox.shininess = 30.0f;
     updateMaterialProperties(material_shadowBox);
 
     modelMatrix = modelMatrix_wallLeft;
@@ -307,9 +307,9 @@ void ShadowMap::drawLeftWall() {
 void ShadowMap::drawBackWall() {
     material_shadowBox.emission = vec3(0.0f);
     material_shadowBox.Ka = vec3(1.0f, 1.0f, 1.0f);
-    material_shadowBox.Kd = vec3(0.2f, 0.2f, 0.2f);
-    material_shadowBox.Ks = 0.0f;
-    material_shadowBox.shininess = 0.0f;
+    material_shadowBox.Kd = vec3(0.6f, 0.2f, 0.2f);
+    material_shadowBox.Ks = 1.0f;
+    material_shadowBox.shininess = 30.0f;
     updateMaterialProperties(material_shadowBox);
 
     modelMatrix = modelMatrix_wallBack;
@@ -374,6 +374,27 @@ void ShadowMap::drawLight() {
     shaderProgram.enable();
         glDrawArrays(GL_TRIANGLES, batchInfoMap.at("sphere").startIndex, batchInfoMap.at("sphere").numIndices);
     shaderProgram.disable();
+}
+
+//---------------------------------------------------------------------------------------
+void ShadowMap::drawLightFrustum() {
+    mat4 t = translate(mat4(), spotLight.position);
+    mat4 rotationMatrix;
+    rotationMatrix[0] = spotLight.viewMatrix[0];
+    rotationMatrix[1] = spotLight.viewMatrix[1];
+    rotationMatrix[2] = spotLight.viewMatrix[2];
+    modelMatrix = t * transpose(rotationMatrix);
+
+    frustumShader.setUniform("vertexColor", vec4(1.0f, 1.0f, 0.0f, 1.0f));
+    frustumShader.setUniform("ModelViewMatrix", camera.getViewMatrix() * modelMatrix);
+    frustumShader.setUniform("ProjectionMatrix", camera.getProjectionMatrix());
+
+    frustumShader.enable();
+        GLuint vertexIndex = frustumShader.getAttribLocation("vertexPosition");
+        renderableFrustum.render(vertexIndex);
+    frustumShader.disable();
+
+    checkGLErrors(__FILE__, __LINE__);
 }
 
 //---------------------------------------------------------------------------------------
@@ -507,10 +528,10 @@ void ShadowMap::processKeyInput( ) {
         camera.roll(degreesToRadians(deltaLarge));
     }
     if (key_up_down) {
-        camera.pitch(degreesToRadians(delta));
+        camera.pitch(degreesToRadians(deltaLarge));
     }
     if (key_down_down) {
-        camera.pitch(degreesToRadians(-1.0 * delta));
+        camera.pitch(degreesToRadians(-1.0 * deltaLarge));
     }
     if (lookAt_bunny) {
         camera.lookAt(vec3(-2.0f, -3.6f, -12.5f));
@@ -678,25 +699,4 @@ void ShadowMap::reloadShaderProgram() {
 
     checkGLErrors(__FILE__, __LINE__);
     cout << "Loading Shader Program" << endl;
-}
-
-//---------------------------------------------------------------------------------------
-void ShadowMap::drawLightFrustum() {
-    mat4 t = translate(mat4(), spotLight.position);
-    mat4 rotationMatrix;
-    rotationMatrix[0] = spotLight.viewMatrix[0];
-    rotationMatrix[1] = spotLight.viewMatrix[1];
-    rotationMatrix[2] = spotLight.viewMatrix[2];
-    modelMatrix = t * transpose(rotationMatrix);
-
-    frustumShader.setUniform("vertexColor", vec4(1.0f, 1.0f, 0.0f, 1.0f));
-    frustumShader.setUniform("ModelViewMatrix", camera.getViewMatrix() * modelMatrix);
-    frustumShader.setUniform("ProjectionMatrix", camera.getProjectionMatrix());
-
-    frustumShader.enable();
-        GLuint vertexIndex = frustumShader.getAttribLocation("vertexPosition");
-        renderableFrustum.render(vertexIndex);
-    frustumShader.disable();
-
-    checkGLErrors(__FILE__, __LINE__);
 }
