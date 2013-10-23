@@ -27,18 +27,15 @@ using boost::noncopyable;
 ///@brief Singleton
 class GlfwOpenGlWindow : private noncopyable {
 public:
-
     virtual ~GlfwOpenGlWindow();
-
-    void setWindowTitle(string windowTitle) {
-        this->windowTitle = windowTitle;
-    }
 
     static shared_ptr<GlfwOpenGlWindow> getInstance();
 
-    virtual void create(int width, int height, const string & windowTitle);
+    void create(int width, int height, const string & windowTitle);
 
-    virtual void close();
+    void setWindowTitle(string windowTitle);
+
+    void close();
 
 protected:
     GLFWwindow * window;

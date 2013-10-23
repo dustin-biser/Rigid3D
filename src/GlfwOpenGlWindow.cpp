@@ -17,6 +17,11 @@ GlfwOpenGlWindow::GlfwOpenGlWindow()
 }
 
 //----------------------------------------------------------------------------------------
+void GlfwOpenGlWindow::setWindowTitle(string windowTitle) {
+    this->windowTitle = windowTitle;
+}
+
+//----------------------------------------------------------------------------------------
 void GlfwOpenGlWindow::error_callback(int error, const char* description) {
     throw GlfwException(description);
 }
