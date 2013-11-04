@@ -1,0 +1,341 @@
+// TexturedCubeDemo.cpp
+
+#include "TexturedCubeDemo.hpp"
+#include "IL/il.h" // DevIL image library
+
+#include "FreeImage.h"
+
+#include "GlUtilsException.hpp"
+
+#include "glm/glm.hpp"
+#include "glm/gtx/transform.hpp"
+using glm::translate;
+using glm::inverse;
+using glm::transpose;
+
+#include "MathUtils.hpp"
+using MathUtils::degreesToRadians;
+
+#include <iostream>
+using namespace std;
+////////////////////////////////////////////////
+
+//---------------------------------------------------------------------------------------
+int main() {
+    shared_ptr<GlfwOpenGlWindow> texturedCubeDemo = TexturedCubeDemo::getInstance();
+    texturedCubeDemo->create(1024, 768, "Textured Cube Demo");
+
+    return 0;
+}
+//---------------------------------------------------------------------------------------
+TexturedCubeDemo::TexturedCubeDemo()
+    : vao(0),
+      vbo_vertices(0),
+      vbo_normals(0),
+      vbo_textureCoords(0) {
+
+}
+
+//---------------------------------------------------------------------------------------
+shared_ptr<GlfwOpenGlWindow> TexturedCubeDemo::getInstance() {
+    static GlfwOpenGlWindow * instance = new TexturedCubeDemo();
+    if (p_instance == nullptr) {
+        p_instance = shared_ptr<GlfwOpenGlWindow>(instance);
+    }
+
+    return p_instance;
+}
+
+//---------------------------------------------------------------------------------------
+void TexturedCubeDemo::init() {
+    texturedCube.fromObjFile("../data/meshes/cube_uv_mapped.obj");
+
+    camera.lookAt(vec3(0.0f), vec3(0.0f, 0.0f, -5.0f), vec3(0.0f, 1.0f, 0.0f));
+
+    setupShaders();
+    setupMatrices();
+    setupVertexData();
+    setupTextureData();
+}
+
+//---------------------------------------------------------------------------------------
+void TexturedCubeDemo::setupShaders() {
+    shader.loadFromFile("../data/shaders/PositionNormalTexture.vert",
+                        "../data/shaders/ADS_Texture.frag");
+
+    shader.setUniform("material.emission", vec3(0.0f, 0.0f, 0.0f));
+    shader.setUniform("material.Ka", vec3(1.0f));
+    shader.setUniform("material.Kd", vec3(1.0f, 1.0f, 1.0f));
+    shader.setUniform("material.Ks", 0.2f);
+    shader.setUniform("material.shininessFactor", 0.1f);
+
+    shader.setUniform("lightSource.position", vec3(0.0f, 2.0f, 10.0f));
+    shader.setUniform("lightSource.rgbIntensity", vec3(1.0f, 1.0f, 1.0f));
+
+    GlUtils::checkGLErrors(__FILE__, __LINE__);
+}
+//---------------------------------------------------------------------------------------
+void TexturedCubeDemo::setupMatrices(){
+    modelMatrix = translate(mat4(), vec3(0.0f, 0.0f, -10.0f));
+    viewMatrix = camera.getViewMatrix();
+    projectionMatrix = camera.getProjectionMatrix();
+
+    shader.setUniform("ModelViewMatrix", viewMatrix * modelMatrix);
+    shader.setUniform("NormalMatrix", mat3(viewMatrix));
+    shader.setUniform("MVP", projectionMatrix * viewMatrix * modelMatrix);
+}
+
+//---------------------------------------------------------------------------------------
+void TexturedCubeDemo::setupVertexData() {
+    glGenVertexArrays(1, &vao);
+    glBindVertexArray(vao);
+
+    // Copy vertex position data to its respective GL buffer.
+    glGenBuffers(1, &vbo_vertices);
+    glBindBuffer(GL_ARRAY_BUFFER, vbo_vertices);
+    glBufferData(GL_ARRAY_BUFFER, texturedCube.getNumVertexBytes(),
+            texturedCube.getVertexDataPtr(), GL_STATIC_DRAW);
+    glVertexAttribPointer(shader.getAttribLocation("vertexPosition"), 3, GL_FLOAT, GL_FALSE, 0, 0);
+
+    // Copy vertex normals to its respective GL buffer.
+    glGenBuffers(1, &vbo_normals);
+    glBindBuffer(GL_ARRAY_BUFFER, vbo_normals);
+    glBufferData(GL_ARRAY_BUFFER, texturedCube.getNumNormalBytes(),
+            texturedCube.getNormalDataPtr(), GL_STATIC_DRAW);
+    glVertexAttribPointer(shader.getAttribLocation("vertexNormal"), 3, GL_FLOAT, GL_FALSE, 0, 0);
+
+    // Copy texture coordinates to its respective GL buffer.
+    glGenBuffers(1, &vbo_textureCoords);
+    glBindBuffer(GL_ARRAY_BUFFER, vbo_textureCoords);
+    glBufferData(GL_ARRAY_BUFFER, texturedCube.getNumTextureCoordBytes(),
+            texturedCube.getTextureCoordDataPtr(), GL_STATIC_DRAW);
+    glVertexAttribPointer(shader.getAttribLocation("vertexTextureCoord"), 2, GL_FLOAT, GL_FALSE, 0, 0);
+
+    cout << "numVertexBytes: " << texturedCube.getNumVertexBytes() << endl;
+    cout << "numVertices: " << texturedCube.getNumVertices() << endl;
+    cout << "numNormalBytes: " << texturedCube.getNumNormalBytes() << endl;
+    cout << "numNormals: " << texturedCube.getNumNormals() << endl;
+    cout << "numTextureCoordBytes: " << texturedCube.getNumTextureCoordBytes() << endl;
+    cout << "numTextureCoords: " << texturedCube.getNumTextureCoords() << endl;
+
+    // Enable vertex attribute arrays.
+    glEnableVertexAttribArray(shader.getAttribLocation("vertexPosition"));
+    glEnableVertexAttribArray(shader.getAttribLocation("vertexNormal"));
+    glEnableVertexAttribArray(shader.getAttribLocation("vertexTextureCoord"));
+
+    glBindVertexArray(0);
+}
+
+//---------------------------------------------------------------------------------------
+void TexturedCubeDemo::setupTextureData() {
+    FIBITMAP * bitmap = FreeImage_Load(FIF_JPEG, "../data/textures/ash_uvgrid08.jpg", JPEG_ACCURATE);
+    if (!bitmap) {
+        throw GlUtils::GlUtilsException("Error opening texture file");
+    }
+    unsigned int imageWidth = FreeImage_GetWidth(bitmap);
+    unsigned int imageHeight = FreeImage_GetHeight(bitmap);
+
+    cout << "image width: " << imageWidth << endl;
+    cout << "image height: " << imageHeight << endl;
+
+    void * imageData = FreeImage_GetBits(bitmap);
+
+    cout << "bytes per pixel: " << FreeImage_GetBPP(bitmap) << endl;
+
+    cout << "color type: ";
+    switch(FreeImage_GetColorType(bitmap)) {
+    case FIC_RGB:
+        cout << "FIC_RGB";
+        break;
+    case FIC_RGBALPHA:
+        cout << "FIC_RGBALPHA";
+        break;
+    default:
+        cout << "Other";
+        break;
+    }
+    cout << endl;
+
+    cout << "red mask: " << FreeImage_GetRedMask(bitmap) << endl;
+    cout << "green mask: " << FreeImage_GetGreenMask(bitmap) << endl;
+    cout << "blue mask: " << FreeImage_GetBlueMask(bitmap) << endl;
+
+    // Pass the image data to OpenGL.
+    glActiveTexture(GL_TEXTURE0);
+    glGenTextures(1, &textureId);
+    glBindTexture(GL_TEXTURE_2D, textureId);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, imageWidth, imageHeight,
+            0, GL_RGB, GL_UNSIGNED_BYTE, (GLvoid *)imageData);
+
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+    // Set fragment shader's sampler2D to use texture unit 0.
+    int location = shader.getUniformLocation("texture2d");
+    shader.enable();
+        glUniform1i(location, 0);
+    shader.disable();
+
+    // Done with image, so delete it.
+    FreeImage_Unload(bitmap);
+    GlUtils::checkGLErrors(__FILE__, __LINE__);
+}
+
+//---------------------------------------------------------------------------------------
+void TexturedCubeDemo::setupGl(){
+    // Render only the front face of geometry.
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_BACK);
+    glFrontFace(GL_CCW);
+
+    // Setup depth testing
+    glEnable(GL_DEPTH_TEST);
+    glDepthMask(GL_TRUE);
+    glDepthFunc(GL_LEQUAL);
+    glDepthRange(0.0f, 1.0f);
+    glEnable(GL_DEPTH_CLAMP);
+
+    glClearDepth(1.0f);
+    glClearColor(0.2, 0.2, 0.2, 1.0);
+}
+
+//---------------------------------------------------------------------------------------
+void TexturedCubeDemo::draw() {
+    glBindVertexArray(vao);
+    shader.enable();
+        glDrawArrays(GL_TRIANGLES, 0, texturedCube.getNumVertices());
+    shader.disable();
+    glBindVertexArray(0);
+}
+//---------------------------------------------------------------------------------------
+void TexturedCubeDemo::logic() {
+    processKeyInput();
+
+    camera.lookAt(0.0f, 0.0f, -10.0f);
+
+    modelMatrix = translate(mat4(), vec3(0.0f, 0.0f, -10.0f));
+    viewMatrix = camera.getViewMatrix();
+    projectionMatrix = camera.getProjectionMatrix();
+
+    shader.setUniform("ModelViewMatrix", viewMatrix * modelMatrix);
+    shader.setUniform("NormalMatrix", mat3(viewMatrix));
+    shader.setUniform("MVP", projectionMatrix * viewMatrix * modelMatrix);
+
+}
+
+//---------------------------------------------------------------------------------------
+void TexturedCubeDemo::cleanup() {
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindVertexArray(0);
+    glDeleteBuffers(1, &vbo_vertices);
+    glDeleteBuffers(1, &vbo_normals);
+    glDeleteBuffers(1, &vbo_textureCoords);
+    glDeleteBuffers(1, &vao);
+    glDeleteTextures(1, &textureId);
+
+    GlUtils::checkGLErrors(__FILE__, __LINE__);
+}
+//---------------------------------------------------------------------------------------
+void TexturedCubeDemo::processKeyInput( ) {
+    const float delta = 0.03f;
+    const float deltaLarge = 0.1f;
+
+    if (key_r_down) {
+        camera.translateRelative(0.0f, 0.0f, delta);
+    }
+    if (key_f_down) {
+        camera.translateRelative(0.0f, 0.0f, -1.0f * delta);
+    }
+    if (key_q_down) {
+        camera.yaw(degreesToRadians(deltaLarge));
+    }
+    if (key_e_down) {
+        camera.yaw(degreesToRadians(-1.0 * deltaLarge));
+    }
+    if (key_a_down) {
+        camera.translateRelative(delta, 0.0f,  0.0f);
+    }
+    if (key_d_down) {
+        camera.translateRelative(-1.0f * delta, 0.0f,  0.0f);
+    }
+    if (key_w_down) {
+        camera.translateRelative(0.0f, delta,  0.0f);
+    }
+    if (key_s_down) {
+        camera.translateRelative(0.0f, -1.0f * delta,  0.0f);
+    }
+    if (key_left_down) {
+        camera.roll(degreesToRadians(-1.0f * deltaLarge));
+    }
+    if (key_right_down) {
+        camera.roll(degreesToRadians(deltaLarge));
+    }
+    if (key_up_down) {
+        camera.pitch(degreesToRadians(delta));
+    }
+    if (key_down_down) {
+        camera.pitch(degreesToRadians(-1.0 * delta));
+    }
+}
+
+//---------------------------------------------------------------------------------------
+void TexturedCubeDemo::keyInput(int key, int scancode, int action, int mods) {
+    // Handle escape to close window
+    GlfwOpenGlWindow::keyInput(key, scancode, action, mods);
+
+    if ((action == GLFW_PRESS) || (action == GLFW_REPEAT)) {
+        if (key == GLFW_KEY_R) {
+            key_r_down = true;
+        } else if (key == GLFW_KEY_F) {
+            key_f_down = true;
+        } else if (key == GLFW_KEY_Q) {
+            key_q_down = true;
+        } else if (key == GLFW_KEY_E) {
+            key_e_down = true;
+        } else if (key == GLFW_KEY_W) {
+            key_w_down = true;
+        } else if (key == GLFW_KEY_S) {
+            key_s_down = true;
+        } else if (key == GLFW_KEY_A) {
+            key_a_down = true;
+        } else if (key == GLFW_KEY_D) {
+            key_d_down = true;
+        } else if (key == GLFW_KEY_LEFT) {
+            key_left_down = true;
+        } else if (key == GLFW_KEY_RIGHT) {
+            key_right_down = true;
+        } else if (key == GLFW_KEY_UP) {
+            key_up_down = true;
+        } else if (key == GLFW_KEY_DOWN) {
+            key_down_down = true;
+        }
+    }
+
+    if (action == GLFW_RELEASE) {
+        if (key == GLFW_KEY_R) {
+            key_r_down = false;
+        } else if (key == GLFW_KEY_F) {
+            key_f_down = false;
+        } else if (key == GLFW_KEY_Q) {
+            key_q_down = false;
+        } else if (key == GLFW_KEY_E) {
+            key_e_down = false;
+        } else if (key == GLFW_KEY_W) {
+            key_w_down = false;
+        } else if (key == GLFW_KEY_S) {
+            key_s_down = false;
+        } else if (key == GLFW_KEY_A) {
+            key_a_down = false;
+        } else if (key == GLFW_KEY_D) {
+            key_d_down = false;
+        } else if (key == GLFW_KEY_LEFT) {
+            key_left_down = false;
+        } else if (key == GLFW_KEY_RIGHT) {
+            key_right_down = false;
+        } else if (key == GLFW_KEY_UP) {
+            key_up_down = false;
+        } else if (key == GLFW_KEY_DOWN) {
+            key_down_down = false;
+        }
+    }
+}

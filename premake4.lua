@@ -1,6 +1,20 @@
 -- Important: Link order matters for static libraries!  Make sure dependent
 -- libraries come before the libraries they depend on.
-linkLibs = {"GlUtils", "freetype-gl", "freetype", "glfw3", "GLU", "GLEW", "GL", "X11", "Xxf86vm", "pthread", "Xi", "Xrandr"}
+linkLibs = {"freeimage",
+            "GlUtils",
+            "freetype-gl",
+            "freetype",
+            "glfw3",
+            "GLU",
+            "GLEW",
+            "GL",
+            "X11",
+            "Xxf86vm",
+            "pthread",
+            "Xi",
+            "Xrandr",
+            "boost_regex",
+            "stdc++"}
 
 libDirectories = {"ext/glew-1.10.0/lib",
                   "/usr/local/lib/Mesa-9.1.4",
@@ -75,3 +89,4 @@ CreateDemo("DepthMapping", "src/examples/DepthMapping.cpp", "src/GlfwOpenGlWindo
 CreateDemo("MultipleObjects", "src/examples/MultipleObjects.cpp", "src/GlfwOpenGlWindow.cpp")
 CreateDemo("CameraExample", "src/examples/CameraExample.cpp", "src/GlfwOpenGlWindow.cpp")
 CreateDemo("ShadowMap", "src/examples/ShadowMap.cpp", "src/GlfwOpenGlWindow.cpp")
+CreateDemo("TexturedCubeDemo", "src/examples/TexturedCubeDemo.cpp", "src/GlfwOpenGlWindow.cpp")
