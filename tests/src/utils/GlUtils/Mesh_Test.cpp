@@ -25,21 +25,27 @@ using std::vector;
 
 namespace {  // limit class visibility to this file.
 
-    class Mesh_Cube_Test: public ::testing::Test {
+//---------------------------------------------------------------------------------------
+    class Mesh_Test : public ::testing::Test {
     protected:
-        static shared_ptr<Mesh> mesh;
-
         const static size_t numFaces = 6;
         const static size_t numTrianglesPerFace = 2;
         const static size_t numVerticesPerTriangle = 3;
+        const static size_t numNormalsPerTriangle = 3;
+        const static size_t numTextureCoordsPerTriangle = 3;
+
+    };
+
+//---------------------------------------------------------------------------------------
+    class Mesh_Cube_Test : public Mesh_Test {
+    protected:
+        static shared_ptr<Mesh> mesh;
 
         const static size_t expectedTotalVertices;
+        const static size_t expectedTotalNormals;
 
         const static size_t floatsPerVertex = 3;
         const static size_t expectedVertexDataByteSize;
-
-        const static size_t numNormalsPerTriangle = 3;
-        const static size_t expectedTotalNormals;
 
         const static size_t floatsPerNormal = 3;
         const static size_t expectedNormalDataBytesSize;
@@ -70,10 +76,37 @@ namespace {  // limit class visibility to this file.
     };
 
     shared_ptr<Mesh> Mesh_Cube_Test::mesh = nullptr;
+
     const size_t Mesh_Cube_Test::expectedTotalVertices = numFaces * numTrianglesPerFace * numVerticesPerTriangle;
     const size_t Mesh_Cube_Test::expectedVertexDataByteSize = expectedTotalVertices * floatsPerVertex * sizeof(float);
+
     const size_t Mesh_Cube_Test::expectedTotalNormals = numFaces * numTrianglesPerFace * numNormalsPerTriangle;
     const size_t Mesh_Cube_Test::expectedNormalDataBytesSize = expectedTotalNormals * floatsPerNormal * sizeof(float);
+
+
+//---------------------------------------------------------------------------------------
+    class Mesh_Textured_Cube_Test : public Mesh_Cube_Test {
+    protected:
+        static shared_ptr<Mesh> texturedMesh;
+
+        const static size_t expectedTotalTextureCoords;
+        const static size_t floatsPerTextureCoord = 2;
+        const static size_t expectedTextureCoordDataBytesSize;
+
+        // Ran once before all tests.
+        static void SetUpTestCase() {
+            texturedMesh = make_shared<Mesh>("../data/meshes/cube_textured.obj");
+        }
+
+    };
+
+    shared_ptr<Mesh> Mesh_Textured_Cube_Test::texturedMesh = nullptr;
+
+    const size_t Mesh_Textured_Cube_Test::expectedTotalTextureCoords = numFaces
+            * numTrianglesPerFace * numTextureCoordsPerTriangle;
+
+    const size_t Mesh_Textured_Cube_Test::expectedTextureCoordDataBytesSize =
+            expectedTotalTextureCoords * floatsPerTextureCoord * sizeof(float);
 
 }
 
@@ -141,4 +174,34 @@ TEST_F(Mesh_Cube_Test, test_order_of_normal_vectors){
     } while(count < 2);
 
     EXPECT_TRUE(vectors_eq(expectedNormals, normals));
+}
+
+//---------------------------------------------------------------------------------------
+TEST_F(Mesh_Textured_Cube_Test, test_vertex_count){
+    EXPECT_EQ(expectedTotalVertices, texturedMesh->getNumVertices());
+}
+
+//---------------------------------------------------------------------------------------
+TEST_F(Mesh_Textured_Cube_Test, test_vertex_data_bytes){
+    EXPECT_EQ(expectedVertexDataByteSize, texturedMesh->getNumVertexBytes());
+}
+
+//---------------------------------------------------------------------------------------
+TEST_F(Mesh_Textured_Cube_Test, test_number_of_normals){
+    EXPECT_EQ(expectedTotalNormals, texturedMesh->getNumNormals());
+}
+
+//---------------------------------------------------------------------------------------
+TEST_F(Mesh_Textured_Cube_Test, test_normal_data_bytes){
+    EXPECT_EQ(expectedNormalDataBytesSize, texturedMesh->getNumNormalBytes());
+}
+
+//---------------------------------------------------------------------------------------
+TEST_F(Mesh_Textured_Cube_Test, test_number_of_textureCoords){
+    EXPECT_EQ(expectedTotalTextureCoords, texturedMesh->getNumTextureCoords());
+}
+
+//---------------------------------------------------------------------------------------
+TEST_F(Mesh_Textured_Cube_Test, test_textureCoord_data_bytes){
+    EXPECT_EQ(expectedTextureCoordDataBytesSize, texturedMesh->getNumTextureCoordBytes());
 }
