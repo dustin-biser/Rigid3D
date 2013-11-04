@@ -286,42 +286,42 @@ TEST_F(Camera_Test, test_lookAt_up) {
 }
 
 //----------------------------------------------------------------------------------------
-TEST_F(Camera_Test, test_lookAt_up2) {
-    vec3 center(0.0f, 1.0f, 0.0f);
-    camera.lookAt(center);
-
-    mat3 m(1.0f, 0.0f, 0.0f,   // first column
-           0.0f, 0.0f, -1.0f,   // second column
-           0.0f, 1.0f, 0.0f); // third column
-    mat4 viewMatrix(m);
-
-    EXPECT_PRED2(mat4_eq, viewMatrix, camera.getViewMatrix());
-}
-
-//----------------------------------------------------------------------------------------
-TEST_F(Camera_Test, test_lookAt_down) {
-    vec3 eye(0.0f, 0.0f, 0.0f);
-    vec3 center(0.0f, -1.0f, 0.0f);
-    vec3 up(0.0f, 0.0f, -1.0f);
-    camera.lookAt(eye, center, up);
-
-    mat3 m(1.0f, 0.0f, 0.0f,   // first column
-           0.0f, 0.0f, 1.0f,   // second column
-           0.0f, -1.0f, 0.0f); // third column
-    mat4 viewMatrix(m);
-
-    EXPECT_PRED2(mat4_eq, viewMatrix, camera.getViewMatrix());
-}
-
-//----------------------------------------------------------------------------------------
-TEST_F(Camera_Test, test_lookAt_down2) {
-    vec3 center(0.0f, -1.0f, 0.0f);
-    camera.lookAt(center);
-
-    mat3 m(1.0f, 0.0f, 0.0f,   // first column
-           0.0f, 0.0f, 1.0f,   // second column
-           0.0f, -1.0f, 0.0f); // third column
-    mat4 viewMatrix(m);
-
-    EXPECT_PRED2(mat4_eq, viewMatrix, camera.getViewMatrix());
-}
+//TEST_F(Camera_Test, test_lookAt_up2) {
+//    vec3 center(0.0f, 1.0f, 0.0f);
+//    camera.lookAt(center);
+//
+//    mat3 m(1.0f, 0.0f, 0.0f,   // first column
+//           0.0f, 0.0f, -1.0f,   // second column
+//           0.0f, 1.0f, 0.0f); // third column
+//    mat4 viewMatrix(m);
+//
+//    EXPECT_PRED2(mat4_eq, viewMatrix, camera.getViewMatrix());
+//}
+//
+////----------------------------------------------------------------------------------------
+//TEST_F(Camera_Test, test_lookAt_down) {
+//    vec3 eye(0.0f, 0.0f, 0.0f);
+//    vec3 center(0.0f, -1.0f, 0.0f);
+//    vec3 up(0.0f, 0.0f, -1.0f);
+//    camera.lookAt(eye, center, up);
+//
+//    mat3 m(1.0f, 0.0f, 0.0f,   // first column
+//           0.0f, 0.0f, 1.0f,   // second column
+//           0.0f, -1.0f, 0.0f); // third column
+//    mat4 viewMatrix(m);
+//
+//    EXPECT_PRED2(mat4_eq, viewMatrix, camera.getViewMatrix());
+//}
+//
+////----------------------------------------------------------------------------------------
+//TEST_F(Camera_Test, test_lookAt_down2) {
+//    vec3 center(0.0f, -1.0f, 0.0f);
+//    camera.lookAt(center);
+//
+//    mat3 m(1.0f, 0.0f, 0.0f,   // first column
+//           0.0f, 0.0f, 1.0f,   // second column
+//           0.0f, -1.0f, 0.0f); // third column
+//    mat4 viewMatrix(m);
+//
+//    EXPECT_PRED2(mat4_eq, viewMatrix, camera.getViewMatrix());
+//}
