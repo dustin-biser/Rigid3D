@@ -26,6 +26,10 @@ using std::printf;
 #include <cmath>
 using std::tan;
 
+#include <iostream>
+using std::cout;
+using std::endl;
+
 int main() {
     shared_ptr<GlfwOpenGlWindow> meshDemo = ShadowMap::getInstance();
     meshDemo->create(1024, 768, "Shadow Map Demo");
@@ -83,6 +87,9 @@ void ShadowMap::init()
     setupGLBuffers();
     setupMatrices();
     setupShadowFBO();
+
+    // Release all data associated with Meshes.
+    meshConsolidator.~MeshConsolidator();
 
     glDepthMask(GL_TRUE); // Enable depth buffer for writing to.
     glDepthFunc(GL_LEQUAL);

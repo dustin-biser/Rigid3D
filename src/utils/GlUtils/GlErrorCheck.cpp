@@ -45,7 +45,7 @@ namespace GlUtils {
        }
 
        if (errorFound) {
-           throw ShaderException(strStream.str());
+           throw ShaderException(strStream.str().c_str());
        }
     }
 }

@@ -10,6 +10,7 @@ using std::ifstream;
 
 #include <iostream>
 using std::cerr;
+using std::endl;
 
 #include <sstream>
 using std::stringstream;
@@ -153,7 +154,7 @@ namespace GlUtils {
             stringstream strStream;
             strStream << "Error Compiling Shader: " << errorMessage << endl;
 
-            throw ShaderException(strStream.str());
+            throw ShaderException(strStream.str().c_str());
         }
     }
 
@@ -195,7 +196,7 @@ namespace GlUtils {
             stringstream strStream;
             strStream << "Error Linking Shaders: " << errorMessage << endl;
 
-            throw ShaderException(strStream.str());
+            throw ShaderException(strStream.str().c_str());
         }
     }
 
@@ -224,7 +225,7 @@ GLuint ShaderProgram::getProgramObject() const {
         if (!file) {
             stringstream strStream;
             strStream << "Error -- Failed to open file: " << sourceFile << endl;
-            throw ShaderException(strStream.str());
+            throw ShaderException(strStream.str().c_str());
         }
 
         stringstream strBuffer;
@@ -259,7 +260,7 @@ GLuint ShaderProgram::getProgramObject() const {
         if (result == -1) {
             stringstream errorMessage;
             errorMessage << "Error obtaining uniform location: " << uniformName;
-            throw ShaderException(errorMessage.str());
+            throw ShaderException(errorMessage.str().c_str());
         }
 
         return result;
@@ -283,7 +284,7 @@ GLuint ShaderProgram::getProgramObject() const {
         if (result == -1) {
             stringstream errorMessage;
             errorMessage << "Error obtaining attribute location: " << attributeName;
-            throw ShaderException(errorMessage.str());
+            throw ShaderException(errorMessage.str().c_str());
         }
 
         return result;
@@ -498,7 +499,7 @@ GLuint ShaderProgram::getProgramObject() const {
             stringstream errorMessage;
             errorMessage << "Error in method ShaderProgram::setUniformSubroutinesuiv." << endl
                          << subroutineName << " is not a known subroutine.";
-            throw ShaderException(errorMessage.str());
+            throw ShaderException(errorMessage.str().c_str());
         }
         glUseProgram(programObject);
         glUniformSubroutinesuiv(shaderType, 1, &index);

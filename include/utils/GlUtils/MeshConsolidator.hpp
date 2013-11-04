@@ -9,6 +9,10 @@ using std::initializer_list;
 #include <utility>
 using std::pair;
 
+#include <memory>
+using std::shared_ptr;
+using std::make_shared;
+
 #include <unordered_map>
 using std::unordered_map;
 

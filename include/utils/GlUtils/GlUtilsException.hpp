@@ -3,11 +3,9 @@
 
 #include <exception>
 
-using namespace std;
-
 namespace GlUtils {
 
-    class GlUtilsException : public exception {
+    class GlUtilsException : public std::exception {
     public:
         GlUtilsException(const char * message = "GlUtilsException Occurred.")
             : errorMessage(message) { }
@@ -23,6 +21,5 @@ namespace GlUtils {
     };
 
 }
-
 
 #endif /* GLUTILSEXCEPTION_HPP_ */

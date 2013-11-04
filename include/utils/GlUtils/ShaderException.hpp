@@ -3,23 +3,21 @@
 
 #include <exception>
 
-using namespace std;
-
 namespace GlUtils {
 
-    class ShaderException : public exception {
+    class ShaderException : public std::exception {
     public:
-        ShaderException(const string & message = "Shader Exception Occurred.")
+        ShaderException(const char * message = "Shader Exception Occurred.")
             : errorMessage(message) { }
 
         virtual ~ShaderException() noexcept { }
 
         virtual const char * what() const noexcept {
-            return errorMessage.c_str();
+            return errorMessage;
         }
 
     private:
-        string errorMessage;
+        const char * errorMessage;
     };
 
 }

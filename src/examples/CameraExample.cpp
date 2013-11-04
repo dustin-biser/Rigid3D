@@ -441,6 +441,6 @@ void CameraExample::mouseScroll(double xOffSet, double yOffSet) {
         fieldOfViewY = 180.0f;
     }
 
-    cout << "fieldOfViewY: " << fieldOfViewY << endl;
+    std::cout << "fieldOfViewY: " << fieldOfViewY << std::endl;
     camera.setFieldOfViewY(fieldOfViewY);
 }
