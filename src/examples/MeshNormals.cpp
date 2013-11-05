@@ -193,8 +193,7 @@ void MeshNormals::cleanup() {
 }
 
 //---------------------------------------------------------------------------------------
-void MeshNormals::keyInput(int key, int scancode, int action, int mods) {
-    GlfwOpenGlWindow::keyInput(key, scancode, action, mods);
+void MeshNormals::keyInput(int key, int action, int mods) {
     static const float xDelta = 0.5f;
     static const float yDelta = 0.2f;
     static const float zDelta = 0.5f;

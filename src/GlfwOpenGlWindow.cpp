@@ -1,7 +1,7 @@
-#include <GlfwOpenGlWindow.hpp>
-#include <GlfwException.hpp>
-#include <GlErrorCheck.hpp>
-#include <MathUtils/MathUtils.hpp>
+#include "GlfwOpenGlWindow.hpp"
+#include "GlfwException.hpp"
+#include "GlErrorCheck.hpp"
+#include "MathUtils/MathUtils.hpp"
 #include <sstream>
 
 using MathUtils::degreesToRadians;
@@ -12,7 +12,13 @@ shared_ptr<GlfwOpenGlWindow> GlfwOpenGlWindow::p_instance = nullptr;
 
 //----------------------------------------------------------------------------------------
 GlfwOpenGlWindow::GlfwOpenGlWindow()
- : window(nullptr), paused(false) {
+ : window(nullptr),
+   windowTitle(),
+   windowWidth(0),
+   windowHeight(0),
+   paused(false),
+   camera(),
+   cameraController() {
 
 }
 
@@ -132,6 +138,7 @@ void GlfwOpenGlWindow::create(int width, int height, const string & windowTitle)
         glfwPollEvents();
         if (!paused) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+            cameraController.updateCamera();
             logic();
             draw();
             glfwSwapBuffers(window);
@@ -154,14 +161,12 @@ GlfwOpenGlWindow::~GlfwOpenGlWindow() {
  */
 void GlfwOpenGlWindow::keyInputCallBack(GLFWwindow* window, int key, int scancode,
         int action, int mods) {
-    getInstance()->keyInput(key, scancode, action, mods);
-}
 
+    getInstance()->keyInputBase(key, action, mods);
+    getInstance()->keyInput(key, action, mods);
+}
 //----------------------------------------------------------------------------------------
-/**
- * @brief Keyboard input call back function to be overridden by derived classes.
- */
-void GlfwOpenGlWindow::keyInput(int key, int scancode, int action, int mods) {
+void GlfwOpenGlWindow::keyInputBase(int key, int action, int mods) {
     if (action == GLFW_PRESS) {
         if (key == GLFW_KEY_ESCAPE) {
             glfwSetWindowShouldClose(window, GL_TRUE);
@@ -171,6 +176,16 @@ void GlfwOpenGlWindow::keyInput(int key, int scancode, int action, int mods) {
             reloadShaderProgram();
         }
     }
+
+    cameraController.keyInput(key, action, mods);
+}
+
+//----------------------------------------------------------------------------------------
+/**
+ * @brief Keyboard input call back function to be overridden by derived classes.
+ */
+void GlfwOpenGlWindow::keyInput(int key, int action, int mods) {
+
 }
 
 //----------------------------------------------------------------------------------------
@@ -209,6 +224,8 @@ void GlfwOpenGlWindow::setupCamera() {
 
     float aspectRatio = (float) windowWidth / (float) windowHeight;
     camera = Camera(45.0f, aspectRatio, 1.0f, 100.0f);
+
+    cameraController.registerCamera(&camera);
 }
 
 //----------------------------------------------------------------------------------------

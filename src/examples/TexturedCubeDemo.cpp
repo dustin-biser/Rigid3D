@@ -209,9 +209,7 @@ void TexturedCubeDemo::draw() {
 }
 //---------------------------------------------------------------------------------------
 void TexturedCubeDemo::logic() {
-    processKeyInput();
-
-    camera.lookAt(0.0f, 0.0f, -10.0f);
+//    camera.lookAt(0.0f, 0.0f, -10.0f);
 
     modelMatrix = translate(mat4(), vec3(0.0f, 0.0f, -10.0f));
     viewMatrix = camera.getViewMatrix();
@@ -234,108 +232,4 @@ void TexturedCubeDemo::cleanup() {
     glDeleteTextures(1, &textureId);
 
     GlUtils::checkGLErrors(__FILE__, __LINE__);
-}
-//---------------------------------------------------------------------------------------
-void TexturedCubeDemo::processKeyInput( ) {
-    const float delta = 0.03f;
-    const float deltaLarge = 0.1f;
-
-    if (key_r_down) {
-        camera.translateRelative(0.0f, 0.0f, delta);
-    }
-    if (key_f_down) {
-        camera.translateRelative(0.0f, 0.0f, -1.0f * delta);
-    }
-    if (key_q_down) {
-        camera.yaw(degreesToRadians(deltaLarge));
-    }
-    if (key_e_down) {
-        camera.yaw(degreesToRadians(-1.0 * deltaLarge));
-    }
-    if (key_a_down) {
-        camera.translateRelative(delta, 0.0f,  0.0f);
-    }
-    if (key_d_down) {
-        camera.translateRelative(-1.0f * delta, 0.0f,  0.0f);
-    }
-    if (key_w_down) {
-        camera.translateRelative(0.0f, delta,  0.0f);
-    }
-    if (key_s_down) {
-        camera.translateRelative(0.0f, -1.0f * delta,  0.0f);
-    }
-    if (key_left_down) {
-        camera.roll(degreesToRadians(-1.0f * deltaLarge));
-    }
-    if (key_right_down) {
-        camera.roll(degreesToRadians(deltaLarge));
-    }
-    if (key_up_down) {
-        camera.pitch(degreesToRadians(delta));
-    }
-    if (key_down_down) {
-        camera.pitch(degreesToRadians(-1.0 * delta));
-    }
-}
-
-//---------------------------------------------------------------------------------------
-void TexturedCubeDemo::keyInput(int key, int scancode, int action, int mods) {
-    // Handle escape to close window
-    GlfwOpenGlWindow::keyInput(key, scancode, action, mods);
-
-    if ((action == GLFW_PRESS) || (action == GLFW_REPEAT)) {
-        if (key == GLFW_KEY_R) {
-            key_r_down = true;
-        } else if (key == GLFW_KEY_F) {
-            key_f_down = true;
-        } else if (key == GLFW_KEY_Q) {
-            key_q_down = true;
-        } else if (key == GLFW_KEY_E) {
-            key_e_down = true;
-        } else if (key == GLFW_KEY_W) {
-            key_w_down = true;
-        } else if (key == GLFW_KEY_S) {
-            key_s_down = true;
-        } else if (key == GLFW_KEY_A) {
-            key_a_down = true;
-        } else if (key == GLFW_KEY_D) {
-            key_d_down = true;
-        } else if (key == GLFW_KEY_LEFT) {
-            key_left_down = true;
-        } else if (key == GLFW_KEY_RIGHT) {
-            key_right_down = true;
-        } else if (key == GLFW_KEY_UP) {
-            key_up_down = true;
-        } else if (key == GLFW_KEY_DOWN) {
-            key_down_down = true;
-        }
-    }
-
-    if (action == GLFW_RELEASE) {
-        if (key == GLFW_KEY_R) {
-            key_r_down = false;
-        } else if (key == GLFW_KEY_F) {
-            key_f_down = false;
-        } else if (key == GLFW_KEY_Q) {
-            key_q_down = false;
-        } else if (key == GLFW_KEY_E) {
-            key_e_down = false;
-        } else if (key == GLFW_KEY_W) {
-            key_w_down = false;
-        } else if (key == GLFW_KEY_S) {
-            key_s_down = false;
-        } else if (key == GLFW_KEY_A) {
-            key_a_down = false;
-        } else if (key == GLFW_KEY_D) {
-            key_d_down = false;
-        } else if (key == GLFW_KEY_LEFT) {
-            key_left_down = false;
-        } else if (key == GLFW_KEY_RIGHT) {
-            key_right_down = false;
-        } else if (key == GLFW_KEY_UP) {
-            key_up_down = false;
-        } else if (key == GLFW_KEY_DOWN) {
-            key_down_down = false;
-        }
-    }
 }

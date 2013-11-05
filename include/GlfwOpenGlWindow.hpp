@@ -11,8 +11,11 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
-#include <Camera.hpp>
+#include "Camera.hpp"
 using GlUtils::Camera;
+
+#include "CameraController.hpp"
+using GlUtils::CameraController;
 
 #include <string>
 #include <memory>
@@ -42,16 +45,21 @@ protected:
     string windowTitle;
     int windowWidth;
     int windowHeight;
-    Camera camera;
-    static shared_ptr<GlfwOpenGlWindow> p_instance;
+
     bool paused;
+
+    Camera camera;
+    CameraController cameraController;
+
+    static shared_ptr<GlfwOpenGlWindow> p_instance;
 
     GlfwOpenGlWindow();
 
     static void error_callback(int error, const char* description);
 
     static void keyInputCallBack(GLFWwindow* window, int key, int scancode, int action, int mods);
-    virtual void keyInput(int key, int scancode, int action, int mods);
+    void keyInputBase(int key, int action, int mods);
+    virtual void keyInput(int key, int action, int mods);
 
     static void windowResizeCallBack(GLFWwindow * window, int width, int height);
     virtual void resize(int width, int height);

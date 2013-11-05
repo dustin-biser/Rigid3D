@@ -552,11 +552,7 @@ void ShadowMap::processKeyInput( ) {
 }
 
 //---------------------------------------------------------------------------------------
-void ShadowMap::keyInput(int key, int scancode, int action, int mods) {
-
-    // Handle escape to close window
-    GlfwOpenGlWindow::keyInput(key, scancode, action, mods);
-
+void ShadowMap::keyInput(int key, int action, int mods) {
     if ((action == GLFW_PRESS) || (action == GLFW_REPEAT)) {
         if (key == GLFW_KEY_R) {
             key_r_down = true;

@@ -36,20 +36,6 @@ private:
     Mesh texturedCube;
     ShaderProgram shader;
 
-    // Key Input
-    bool key_r_down = false;
-    bool key_f_down = false;
-    bool key_q_down = false;
-    bool key_e_down = false;
-    bool key_w_down = false;
-    bool key_s_down = false;
-    bool key_a_down = false;
-    bool key_d_down = false;
-    bool key_left_down = false;
-    bool key_right_down = false;
-    bool key_up_down = false;
-    bool key_down_down = false;
-
     TexturedCubeDemo(); // Singleton, prevent direct construction.
 
     virtual void init();
@@ -58,11 +44,9 @@ private:
     virtual void draw();
     virtual void setupGl();
     virtual void cleanup();
-    virtual void keyInput(int key, int scancode, int action, int mods);
 
     void setupShaders();
     void setupMatrices();
     void setupVertexData();
     void setupTextureData();
-    void processKeyInput();
 };

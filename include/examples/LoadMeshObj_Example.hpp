@@ -55,7 +55,7 @@ private:
     virtual void init();
     virtual void logic();
     virtual void draw();
-    virtual void keyInput(int key, int scancode, int action, int mods);
+    virtual void keyInput(int key, int action, int mods);
 
     void setupGLBuffers();
     void setupShaders();
