@@ -23,11 +23,6 @@ GlfwOpenGlWindow::GlfwOpenGlWindow()
 }
 
 //----------------------------------------------------------------------------------------
-void GlfwOpenGlWindow::setWindowTitle(string windowTitle) {
-    this->windowTitle = windowTitle;
-}
-
-//----------------------------------------------------------------------------------------
 void GlfwOpenGlWindow::error_callback(int error, const char* description) {
     throw GlfwException(description);
 }
@@ -113,9 +108,14 @@ void GlfwOpenGlWindow::create(int width, int height, const string & windowTitle)
 
     centerWindow();
     glfwMakeContextCurrent(window);
+
+    // Register static callback functions with GLFW.
     glfwSetKeyCallback(window, keyInputCallBack);
     glfwSetWindowSizeCallback(window, windowResizeCallBack);
     glfwSetScrollCallback(window, mouseScrollCallBack);
+    glfwSetMouseButtonCallback(window, mouseButtonCallBack);
+    glfwSetCursorPosCallback(window, cursorPositionCallBack);
+    glfwSetCursorEnterCallback(window, cursorEnterCallBack);
 
     // Initialize OpenGL extensions with GLEW
     glewExperimental = GL_TRUE;
@@ -165,7 +165,16 @@ void GlfwOpenGlWindow::keyInputCallBack(GLFWwindow* window, int key, int scancod
     getInstance()->keyInputBase(key, action, mods);
     getInstance()->keyInput(key, action, mods);
 }
+
 //----------------------------------------------------------------------------------------
+/**
+ * Key input processing for base class. This method is always ran before callbacks
+ * are issued for the overridden \c keyInput() method of any derived classes.
+ *
+ * @param key
+ * @param action
+ * @param mods
+ */
 void GlfwOpenGlWindow::keyInputBase(int key, int action, int mods) {
     if (action == GLFW_PRESS) {
         if (key == GLFW_KEY_ESCAPE) {
@@ -182,7 +191,7 @@ void GlfwOpenGlWindow::keyInputBase(int key, int action, int mods) {
 
 //----------------------------------------------------------------------------------------
 /**
- * @brief Keyboard input call back function to be overridden by derived classes.
+ * Keyboard input call back function to be overridden by derived classes.
  */
 void GlfwOpenGlWindow::keyInput(int key, int action, int mods) {
 
@@ -190,10 +199,114 @@ void GlfwOpenGlWindow::keyInput(int key, int action, int mods) {
 
 //----------------------------------------------------------------------------------------
 /**
- * @brief Mouse scroll call back function to be registered with GLFW.
+ * brief Mouse scroll call back function to be registered with GLFW.
  */
 void GlfwOpenGlWindow::mouseScrollCallBack(GLFWwindow * window, double xOffSet, double yOffSet) {
     getInstance()->mouseScroll(xOffSet, yOffSet);
+}
+
+//----------------------------------------------------------------------------------------
+/**
+ * Mouse scroll call back function to be overridden by derived classes.
+ */
+void GlfwOpenGlWindow::mouseScroll(double xOffSet, double yOffSet) {
+
+}
+
+//----------------------------------------------------------------------------------------
+/**
+ * Mouse button call back function to be registered with GLFW.
+ */
+void GlfwOpenGlWindow::mouseButtonCallBack(GLFWwindow * window, int button , int actions, int mods) {
+    getInstance()->mouseButtonInputBase(button, actions, mods);
+    getInstance()->mouseButtonInput(button, actions, mods);
+}
+
+//----------------------------------------------------------------------------------------
+/**
+ * Mouse button input processing for base class. This method is always ran before callbacks
+ * are issued for the overridden \c mouseButtonInput() method of any derived classes.
+ *
+ * @param button
+ * @param actions
+ * @param mods
+ */
+void GlfwOpenGlWindow::mouseButtonInputBase(int button , int actions, int mods) {
+    cameraController.mouseButtonInput(button, actions, mods);
+}
+
+//----------------------------------------------------------------------------------------
+/**
+ * Mouse button input callback function to be overridden by derived classes.
+ */
+void GlfwOpenGlWindow::mouseButtonInput(int button , int actions, int mods) {
+
+}
+
+//----------------------------------------------------------------------------------------
+/**
+ *  Cursor position callback to be registered with GLFW.
+ */
+void GlfwOpenGlWindow::cursorPositionCallBack(GLFWwindow * window, double xPos, double yPos) {
+    getInstance()->cursorPositionBase(xPos, yPos);
+    getInstance()->cursorPosition(xPos, yPos);
+}
+
+//----------------------------------------------------------------------------------------
+/**
+ * Cursor position input processing for base class.  This method is always ran before callbacks
+ * are issued for the overridden \c cursorInput() method of any derived classes.
+ *
+ * @param xPos
+ * @param yPos
+ */
+void GlfwOpenGlWindow::cursorPositionBase(double xPos, double yPos) {
+    cameraController.cursorPosition(xPos, yPos);
+}
+
+//----------------------------------------------------------------------------------------
+/**
+ * Cursor position callback function to be overridden by derived classes.
+ *
+ * @param xPos - The new x-coordinate, in screen coordinates, of the cursor.
+ * @param yPos - the new y-coordinate, in screen coordinates, of the cursor.
+ */
+void GlfwOpenGlWindow::cursorPosition(double xPos, double yPos) {
+
+}
+
+//----------------------------------------------------------------------------------------
+/**
+ * Callback function for when cursor enters/exits rendering window.  To be
+ * registered with GLFW.
+ */
+void GlfwOpenGlWindow::cursorEnterCallBack(GLFWwindow * window, int entered) {
+    getInstance()->cursorEnterBase(entered);
+    getInstance()->cursorEnter(entered);
+}
+
+//----------------------------------------------------------------------------------------
+/**
+ * Cursor enter/exit window callback for base class. This method is always ran
+ * before callbacks are issued for the overridden \c cursorEnter() method of any
+ * derived classes.
+ *
+ * @param entered
+ */
+void GlfwOpenGlWindow::cursorEnterBase(int entered) {
+
+}
+
+//----------------------------------------------------------------------------------------
+/**
+ * Callback function for when cursor enters/exits rendering window.  To be
+ * overridden by derived classes.
+ *
+ * @param entered - GL_TRUE if the cursor entered the window's client area, or
+ *                  GL_FALSE if it left it.
+ */
+void GlfwOpenGlWindow::cursorEnter(int entered) {
+
 }
 
 //----------------------------------------------------------------------------------------
@@ -244,12 +357,4 @@ void GlfwOpenGlWindow::setupGl() {
 
     glClearDepth(1.0f);
     glClearColor(0.3, 0.5, 0.7, 1.0);
-}
-
-//----------------------------------------------------------------------------------------
-/**
- * @brief Closes the OpenGL window and terminates the main loop.
- */
-void GlfwOpenGlWindow::close() {
-    glfwSetWindowShouldClose(window, GL_TRUE);
 }

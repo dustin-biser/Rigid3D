@@ -36,10 +36,6 @@ public:
 
     void create(int width, int height, const string & windowTitle);
 
-    void setWindowTitle(string windowTitle);
-
-    void close();
-
 protected:
     GLFWwindow * window;
     string windowTitle;
@@ -65,7 +61,20 @@ protected:
     virtual void resize(int width, int height);
 
     static void mouseScrollCallBack(GLFWwindow * window, double xOffSet, double yOffSet);
-    virtual void mouseScroll(double xOffSet, double yOffSet) { }
+    virtual void mouseScroll(double xOffSet, double yOffSet);
+
+    static void mouseButtonCallBack(GLFWwindow * window, int button , int actions, int mods);
+    void mouseButtonInputBase(int button , int actions, int mods);
+    virtual void mouseButtonInput(int button , int actions, int mods);
+
+    static void cursorPositionCallBack(GLFWwindow * window, double xPos, double yPos);
+    void cursorPositionBase(double xPos, double yPos);
+    virtual void cursorPosition(double xPos, double yPos);
+
+    static void cursorEnterCallBack(GLFWwindow * window, int entered);
+    void cursorEnterBase(int entered);
+    virtual void cursorEnter(int entered);
+
 
     void centerWindow();
 
