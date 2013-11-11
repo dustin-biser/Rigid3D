@@ -34,7 +34,9 @@ namespace GlUtils {
      * @param fragmentShaderFile - location to fragment shader source file.
      */
     ShaderProgram::ShaderProgram(const char * vertexShaderFile, const char * fragmentShaderFile)
-            : programObject(0), prevProgramObject(0), activeProgram(0) {
+            : programObject(0),
+              prevProgramObject(0),
+              activeProgram(0) {
 
         loadFromFile(vertexShaderFile, fragmentShaderFile);
     }
@@ -79,12 +81,15 @@ namespace GlUtils {
                 cerr << se.what();
                 programObject = prevProgramObject;
             } else {
-                // This is the first type loading shader, so throw error to stop program.
+                // This is the first time loading shader, so throw error to stop program.
                 throw se;
             }
         }
 
-        if ((prevProgramObject != 0) && (success)) {
+        if ((success) &&
+            (prevProgramObject != programObject) &&  // Necessary for when changing OpenGL Contexts
+            (prevProgramObject != 0)) {
+
             // Delete previous program and shaders.
             GLsizei count;
             GLuint numShaders = 2;
