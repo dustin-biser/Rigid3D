@@ -54,6 +54,7 @@ void TexturedCubeDemo::init() {
 
     setupShaders();
     setupMatrices();
+    setupUniformData();
     setupVertexData();
     setupTextureData();
 }
@@ -63,6 +64,18 @@ void TexturedCubeDemo::setupShaders() {
     shader.loadFromFile("../data/shaders/PositionNormalTexture.vert",
                         "../data/shaders/ADS_Texture.frag");
 
+    GlUtils::checkGLErrors(__FILE__, __LINE__);
+}
+
+//---------------------------------------------------------------------------------------
+void TexturedCubeDemo::setupMatrices(){
+    modelMatrix = translate(mat4(), vec3(0.0f, 0.0f, -10.0f));
+    viewMatrix = camera.getViewMatrix();
+    projectionMatrix = camera.getProjectionMatrix();
+}
+
+//---------------------------------------------------------------------------------------
+void TexturedCubeDemo::setupUniformData() {
     shader.setUniform("material.emission", vec3(0.0f, 0.0f, 0.0f));
     shader.setUniform("material.Ka", vec3(1.0f));
     shader.setUniform("material.Kd", vec3(1.0f, 1.0f, 1.0f));
@@ -72,17 +85,11 @@ void TexturedCubeDemo::setupShaders() {
     shader.setUniform("lightSource.position", vec3(0.0f, 2.0f, 10.0f));
     shader.setUniform("lightSource.rgbIntensity", vec3(1.0f, 1.0f, 1.0f));
 
-    GlUtils::checkGLErrors(__FILE__, __LINE__);
-}
-//---------------------------------------------------------------------------------------
-void TexturedCubeDemo::setupMatrices(){
-    modelMatrix = translate(mat4(), vec3(0.0f, 0.0f, -10.0f));
-    viewMatrix = camera.getViewMatrix();
-    projectionMatrix = camera.getProjectionMatrix();
-
     shader.setUniform("ModelViewMatrix", viewMatrix * modelMatrix);
     shader.setUniform("NormalMatrix", mat3(viewMatrix));
     shader.setUniform("MVP", projectionMatrix * viewMatrix * modelMatrix);
+
+    GlUtils::checkGLErrors(__FILE__, __LINE__);
 }
 
 //---------------------------------------------------------------------------------------
@@ -209,8 +216,6 @@ void TexturedCubeDemo::draw() {
 }
 //---------------------------------------------------------------------------------------
 void TexturedCubeDemo::logic() {
-//    camera.lookAt(0.0f, 0.0f, -10.0f);
-
     modelMatrix = translate(mat4(), vec3(0.0f, 0.0f, -10.0f));
     viewMatrix = camera.getViewMatrix();
     projectionMatrix = camera.getProjectionMatrix();
@@ -232,4 +237,9 @@ void TexturedCubeDemo::cleanup() {
     glDeleteTextures(1, &textureId);
 
     GlUtils::checkGLErrors(__FILE__, __LINE__);
+}
+
+//---------------------------------------------------------------------------------------
+void TexturedCubeDemo::reloadShaderProgram() {
+
 }

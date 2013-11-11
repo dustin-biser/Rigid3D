@@ -7,7 +7,6 @@
 using MathUtils::degreesToRadians;
 using MathUtils::cotangent;
 
-
 shared_ptr<GlfwOpenGlWindow> GlfwOpenGlWindow::p_instance = nullptr;
 
 //----------------------------------------------------------------------------------------
@@ -17,6 +16,8 @@ GlfwOpenGlWindow::GlfwOpenGlWindow()
    windowWidth(0),
    windowHeight(0),
    paused(false),
+   fullScreen(false),
+   destroyPrevWindow(false),
    camera(),
    cameraController() {
 
@@ -37,8 +38,6 @@ void GlfwOpenGlWindow::windowResizeCallBack(GLFWwindow * window, int width, int 
 
 //----------------------------------------------------------------------------------------
 void GlfwOpenGlWindow::resize(int width, int height) {
-    windowWidth = width;
-    windowHeight = height;
     float aspectRatio = ((float) width) / height;
     float frustumYScale = cotangent(degreesToRadians(camera.getFieldOfViewY() / 2));
 
@@ -98,6 +97,11 @@ void GlfwOpenGlWindow::create(int width, int height, const string & windowTitle)
     glfwWindowHint(GLFW_BLUE_BITS, 8);
     glfwWindowHint(GLFW_ALPHA_BITS, 8);
 
+    monitor = glfwGetPrimaryMonitor();
+    if (monitor == NULL) {
+        glfwTerminate();
+        throw GlfwException("Error retrieving primary monitor.");
+    }
 
     // Create Opengl Window
     window = glfwCreateWindow(width, height, windowTitle.c_str(), NULL, NULL);
@@ -109,13 +113,9 @@ void GlfwOpenGlWindow::create(int width, int height, const string & windowTitle)
     centerWindow();
     glfwMakeContextCurrent(window);
 
-    // Register static callback functions with GLFW.
-    glfwSetKeyCallback(window, keyInputCallBack);
-    glfwSetWindowSizeCallback(window, windowResizeCallBack);
-    glfwSetScrollCallback(window, mouseScrollCallBack);
-    glfwSetMouseButtonCallback(window, mouseButtonCallBack);
-    glfwSetCursorPosCallback(window, cursorPositionCallBack);
-    glfwSetCursorEnterCallback(window, cursorEnterCallBack);
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+
+    registerGlfwCallBacks();
 
     // Initialize OpenGL extensions with GLEW
     glewExperimental = GL_TRUE;
@@ -143,6 +143,7 @@ void GlfwOpenGlWindow::create(int width, int height, const string & windowTitle)
             draw();
             glfwSwapBuffers(window);
         }
+        destroyPrevWindowCheck();
     }
 
     cleanup();
@@ -153,6 +154,71 @@ void GlfwOpenGlWindow::create(int width, int height, const string & windowTitle)
 GlfwOpenGlWindow::~GlfwOpenGlWindow() {
     // Free all GLFW resources.
     glfwTerminate();
+}
+
+//----------------------------------------------------------------------------------------
+void GlfwOpenGlWindow::destroyPrevWindowCheck() {
+    if (destroyPrevWindow) {
+        glfwDestroyWindow(prevWindow);
+        prevWindow = 0;
+        destroyPrevWindow = false;
+    }
+}
+
+//----------------------------------------------------------------------------------------
+/**
+ * Register all callbacks with GLFW library for the currently active rendering window.
+ */
+void GlfwOpenGlWindow::registerGlfwCallBacks() {
+    glfwSetKeyCallback(window, keyInputCallBack);
+    glfwSetWindowSizeCallback(window, windowResizeCallBack);
+    glfwSetScrollCallback(window, mouseScrollCallBack);
+    glfwSetMouseButtonCallback(window, mouseButtonCallBack);
+    glfwSetCursorPosCallback(window, cursorPositionCallBack);
+    glfwSetCursorEnterCallback(window, cursorEnterCallBack);
+}
+
+//----------------------------------------------------------------------------------------
+void GlfwOpenGlWindow::initNewOpenGlContext() {
+    cleanup();
+    registerGlfwCallBacks();
+    glfwMakeContextCurrent(window);
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+    setupGl();
+    init();
+}
+
+//----------------------------------------------------------------------------------------
+void GlfwOpenGlWindow::switchToFullScreen() {
+    prevWindow = window;
+    destroyPrevWindow = true;
+
+    // Create Opengl Window
+    window = glfwCreateWindow(1920, 1080, windowTitle.c_str(), monitor, NULL);
+    if (window == NULL) {
+        glfwTerminate();
+        throw GlfwException("Call to glfwCreateWindow failed.");
+    }
+    resize(1920, 1080);
+
+    initNewOpenGlContext();
+}
+
+//----------------------------------------------------------------------------------------
+void GlfwOpenGlWindow::switchToWindowedMode() {
+    prevWindow = window;
+    destroyPrevWindow = true;
+
+    // Create Opengl Window
+    window = glfwCreateWindow(windowWidth, windowHeight, windowTitle.c_str(), NULL, NULL);
+    if (window == NULL) {
+        glfwTerminate();
+        throw GlfwException("Call to glfwCreateWindow failed.");
+    }
+    resize(windowWidth, windowHeight);
+    centerWindow();
+
+    initNewOpenGlContext();
 }
 
 //----------------------------------------------------------------------------------------
@@ -179,6 +245,13 @@ void GlfwOpenGlWindow::keyInputBase(int key, int action, int mods) {
     if (action == GLFW_PRESS) {
         if (key == GLFW_KEY_ESCAPE) {
             glfwSetWindowShouldClose(window, GL_TRUE);
+        } else if (key == GLFW_KEY_F11) {
+            if (fullScreen == false) {
+                switchToFullScreen();
+            } else {
+                switchToWindowedMode();
+            }
+            fullScreen = !fullScreen;
         } else if (key == GLFW_KEY_F10) {
             paused = !paused;
         } else if (key == GLFW_KEY_F8) {
@@ -186,7 +259,17 @@ void GlfwOpenGlWindow::keyInputBase(int key, int action, int mods) {
         }
     }
 
+    if (key == GLFW_KEY_LEFT_SHIFT) {
+        if (action == GLFW_PRESS) {
+            glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+        }
+        else if (action == GLFW_RELEASE) {
+            glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+        }
+    }
+
     cameraController.keyInput(key, action, mods);
+
 }
 
 //----------------------------------------------------------------------------------------

@@ -39,7 +39,7 @@ private:
     TexturedCubeDemo(); // Singleton, prevent direct construction.
 
     virtual void init();
-    virtual void reloadShaderProgram() { }
+    virtual void reloadShaderProgram();
     virtual void logic();
     virtual void draw();
     virtual void setupGl();
@@ -47,6 +47,7 @@ private:
 
     void setupShaders();
     void setupMatrices();
+    void setupUniformData();
     void setupVertexData();
     void setupTextureData();
 };

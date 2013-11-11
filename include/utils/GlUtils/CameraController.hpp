@@ -19,12 +19,21 @@ namespace GlUtils {
         void registerCamera(Camera * camera);
 
         void keyInput(int key, int action, int mods);
+        void mouseButtonInput(int button , int actions, int mods);
+        void mouseScroll(double xOffSet, double yOffSet);
+        void cursorPosition(double xPos, double yPos);
 
         void updateCamera();
 
     private:
         Camera * cameraPtr;
-        bool cameraIsValid;
+
+        bool flagRotation;
+
+        double xPos_prev;
+        double xPos;
+        double yPos_prev;
+        double yPos;
 
         // Input Key States
         bool key_r_down = false;
@@ -35,6 +44,10 @@ namespace GlUtils {
         bool key_s_down = false;
         bool key_a_down = false;
         bool key_d_down = false;
+        bool key_left_shift_down = false;
+
+        void updateTranslation();
+        void updateOrientation();
     };
 
 }

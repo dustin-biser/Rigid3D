@@ -38,11 +38,15 @@ public:
 
 protected:
     GLFWwindow * window;
+    GLFWwindow * prevWindow;
+    GLFWmonitor * monitor;
     string windowTitle;
     int windowWidth;
     int windowHeight;
 
     bool paused;
+    bool fullScreen;
+    bool destroyPrevWindow;
 
     Camera camera;
     CameraController cameraController;
@@ -75,8 +79,17 @@ protected:
     void cursorEnterBase(int entered);
     virtual void cursorEnter(int entered);
 
+    void registerGlfwCallBacks();
+
+    void destroyPrevWindowCheck();
 
     void centerWindow();
+
+    void initNewOpenGlContext();
+
+    void switchToFullScreen();
+
+    void switchToWindowedMode();
 
     void setupCamera();
 
