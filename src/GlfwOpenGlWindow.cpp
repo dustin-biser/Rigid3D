@@ -193,13 +193,15 @@ void GlfwOpenGlWindow::switchToFullScreen() {
     prevWindow = window;
     destroyPrevWindow = true;
 
+    const GLFWvidmode *videoMode = glfwGetVideoMode(monitor);
+
     // Create Opengl Window
-    window = glfwCreateWindow(1920, 1080, windowTitle.c_str(), monitor, NULL);
+    window = glfwCreateWindow(videoMode->width, videoMode->height, windowTitle.c_str(), monitor, NULL);
     if (window == NULL) {
         glfwTerminate();
         throw GlfwException("Call to glfwCreateWindow failed.");
     }
-    resize(1920, 1080);
+    resize(videoMode->width, videoMode->height);
 
     initNewOpenGlContext();
 }
@@ -389,7 +391,6 @@ void GlfwOpenGlWindow::cursorEnterBase(int entered) {
  *                  GL_FALSE if it left it.
  */
 void GlfwOpenGlWindow::cursorEnter(int entered) {
-
 }
 
 //----------------------------------------------------------------------------------------
