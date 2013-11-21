@@ -16,6 +16,7 @@ testIncludeDirList = {"include/utils",
                       "../include",
                       "../include/utils",
                       "../include/utils/GlUtils",
+                      "../include/utils/MathUtils",
                       "../../glm",
                       "/usr/local/include",
                       "/usr/include"}
