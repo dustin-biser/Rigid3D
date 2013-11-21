@@ -118,13 +118,6 @@ void TexturedCubeDemo::setupVertexData() {
             texturedCube.getTextureCoordDataPtr(), GL_STATIC_DRAW);
     glVertexAttribPointer(shader.getAttribLocation("vertexTextureCoord"), 2, GL_FLOAT, GL_FALSE, 0, 0);
 
-    cout << "numVertexBytes: " << texturedCube.getNumVertexBytes() << endl;
-    cout << "numVertices: " << texturedCube.getNumVertices() << endl;
-    cout << "numNormalBytes: " << texturedCube.getNumNormalBytes() << endl;
-    cout << "numNormals: " << texturedCube.getNumNormals() << endl;
-    cout << "numTextureCoordBytes: " << texturedCube.getNumTextureCoordBytes() << endl;
-    cout << "numTextureCoords: " << texturedCube.getNumTextureCoords() << endl;
-
     // Enable vertex attribute arrays.
     glEnableVertexAttribArray(shader.getAttribLocation("vertexPosition"));
     glEnableVertexAttribArray(shader.getAttribLocation("vertexNormal"));
