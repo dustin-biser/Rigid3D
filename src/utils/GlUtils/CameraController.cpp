@@ -11,17 +11,23 @@ using GlUtils::Camera;
 
 #include "MathUtils.hpp"
 using MathUtils::degreesToRadians;
+using MathUtils::PI;
 
-// TODO (Dustin) Remove debug statements
-#include <iostream>
-using std::cout;
-using std::endl;
+#include "GlmOutStream.hpp"
+
+#include "glm/glm.hpp"
+#include "glm/gtx/norm.hpp"
+using glm::dot;
+using glm::vec3;
+using glm::length2;
+using glm::quat;
+using glm::mat4;
 
 namespace GlUtils {
 
 //----------------------------------------------------------------------------------------
 CameraController::CameraController()
-    : cameraPtr(nullptr),
+    : camera(nullptr),
       flagRotation(false),
       xPos_prev(0),
       xPos(0),
@@ -38,7 +44,7 @@ CameraController::~CameraController() {
 //----------------------------------------------------------------------------------------
 void CameraController::registerCamera(Camera * camera) {
     assert ( (camera != 0) && (camera != nullptr) );
-    this->cameraPtr = camera;
+    this->camera = camera;
 }
 
 //----------------------------------------------------------------------------------------
@@ -141,7 +147,8 @@ void CameraController::cursorPosition(double xPos, double yPos) {
  * mouse buttons, and cursor position.
  */
 void CameraController::updateCamera() {
-    assert ( (cameraPtr != 0) && (cameraPtr != nullptr) );
+    assert ( (camera != 0) && (camera != nullptr) );
+
     updateTranslation();
 
     if (key_left_shift_down == false) {
@@ -150,45 +157,97 @@ void CameraController::updateCamera() {
 }
 
 //----------------------------------------------------------------------------------------
+/**
+ * Reset the 'CameraController' object state, which includes all key and cursor position
+ * states. The registered camera does not change.
+ */
+void CameraController::resetState() {
+    xPos_prev = 0;
+    xPos = 0;
+    yPos_prev = 0;
+    yPos = 0;
+    key_r_down = false;
+    key_f_down = false;
+    key_q_down = false;
+    key_e_down = false;
+    key_w_down = false;
+    key_s_down = false;
+    key_a_down = false;
+    key_d_down = false;
+    key_left_shift_down = false;
+    flagRotation = false;
+}
+
+//----------------------------------------------------------------------------------------
 void CameraController::updateTranslation() {
     static const float translation_delta = 0.05f;
 
     if (key_r_down) {
-        cameraPtr->translateRelative(0.0f, translation_delta, 0.0f);
+        camera->translateRelative(0.0f, translation_delta, 0.0f);
     }
     if (key_f_down) {
-        cameraPtr->translateRelative(0.0f, -1.0f * translation_delta, 0.0f);
+        camera->translateRelative(0.0f, -1.0f * translation_delta, 0.0f);
     }
     if (key_a_down) {
-        cameraPtr->translateRelative(translation_delta, 0.0f,  0.0f);
+        camera->translateRelative(translation_delta, 0.0f,  0.0f);
     }
     if (key_d_down) {
-        cameraPtr->translateRelative(-1.0f * translation_delta, 0.0f,  0.0f);
+        camera->translateRelative(-1.0f * translation_delta, 0.0f,  0.0f);
     }
     if (key_w_down) {
-        cameraPtr->translateRelative(0.0f, 0.0f, translation_delta);
+        camera->translateRelative(0.0f, 0.0f, translation_delta);
     }
     if (key_s_down) {
-        cameraPtr->translateRelative(0.0f, 0.0f, -1.0f * translation_delta);
+        camera->translateRelative(0.0f, 0.0f, -1.0f * translation_delta);
     }
 }
 
 //----------------------------------------------------------------------------------------
 void CameraController::updateOrientation() {
     if (flagRotation == false) { return; }
+    if (xPos_prev == 0 || yPos_prev == 0) { return; }
 
-    static const float angleResolution = 0.05f;
+    static const float angleDelta = (PI * 0.5f) * 0.0005f;
+    static const float radius = 10.0f;
+    static float polarAngle = PI * 0.5f;
+    static float azimuthAngle = 0.0f;
 
-    float xDelta = (float)(xPos - xPos_prev);
-    float yDelta = (float)(yPos - yPos_prev);
+    const float xDelta = (float)(xPos - xPos_prev);
+    const float yDelta = (float)(yPos - yPos_prev);
 
-    float radians;
+    polarAngle += yDelta * angleDelta;
+    azimuthAngle -= xDelta * angleDelta;
 
-    radians = degreesToRadians(-1.0f * angleResolution * xDelta);
-    cameraPtr->yaw(radians);
+    // Prevent camera's forward vector from going completely vertical, so that
+    // lookAt's up vector is never parallel with it.
+    if (polarAngle < 0.001f) {
+        polarAngle = 0.001f;
+    }
+    else if (polarAngle > PI) {
+        polarAngle = PI - 0.001f;
+    }
 
-    radians = degreesToRadians(-1.0f * angleResolution * yDelta);
-    cameraPtr->pitch(radians);
+    if (azimuthAngle < 0.0f) {
+        azimuthAngle += 2*PI;
+    }
+    else if (azimuthAngle > 2*PI) {
+        azimuthAngle -= 2*PI;
+    }
+
+    const float sinPolar = sin(polarAngle);
+    const float x = sinPolar * cos(azimuthAngle);
+    const float y = sinPolar * sin(azimuthAngle);
+    const float z = cos(polarAngle);
+
+    const vec3 f(0.0f, 0.0f, -1.0f);
+    const vec3 u(0.0f, 1.0f, 0.0f);
+    const vec3 l(-1.0f, 0.0f, 0.0f);
+
+    vec3 center = radius * ((x * f) + (y * l) + (z * u));
+    vec3 eye = camera->getPosition();
+    center += eye;
+
+    camera->lookAt(eye, center, u);
 
     flagRotation = false;
 }

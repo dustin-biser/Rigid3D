@@ -22,11 +22,11 @@ namespace GlUtils {
         void mouseButtonInput(int button , int actions, int mods);
         void mouseScroll(double xOffSet, double yOffSet);
         void cursorPosition(double xPos, double yPos);
-
         void updateCamera();
+        void resetState();
 
     private:
-        Camera * cameraPtr;
+        Camera * camera;
 
         bool flagRotation;
 
