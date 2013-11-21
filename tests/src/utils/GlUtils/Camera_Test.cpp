@@ -9,13 +9,19 @@
 #include <TestUtils.hpp>
 using namespace TestUtils::predicates;
 
+#include "MathUtils.hpp"
+using MathUtils::PI;
+
 #include <glm/glm.hpp>
 using glm::vec3;
 using glm::vec4;
 using glm::dot;
+using glm::mat4;
+using glm::determinant;
+using glm::transpose;
 
 #include <glm/gtx/norm.hpp>
-using glm::length2;
+using glm::length;
 
 #include <GlUtils/Camera.hpp>
 using GlUtils::Camera;
@@ -29,6 +35,7 @@ namespace {  // limit class visibility to this file.
         static const vec3 left_default;
         static const vec3 up_default;
         static const vec3 forward_default;
+        static const float epsilon;
 
         // Ran before each test.
         virtual void SetUp() {
@@ -49,14 +56,35 @@ namespace {  // limit class visibility to this file.
             EXPECT_PRED2(mat4_eq, mat4(), camera.getViewMatrix());
         }
 
-        void expect_orthogonal_camera_vectors() {
+        void expect_orthonormal_camera_vectors() {
             vec3 l = camera.getLeftDirection();
             vec3 u = camera.getUpDirection();
             vec3 f = camera.getForwardDirection();
 
-            EXPECT_FLOAT_EQ(0.0f, dot(l, u));
-            EXPECT_FLOAT_EQ(0.0f, dot(l, f));
-            EXPECT_FLOAT_EQ(0.0f, dot(f, u));
+            EXPECT_NEAR(0.0f, dot(l, u), epsilon);
+            EXPECT_NEAR(0.0f, dot(l, f), epsilon);
+            EXPECT_NEAR(0.0f, dot(f, u), epsilon);
+
+            EXPECT_NEAR(1.0f, length(l), epsilon);
+            EXPECT_NEAR(1.0f, length(f), epsilon);
+            EXPECT_NEAR(1.0f, length(u), epsilon);
+        }
+
+        void expect_orthonormal_view_matrix() {
+            mat4 viewMatrix = camera.getViewMatrix();
+            mat4 vTv = viewMatrix * transpose(viewMatrix);
+
+            EXPECT_NEAR(1.0f, determinant(viewMatrix), epsilon);
+
+            EXPECT_NEAR(1.0f, vTv[0][0], epsilon);
+            EXPECT_NEAR(1.0f, vTv[1][1], epsilon);
+            EXPECT_NEAR(1.0f, vTv[2][2], epsilon);
+            EXPECT_NEAR(1.0f, vTv[3][3], epsilon);
+
+            EXPECT_NEAR(1.0f, length(vTv[0]), epsilon);
+            EXPECT_NEAR(1.0f, length(vTv[1]), epsilon);
+            EXPECT_NEAR(1.0f, length(vTv[2]), epsilon);
+            EXPECT_NEAR(1.0f, length(vTv[3]), epsilon);
         }
 
     };
@@ -64,9 +92,8 @@ namespace {  // limit class visibility to this file.
     const vec3 Camera_Test::left_default = vec3(-1.0f, 0.0f, 0.0f);
     const vec3 Camera_Test::up_default = vec3(0.0f, 1.0f, 0.0f);
     const vec3 Camera_Test::forward_default = vec3(0.0f, 0.0f, -1.0f);
+    const float Camera_Test::epsilon = 1.0e-6;
 }
-
-// TODO (Dustin) Add tests for roll, pitch, yaw, rotate, translateRelative.
 
 //////////////////////////////////////////////////////////////////////////////////////////
 // Test Default Values
@@ -154,7 +181,6 @@ TEST_F(Camera_Test, test_translate_zVec){
     expect_camera_vectors_were_not_modified();
     EXPECT_PRED2(vec3_eq, zDelta, camera.getPosition());
 }
-
 //////////////////////////////////////////////////////////////////////////////////////////
 // Test lookAt
 //////////////////////////////////////////////////////////////////////////////////////////
@@ -325,3 +351,39 @@ TEST_F(Camera_Test, test_lookAt_up) {
 //
 //    EXPECT_PRED2(mat4_eq, viewMatrix, camera.getViewMatrix());
 //}
+
+//////////////////////////////////////////////////////////////////////////////////////////
+// Test roll, pitch, yaw
+//////////////////////////////////////////////////////////////////////////////////////////
+//----------------------------------------------------------------------------------------
+TEST_F(Camera_Test, roll_does_not_modify_forward_vector) {
+    const float radians = 0.1f;
+    for(int i = 0; i < 60; i++) {
+        camera.roll(radians);
+    }
+    expect_orthonormal_camera_vectors();
+    expect_orthonormal_view_matrix();
+    EXPECT_PRED2(vec3_eq, forward_default, camera.getForwardDirection());
+}
+
+//----------------------------------------------------------------------------------------
+TEST_F(Camera_Test, pitch_does_not_modify_left_vector) {
+    const float radians = 0.1f;
+    for(int i = 0; i < 60; i++) {
+        camera.pitch(radians);
+    }
+    expect_orthonormal_camera_vectors();
+    expect_orthonormal_view_matrix();
+    EXPECT_PRED2(vec3_eq, left_default, camera.getLeftDirection());
+}
+
+//----------------------------------------------------------------------------------------
+TEST_F(Camera_Test, yaw_does_not_modify_up_vector) {
+    const float radians = 0.1f;
+    for(int i = 0; i < 60; i++) {
+        camera.yaw(radians);
+    }
+    expect_orthonormal_camera_vectors();
+    expect_orthonormal_view_matrix();
+    EXPECT_PRED2(vec3_eq, up_default, camera.getUpDirection());
+}

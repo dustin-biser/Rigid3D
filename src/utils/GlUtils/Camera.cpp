@@ -20,7 +20,7 @@ using glm::angleAxis;
 #include "MathUtils.hpp"
 using MathUtils::radiansToDegrees;
 
-using namespace GlUtils;
+namespace GlUtils {
 
 //----------------------------------------------------------------------------------------
 /**
@@ -169,7 +169,7 @@ glm::quat Camera::getOrientation() const {
 
 //----------------------------------------------------------------------------------------
 /**
- * @return a 4x4 view matrix representing the \c Camera object's view transformation.
+ * @return a 4x4 view matrix representing the 'Camera' object's view transformation.
  */
 glm::mat4 Camera::getViewMatrix() const {
     if (recalcViewMatrix) {
@@ -197,6 +197,10 @@ void Camera::normalizeCamera() {
     u = normalize(u);
     f = normalize(f);
     orientation = normalize(orientation);
+
+    // Assuming forward 'f' is correct
+    l = cross(u, f);
+    u = cross(f, l);
 }
 
 //----------------------------------------------------------------------------------------
@@ -233,7 +237,7 @@ void Camera::roll(float angle) {
 
 //----------------------------------------------------------------------------------------
 /**
- * Rotates \c Camera about its local x (left direction) axis by \c angle
+ * Rotates \c Camera about its local x (right direction) axis by \c angle
  * radians.
  *
  * @note Rotation is counter-clockwise if \c angle > 0, and clockwise if
@@ -434,3 +438,5 @@ void Camera::lookAt(const glm::vec3 & eye, const glm::vec3 & center, const glm::
     registerRotation();
     recalcViewMatrix = true;
 }
+
+} // end namespace GlUtils

@@ -29,24 +29,6 @@ namespace GlUtils {
      * \c forward direction, aligned with negative z-axis (0, 0, -1).
      */
     class Camera : public Frustum {
-    private:
-        glm::vec3 eyePosition; // Location of camera in world coordinates.
-        glm::quat orientation; // Orientation of camera basis vectors specified in world coordinates.
-
-        glm::vec3 l; // Camera's left direction vector, given in world coordinates.
-        glm::vec3 u; // Camera's up direction vector, given in world coordinates.
-        glm::vec3 f; // Camera's forward direction vector, given in world coordinates.
-
-        mutable bool recalcViewMatrix;
-        mutable glm::mat4 viewMatrix;
-
-        unsigned short rotationHitCount;
-        static const unsigned short rotationHitCountMax = 1000;
-
-        void initLocalCoordinateSystem();
-        void registerRotation();
-        void normalizeCamera();
-
     public:
         Camera();
         Camera(float left, float right, float bottom, float top, float zNear, float zFar);
@@ -78,6 +60,27 @@ namespace GlUtils {
         void translate(const glm::vec3 &v);
         void translateRelative(float left, float up, float forward);
         void translateRelative(const glm::vec3 &v);
+
+    private:
+        glm::vec3 eyePosition; // Location of camera in world coordinates.
+        glm::quat orientation; // Orientation of camera basis vectors specified in world coordinates.
+
+        glm::vec3 l; // Camera's left direction vector, given in world coordinates.
+        glm::vec3 u; // Camera's up direction vector, given in world coordinates.
+        glm::vec3 f; // Camera's forward direction vector, given in world coordinates.
+
+        mutable bool recalcViewMatrix;
+        mutable glm::mat4 viewMatrix;
+
+        unsigned short rotationHitCount;
+
+        // Normalize Camera vectors after rotating this many times.
+        static const unsigned short rotationHitCountMax = 1000;
+
+        void initLocalCoordinateSystem();
+        void registerRotation();
+        void normalizeCamera();
+
     };
 }
 
