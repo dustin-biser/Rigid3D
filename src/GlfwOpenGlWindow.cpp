@@ -113,7 +113,7 @@ void GlfwOpenGlWindow::create(int width, int height, const string & windowTitle)
     centerWindow();
     glfwMakeContextCurrent(window);
 
-    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
     registerGlfwCallBacks();
 
@@ -183,7 +183,7 @@ void GlfwOpenGlWindow::initNewOpenGlContext() {
     cleanup();
     registerGlfwCallBacks();
     glfwMakeContextCurrent(window);
-    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
     setupGl();
     init();
 }
@@ -202,6 +202,7 @@ void GlfwOpenGlWindow::switchToFullScreen() {
         throw GlfwException("Call to glfwCreateWindow failed.");
     }
     resize(videoMode->width, videoMode->height);
+    cameraController.resetState();
 
     initNewOpenGlContext();
 }
@@ -219,6 +220,7 @@ void GlfwOpenGlWindow::switchToWindowedMode() {
     }
     resize(windowWidth, windowHeight);
     centerWindow();
+    cameraController.resetState();
 
     initNewOpenGlContext();
 }
@@ -266,7 +268,7 @@ void GlfwOpenGlWindow::keyInputBase(int key, int action, int mods) {
             glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
         }
         else if (action == GLFW_RELEASE) {
-            glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+            glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
         }
     }
 
