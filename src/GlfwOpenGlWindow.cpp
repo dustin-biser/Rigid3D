@@ -289,7 +289,17 @@ void GlfwOpenGlWindow::keyInput(int key, int action, int mods) {
  * brief Mouse scroll call back function to be registered with GLFW.
  */
 void GlfwOpenGlWindow::mouseScrollCallBack(GLFWwindow * window, double xOffSet, double yOffSet) {
+    getInstance()->mouseScrollBase(xOffSet, yOffSet);
     getInstance()->mouseScroll(xOffSet, yOffSet);
+}
+
+//----------------------------------------------------------------------------------------
+/**
+ * Mouse scroll processing for base class.  This method is always ran before callbacks
+ * are issued for the overridden 'mouseScroll()' method of any derived class.
+ */
+void GlfwOpenGlWindow::mouseScrollBase(double xOffSet, double yOffSet) {
+    cameraController.mouseScroll(xOffSet, yOffSet);
 }
 
 //----------------------------------------------------------------------------------------

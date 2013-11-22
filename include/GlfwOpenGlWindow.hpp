@@ -27,7 +27,7 @@ using std::shared_ptr;
 #include <boost/utility.hpp>
 using boost::noncopyable;
 
-///@brief Singleton
+/// Singleton
 class GlfwOpenGlWindow : private noncopyable {
 public:
     virtual ~GlfwOpenGlWindow();
@@ -65,6 +65,7 @@ protected:
     virtual void resize(int width, int height);
 
     static void mouseScrollCallBack(GLFWwindow * window, double xOffSet, double yOffSet);
+    void mouseScrollBase(double xOffSet, double yOffSet);
     virtual void mouseScroll(double xOffSet, double yOffSet);
 
     static void mouseButtonCallBack(GLFWwindow * window, int button , int actions, int mods);
