@@ -23,6 +23,8 @@ using glm::length2;
 using glm::quat;
 using glm::mat4;
 
+#include <iostream>
+
 namespace GlUtils {
 
 //----------------------------------------------------------------------------------------
@@ -121,7 +123,24 @@ void CameraController::mouseButtonInput(int button , int actions, int mods){
  * @param yOffSet
  */
 void CameraController::mouseScroll(double xOffSet, double yOffSet) {
+    static float fieldOfViewY = 45.0f;
+    static const float delta = 5.0f;
 
+    if (yOffSet < 0) {
+       fieldOfViewY += delta;
+    } else if (yOffSet > 0) {
+       fieldOfViewY -= delta;
+    }
+
+    // Camp fieldOfViewY to [0, 180]
+    if (fieldOfViewY < 0.0f) {
+        fieldOfViewY = 0.0f;
+    } else if (fieldOfViewY > 180.0f) {
+        fieldOfViewY = 180.0f;
+    }
+
+    std::cout << "fieldOfViewY: " << fieldOfViewY << std::endl;
+    camera->setFieldOfViewY(fieldOfViewY);
 }
 
 //----------------------------------------------------------------------------------------
