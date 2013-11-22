@@ -12,6 +12,7 @@
 #include "Frustum.hpp"
 #include "GlErrorCheck.hpp"
 #include "GlmOutStream.hpp"
+#include "MaterialProperties.hpp"
 #include "Mesh.hpp"
 #include "MeshConsolidator.hpp"
 #include "ModelTransform.hpp"
