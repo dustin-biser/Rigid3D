@@ -8,16 +8,16 @@
 #ifndef GLUTILS_HPP_
 #define GLUTILS_HPP_
 
-#include "Frustum.hpp"
-#include "RenderableFrustum.hpp"
 #include "Camera.hpp"
-#include "Mesh.hpp"
-#include "MeshConsolidator.hpp"
-#include "ShaderProgram.hpp"
+#include "Frustum.hpp"
 #include "GlErrorCheck.hpp"
 #include "GlmOutStream.hpp"
-
+#include "Mesh.hpp"
+#include "MeshConsolidator.hpp"
+#include "ModelTransform.hpp"
 #include "OpenGlContext.hpp"
+#include "RenderableFrustum.hpp"
+#include "ShaderProgram.hpp"
 
 // Exception Types
 #include "ShaderException.hpp"
