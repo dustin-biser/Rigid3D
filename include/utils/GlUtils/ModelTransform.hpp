@@ -23,7 +23,7 @@ namespace GlUtils {
 
         void setPosition(const vec3 & position);
         void setPose(const quat & pose);
-        void setScale(const vec3 & xyzScale);
+        void setScale(const vec3 & scale);
 
         vec3 getPosition();
         quat getPose();
