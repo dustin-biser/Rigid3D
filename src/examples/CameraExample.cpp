@@ -68,6 +68,7 @@ void CameraExample::setupShaders() {
     // Generate VAO and enable vertex attribute arrays for positions and normals.
     glGenVertexArrays(1, &vao);
     glBindVertexArray(vao);
+
     GLint position_Location = shaderProgram.getAttribLocation("vertexPosition");
     glEnableVertexAttribArray(position_Location);
     GLint normal_Location = shaderProgram.getAttribLocation("vertexNormal");
@@ -290,27 +291,4 @@ void CameraExample::processKeyInput( ) {
     if (lookAt_light) {
         camera.lookAt(vec3(-2.0f, 3.0f, 2.0f));
     }
-}
-
-
-//---------------------------------------------------------------------------------------
-void CameraExample::mouseScroll(double xOffSet, double yOffSet) {
-    static float fieldOfViewY = 45.0f;
-    static const float delta = 5.0f;
-
-    if (yOffSet < 0) {
-       fieldOfViewY += delta;
-    } else if (yOffSet > 0) {
-       fieldOfViewY -= delta;
-    }
-
-    // Camp fieldOfViewY to [0, 180]
-    if (fieldOfViewY < 0.0f) {
-        fieldOfViewY = 0.0f;
-    } else if (fieldOfViewY > 180.0f) {
-        fieldOfViewY = 180.0f;
-    }
-
-    std::cout << "fieldOfViewY: " << fieldOfViewY << std::endl;
-    camera.setFieldOfViewY(fieldOfViewY);
 }

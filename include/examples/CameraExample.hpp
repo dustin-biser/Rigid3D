@@ -70,7 +70,6 @@ private:
     virtual void logic();
     virtual void draw();
     virtual void keyInput(int key, int action, int mods) { }
-    virtual void mouseScroll(double xOffSet, double yOffSet);
     virtual void cleanup();
 
     void setupShaders();
