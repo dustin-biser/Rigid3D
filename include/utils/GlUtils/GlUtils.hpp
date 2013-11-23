@@ -18,6 +18,7 @@
 #include "ModelTransform.hpp"
 #include "OpenGlContext.hpp"
 #include "RenderableFrustum.hpp"
+#include "Renderable.hpp"
 #include "ShaderProgram.hpp"
 
 // Exception Types
