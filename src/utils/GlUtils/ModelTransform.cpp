@@ -78,7 +78,9 @@ mat4 ModelTransform::getModelMatrix() {
     // 3. Translate
     mat4 rotationMatrix = glm::toMat4(pose);
     modelMatrix = glm::scale(rotationMatrix, scaleFactor);
-    modelMatrix = glm::translate(modelMatrix, position);
+    modelMatrix[3][0] = position.x;
+    modelMatrix[3][1] = position.y;
+    modelMatrix[3][2] = position.z;
 
     recalcModelMatrix = false;
     return modelMatrix;

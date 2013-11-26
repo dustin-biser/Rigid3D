@@ -35,11 +35,38 @@ namespace GlUtils {
         mat4 projectionMatrix;
     };
 
+    /**
+     * @brief Class for encapsulating the data required to render a mesh.
+     *
+     * This class holds information including:
+     * # Model Transformations
+     * # Material Lighting Properties
+     * # ShaderProgram
+     * # Vertex Array Object
+     * # BatchInfo
+     *
+     * @note The following uniform variables must be present in the attached 'ShaderProgram'
+     * for a 'Renderable' object to be rendered without error.
+     *
+     * # uniform mat4 ModelViewMatrix
+     * # uniform mat4 ProjectionMatrix
+     * # uniform mat3 NormalMatrix
+     * # struct MaterialProperties {
+     *      vec3 emission;
+     *      vec3 Ka;
+     *      vec3 Kd;
+     *      float Ks;
+     *      float shininessFactor;
+     *   };
+     *   uniform MaterialProperties material;
+     */
     class Renderable {
     public:
         Renderable(const GLuint * vao,
                    const ShaderProgram * shaderProgram,
                    const BatchInfo * batchInfo);
+
+        Renderable();
 
         ~Renderable() noexcept;
 

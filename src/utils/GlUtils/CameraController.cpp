@@ -169,9 +169,10 @@ void CameraController::updateCamera() {
     assert ( (camera != 0) && (camera != nullptr) );
 
     updateTranslation();
+    updatePose();
 
     if (key_left_shift_down == false) {
-        updateOrientation();
+        updateLookAt();
     }
 }
 
@@ -222,7 +223,18 @@ void CameraController::updateTranslation() {
 }
 
 //----------------------------------------------------------------------------------------
-void CameraController::updateOrientation() {
+void CameraController::updatePose() {
+    static const float radians = 0.005f;
+    if (key_q_down) {
+        camera->roll(-1.0f * radians);
+    }
+    if (key_e_down) {
+        camera->roll(radians);
+    }
+}
+
+//----------------------------------------------------------------------------------------
+void CameraController::updateLookAt() {
     if (flagRotation == false) { return; }
     if (xPos_prev == 0 || yPos_prev == 0) { return; }
 

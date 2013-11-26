@@ -46,8 +46,9 @@ namespace GlUtils {
         bool key_d_down = false;
         bool key_left_shift_down = false;
 
+        void updateLookAt();
         void updateTranslation();
-        void updateOrientation();
+        void updatePose();
     };
 
 }
