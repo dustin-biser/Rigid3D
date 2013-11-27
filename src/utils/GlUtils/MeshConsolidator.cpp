@@ -21,7 +21,7 @@ MeshConsolidator::MeshConsolidator()
 //----------------------------------------------------------------------------------------
 /**
  * Constructs a \c MeshConsolidator object from an \c unordered_map with keys equal to
- * c-string identifiers, and mapped values equal to const references to Mesh objects.
+ * c-string identifiers, and mapped values equal to Mesh pointers.
  *
  * @param meshMap
  */
