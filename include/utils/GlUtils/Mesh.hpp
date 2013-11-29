@@ -15,11 +15,11 @@ namespace GlUtils {
 
     class Mesh {
     protected:
-        vector<vec3> vertices;
-        static const short num_elements_per_vertex = 3;
+        vector<vec3> vertexPositions;
+        static const short num_elements_per_vertex_position = 3;
 
-        vector<vec3>  normals;
-        static const short num_elements_per_normal = 3;
+        vector<vec3>  vertexNormals;
+        static const short num_elements_per_vertex_normal = 3;
 
         vector<vec2> textureCoords;
         static const short num_elements_per_texturedCoord = 2;
@@ -27,29 +27,35 @@ namespace GlUtils {
     public:
         Mesh(const char * objFileName);
 
-        Mesh() { }
+        Mesh();
 
-        virtual ~Mesh() { }
+        virtual ~Mesh();
 
         void fromObjFile(const char * objFileName);
 
-        const float * getVertexDataPtr() const;
+        const float * getVertexPositionDataPtr() const;
 
-        const float * getNormalDataPtr() const;
+        const float * getVertexNormalDataPtr() const;
 
         const float * getTextureCoordDataPtr() const;
 
-        size_t getNumVertexBytes() const;
+        size_t getNumVertexPositionBytes() const;
 
-        size_t getNumNormalBytes() const;
+        size_t getNumVertexNormalBytes() const;
 
         size_t getNumTextureCoordBytes() const;
 
-        unsigned int getNumVertices() const;
+        unsigned int getNumVertexPositions() const;
 
-        unsigned int getNumNormals() const;
+        unsigned int getNumVertexNormals() const;
 
         unsigned int getNumTextureCoords() const;
+
+        unsigned int getNumElementsPerVertexPosition() const;
+
+        unsigned int getNumElementsPerVertexNormal() const;
+
+        unsigned int getNumElementsPerTextureCoord() const;
 
     private:
         void loadFromObjFile(const char * objFileName);

@@ -100,15 +100,15 @@ void TexturedCubeDemo::setupVertexData() {
     // Copy vertex position data to its respective GL buffer.
     glGenBuffers(1, &vbo_vertices);
     glBindBuffer(GL_ARRAY_BUFFER, vbo_vertices);
-    glBufferData(GL_ARRAY_BUFFER, texturedCube.getNumVertexBytes(),
-            texturedCube.getVertexDataPtr(), GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, texturedCube.getNumVertexPositionBytes(),
+            texturedCube.getVertexPositionDataPtr(), GL_STATIC_DRAW);
     glVertexAttribPointer(shader.getAttribLocation("vertexPosition"), 3, GL_FLOAT, GL_FALSE, 0, 0);
 
     // Copy vertex normals to its respective GL buffer.
     glGenBuffers(1, &vbo_normals);
     glBindBuffer(GL_ARRAY_BUFFER, vbo_normals);
-    glBufferData(GL_ARRAY_BUFFER, texturedCube.getNumNormalBytes(),
-            texturedCube.getNormalDataPtr(), GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, texturedCube.getNumVertexNormalBytes(),
+            texturedCube.getVertexNormalDataPtr(), GL_STATIC_DRAW);
     glVertexAttribPointer(shader.getAttribLocation("vertexNormal"), 3, GL_FLOAT, GL_FALSE, 0, 0);
 
     // Copy texture coordinates to its respective GL buffer.
@@ -203,7 +203,7 @@ void TexturedCubeDemo::setupGl(){
 void TexturedCubeDemo::draw() {
     glBindVertexArray(vao);
     shader.enable();
-        glDrawArrays(GL_TRIANGLES, 0, texturedCube.getNumVertices());
+        glDrawArrays(GL_TRIANGLES, 0, texturedCube.getNumVertexPositions());
     shader.disable();
     glBindVertexArray(0);
 }

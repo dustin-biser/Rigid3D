@@ -183,7 +183,7 @@ TEST_F(MeshConsolidator_WithObjFiles_Test, test_numVertexBytes){
     unsigned expectedBytes = numberOfCubes * sidesPerCube * trianglesPerSide * verticesPerTriangle
                              * floatsPerVertex * sizeof(float);
 
-    EXPECT_EQ(expectedBytes, meshConsolidator.getNumVertexBytes());
+    EXPECT_EQ(expectedBytes, meshConsolidator.getNumVertexPositionBytes());
 }
 
 //---------------------------------------------------------------------------------------
@@ -191,7 +191,7 @@ TEST_F(MeshConsolidator_WithObjFiles_Test, test_numNormalBytes){
     unsigned expectedBytes = numberOfCubes * sidesPerCube * trianglesPerSide * normalsPerTriangle
                              * floatsPerNormal * sizeof(float);
 
-    EXPECT_EQ(expectedBytes, meshConsolidator.getNumNormalBytes());
+    EXPECT_EQ(expectedBytes, meshConsolidator.getNumVertexNormalBytes());
 }
 
 //---------------------------------------------------------------------------------------
@@ -230,10 +230,10 @@ TEST_F(MeshConsolidator_WithObjFiles_Test, test_batchInfoMap) {
 
 //---------------------------------------------------------------------------------------
 TEST_F(MeshConsolidator_WithObjFiles_Test, test_vertexDataPtr) {
-    float * vertexDataPtr = const_cast<float *>(meshConsolidator.getVertexDataPtr());
+    float * vertexDataPtr = const_cast<float *>(meshConsolidator.getVertexPositionDataPtr());
 
     // Attempt to go to last float in memory block.
-    vertexDataPtr += meshConsolidator.getNumVertexBytes() / sizeof(float) ;
+    vertexDataPtr += meshConsolidator.getNumVertexPositionBytes() / sizeof(float) ;
     --vertexDataPtr;
 
     // Attempt to modify last float in memory block.
@@ -245,10 +245,10 @@ TEST_F(MeshConsolidator_WithObjFiles_Test, test_vertexDataPtr) {
 
 //---------------------------------------------------------------------------------------
 TEST_F(MeshConsolidator_WithObjFiles_Test, test_normalDataPtr) {
-    float * normalDataPtr = const_cast<float *>(meshConsolidator.getNormalDataPtr());
+    float * normalDataPtr = const_cast<float *>(meshConsolidator.getVertexNormalDataPtr());
 
     // Attempt to go to last float in memory block.
-    normalDataPtr += meshConsolidator.getNumNormalBytes() / sizeof(float) ;
+    normalDataPtr += meshConsolidator.getNumVertexNormalBytes() / sizeof(float) ;
     --normalDataPtr;
 
     // Attempt to modify last float in memory block.
@@ -268,7 +268,7 @@ TEST_F(MeshConsolidator_WithMeshes_Test, test_numVertexBytes){
     unsigned expectedBytes = numberOfCubes * sidesPerCube * trianglesPerSide * verticesPerTriangle
                              * floatsPerVertex * sizeof(float);
 
-    EXPECT_EQ(expectedBytes, meshConsolidator.getNumVertexBytes());
+    EXPECT_EQ(expectedBytes, meshConsolidator.getNumVertexPositionBytes());
 }
 
 //---------------------------------------------------------------------------------------
@@ -276,7 +276,7 @@ TEST_F(MeshConsolidator_WithMeshes_Test, test_numNormalBytes){
     unsigned expectedBytes = numberOfCubes * sidesPerCube * trianglesPerSide * normalsPerTriangle
                              * floatsPerNormal * sizeof(float);
 
-    EXPECT_EQ(expectedBytes, meshConsolidator.getNumNormalBytes());
+    EXPECT_EQ(expectedBytes, meshConsolidator.getNumVertexNormalBytes());
 }
 
 //---------------------------------------------------------------------------------------
@@ -309,10 +309,10 @@ TEST_F(MeshConsolidator_WithMeshes_Test, test_batchInfoMap) {
 
 //---------------------------------------------------------------------------------------
 TEST_F(MeshConsolidator_WithMeshes_Test, test_vertexDataPtr) {
-    float * vertexDataPtr = const_cast<float *>(meshConsolidator.getVertexDataPtr());
+    float * vertexDataPtr = const_cast<float *>(meshConsolidator.getVertexPositionDataPtr());
 
     // Attempt to go to last float in memory block.
-    vertexDataPtr += meshConsolidator.getNumVertexBytes() / sizeof(float) ;
+    vertexDataPtr += meshConsolidator.getNumVertexPositionBytes() / sizeof(float) ;
     --vertexDataPtr;
 
     // Attempt to modify last float in memory block.
@@ -324,10 +324,10 @@ TEST_F(MeshConsolidator_WithMeshes_Test, test_vertexDataPtr) {
 
 //---------------------------------------------------------------------------------------
 TEST_F(MeshConsolidator_WithMeshes_Test, test_normalDataPtr) {
-    float * normalDataPtr = const_cast<float *>(meshConsolidator.getNormalDataPtr());
+    float * normalDataPtr = const_cast<float *>(meshConsolidator.getVertexNormalDataPtr());
 
     // Attempt to go to last float in memory block.
-    normalDataPtr += meshConsolidator.getNumNormalBytes() / sizeof(float) ;
+    normalDataPtr += meshConsolidator.getNumVertexNormalBytes() / sizeof(float) ;
     --normalDataPtr;
 
     // Attempt to modify last float in memory block.

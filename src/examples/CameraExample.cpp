@@ -139,13 +139,13 @@ void CameraExample::setupGLBuffers()
     // Copy position data to OpenGL buffer.
     glGenBuffers(1, &vbo_vertices);
     glBindBuffer(GL_ARRAY_BUFFER, vbo_vertices);
-    glBufferData(GL_ARRAY_BUFFER, meshConsolidator.getNumVertexBytes(), meshConsolidator.getVertexDataPtr(), GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, meshConsolidator.getNumVertexPositionBytes(), meshConsolidator.getVertexPositionDataPtr(), GL_STATIC_DRAW);
     glVertexAttribPointer(shaderProgram.getAttribLocation("vertexPosition"), 3, GL_FLOAT, GL_FALSE, 0, 0);
 
     // Copy normal data to OpenGL buffer.
     glGenBuffers(1, &vbo_normals);
     glBindBuffer(GL_ARRAY_BUFFER, vbo_normals);
-    glBufferData(GL_ARRAY_BUFFER, meshConsolidator.getNumNormalBytes(), meshConsolidator.getNormalDataPtr(), GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, meshConsolidator.getNumVertexNormalBytes(), meshConsolidator.getVertexNormalDataPtr(), GL_STATIC_DRAW);
     glVertexAttribPointer(shaderProgram.getAttribLocation("vertexNormal"), 3, GL_FLOAT, GL_FALSE, 0, 0);
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -162,7 +162,6 @@ void CameraExample::draw()
     sphere.render(renderContext);
     light.render(renderContext);
 }
-
 
 //---------------------------------------------------------------------------------------
 void CameraExample::logic() {

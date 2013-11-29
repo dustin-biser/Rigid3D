@@ -10,10 +10,10 @@ using namespace GlUtils;
  * Default constructor
  */
 MeshConsolidator::MeshConsolidator()
-        : totalVertexBytes(0),
+        : totalPositionBytes(0),
           totalNormalBytes(0),
-          vertexDataPtr_head(nullptr),
-          vertexDataPtr_tail(nullptr),
+          vertexPositionDataPtr_head(nullptr),
+          vertexPositionDataPtr_tail(nullptr),
           normalDataPtr_head(nullptr),
           normalDataPtr_tail(nullptr) { }
 
@@ -26,7 +26,7 @@ MeshConsolidator::MeshConsolidator()
  * @param meshMap
  */
 MeshConsolidator::MeshConsolidator(initializer_list<pair<const char *, const Mesh *> > list)
-        : totalVertexBytes(0), totalNormalBytes(0) {
+        : totalPositionBytes(0), totalNormalBytes(0) {
 
     unordered_map<const char *, const Mesh *> meshMap;
     for(auto key_value : list) {
@@ -44,7 +44,7 @@ MeshConsolidator::MeshConsolidator(initializer_list<pair<const char *, const Mes
  * @param meshMap
  */
 MeshConsolidator::MeshConsolidator(initializer_list<pair<const char *, const char *> > list)
-        : totalVertexBytes(0), totalNormalBytes(0) {
+        : totalPositionBytes(0), totalNormalBytes(0) {
 
     // Need to keep Mesh objects in memory for processing until the end of this block.
     // Use vector<shared_ptr<Mesh>> as memory requirements could be large for some Meshes.
@@ -71,22 +71,24 @@ void MeshConsolidator::processMeshes(const unordered_map<const char *, const Mes
     // Calculate the total number of bytes for both vertex and normal data.
     for(auto key_value: meshMap) {
         const Mesh & mesh = *(key_value.second);
-        totalVertexBytes += mesh.getNumVertexBytes();
-        totalNormalBytes += mesh.getNumNormalBytes();
+        totalPositionBytes += mesh.getNumVertexPositionBytes();
+        totalNormalBytes += mesh.getNumVertexNormalBytes();
     }
 
-    vertexDataPtr_head = shared_ptr<float>((float *)malloc(totalVertexBytes), free);
-    if (vertexDataPtr_head.get() == (float *)0) {
+    // Allocate memory for vertex position data.
+    vertexPositionDataPtr_head = shared_ptr<float>((float *)malloc(totalPositionBytes), free);
+    if (vertexPositionDataPtr_head.get() == (float *)0) {
         throw GlUtilsException("Unable to allocate system memory within method MeshConsolidator::processMeshes");
     }
 
+    // Allocate memory for normal data.
     normalDataPtr_head = shared_ptr<float>((float *)malloc(totalNormalBytes), free);
-    if (vertexDataPtr_head.get() == (float *)0) {
+    if (vertexPositionDataPtr_head.get() == (float *)0) {
         throw GlUtilsException("Unable to allocate system memory within method MeshConsolidator::processMeshes");
     }
 
     // Assign pointers to beginning of memory blocks.
-    vertexDataPtr_tail = vertexDataPtr_head.get();
+    vertexPositionDataPtr_tail = vertexPositionDataPtr_head.get();
     normalDataPtr_tail = normalDataPtr_head.get();
 
     for(auto key_value : meshMap) {
@@ -103,14 +105,14 @@ MeshConsolidator::~MeshConsolidator() {
 
 //----------------------------------------------------------------------------------------
 void MeshConsolidator::consolidateMesh(const char * meshId, const Mesh & mesh) {
-    unsigned int startIndex = (vertexDataPtr_tail - vertexDataPtr_head.get()) / num_floats_per_vertex;
-    unsigned int numIndices = mesh.getNumVertices();
+    unsigned int startIndex = (vertexPositionDataPtr_tail - vertexPositionDataPtr_head.get()) / num_floats_per_vertex;
+    unsigned int numIndices = mesh.getNumVertexPositions();
 
-    memcpy(vertexDataPtr_tail, mesh.getVertexDataPtr(), mesh.getNumVertexBytes());
-    vertexDataPtr_tail += mesh.getNumVertexBytes() / sizeof(float);
+    memcpy(vertexPositionDataPtr_tail, mesh.getVertexPositionDataPtr(), mesh.getNumVertexPositionBytes());
+    vertexPositionDataPtr_tail += mesh.getNumVertexPositionBytes() / sizeof(float);
 
-    memcpy(normalDataPtr_tail, mesh.getNormalDataPtr(), mesh.getNumNormalBytes());
-    normalDataPtr_tail += mesh.getNumNormalBytes() / sizeof(float);
+    memcpy(normalDataPtr_tail, mesh.getVertexNormalDataPtr(), mesh.getNumVertexNormalBytes());
+    normalDataPtr_tail += mesh.getNumVertexNormalBytes() / sizeof(float);
 
     batchInfoMap[meshId] = BatchInfo(startIndex, numIndices);
 }
@@ -140,15 +142,15 @@ void MeshConsolidator::getBatchInfo(unordered_map<const char *, BatchInfo> & bat
 /**
  * @return the starting memory location for all consolidated \c Mesh vertex data.
  */
-const float * MeshConsolidator::getVertexDataPtr() const {
-    return vertexDataPtr_head.get();
+const float * MeshConsolidator::getVertexPositionDataPtr() const {
+    return vertexPositionDataPtr_head.get();
 }
 
 //----------------------------------------------------------------------------------------
 /**
  * @return the starting memory location for all consolidated \c Mesh normal data.
  */
-const float * MeshConsolidator::getNormalDataPtr() const {
+const float * MeshConsolidator::getVertexNormalDataPtr() const {
     return normalDataPtr_head.get();
 }
 
@@ -156,14 +158,14 @@ const float * MeshConsolidator::getNormalDataPtr() const {
 /**
  * @return the total number of bytes of all consolidated \c Mesh vertex data.
  */
-unsigned long MeshConsolidator::getNumVertexBytes() const {
-    return totalVertexBytes;
+unsigned long MeshConsolidator::getNumVertexPositionBytes() const {
+    return totalPositionBytes;
 }
 
 //----------------------------------------------------------------------------------------
 /**
  * @return the total number of bytes of all consolidated \c Mesh normal data.
  */
-unsigned long MeshConsolidator::getNumNormalBytes() const {
+unsigned long MeshConsolidator::getNumVertexNormalBytes() const {
     return totalNormalBytes;
 }

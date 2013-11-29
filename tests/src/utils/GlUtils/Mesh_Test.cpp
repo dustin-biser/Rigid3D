@@ -116,7 +116,7 @@ namespace {  // limit class visibility to this file.
  * number of vertices.
  */
 TEST_F(Mesh_Cube_Test, test_vertex_count){
-    EXPECT_EQ(expectedTotalVertices, mesh->getNumVertices());
+    EXPECT_EQ(expectedTotalVertices, mesh->getNumVertexPositions());
 }
 
 //---------------------------------------------------------------------------------------
@@ -125,7 +125,7 @@ TEST_F(Mesh_Cube_Test, test_vertex_count){
  * size in bytes.
  */
 TEST_F(Mesh_Cube_Test, test_vertex_data_bytes){
-    EXPECT_EQ(expectedVertexDataByteSize, mesh->getNumVertexBytes());
+    EXPECT_EQ(expectedVertexDataByteSize, mesh->getNumVertexPositionBytes());
 }
 
 //---------------------------------------------------------------------------------------
@@ -134,7 +134,7 @@ TEST_F(Mesh_Cube_Test, test_vertex_data_bytes){
  * number of normals.
  */
 TEST_F(Mesh_Cube_Test, test_normal_count){
-    EXPECT_EQ(expectedTotalNormals, mesh->getNumNormals());
+    EXPECT_EQ(expectedTotalNormals, mesh->getNumVertexNormals());
 }
 
 //---------------------------------------------------------------------------------------
@@ -143,7 +143,7 @@ TEST_F(Mesh_Cube_Test, test_normal_count){
  * right size in bytes.
  */
 TEST_F(Mesh_Cube_Test, test_normal_data_bytes){
-    EXPECT_EQ(expectedNormalDataBytesSize, mesh->getNumNormalBytes());
+    EXPECT_EQ(expectedNormalDataBytesSize, mesh->getNumVertexNormalBytes());
 }
 
 /**
@@ -151,7 +151,7 @@ TEST_F(Mesh_Cube_Test, test_normal_data_bytes){
  * the correct order.
  */
 TEST_F(Mesh_Cube_Test, test_order_of_normal_vectors){
-    vector<vec3> normals = Mesh_Cube_Test::buildVector(mesh->getNormalDataPtr(), mesh->getNumNormals());
+    vector<vec3> normals = Mesh_Cube_Test::buildVector(mesh->getVertexNormalDataPtr(), mesh->getNumVertexNormals());
 
     vec3 n1 = vec3(-1.000000, 0.000000, 0.000000);
     vec3 n2 = vec3(0.000000, 0.000000, -1.000000);
@@ -178,22 +178,22 @@ TEST_F(Mesh_Cube_Test, test_order_of_normal_vectors){
 
 //---------------------------------------------------------------------------------------
 TEST_F(Mesh_Textured_Cube_Test, test_vertex_count){
-    EXPECT_EQ(expectedTotalVertices, texturedMesh->getNumVertices());
+    EXPECT_EQ(expectedTotalVertices, texturedMesh->getNumVertexPositions());
 }
 
 //---------------------------------------------------------------------------------------
 TEST_F(Mesh_Textured_Cube_Test, test_vertex_data_bytes){
-    EXPECT_EQ(expectedVertexDataByteSize, texturedMesh->getNumVertexBytes());
+    EXPECT_EQ(expectedVertexDataByteSize, texturedMesh->getNumVertexPositionBytes());
 }
 
 //---------------------------------------------------------------------------------------
 TEST_F(Mesh_Textured_Cube_Test, test_number_of_normals){
-    EXPECT_EQ(expectedTotalNormals, texturedMesh->getNumNormals());
+    EXPECT_EQ(expectedTotalNormals, texturedMesh->getNumVertexNormals());
 }
 
 //---------------------------------------------------------------------------------------
 TEST_F(Mesh_Textured_Cube_Test, test_normal_data_bytes){
-    EXPECT_EQ(expectedNormalDataBytesSize, texturedMesh->getNumNormalBytes());
+    EXPECT_EQ(expectedNormalDataBytesSize, texturedMesh->getNumVertexNormalBytes());
 }
 
 //---------------------------------------------------------------------------------------

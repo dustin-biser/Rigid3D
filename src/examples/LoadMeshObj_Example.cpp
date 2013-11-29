@@ -39,13 +39,13 @@ void LoadMeshObj_Example::setupGLBuffers()
     // Register vertex positions with OpenGL
     glGenBuffers(1, &vbo_vertices);
     glBindBuffer(GL_ARRAY_BUFFER, vbo_vertices);
-    glBufferData(GL_ARRAY_BUFFER, mesh.getNumVertexBytes(), mesh.getVertexDataPtr(), GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, mesh.getNumVertexPositionBytes(), mesh.getVertexPositionDataPtr(), GL_STATIC_DRAW);
     glVertexAttribPointer(position_AttribLocation, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
     // Register normals with OpenGL
     glGenBuffers(1, &vbo_normals);
     glBindBuffer(GL_ARRAY_BUFFER, vbo_normals);
-    glBufferData(GL_ARRAY_BUFFER, mesh.getNumNormalBytes(), mesh.getNormalDataPtr(), GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, mesh.getNumVertexNormalBytes(), mesh.getVertexNormalDataPtr(), GL_STATIC_DRAW);
     glVertexAttribPointer(normal_AttribLocation, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -132,7 +132,7 @@ void LoadMeshObj_Example::setupMatrices() {
 void LoadMeshObj_Example::draw()
 {
     shaderProgram.enable();
-        glDrawArrays(GL_TRIANGLES, 0, mesh.getNumVertices());
+        glDrawArrays(GL_TRIANGLES, 0, mesh.getNumVertexPositions());
     shaderProgram.disable();
 
     GlUtils::checkGLErrors(__FILE__, __LINE__);

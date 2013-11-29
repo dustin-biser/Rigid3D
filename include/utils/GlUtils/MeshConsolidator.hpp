@@ -91,13 +91,13 @@ namespace GlUtils {
 
         ~MeshConsolidator();
 
-        const float * getVertexDataPtr() const;
+        const float * getVertexPositionDataPtr() const;
 
-        const float * getNormalDataPtr() const;
+        const float * getVertexNormalDataPtr() const;
 
-        unsigned long getNumVertexBytes() const;
+        unsigned long getNumVertexPositionBytes() const;
 
-        unsigned long getNumNormalBytes() const;
+        unsigned long getNumVertexNormalBytes() const;
 
         void getBatchInfo(unordered_map<const char *, BatchInfo> & batchInfoMap) const;
 
@@ -106,11 +106,11 @@ namespace GlUtils {
 
         void consolidateMesh(const char * meshId, const Mesh & mesh);
 
-        unsigned long totalVertexBytes;
+        unsigned long totalPositionBytes;
         unsigned long totalNormalBytes;
 
-        shared_ptr<float> vertexDataPtr_head;
-        float * vertexDataPtr_tail;
+        shared_ptr<float> vertexPositionDataPtr_head;
+        float * vertexPositionDataPtr_tail;
 
         shared_ptr<float> normalDataPtr_head;
         float * normalDataPtr_tail;

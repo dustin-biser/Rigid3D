@@ -57,22 +57,22 @@ void MeshNormals::init()
 void MeshNormals::setupGLBuffers()
 {
     //-- Concatenate vertex data from all meshes.
-    size_t totalVertexBytes = meshFlat.getNumVertexBytes() + meshSmooth.getNumVertexBytes();
+    size_t totalVertexBytes = meshFlat.getNumVertexPositionBytes() + meshSmooth.getNumVertexPositionBytes();
 
     float * vertexDataPtr = (float *)malloc(totalVertexBytes);
     float * data = vertexDataPtr;
-    memcpy(data, meshFlat.getVertexDataPtr(), meshFlat.getNumVertexBytes());
-    data += meshFlat.getNumVertexBytes() / sizeof(float);
-    memcpy(data, meshSmooth.getVertexDataPtr(), meshSmooth.getNumVertexBytes());
+    memcpy(data, meshFlat.getVertexPositionDataPtr(), meshFlat.getNumVertexPositionBytes());
+    data += meshFlat.getNumVertexPositionBytes() / sizeof(float);
+    memcpy(data, meshSmooth.getVertexPositionDataPtr(), meshSmooth.getNumVertexPositionBytes());
 
     //-- Concatenate normal data from all meshFlates.
-    size_t totalNormalBytes = meshFlat.getNumNormalBytes() + meshSmooth.getNumNormalBytes();
+    size_t totalNormalBytes = meshFlat.getNumVertexNormalBytes() + meshSmooth.getNumVertexNormalBytes();
 
     float * normalDataPtr = (float *)malloc(totalNormalBytes);
     data = normalDataPtr;
-    memcpy(data, meshFlat.getNormalDataPtr(), meshFlat.getNumNormalBytes());
-    data += meshFlat.getNumNormalBytes() / sizeof(float);
-    memcpy(data, meshSmooth.getNormalDataPtr(), meshSmooth.getNumNormalBytes());
+    memcpy(data, meshFlat.getVertexNormalDataPtr(), meshFlat.getNumVertexNormalBytes());
+    data += meshFlat.getNumVertexNormalBytes() / sizeof(float);
+    memcpy(data, meshSmooth.getVertexNormalDataPtr(), meshSmooth.getNumVertexNormalBytes());
 
     // Register vertex positions with OpenGL
     glGenBuffers(1, &vbo_vertices);
@@ -128,15 +128,15 @@ void MeshNormals::setupMatrices() {
 void MeshNormals::draw()
 {
     static const unsigned int flatMeshStartIndex = 0;
-    static const unsigned int smoothMeshStartIndex = meshFlat.getNumVertices();
+    static const unsigned int smoothMeshStartIndex = meshFlat.getNumVertexPositions();
 
     shaderProgram.enable();
     switch(renderTarget){
     case MeshType::FLAT:
-        glDrawArrays(GL_TRIANGLES, flatMeshStartIndex, meshFlat.getNumVertices());
+        glDrawArrays(GL_TRIANGLES, flatMeshStartIndex, meshFlat.getNumVertexPositions());
         break;
     case MeshType::SMOOTH:
-        glDrawArrays(GL_TRIANGLES, smoothMeshStartIndex, meshSmooth.getNumVertices());
+        glDrawArrays(GL_TRIANGLES, smoothMeshStartIndex, meshSmooth.getNumVertexPositions());
         break;
     }
     shaderProgram.disable();

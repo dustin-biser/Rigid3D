@@ -30,11 +30,21 @@ Mesh::Mesh(const char * objFileName) {
 }
 
 //----------------------------------------------------------------------------------------
+Mesh::Mesh() {
+
+}
+
+//----------------------------------------------------------------------------------------
+Mesh::~Mesh() {
+
+}
+
+//----------------------------------------------------------------------------------------
 void Mesh::loadFromObjFile(const char * objFileName){
     // Reset datastructures before loading them with data.  Useful if new .obj
     // file contains a mesh with less vertex/normal data than previously parsed file.
-    vertices.resize(0);
-    normals.resize(0);
+    vertexPositions.resize(0);
+    vertexNormals.resize(0);
     textureCoords.resize(0);
 
     ifstream in(objFileName, std::ios::in);
@@ -122,13 +132,13 @@ void Mesh::loadFromObjFile(const char * objFileName){
             normalIndexB--;
             normalIndexC--;
 
-            vertices.push_back(tmp_vertices[vertexIndexA]);
-            vertices.push_back(tmp_vertices[vertexIndexB]);
-            vertices.push_back(tmp_vertices[vertexIndexC]);
+            vertexPositions.push_back(tmp_vertices[vertexIndexA]);
+            vertexPositions.push_back(tmp_vertices[vertexIndexB]);
+            vertexPositions.push_back(tmp_vertices[vertexIndexC]);
 
-            normals.push_back(tmp_normals[normalIndexA]);
-            normals.push_back(tmp_normals[normalIndexB]);
-            normals.push_back(tmp_normals[normalIndexC]);
+            vertexNormals.push_back(tmp_normals[normalIndexA]);
+            vertexNormals.push_back(tmp_normals[normalIndexB]);
+            vertexNormals.push_back(tmp_normals[normalIndexC]);
         }
     }
 
@@ -146,17 +156,17 @@ void Mesh::fromObjFile(const char * objFileName) {
 }
 
 //----------------------------------------------------------------------------------------
-const float * Mesh::getVertexDataPtr() const {
+const float * Mesh::getVertexPositionDataPtr() const {
     // Return the first float within the first vec3 of the vertices vector.  All
     // data is contiguous in memory.
-    return const_cast<float *>(&((vertices.data())->x));
+    return const_cast<float *>(&((vertexPositions.data())->x));
 }
 
 //----------------------------------------------------------------------------------------
-const float * Mesh::getNormalDataPtr() const {
+const float * Mesh::getVertexNormalDataPtr() const {
     // Return the first float within the first vec3 of the normals vector.  All
     // data is contiguous in memory.
-    return const_cast<float *>(&((normals.data())->x));
+    return const_cast<float *>(&((vertexNormals.data())->x));
 }
 
 //----------------------------------------------------------------------------------------
@@ -172,8 +182,8 @@ const float* Mesh::getTextureCoordDataPtr() const {
  *
  * @return size_t
  */
-size_t Mesh::getNumVertexBytes() const {
-    return vertices.size() * num_elements_per_vertex * sizeof(float);
+size_t Mesh::getNumVertexPositionBytes() const {
+    return vertexPositions.size() * num_elements_per_vertex_position * sizeof(float);
 }
 
 //----------------------------------------------------------------------------------------
@@ -182,8 +192,8 @@ size_t Mesh::getNumVertexBytes() const {
  *
  * @return size_t
  */
-size_t Mesh::getNumNormalBytes() const {
-    return normals.size() * num_elements_per_normal * sizeof(float);
+size_t Mesh::getNumVertexNormalBytes() const {
+    return vertexNormals.size() * num_elements_per_vertex_normal * sizeof(float);
 }
 
 //----------------------------------------------------------------------------------------
@@ -202,8 +212,8 @@ size_t Mesh::getNumTextureCoordBytes() const {
  * @return the number of vertices for this \c Mesh, where each vertex is
  * composed of 3 floats {x,y,z}.
  */
-unsigned int Mesh::getNumVertices() const {
-    return vertices.size();
+unsigned int Mesh::getNumVertexPositions() const {
+    return vertexPositions.size();
 }
 
 //----------------------------------------------------------------------------------------
@@ -212,8 +222,8 @@ unsigned int Mesh::getNumVertices() const {
  * @return the number of normals for this \c Mesh, where each normal is
  * composed of 3 floats {x,y,z}.
  */
-unsigned int Mesh::getNumNormals() const {
-   return normals.size();
+unsigned int Mesh::getNumVertexNormals() const {
+   return vertexNormals.size();
 }
 
 //----------------------------------------------------------------------------------------
@@ -224,6 +234,21 @@ unsigned int Mesh::getNumNormals() const {
  */
 unsigned int Mesh::getNumTextureCoords() const {
     return textureCoords.size();
+}
+
+//----------------------------------------------------------------------------------------
+unsigned int Mesh::getNumElementsPerVertexPosition() const {
+    return num_elements_per_vertex_position;
+}
+
+//----------------------------------------------------------------------------------------
+unsigned int Mesh::getNumElementsPerVertexNormal() const {
+    return num_elements_per_vertex_normal;
+}
+
+//----------------------------------------------------------------------------------------
+unsigned int Mesh::getNumElementsPerTextureCoord() const {
+    return num_elements_per_texturedCoord;
 }
 
 } // end namespace GlUtils
