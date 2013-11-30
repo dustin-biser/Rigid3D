@@ -1,7 +1,7 @@
 -- Important: Link order matters for static libraries!  Make sure dependent
 -- libraries come before the libraries they depend on.
 linkLibs = {"freeimage",
-            "GlUtils",
+            "Rigid3D",
             "freetype-gl",
             "freetype",
             "glfw3",

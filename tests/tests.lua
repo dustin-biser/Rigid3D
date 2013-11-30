@@ -18,6 +18,7 @@ testIncludeDirList = {"include/utils",
                       "../include/utils",
                       "../include/utils/GlUtils",
                       "../include/utils/MathUtils",
+                      "../include/collision",
                       "../../glm",
                       "/usr/local/include",
                       "/usr/include"}
@@ -46,3 +47,4 @@ SetupTest("ShaderProgram_Test", "src/utils/GlUtils/ShaderProgram_Test.cpp", "../
 SetupTest("GlmOutStream_Test", "src/utils/GlUtils/GlmOutStream_Test.cpp")
 SetupTest("Camera_Test", "src/utils/GlUtils/Camera_Test.cpp")
 SetupTest("TestUtils_Predicates_Test", "src/utils/TestUtils_Predicates_Test.cpp")
+SetupTest("AABB_Test", "src/collision/AABB_Test.cpp")
