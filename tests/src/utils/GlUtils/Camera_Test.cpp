@@ -1,8 +1,4 @@
-/**
- * @brief Camera_Test
- *
- * @author Dustin Biser
- */
+// Camera_Test.cpp
 
 #include "gtest/gtest.h"
 
@@ -28,7 +24,7 @@ using GlUtils::Camera;
 
 namespace {  // limit class visibility to this file.
 
-    class Camera_Test: public ::testing::Test {
+    class Camera_Test : public ::testing::Test {
     protected:
         Camera camera;
 
