@@ -1,7 +1,7 @@
 -- Note that all directoires and files are given with respect to where this file is located.
 
 -- Function for creating tests
-testLinkLibs = {"GlUtils", "glfw3", "GLEW", "GL", "gtest" }
+testLinkLibs = {"Rigid3D", "glfw3", "GLEW", "GL", "gtest" }
 
 testLibDirectories = {"../ext/glew-1.10.0/lib",
                       "/usr/local/lib/Mesa-9.1.4",
@@ -10,6 +10,7 @@ testLibDirectories = {"../ext/glew-1.10.0/lib",
                       "../lib"}
 
 testIncludeDirList = {"include/utils",
+                      "include/collision",
                       "../ext/glew-1.10.0/include",
                       "../ext/gtest/include",
                       "../ext/gtest/",
