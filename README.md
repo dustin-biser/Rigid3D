@@ -2,30 +2,25 @@ Rigid3D
 ===========
 
 ### Dependencies
-* Mesa3D
+* freeimage
+* glfw3
 * glm
-* glew
-* GLFW
-* GlUtils (subset of Rigid3D)
-
-On linux systems, make sure to append the directores containing the {Mesa3D, glew, GLFW}
-shared libraries to your __LD_LIBRARY_PATH__. For example, to point the shared
-library loader to the GlUtils shared library that ships with this project,
-append the following to your .bashrc file:
-
-<code>export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:[project root]/lib</code>
-
-where __[project root]__ is the root of this project on your file system.
+* GLEW
+* GL
 
 ### Building Libraries (Linux)
+Building the library currently requires premake4, a free program you can download from here:
+http://industriousone.com/premake
+
+#### Rigid3D and Examples
+* from root folder of project
+* <code>premake4 gmake</code>
+* <code>make config=debug</code>
+* <code>make config=release</code>
+
 #### GTest Unit Tests
 * cd build
 * <code>premake4 --file="gtest.lua" gmake</code>
 * <code>make config=debug</code>
 * <code>make config=release</code>
 
-#### GLUtils and All Examples
-* from root folder of project
-* <code>premake4 gmake</code>
-* <code>make config=debug</code>
-* <code>make config=release</code>
