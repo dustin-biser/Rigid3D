@@ -3,6 +3,8 @@
 
 #include <exception>
 
+namespace Rigid3D {
+
 class RuntimeException : public std::exception {
 public:
     RuntimeException(const char * message = "RuntimeException Occurred.")
@@ -17,5 +19,7 @@ public:
 private:
     const char * errorMessage;
 };
+
+}
 
 #endif /* RUNTIME_EXCEPTION_HPP_ */
