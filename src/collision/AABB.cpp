@@ -16,6 +16,11 @@ using std::swap;
 namespace Rigid3D {
 
 //----------------------------------------------------------------------------------------
+AABB::~AABB() {
+
+}
+
+//----------------------------------------------------------------------------------------
 /**
  * Performs a ray-cast against this AABB.
  *
@@ -27,7 +32,7 @@ namespace Rigid3D {
  * @param output - struct containing ray-cast intersection info if ray hits AABB.
  * @return true if ray intersects AABB, or false otherwise.
  */
-bool AABB::rayCast(const RayCastInput & input, RayCastOutput & output) {
+bool AABB::rayCast(const RayCastInput & input, RayCastOutput & output) const {
     // Let ray be parameterized by R(t) = p + t * d
     // with starting point p, and direction d.
     float tmin = 0.0f;
