@@ -43,7 +43,7 @@ MeshNormals::MeshNormals()
  */
 void MeshNormals::init()
 {
-    meshFlat.fromObjFile("../data/meshes/wall_back.obj");
+    meshFlat.fromObjFile("../data/meshes/bunny_smooth.obj");
     meshSmooth.fromObjFile("../data/meshes/wall.obj");
 
     setupShaders();
