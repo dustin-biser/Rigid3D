@@ -34,27 +34,24 @@ namespace GlUtils {
         void fromObjFile(const char * objFileName);
 
         const float * getVertexPositionDataPtr() const;
+        const vector<vec3> * getVertexPositionVector() const;
 
         const float * getVertexNormalDataPtr() const;
+        const vector<vec3> * getVertexNormalVector() const;
 
         const float * getTextureCoordDataPtr() const;
+        const vector<vec2> * getTextureCoordVector() const;
 
         size_t getNumVertexPositionBytes() const;
-
         size_t getNumVertexNormalBytes() const;
-
         size_t getNumTextureCoordBytes() const;
 
         unsigned int getNumVertexPositions() const;
-
         unsigned int getNumVertexNormals() const;
-
         unsigned int getNumTextureCoords() const;
 
         unsigned int getNumElementsPerVertexPosition() const;
-
         unsigned int getNumElementsPerVertexNormal() const;
-
         unsigned int getNumElementsPerTextureCoord() const;
 
     private:

@@ -163,6 +163,11 @@ const float * Mesh::getVertexPositionDataPtr() const {
 }
 
 //----------------------------------------------------------------------------------------
+const vector<vec3> * Mesh::getVertexPositionVector() const {
+   return &vertexPositions;
+}
+
+//----------------------------------------------------------------------------------------
 const float * Mesh::getVertexNormalDataPtr() const {
     // Return the first float within the first vec3 of the normals vector.  All
     // data is contiguous in memory.
@@ -170,10 +175,20 @@ const float * Mesh::getVertexNormalDataPtr() const {
 }
 
 //----------------------------------------------------------------------------------------
+const vector<vec3> * Mesh::getVertexNormalVector() const {
+    return &vertexNormals;
+}
+
+//----------------------------------------------------------------------------------------
 const float* Mesh::getTextureCoordDataPtr() const {
     // Return the first float within the first vec2 of the textureCoords vector.  All
     // data is contiguous in memory.
     return const_cast<float *>(&((textureCoords.data())->s));
+}
+
+//----------------------------------------------------------------------------------------
+const vector<vec2> * Mesh::getTextureCoordVector() const {
+    return &textureCoords;
 }
 
 //----------------------------------------------------------------------------------------
