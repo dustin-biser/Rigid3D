@@ -153,13 +153,13 @@ namespace GlUtils {
             glGetShaderiv(shader.shaderObject, GL_INFO_LOG_LENGTH, &errorMessageLength);
 
             // Retrieve the compilation error message.
-            GLchar errorMessage[errorMessageLength];
+            GLchar errorMessage[errorMessageLength + 1]; // Add 1 for null terminator
             glGetShaderInfoLog(shader.shaderObject, errorMessageLength, NULL, errorMessage);
 
-            stringstream strStream;
-            strStream << "Error Compiling Shader: " << errorMessage << endl;
+            string message = "Error Compiling Shader: ";
+            message += errorMessage;
 
-            throw ShaderException(strStream.str().c_str());
+            throw ShaderException(message.c_str());
         }
     }
 
