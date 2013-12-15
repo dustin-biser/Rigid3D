@@ -1,8 +1,6 @@
-#include <ShadowMap.hpp>
-#include <GlErrorCheck.hpp>
-
+#include "ShadowMap.hpp"
+#include "GlErrorCheck.hpp"
 #include "Trigonometry.hpp"
-using Rigid3D::degreesToRadians;
 
 #include <glm/glm.hpp>
 using glm::transpose;
@@ -147,7 +145,7 @@ void ShadowMap::setupGLBuffers()
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-    GlUtils::checkGLErrors(__FILE__, __LINE__);
+    Rigid3D::checkGLErrors(__FILE__, __LINE__);
 }
 
 //---------------------------------------------------------------------------------------

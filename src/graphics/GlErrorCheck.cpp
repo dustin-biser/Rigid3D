@@ -12,7 +12,7 @@
 
 using namespace std;
 
-namespace GlUtils {
+namespace Rigid3D {
 
     /**
      * Checks for OpenGL error messages.  If one ore more errors exist, this method throws

@@ -5,8 +5,8 @@
  *
  */
 
-#ifndef GLUTILS_HPP_
-#define GLUTILS_HPP_
+#ifndef RIGID3D_HPP_
+#define RIGID3D_HPP_
 
 #include "Camera.hpp"
 #include "Frustum.hpp"
@@ -23,6 +23,6 @@
 
 // Exception Types
 #include "ShaderException.hpp"
-#include "GlUtilsException.hpp"
+#include "Rigid3DException.hpp"
 
-#endif /* GLUTILS_HPP_ */
+#endif /* RIGID3D_HPP_ */

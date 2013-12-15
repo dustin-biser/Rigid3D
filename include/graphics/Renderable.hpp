@@ -19,12 +19,12 @@ using glm::mat4;
 #include "ModelTransform.hpp"
 
 // Forward declarations
-namespace GlUtils {
+namespace Rigid3D {
     struct BatchInfo;
     class ShaderProgram;
 }
 
-namespace GlUtils {
+namespace Rigid3D {
 
     /**
      * Datastructure for encapsulating the view and projection coordinate

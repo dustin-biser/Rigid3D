@@ -10,7 +10,7 @@
 #include <OpenGlContext.hpp>
 #include <memory>
 
-using namespace GlUtils;
+using namespace Rigid3D;
 using namespace std;
 
 namespace {  // limit class visibility to this file.

@@ -16,7 +16,7 @@ using std::endl;
 using std::stringstream;
 
 
-namespace GlUtils {
+namespace Rigid3D {
 
     //------------------------------------------------------------------------------------
     /**

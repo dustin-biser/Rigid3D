@@ -15,7 +15,7 @@ using glm::vec4;
 
 #include "Frustum.hpp"
 
-namespace GlUtils {
+namespace Rigid3D {
 
     class RenderableFrustum : public Frustum {
     public:

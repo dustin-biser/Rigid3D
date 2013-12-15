@@ -3,7 +3,7 @@
 
 #include <exception>
 
-namespace GlUtils {
+namespace Rigid3D {
 
     class ShaderException : public std::exception {
     public:

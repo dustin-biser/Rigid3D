@@ -11,7 +11,7 @@
 
 #include <string>
 
-namespace GlUtils {
+namespace Rigid3D {
 
     void checkGLErrors(const std::string & currentFileName, int currentLineNumber);
 

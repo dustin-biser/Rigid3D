@@ -16,7 +16,7 @@ using std::make_shared;
 #include <unordered_map>
 using std::unordered_map;
 
-namespace GlUtils {
+namespace Rigid3D {
 
     /**
      * Datastructure for specifying the layout of a \c Mesh object's data

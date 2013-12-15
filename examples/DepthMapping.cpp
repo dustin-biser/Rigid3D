@@ -62,7 +62,7 @@ void DepthMapping::setupShaders() {
     GLint position_Location = shaderProgram.getAttribLocation("vertexPosition");
     glEnableVertexAttribArray(position_Location);
 
-    GlUtils::checkGLErrors(__FILE__, __LINE__);
+    Rigid3D::checkGLErrors(__FILE__, __LINE__);
 }
 
 //---------------------------------------------------------------------------------------
@@ -76,7 +76,7 @@ void DepthMapping::setupGLBuffers()
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-    GlUtils::checkGLErrors(__FILE__, __LINE__);
+    Rigid3D::checkGLErrors(__FILE__, __LINE__);
 }
 
 //---------------------------------------------------------------------------------------
@@ -104,7 +104,7 @@ void DepthMapping::draw()
     drawBunny();
     drawSphere();
 
-    GlUtils::checkGLErrors(__FILE__, __LINE__);
+    Rigid3D::checkGLErrors(__FILE__, __LINE__);
 }
 
 //---------------------------------------------------------------------------------------

@@ -1,9 +1,9 @@
-#include <MeshConsolidator.hpp>
-#include <GlUtilsException.hpp>
+#include "MeshConsolidator.hpp"
+#include "Rigid3DException.hpp"
 #include <cstring>
 #include <cstdlib>
 
-using namespace GlUtils;
+namespace Rigid3D {
 
 //----------------------------------------------------------------------------------------
 /**
@@ -78,13 +78,13 @@ void MeshConsolidator::processMeshes(const unordered_map<const char *, const Mes
     // Allocate memory for vertex position data.
     vertexPositionDataPtr_head = shared_ptr<float>((float *)malloc(totalPositionBytes), free);
     if (vertexPositionDataPtr_head.get() == (float *)0) {
-        throw GlUtilsException("Unable to allocate system memory within method MeshConsolidator::processMeshes");
+        throw Rigid3DException("Unable to allocate system memory within method MeshConsolidator::processMeshes");
     }
 
     // Allocate memory for normal data.
     normalDataPtr_head = shared_ptr<float>((float *)malloc(totalNormalBytes), free);
     if (vertexPositionDataPtr_head.get() == (float *)0) {
-        throw GlUtilsException("Unable to allocate system memory within method MeshConsolidator::processMeshes");
+        throw Rigid3DException("Unable to allocate system memory within method MeshConsolidator::processMeshes");
     }
 
     // Assign pointers to beginning of memory blocks.
@@ -169,3 +169,5 @@ unsigned long MeshConsolidator::getNumVertexPositionBytes() const {
 unsigned long MeshConsolidator::getNumVertexNormalBytes() const {
     return totalNormalBytes;
 }
+
+} // end namespace Rigid3D

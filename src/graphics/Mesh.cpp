@@ -15,9 +15,9 @@ using boost::regex;
 using boost::regex_match;
 using boost::smatch;
 
-#include <GlUtilsException.hpp>
+#include "Rigid3DException.hpp"
 
-namespace GlUtils {
+namespace Rigid3D {
 
 //----------------------------------------------------------------------------------------
 /**
@@ -54,7 +54,7 @@ void Mesh::loadFromObjFile(const char * objFileName){
         stringstream errorMessage;
         errorMessage << "Unable to open .obj file: " << objFileName
                      << " within method Mesh::loadFromObjFile." << endl;
-        throw GlUtilsException(errorMessage.str().c_str());
+        throw Rigid3DException(errorMessage.str().c_str());
     }
 
     string line;
@@ -76,7 +76,7 @@ void Mesh::loadFromObjFile(const char * objFileName){
             in.close();
             stringstream errorMessage;
             errorMessage << "Error calling getline() -- " << e.what() << endl;
-            throw GlUtilsException(errorMessage.str().c_str());
+            throw Rigid3DException(errorMessage.str().c_str());
         }
 
         if (line.substr(0,2) == "v ") {

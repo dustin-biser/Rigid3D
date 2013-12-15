@@ -9,7 +9,7 @@
 
 #include "glm/glm.hpp"
 
-namespace GlUtils {
+namespace Rigid3D {
 
     /**
      * Material properties for emission, ambient, diffuse, and specular lighting.

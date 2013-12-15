@@ -6,7 +6,7 @@
 #include "MaterialProperties.hpp"
 #include "ModelTransform.hpp"
 
-namespace GlUtils {
+namespace Rigid3D {
 
 //---------------------------------------------------------------------------------------
 Renderable::Renderable(const GLuint * vao,
@@ -56,7 +56,7 @@ void Renderable::render(const RenderContext & context) {
 
     glBindVertexArray(prev_vao);
 
-    GlUtils::checkGLErrors(__FILE__, __LINE__);
+    Rigid3D::checkGLErrors(__FILE__, __LINE__);
 }
 
 //---------------------------------------------------------------------------------------

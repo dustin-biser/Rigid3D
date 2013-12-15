@@ -11,7 +11,7 @@ using std::vector;
 #include <string>
 using std::string;
 
-namespace GlUtils {
+namespace Rigid3D {
 
     class Mesh {
     protected:

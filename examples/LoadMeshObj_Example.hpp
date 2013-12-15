@@ -1,12 +1,12 @@
 #ifndef LOADMESHOBJ_EXAMPLE_HPP_
 #define LOADMESHOBJ_EXAMPLE_HPP_
 
-#include <GlfwOpenGlWindow.hpp>
-#include <GlUtils.hpp>
+#include "GlfwOpenGlWindow.hpp"
+#include "Rigid3D.hpp"
 #include <glm/gtc/reciprocal.hpp>
 #include <vector>
 
-using namespace GlUtils;
+using namespace Rigid3D;
 using namespace glm;
 
 class LoadMeshObj_Example : public GlfwOpenGlWindow {

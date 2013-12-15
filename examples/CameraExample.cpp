@@ -4,7 +4,6 @@
 #include "GlErrorCheck.hpp"
 
 #include "Trigonometry.hpp"
-using Rigid3D::degreesToRadians;
 
 #include <glm/gtx/transform.hpp>
 using glm::translate;
@@ -79,7 +78,7 @@ void CameraExample::setupShaders() {
 
     glBindVertexArray(0);
 
-    GlUtils::checkGLErrors(__FILE__, __LINE__);
+    Rigid3D::checkGLErrors(__FILE__, __LINE__);
 }
 
 //---------------------------------------------------------------------------------------
@@ -150,7 +149,7 @@ void CameraExample::setupGLBuffers()
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
-    GlUtils::checkGLErrors(__FILE__, __LINE__);
+    Rigid3D::checkGLErrors(__FILE__, __LINE__);
 }
 
 //---------------------------------------------------------------------------------------

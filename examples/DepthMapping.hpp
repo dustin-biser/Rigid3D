@@ -1,8 +1,8 @@
 #ifndef DEPTH_MAPPING_HPP
 #define DEPTH_MAPPING_HPP
 
-#include <GlfwOpenGlWindow.hpp>
-#include <GlUtils.hpp>
+#include "GlfwOpenGlWindow.hpp"
+#include "Rigid3D.hpp"
 
 #include <glm/glm.hpp>
 using glm::mat4;
@@ -13,7 +13,7 @@ using std::vector;
 #include <unordered_map>
 using std::unordered_map;
 
-using namespace GlUtils;
+using namespace Rigid3D;
 
 /**
  * @brief Demo Instructions

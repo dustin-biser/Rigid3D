@@ -93,7 +93,7 @@ void MeshNormals::setupGLBuffers()
     delete vertexDataPtr; vertexDataPtr = nullptr;
     delete normalDataPtr; normalDataPtr = nullptr;
     data = nullptr;
-    GlUtils::checkGLErrors(__FILE__, __LINE__);
+    Rigid3D::checkGLErrors(__FILE__, __LINE__);
 }
 
 //---------------------------------------------------------------------------------------
@@ -106,7 +106,7 @@ void MeshNormals::setupShaders() {
     glEnableVertexAttribArray(shaderProgram.getAttribLocation("vertexPosition"));
     glEnableVertexAttribArray(shaderProgram.getAttribLocation("vertexNormal"));
 
-    GlUtils::checkGLErrors(__FILE__, __LINE__);
+    Rigid3D::checkGLErrors(__FILE__, __LINE__);
 }
 
 //---------------------------------------------------------------------------------------
@@ -143,7 +143,7 @@ void MeshNormals::draw()
     }
     shaderProgram.disable();
 
-    GlUtils::checkGLErrors(__FILE__, __LINE__);
+    Rigid3D::checkGLErrors(__FILE__, __LINE__);
 }
 
 //---------------------------------------------------------------------------------------

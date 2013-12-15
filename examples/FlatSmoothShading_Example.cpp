@@ -83,7 +83,7 @@ void FlatSmoothShading_Example::setupGLBuffers()
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-    GlUtils::checkGLErrors(__FILE__, __LINE__);
+    Rigid3D::checkGLErrors(__FILE__, __LINE__);
 }
 
 //---------------------------------------------------------------------------------------
@@ -107,7 +107,7 @@ void FlatSmoothShading_Example::setupShaders() {
     GLint normal_Location = shaderProgram.getAttribLocation("vertexNormal");
     glEnableVertexAttribArray(normal_Location);
 
-    GlUtils::checkGLErrors(__FILE__, __LINE__);
+    Rigid3D::checkGLErrors(__FILE__, __LINE__);
 }
 
 //---------------------------------------------------------------------------------------
@@ -168,7 +168,7 @@ void FlatSmoothShading_Example::draw()
         }
     shaderProgram.disable();
 
-    GlUtils::checkGLErrors(__FILE__, __LINE__);
+    Rigid3D::checkGLErrors(__FILE__, __LINE__);
 }
 
 //---------------------------------------------------------------------------------------

@@ -4,7 +4,7 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
-namespace GlUtils {
+namespace Rigid3D {
 
     /**
      * @brief Class for initializing a specific OpenGL context with major and

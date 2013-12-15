@@ -5,7 +5,7 @@
 #include "glm/gtx/transform.hpp"
 #include "glm/gtx/quaternion.hpp"
 
-namespace GlUtils {
+namespace Rigid3D {
 
 //----------------------------------------------------------------------------------------
 ModelTransform::ModelTransform()

@@ -3,7 +3,7 @@
 #include "CameraController.hpp"
 
 #include "Camera.hpp"
-using GlUtils::Camera;
+using Rigid3D::Camera;
 
 #include <GLFW/glfw3.h>
 
@@ -25,7 +25,7 @@ using glm::mat4;
 
 #include <iostream>
 
-namespace GlUtils {
+namespace Rigid3D {
 
 //----------------------------------------------------------------------------------------
 CameraController::CameraController()

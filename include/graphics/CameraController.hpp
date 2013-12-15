@@ -7,9 +7,9 @@
 #ifndef CAMERA_CONTROLLER_HPP_
 #define CAMERA_CONTROLLER_HPP_
 
-namespace GlUtils { class Camera; }
+namespace Rigid3D { class Camera; }
 
-namespace GlUtils {
+namespace Rigid3D {
 
     class CameraController {
     public:

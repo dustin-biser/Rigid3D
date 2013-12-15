@@ -21,10 +21,10 @@ using std::ostream;
 #include <iostream>
 using std::endl;
 
-using namespace GlUtils;
+using namespace Rigid3D;
 
 // Add ability to print out BatchInfo values.
-namespace GlUtils {
+namespace Rigid3D {
     ostream & operator << (ostream & out, const BatchInfo & batchInfo) {
         out << "BatchInfo[startIndex = " << batchInfo.startIndex << ", numIndices = "
             << batchInfo.numIndices << "]" << endl;

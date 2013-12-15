@@ -20,7 +20,7 @@ using glm::angleAxis;
 #include "Trigonometry.hpp"
 using Rigid3D::radiansToDegrees;
 
-namespace GlUtils {
+namespace Rigid3D {
 
 //----------------------------------------------------------------------------------------
 /**

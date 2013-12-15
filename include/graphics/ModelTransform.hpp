@@ -14,7 +14,7 @@ using glm::mat4;
 #include "glm/gtc/quaternion.hpp"
 using glm::quat;
 
-namespace GlUtils {
+namespace Rigid3D {
 
     class ModelTransform {
     public:

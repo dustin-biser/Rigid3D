@@ -1,6 +1,6 @@
 #include <Frustum.hpp>
 
-using namespace GlUtils;
+namespace Rigid3D {
 
 //----------------------------------------------------------------------------------------
 Frustum::Frustum()
@@ -162,3 +162,5 @@ void Frustum::setFarZDistance(float zFar) {
 void Frustum::setProjectionMatrix(const glm::mat4 & projectionMatrix) {
     this->projectionMatrix = projectionMatrix;
 }
+
+} // end namespace Rigid3D

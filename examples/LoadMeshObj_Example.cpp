@@ -51,7 +51,7 @@ void LoadMeshObj_Example::setupGLBuffers()
     glVertexAttribPointer(normal_AttribLocation, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
-    GlUtils::checkGLErrors(__FILE__, __LINE__);
+    Rigid3D::checkGLErrors(__FILE__, __LINE__);
 }
 
 //---------------------------------------------------------------------------------------
@@ -99,7 +99,7 @@ void LoadMeshObj_Example::setupShaders() {
         glUniform3fv(Ld_UniformLocation, 1, glm::value_ptr(Ld));
     shaderProgram.disable();
 
-    GlUtils::checkGLErrors(__FILE__, __LINE__);
+    Rigid3D::checkGLErrors(__FILE__, __LINE__);
 }
 
 //---------------------------------------------------------------------------------------
@@ -137,7 +137,7 @@ void LoadMeshObj_Example::draw()
         glDrawArrays(GL_TRIANGLES, 0, mesh.getNumVertexPositions());
     shaderProgram.disable();
 
-    GlUtils::checkGLErrors(__FILE__, __LINE__);
+    Rigid3D::checkGLErrors(__FILE__, __LINE__);
 }
 
 //---------------------------------------------------------------------------------------
@@ -183,7 +183,7 @@ void LoadMeshObj_Example::updateMatrices() {
         glUniformMatrix3fv(normalMatrix_UniformLoc, 1, GL_FALSE, glm::value_ptr(normalMatrix));
     shaderProgram.disable();
 
-    GlUtils::checkGLErrors(__FILE__, __LINE__);
+    Rigid3D::checkGLErrors(__FILE__, __LINE__);
 }
 
 //---------------------------------------------------------------------------------------

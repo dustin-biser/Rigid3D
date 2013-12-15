@@ -1,11 +1,10 @@
 // TexturedCubeDemo.cpp
 
 #include "TexturedCubeDemo.hpp"
-#include "IL/il.h" // DevIL image library
+#include "Rigid3DException.hpp"
+#include "Trigonometry.hpp"
 
 #include "FreeImage.h"
-
-#include "GlUtilsException.hpp"
 
 #include "glm/glm.hpp"
 #include "glm/gtx/transform.hpp"
@@ -13,12 +12,8 @@ using glm::translate;
 using glm::inverse;
 using glm::transpose;
 
-#include "Trigonometry.hpp"
-using Rigid3D::degreesToRadians;
-
 #include <iostream>
 using namespace std;
-////////////////////////////////////////////////
 
 //---------------------------------------------------------------------------------------
 int main() {
@@ -64,7 +59,7 @@ void TexturedCubeDemo::setupShaders() {
     shader.loadFromFile("../data/shaders/PositionNormalTexture.vert",
                         "../data/shaders/ADS_Texture.frag");
 
-    GlUtils::checkGLErrors(__FILE__, __LINE__);
+    Rigid3D::checkGLErrors(__FILE__, __LINE__);
 }
 
 //---------------------------------------------------------------------------------------
@@ -89,7 +84,7 @@ void TexturedCubeDemo::setupUniformData() {
     shader.setUniform("NormalMatrix", mat3(viewMatrix));
     shader.setUniform("MVP", projectionMatrix * viewMatrix * modelMatrix);
 
-    GlUtils::checkGLErrors(__FILE__, __LINE__);
+    Rigid3D::checkGLErrors(__FILE__, __LINE__);
 }
 
 //---------------------------------------------------------------------------------------
@@ -130,7 +125,7 @@ void TexturedCubeDemo::setupVertexData() {
 void TexturedCubeDemo::setupTextureData() {
     FIBITMAP * bitmap = FreeImage_Load(FIF_JPEG, "../data/textures/ash_uvgrid08.jpg", JPEG_ACCURATE);
     if (!bitmap) {
-        throw GlUtils::GlUtilsException("Error opening texture file");
+        throw Rigid3DException("Error opening texture file");
     }
     unsigned int imageWidth = FreeImage_GetWidth(bitmap);
     unsigned int imageHeight = FreeImage_GetHeight(bitmap);
@@ -178,7 +173,7 @@ void TexturedCubeDemo::setupTextureData() {
 
     // Done with image, so delete it.
     FreeImage_Unload(bitmap);
-    GlUtils::checkGLErrors(__FILE__, __LINE__);
+    Rigid3D::checkGLErrors(__FILE__, __LINE__);
 }
 
 //---------------------------------------------------------------------------------------
@@ -229,7 +224,7 @@ void TexturedCubeDemo::cleanup() {
     glDeleteBuffers(1, &vao);
     glDeleteTextures(1, &textureId);
 
-    GlUtils::checkGLErrors(__FILE__, __LINE__);
+    Rigid3D::checkGLErrors(__FILE__, __LINE__);
 }
 
 //---------------------------------------------------------------------------------------

@@ -11,7 +11,7 @@ using std::vector;
 
 #include "GlErrorCheck.hpp"
 
-namespace GlUtils {
+namespace Rigid3D {
 
 //---------------------------------------------------------------------------------------
 RenderableFrustum::RenderableFrustum()

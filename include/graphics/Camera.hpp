@@ -15,7 +15,7 @@ using glm::mat4_cast;
 
 #include <Frustum.hpp>
 
-namespace GlUtils {
+namespace Rigid3D {
 
     /**
      * Class for encapsulating a view frustum camera, capable of either orthographic or perspective

@@ -15,7 +15,7 @@ using glm::mat4;
 #include <string>
 using std::string;
 
-namespace GlUtils {
+namespace Rigid3D {
 
     /**
      * A \c ShaderProgram encapsulates the compilation, linkage, and usage of both a

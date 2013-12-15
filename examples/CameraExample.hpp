@@ -1,17 +1,19 @@
 /**
  * @brief CameraExample.hpp
+ *
+ * @author Dustin Biser
  */
 
 #ifndef CAMERAEXAMPLE_HPP_
 #define CAMERAEXAMPLE_HPP_
 
 #include "GlfwOpenGlWindow.hpp"
-#include "GlUtils.hpp"
+#include "Rigid3D.hpp"
 
 #include <unordered_map>
 using std::unordered_map;
 
-using namespace GlUtils;
+using namespace Rigid3D;
 
 class CameraExample : public GlfwOpenGlWindow {
 

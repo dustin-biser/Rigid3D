@@ -12,10 +12,10 @@
 #include <GLFW/glfw3.h>
 
 #include "Camera.hpp"
-using GlUtils::Camera;
+using Rigid3D::Camera;
 
 #include "CameraController.hpp"
-using GlUtils::CameraController;
+using Rigid3D::CameraController;
 
 #include <string>
 #include <memory>

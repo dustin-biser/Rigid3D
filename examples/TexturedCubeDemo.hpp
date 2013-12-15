@@ -8,11 +8,8 @@
 using glm::mat4;
 using glm::mat3;
 
-#include "Mesh.hpp"
-using GlUtils::Mesh;
-
-#include "ShaderProgram.hpp"
-using GlUtils::ShaderProgram;
+#include "Rigid3D.hpp"
+using namespace Rigid3D;
 
 class TexturedCubeDemo : public GlfwOpenGlWindow {
 

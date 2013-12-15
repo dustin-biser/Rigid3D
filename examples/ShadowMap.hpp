@@ -7,9 +7,9 @@
 
 #include "GlfwOpenGlWindow.hpp"
 #include "MeshConsolidator.hpp"
-#include "GlUtils.hpp"
+#include "Rigid3D.hpp"
 
-using namespace GlUtils;
+using namespace Rigid3D;
 
 class ShadowMap : public GlfwOpenGlWindow {
 

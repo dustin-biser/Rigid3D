@@ -2,14 +2,16 @@
 #include <GlfwException.hpp>
 #include <sstream>
 
-using namespace GlUtils;
+namespace Rigid3D {
 
 using std::stringstream;
 
+//----------------------------------------------------------------------------------------
 void OpenGlContext::error_callback(int error, const char* description) {
     throw GlfwException(description);
 }
 
+//----------------------------------------------------------------------------------------
 /**
  * Initializes the \c OpenGlContext for use.
  */
@@ -48,7 +50,10 @@ void OpenGlContext::init() {
     while(glGetError() != GL_NO_ERROR);
 }
 
+//----------------------------------------------------------------------------------------
 OpenGlContext::~OpenGlContext() {
     glfwDestroyWindow(window);
     glfwTerminate();
 }
+
+} // end namespace Rigid3D

@@ -7,7 +7,7 @@
 #include "gtest/gtest.h"
 
 #include "Mesh.hpp"
-using GlUtils::Mesh;
+using Rigid3D::Mesh;
 
 #include "TestUtils.hpp"
 using namespace TestUtils::predicates;

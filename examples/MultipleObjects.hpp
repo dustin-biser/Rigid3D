@@ -1,8 +1,8 @@
 #ifndef MULTIPLE_OBJECTS_HPP
 #define MULTIPLE_OBJECTS_HPP
 
-#include <GlfwOpenGlWindow.hpp>
-#include <GlUtils.hpp>
+#include "GlfwOpenGlWindow.hpp"
+#include "Rigid3D.hpp"
 #include <glm/gtc/reciprocal.hpp>
 #include <vector>
 #include <memory>
@@ -10,7 +10,7 @@
 #include <unordered_map>
 using std::unordered_map;
 
-using namespace GlUtils;
+using namespace Rigid3D;
 using namespace glm;
 using namespace std;
 

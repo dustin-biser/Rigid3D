@@ -19,8 +19,8 @@ using glm::transpose;
 #include <glm/gtx/norm.hpp>
 using glm::length;
 
-#include <GlUtils/Camera.hpp>
-using GlUtils::Camera;
+#include "Camera.hpp"
+using Rigid3D::Camera;
 
 namespace {  // limit class visibility to this file.
 
