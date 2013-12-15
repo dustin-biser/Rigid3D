@@ -42,7 +42,7 @@ end
 SetupTest("RunAllTests", "src/**")
 SetupTest("Mesh_Test", "src/utils/GlUtils/Mesh_Test.cpp")
 SetupTest("MeshConsolidator_Test", "src/utils/GlUtils/MeshConsolidator_Test.cpp")
-SetupTest("ShaderProgram_Test", "src/utils/GlUtils/ShaderProgram_Test.cpp", "../src/GlfwOpenGlWindow.cpp")
+SetupTest("ShaderProgram_Test", "src/utils/GlUtils/ShaderProgram_Test.cpp", "../src/graphics/OpenGlContext.cpp")
 SetupTest("GlmOutStream_Test", "src/utils/GlUtils/GlmOutStream_Test.cpp")
 SetupTest("Camera_Test", "src/utils/GlUtils/Camera_Test.cpp")
 SetupTest("TestUtils_Predicates_Test", "src/utils/TestUtils_Predicates_Test.cpp")
