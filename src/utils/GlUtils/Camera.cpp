@@ -17,8 +17,8 @@ using glm::toQuat;
 #include <glm/gtc/quaternion.hpp>
 using glm::angleAxis;
 
-#include "MathUtils.hpp"
-using MathUtils::radiansToDegrees;
+#include "Trigonometry.hpp"
+using Rigid3D::radiansToDegrees;
 
 namespace GlUtils {
 

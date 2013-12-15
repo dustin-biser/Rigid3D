@@ -1,10 +1,10 @@
 #include <MultipleObjects.hpp>
-#include <MathUtils.hpp>
 #include <GlErrorCheck.hpp>
 #include <glm/gtx/transform.hpp>
 #include <iostream>
 
-using namespace MathUtils;
+#include "Trigonometry.hpp"
+using Rigid3D::PI;
 
 int main() {
     shared_ptr<GlfwOpenGlWindow> meshDemo = MultipleObjects::getInstance();
@@ -259,7 +259,7 @@ void MultipleObjects::updateUniformData() {
 void MultipleObjects::rotateLightSource() {
     static float t = 0.0f;
     const float period = 15.0f;
-    const float omega = 2 * MathUtils::PI / period;
+    const float omega = 2 * PI / period;
     const float radius = 10.0f;
     const vec3 center = vec3(0.0f, 2.0f, -10.0f);
 

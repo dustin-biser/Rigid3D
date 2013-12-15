@@ -1,14 +1,14 @@
 #include <FlatSmoothShading_Example.hpp>
-#include <MathUtils.hpp>
 #include <GlErrorCheck.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtx/transform.hpp>
 #include <iostream>
 
+#include "Trigonometry.hpp"
+using Rigid3D::PI;
+
 #include <unordered_map>
 using std::unordered_map;
-
-using namespace MathUtils;
 
 int main() {
     shared_ptr<GlfwOpenGlWindow> meshDemo = FlatSmoothShading_Example::getInstance();
@@ -199,7 +199,7 @@ void FlatSmoothShading_Example::updateUniformData() {
 void FlatSmoothShading_Example::rotateLightSource() {
     static float t = 0.0f;
     const float period = 15.0f;
-    const float omega = 2 * MathUtils::PI / period;
+    const float omega = 2 * PI / period;
     const float radius = 5.0f;
 
     t += 0.01f;

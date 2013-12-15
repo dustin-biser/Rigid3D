@@ -9,27 +9,23 @@
 
 #include <math.h>
 
-using std::tan;
-using std::sin;
-using std::cos;
-
-namespace MathUtils {
+namespace Rigid3D {
 
     constexpr float PI = 3.1415926;
 
     //-----------------------------------------------------------------------------------
     inline float cotangent(float radians) {
-        return (float) (1.0 / tan(radians));
+        return (float) (1.0 / std::tan(radians));
     }
 
     //-----------------------------------------------------------------------------------
     inline float cosecant(float radians) {
-        return (float) (1.0 / sin(radians));
+        return (float) (1.0 / std::sin(radians));
     }
 
     //-----------------------------------------------------------------------------------
     inline float secant(float radians) {
-        return (float) (1.0 / cos(radians));
+        return (float) (1.0 / std::cos(radians));
     }
 
     //-----------------------------------------------------------------------------------

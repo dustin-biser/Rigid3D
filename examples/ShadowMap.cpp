@@ -1,8 +1,8 @@
 #include <ShadowMap.hpp>
 #include <GlErrorCheck.hpp>
 
-#include <MathUtils.hpp>
-using MathUtils::degreesToRadians;
+#include "Trigonometry.hpp"
+using Rigid3D::degreesToRadians;
 
 #include <glm/glm.hpp>
 using glm::transpose;

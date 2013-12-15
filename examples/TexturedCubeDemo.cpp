@@ -13,8 +13,8 @@ using glm::translate;
 using glm::inverse;
 using glm::transpose;
 
-#include "MathUtils.hpp"
-using MathUtils::degreesToRadians;
+#include "Trigonometry.hpp"
+using Rigid3D::degreesToRadians;
 
 #include <iostream>
 using namespace std;

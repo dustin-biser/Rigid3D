@@ -1,11 +1,11 @@
 #include "GlfwOpenGlWindow.hpp"
 #include "GlfwException.hpp"
 #include "GlErrorCheck.hpp"
-#include "MathUtils/MathUtils.hpp"
 #include <sstream>
 
-using MathUtils::degreesToRadians;
-using MathUtils::cotangent;
+#include "Trigonometry.hpp"
+using Rigid3D::cotangent;
+using Rigid3D::degreesToRadians;
 
 shared_ptr<GlfwOpenGlWindow> GlfwOpenGlWindow::p_instance = nullptr;
 

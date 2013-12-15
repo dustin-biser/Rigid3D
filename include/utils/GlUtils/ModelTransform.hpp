@@ -36,7 +36,6 @@ namespace GlUtils {
         quat pose;
         vec3 scaleFactor;
         mat4 modelMatrix;
-
     };
 
 } // end namespace GlUtils

@@ -1,5 +1,4 @@
 #include <MeshNormals.hpp>
-#include <MathUtils.hpp>
 #include <GlErrorCheck.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtx/transform.hpp>
@@ -8,8 +7,11 @@
 #include <ctime>
 #include <array>
 
+#include "Trigonometry.hpp"
+using Rigid3D::cotangent;
+using Rigid3D::degreesToRadians;
+
 using namespace std;
-using namespace MathUtils;
 
 int main() {
     shared_ptr<GlfwOpenGlWindow> meshDemo = MeshNormals::getInstance();

@@ -9,9 +9,9 @@ using GlUtils::Camera;
 
 #include <cassert>
 
-#include "MathUtils.hpp"
-using MathUtils::degreesToRadians;
-using MathUtils::PI;
+#include "Trigonometry.hpp"
+using Rigid3D::degreesToRadians;
+using Rigid3D::PI;
 
 #include "GlmOutStream.hpp"
 

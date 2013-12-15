@@ -5,8 +5,8 @@
 #include <TestUtils.hpp>
 using namespace TestUtils::predicates;
 
-#include "MathUtils.hpp"
-using MathUtils::PI;
+#include "Trigonometry.hpp"
+using Rigid3D::PI;
 
 #include <glm/glm.hpp>
 using glm::vec3;

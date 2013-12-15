@@ -20,6 +20,8 @@ Geometry::Geometry(const vector<vec3> * vertexPositions) {
     vec3 sum;
 
     unsigned int count = 0;
+
+    // Compute min and max extensions in local coordinates.
     for (const vec3 & position : *vertexPositions) {
         sum += position;
 
@@ -34,6 +36,7 @@ Geometry::Geometry(const vector<vec3> * vertexPositions) {
         count++;
     }
 
+    // Compute center of geometry in local coordinates.
     if (count > 0) {
         center = sum * (1.0f / count);
     }

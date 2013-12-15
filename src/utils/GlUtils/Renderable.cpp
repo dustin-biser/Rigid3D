@@ -107,18 +107,9 @@ void Renderable::setShininessFactor(float shininessfactor) {
 //---------------------------------------------------------------------------------------
 void Renderable::loadUniformData(const RenderContext & context) {
     mat4 modelView = context.viewMatrix * modelTransform.getModelMatrix();
+
     shaderProgram->setUniform("ModelViewMatrix", modelView);
     shaderProgram->setUniform("ProjectionMatrix", context.projectionMatrix);
-
-    //XXX Dustin - Find a less expensive way to compute Normal Matrix, than taking inverse.
-
-    // Compute 3x3 normal matrix.
-    // Inverse scaling factors.
-//    vec3 scale = modelTransform.getScale();
-//    modelView[0][0] = 1.0f / scale.x;
-//    modelView[1][1] = 1.0f / scale.y;
-//    modelView[2][2] = 1.0f / scale.z;
-//    shaderProgram->setUniform("NormalMatrix", mat3(modelView));
     shaderProgram->setUniform("NormalMatrix", glm::transpose(glm::inverse(mat3(modelView))));
 
     shaderProgram->setUniform("material.emission", material.emission);
