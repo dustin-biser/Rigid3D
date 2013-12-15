@@ -39,8 +39,8 @@
 									<listOptionValue builtIn="false" value="/home/dustin/Projects/C++/Rigid3D/Rigid3D/Rigid3D/tests/include"/>
 									<listOptionValue builtIn="false" value="/usr/local/lib/glm-0.9.4.6"/>
 									<listOptionValue builtIn="false" value="/usr/local/lib/glm-0.9.4.3"/>
-									<listOptionValue builtIn="false" value="../Rigid3D/Rigid3D/examples"/>
-									<listOptionValue builtIn="false" value="../Rigid3D/Rigid3D/include/math"/>
+									<listOptionValue builtIn="false" value="/home/dustin/Projects/C++/Rigid3D/Rigid3D/Rigid3D/examples"/>
+									<listOptionValue builtIn="false" value="/home/dustin/Projects/C++/Rigid3D/Rigid3D/Rigid3D/include/math"/>
 								</option>
 								<option id="gnu.c.compiler.option.preprocessor.def.symbols.1429203995" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="__GXX_EXPERIMENTAL_CXX0X__=1"/>
@@ -61,8 +61,8 @@
 									<listOptionValue builtIn="false" value="/home/dustin/Projects/C++/Rigid3D/Rigid3D/Rigid3D/tests/include"/>
 									<listOptionValue builtIn="false" value="/usr/local/lib/glm-0.9.4.6"/>
 									<listOptionValue builtIn="false" value="/usr/local/lib/glm-0.9.4.3"/>
-									<listOptionValue builtIn="false" value="../Rigid3D/Rigid3D/examples"/>
-									<listOptionValue builtIn="false" value="../Rigid3D/Rigid3D/include/math"/>
+									<listOptionValue builtIn="false" value="/home/dustin/Projects/C++/Rigid3D/Rigid3D/Rigid3D/examples"/>
+									<listOptionValue builtIn="false" value="/home/dustin/Projects/C++/Rigid3D/Rigid3D/Rigid3D/include/math"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.preprocessor.def.1028643768" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="__GXX_EXPERIMENTAL_CXX0X__=1"/>
@@ -93,8 +93,8 @@
 									<listOptionValue builtIn="false" value="/home/dustin/Projects/C++/Rigid3D/Rigid3D/Rigid3D/tests/include"/>
 									<listOptionValue builtIn="false" value="/usr/local/lib/glm-0.9.4.6"/>
 									<listOptionValue builtIn="false" value="/usr/local/lib/glm-0.9.4.3"/>
-									<listOptionValue builtIn="false" value="../Rigid3D/Rigid3D/examples"/>
-									<listOptionValue builtIn="false" value="../Rigid3D/Rigid3D/include/math"/>
+									<listOptionValue builtIn="false" value="/home/dustin/Projects/C++/Rigid3D/Rigid3D/Rigid3D/examples"/>
+									<listOptionValue builtIn="false" value="/home/dustin/Projects/C++/Rigid3D/Rigid3D/Rigid3D/include/math"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.1230348297" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
@@ -102,15 +102,14 @@
 					</folderInfo>
 					<sourceEntries>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="data"/>
-						<entry excluding="examples|graphics|utils|utils/GlUtils" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="include"/>
+						<entry excluding="examples|graphics|utils/GlUtils|utils" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="include"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="include/graphics"/>
-						<entry excluding="examples|graphics|utils|utils/GlUtils" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="examples|graphics|utils/GlUtils|utils" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src/graphics"/>
 						<entry excluding="utils" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="tests/include"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="tests/include/utils"/>
-						<entry excluding="utils|utils/GlUtils" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="tests/src"/>
+						<entry excluding="utils/GlUtils|utils" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="tests/src"/>
 						<entry excluding="graphics|GlUtils" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="tests/src/utils"/>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="tests/src/utils/GlUtils"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
