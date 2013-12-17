@@ -24,11 +24,11 @@ libDirectories = {"ext/glew-1.10.0/lib",
 
 includeDirList = {"ext",
                   "ext/glew-1.10.0/include",
-                  "ext/freetype-gl",
-                  "include",
-                  "include/collision",
-                  "include/graphics",
-                  "include/math",
+                  "src",
+                  "src/collision",
+                  "src/common",
+                  "src/graphics",
+                  "src/math",
                   "examples",
                   "examples/utils",
                   "../glm",
@@ -80,7 +80,6 @@ solution "Rigid3D"
 dofile("tests/tests.lua")
 
 -- Create a project for each demo
---CreateDemo("FreetypeGl_Example", "src/examples/FreetypeGl_Example.cpp", "examples/utils/GlfwOpenGlWindow.cpp")
 CreateDemo("Glfw-Example", "examples/Glfw-Example.cpp")
 CreateDemo("GlfwOpenGlWindowExample", "examples/GlfwOpenGlWindowExample.cpp", "examples/utils/GlfwOpenGlWindow.cpp")
 CreateDemo("LoadMeshObj_Example", "examples/LoadMeshObj_Example.cpp", "examples/utils/GlfwOpenGlWindow.cpp")
