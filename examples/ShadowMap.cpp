@@ -222,7 +222,7 @@ void ShadowMap::draw()
     glBindFramebuffer(GL_FRAMEBUFFER, shadowFBO);
     glClear(GL_DEPTH_BUFFER_BIT);
     glViewport(0, 0, shadowMapWidth, shadowMapHeight);
-    shaderProgram.setUniformSubroutinesuiv(GL_FRAGMENT_SHADER, "recordDepthValues");
+    shaderProgram.setUniformSubroutine(GL_FRAGMENT_SHADER, "recordDepthValues");
     glEnable(GL_CULL_FACE);
     glCullFace(GL_FRONT);
     drawScene();
@@ -238,7 +238,7 @@ void ShadowMap::draw()
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glViewport(0, 0, windowWidth, windowHeight);
-        shaderProgram.setUniformSubroutinesuiv(GL_FRAGMENT_SHADER, "shadeWithShadow");
+        shaderProgram.setUniformSubroutine(GL_FRAGMENT_SHADER, "shadeWithShadow");
         glCullFace(GL_BACK);
         drawScene();
 
