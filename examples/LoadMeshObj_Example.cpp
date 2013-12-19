@@ -1,11 +1,10 @@
 #include <LoadMeshObj_Example.hpp>
-#include <GlErrorCheck.hpp>
+
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtx/transform.hpp>
 #include <iostream>
 #include <memory>
 
-#include "Trigonometry.hpp"
 using Rigid3D::cotangent;
 using Rigid3D::degreesToRadians;
 

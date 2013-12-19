@@ -20,7 +20,7 @@
 							<option id="cdt.managedbuild.option.gnu.cross.prefix.573261785" name="Prefix" superClass="cdt.managedbuild.option.gnu.cross.prefix"/>
 							<option id="cdt.managedbuild.option.gnu.cross.path.536533597" name="Path" superClass="cdt.managedbuild.option.gnu.cross.path"/>
 							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.ELF" id="cdt.managedbuild.targetPlatform.gnu.cross.1429149082" isAbstract="false" osList="all" superClass="cdt.managedbuild.targetPlatform.gnu.cross"/>
-							<builder arguments="config=debug CXX=clang" autoBuildTarget="" cleanBuildTarget="clean" command="make" enableAutoBuild="false" id="cdt.managedbuild.builder.gnu.cross.753898336" incrementalBuildTarget="" keepEnvironmentInBuildfile="false" managedBuildOn="false" name="Gnu Make Builder" superClass="cdt.managedbuild.builder.gnu.cross">
+							<builder arguments="config=debug CXX=clang" autoBuildTarget="" cleanBuildTarget="clean" command="make" enableAutoBuild="false" id="cdt.managedbuild.builder.gnu.cross.753898336" incrementalBuildTarget="" keepEnvironmentInBuildfile="false" managedBuildOn="false" name="Gnu Make Builder" stopOnErr="true" superClass="cdt.managedbuild.builder.gnu.cross">
 								<outputEntries>
 									<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="outputPath" name=""/>
 									<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="outputPath" name="bin"/>
@@ -41,6 +41,18 @@
 									<listOptionValue builtIn="false" value="/usr/local/lib/glm-0.9.4.3"/>
 									<listOptionValue builtIn="false" value="/home/dustin/Projects/C++/Rigid3D/Rigid3D/Rigid3D/examples"/>
 									<listOptionValue builtIn="false" value="/home/dustin/Projects/C++/Rigid3D/Rigid3D/Rigid3D/include/math"/>
+									<listOptionValue builtIn="false" value="/home/dustin/Projects/C++/glm/glm"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/src/math}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/src/graphics}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/src/common}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/src/collision}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/tests/src/collision}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/tests/src/utils}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/tests/src/graphics}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/tests/src}&quot;"/>
+									<listOptionValue builtIn="false" value="/usr/local/include/GLFW"/>
+									<listOptionValue builtIn="false" value="/usr/local/include/GL"/>
 								</option>
 								<option id="gnu.c.compiler.option.preprocessor.def.symbols.1429203995" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="__GXX_EXPERIMENTAL_CXX0X__=1"/>
@@ -50,19 +62,22 @@
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.cross.cpp.compiler.1548255601" name="Cross G++ Compiler" superClass="cdt.managedbuild.tool.gnu.cross.cpp.compiler">
 								<option id="gnu.cpp.compiler.option.include.paths.1382980904" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
-									<listOptionValue builtIn="false" value="/usr/local/include"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/src/collision}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/src/common}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/src/math}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/src/graphics}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/tests/src/collision}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/tests/src/utils}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/tests/src/graphics}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/tests/src}&quot;"/>
 									<listOptionValue builtIn="false" value="/home/dustin/Projects/C++/Rigid3D/Rigid3D/Rigid3D/ext/freetype-gl"/>
-									<listOptionValue builtIn="false" value="/home/dustin/Projects/C++/Rigid3D/Rigid3D/Rigid3D/include/utils/GlUtils"/>
 									<listOptionValue builtIn="false" value="/home/dustin/Projects/C++/Rigid3D/Rigid3D/include/examples"/>
-									<listOptionValue builtIn="false" value="/home/dustin/Projects/C++/Rigid3D/Rigid3D/Rigid3D/include"/>
-									<listOptionValue builtIn="false" value="/home/dustin/Projects/C++/Rigid3D/Rigid3D/Rigid3D/include/utils"/>
-									<listOptionValue builtIn="false" value="/home/dustin/Projects/C++/Rigid3D/Rigid3D/Rigid3D/include/utils/MathUtils"/>
-									<listOptionValue builtIn="false" value="/home/dustin/Projects/C++/Rigid3D/Rigid3D/Rigid3D/tests/include/utils"/>
-									<listOptionValue builtIn="false" value="/home/dustin/Projects/C++/Rigid3D/Rigid3D/Rigid3D/tests/include"/>
-									<listOptionValue builtIn="false" value="/usr/local/lib/glm-0.9.4.6"/>
-									<listOptionValue builtIn="false" value="/usr/local/lib/glm-0.9.4.3"/>
 									<listOptionValue builtIn="false" value="/home/dustin/Projects/C++/Rigid3D/Rigid3D/Rigid3D/examples"/>
-									<listOptionValue builtIn="false" value="/home/dustin/Projects/C++/Rigid3D/Rigid3D/Rigid3D/include/math"/>
+									<listOptionValue builtIn="false" value="/usr/local/include"/>
+									<listOptionValue builtIn="false" value="/home/dustin/Projects/C++/glm"/>
+									<listOptionValue builtIn="false" value="/usr/local/include/GLFW"/>
+									<listOptionValue builtIn="false" value="/usr/local/include/GL"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.preprocessor.def.1028643768" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="__GXX_EXPERIMENTAL_CXX0X__=1"/>
@@ -72,7 +87,9 @@
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.cross.c.linker.1687600139" name="Cross GCC Linker" superClass="cdt.managedbuild.tool.gnu.cross.c.linker"/>
 							<tool id="cdt.managedbuild.tool.gnu.cross.cpp.linker.2067278097" name="Cross G++ Linker" superClass="cdt.managedbuild.tool.gnu.cross.cpp.linker">
-								<option id="gnu.cpp.link.option.paths.1614713458" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths"/>
+								<option id="gnu.cpp.link.option.paths.1614713458" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/lib}&quot;"/>
+								</option>
 								<option id="gnu.cpp.link.option.libs.759133590" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs"/>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.953459030" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
@@ -95,17 +112,87 @@
 									<listOptionValue builtIn="false" value="/usr/local/lib/glm-0.9.4.3"/>
 									<listOptionValue builtIn="false" value="/home/dustin/Projects/C++/Rigid3D/Rigid3D/Rigid3D/examples"/>
 									<listOptionValue builtIn="false" value="/home/dustin/Projects/C++/Rigid3D/Rigid3D/Rigid3D/include/math"/>
+									<listOptionValue builtIn="false" value="/home/dustin/Projects/C++/glm/glm"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/src/math}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/src/graphics}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/src/common}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/src/collision}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/tests/src/collision}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/tests/src/utils}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/tests/src/graphics}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/tests/src}&quot;"/>
+									<listOptionValue builtIn="false" value="/usr/local/include/GLFW"/>
+									<listOptionValue builtIn="false" value="/usr/local/include/GL"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.1230348297" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
 						</toolChain>
 					</folderInfo>
+					<folderInfo id="cdt.managedbuild.toolchain.gnu.cross.base.477183300.464789541" name="/" resourcePath="examples">
+						<toolChain id="cdt.managedbuild.toolchain.gnu.cross.base.1809478569" name="cdt.managedbuild.toolchain.gnu.cross.base" superClass="cdt.managedbuild.toolchain.gnu.cross.base" unusedChildren="">
+							<option id="cdt.managedbuild.option.gnu.cross.prefix.573261785.625143496" name="Prefix" superClass="cdt.managedbuild.option.gnu.cross.prefix.573261785"/>
+							<option id="cdt.managedbuild.option.gnu.cross.path.536533597.525419200" name="Path" superClass="cdt.managedbuild.option.gnu.cross.path.536533597"/>
+							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.ELF" id="cdt.managedbuild.targetPlatform.gnu.cross" isAbstract="false" osList="all" superClass="cdt.managedbuild.targetPlatform.gnu.cross"/>
+							<tool id="cdt.managedbuild.tool.gnu.cross.c.compiler.1584089653" name="Cross GCC Compiler" superClass="cdt.managedbuild.tool.gnu.cross.c.compiler.740715675">
+								<option id="gnu.c.compiler.option.include.paths.1015498064" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" valueType="includePath">
+									<listOptionValue builtIn="false" value="/usr/local/include"/>
+									<listOptionValue builtIn="false" value="/home/dustin/Projects/C++/glm/glm"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/src/math}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/src/graphics}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/src/common}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/src/collision}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/tests/src/collision}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/tests/src/utils}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/tests/src/graphics}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/tests/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/examples/utils}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/examples}&quot;"/>
+								</option>
+								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.1908263356" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
+							</tool>
+							<tool id="cdt.managedbuild.tool.gnu.cross.cpp.compiler.2067572712" name="Cross G++ Compiler" superClass="cdt.managedbuild.tool.gnu.cross.cpp.compiler.1548255601">
+								<option id="gnu.cpp.compiler.option.include.paths.1355554761" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/src/collision}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/src/common}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/src/math}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/src/graphics}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/tests/src/collision}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/tests/src/utils}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/tests/src/graphics}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/tests/src}&quot;"/>
+									<listOptionValue builtIn="false" value="/usr/local/include"/>
+									<listOptionValue builtIn="false" value="/home/dustin/Projects/C++/glm"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/examples/utils}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/examples}&quot;"/>
+								</option>
+								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.1905114365" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
+							</tool>
+							<tool id="cdt.managedbuild.tool.gnu.cross.c.linker.1709566324" name="Cross GCC Linker" superClass="cdt.managedbuild.tool.gnu.cross.c.linker.1687600139"/>
+							<tool id="cdt.managedbuild.tool.gnu.cross.cpp.linker.1907207621" name="Cross G++ Linker" superClass="cdt.managedbuild.tool.gnu.cross.cpp.linker.2067278097"/>
+							<tool id="cdt.managedbuild.tool.gnu.cross.archiver.70158785" name="Cross GCC Archiver" superClass="cdt.managedbuild.tool.gnu.cross.archiver.526204614"/>
+							<tool id="cdt.managedbuild.tool.gnu.cross.assembler.91178517" name="Cross GCC Assembler" superClass="cdt.managedbuild.tool.gnu.cross.assembler.509782969">
+								<option id="gnu.both.asm.option.include.paths.213533509" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/examples/utils}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/examples}&quot;"/>
+								</option>
+								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.1128889028" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
+							</tool>
+						</toolChain>
+					</folderInfo>
 					<sourceEntries>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="data"/>
-						<entry excluding="examples|graphics|utils/GlUtils|utils" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src/graphics"/>
-						<entry excluding="utils/GlUtils|utils" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="tests/src"/>
-						<entry excluding="graphics|GlUtils" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="tests/src/utils"/>
+						<entry excluding="Utils" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="examples"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="examples/Utils"/>
+						<entry excluding="Graphics|Rigid3D/Math|Rigid3D/Collision|Math|Rigid3D/Common|Rigid3D/Graphics|Collision|Common" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="src"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="src/Rigid3D/Collision"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="src/Rigid3D/Common"/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src/Rigid3D/Graphics"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="src/Rigid3D/Math"/>
+						<entry excluding="Utils|utils/GlUtils" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="tests/src"/>
+						<entry excluding="Graphics|GlUtils" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="tests/src/Utils"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -116,15 +203,6 @@
 		<project id="SFML-OpenGL-Code.null.553847744" name="SFML-OpenGL-Code"/>
 	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
-	<storageModule moduleId="scannerConfiguration">
-		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
-		<scannerConfigBuildInfo instanceId="cdt.managedbuild.toolchain.gnu.cross.base.477183300;cdt.managedbuild.toolchain.gnu.cross.base.477183300.383459627;cdt.managedbuild.tool.gnu.cross.cpp.compiler.1548255601;cdt.managedbuild.tool.gnu.cpp.compiler.input.135715295">
-			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileCPP"/>
-		</scannerConfigBuildInfo>
-		<scannerConfigBuildInfo instanceId="cdt.managedbuild.toolchain.gnu.cross.base.477183300;cdt.managedbuild.toolchain.gnu.cross.base.477183300.383459627;cdt.managedbuild.tool.gnu.cross.c.compiler.740715675;cdt.managedbuild.tool.gnu.c.compiler.input.968283338">
-			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileC"/>
-		</scannerConfigBuildInfo>
-	</storageModule>
 	<storageModule moduleId="refreshScope" versionNumber="2">
 		<configuration configurationName="Default">
 			<resource resourceType="PROJECT" workspacePath="/Rigid3D"/>
@@ -134,5 +212,14 @@
 		<doc-comment-owner id="org.eclipse.cdt.ui.doxygen">
 			<path value=""/>
 		</doc-comment-owner>
+	</storageModule>
+	<storageModule moduleId="scannerConfiguration">
+		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		<scannerConfigBuildInfo instanceId="cdt.managedbuild.toolchain.gnu.cross.base.477183300;cdt.managedbuild.toolchain.gnu.cross.base.477183300.383459627;cdt.managedbuild.tool.gnu.cross.c.compiler.740715675;cdt.managedbuild.tool.gnu.c.compiler.input.968283338">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileC"/>
+		</scannerConfigBuildInfo>
+		<scannerConfigBuildInfo instanceId="cdt.managedbuild.toolchain.gnu.cross.base.477183300;cdt.managedbuild.toolchain.gnu.cross.base.477183300.383459627;cdt.managedbuild.tool.gnu.cross.cpp.compiler.1548255601;cdt.managedbuild.tool.gnu.cpp.compiler.input.135715295">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileCPP"/>
+		</scannerConfigBuildInfo>
 	</storageModule>
 </cproject>

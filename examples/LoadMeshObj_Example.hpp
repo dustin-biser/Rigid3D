@@ -1,9 +1,12 @@
 #ifndef LOADMESHOBJ_EXAMPLE_HPP_
 #define LOADMESHOBJ_EXAMPLE_HPP_
 
-#include "GlfwOpenGlWindow.hpp"
-#include "Rigid3D.hpp"
+#include <Utils/GlfwOpenGlWindow.hpp>
+
+#include <Rigid3D/Rigid3D.hpp>
+
 #include <glm/gtc/reciprocal.hpp>
+
 #include <vector>
 
 using namespace Rigid3D;

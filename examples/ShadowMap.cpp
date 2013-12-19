@@ -1,6 +1,4 @@
 #include "ShadowMap.hpp"
-#include "GlErrorCheck.hpp"
-#include "Trigonometry.hpp"
 
 #include <glm/glm.hpp>
 using glm::transpose;

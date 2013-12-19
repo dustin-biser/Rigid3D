@@ -1,12 +1,7 @@
-// TexturedCubeDemo.cpp
-
 #include "TexturedCubeDemo.hpp"
-#include "Rigid3DException.hpp"
-#include "Trigonometry.hpp"
 
 #include "FreeImage.h"
 
-#include "glm/glm.hpp"
 #include "glm/gtx/transform.hpp"
 using glm::translate;
 using glm::inverse;

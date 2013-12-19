@@ -1,5 +1,5 @@
-#include <MeshNormals.hpp>
-#include <GlErrorCheck.hpp>
+#include "MeshNormals.hpp"
+
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtx/transform.hpp>
 #include <iostream>
@@ -7,7 +7,6 @@
 #include <ctime>
 #include <array>
 
-#include "Trigonometry.hpp"
 using Rigid3D::cotangent;
 using Rigid3D::degreesToRadians;
 

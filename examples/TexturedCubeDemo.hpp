@@ -3,12 +3,9 @@
  *
  * @author Dustin Biser
  */
-#include "GlfwOpenGlWindow.hpp"
-#include <glm/glm.hpp>
-using glm::mat4;
-using glm::mat3;
+#include <Utils/GlfwOpenGlWindow.hpp>
+#include <Rigid3D/Rigid3D.hpp>
 
-#include "Rigid3D.hpp"
 using namespace Rigid3D;
 
 class TexturedCubeDemo : public GlfwOpenGlWindow {

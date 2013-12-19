@@ -1,5 +1,4 @@
-#include <DepthMapping.hpp>
-#include <GlErrorCheck.hpp>
+#include "DepthMapping.hpp"
 
 #include <glm/gtx/transform.hpp>
 using glm::translate;

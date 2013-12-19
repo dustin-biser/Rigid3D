@@ -1,10 +1,9 @@
-#include <FlatSmoothShading_Example.hpp>
-#include <GlErrorCheck.hpp>
+#include "FlatSmoothShading_Example.hpp"
+
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtx/transform.hpp>
 #include <iostream>
 
-#include "Trigonometry.hpp"
 using Rigid3D::PI;
 
 #include <unordered_map>

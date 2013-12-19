@@ -1,8 +1,9 @@
 #ifndef MESH_NORMALS_HPP
 #define MESH_NORMALS_HPP
 
-#include "GlfwOpenGlWindow.hpp"
-#include "Rigid3D.hpp"
+#include <Utils/GlfwOpenGlWindow.hpp>
+#include <Rigid3D/Rigid3D.hpp>
+
 #include <glm/gtc/reciprocal.hpp>
 #include <vector>
 

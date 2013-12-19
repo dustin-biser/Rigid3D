@@ -5,9 +5,8 @@
 #ifndef SHADOW_MAP_HPP_
 #define SHADOW_MAP_HPP_
 
-#include "GlfwOpenGlWindow.hpp"
-#include "MeshConsolidator.hpp"
-#include "Rigid3D.hpp"
+#include <Utils/GlfwOpenGlWindow.hpp>
+#include <Rigid3D/Rigid3D.hpp>
 
 using namespace Rigid3D;
 

@@ -1,11 +1,8 @@
 #ifndef DEPTH_MAPPING_HPP
 #define DEPTH_MAPPING_HPP
 
-#include "GlfwOpenGlWindow.hpp"
-#include "Rigid3D.hpp"
-
-#include <glm/glm.hpp>
-using glm::mat4;
+#include <Utils/GlfwOpenGlWindow.hpp>
+#include <Rigid3D/Rigid3D.hpp>
 
 #include <vector>
 using std::vector;

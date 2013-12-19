@@ -1,8 +1,9 @@
 #ifndef FLAT_SMOOTH_SHADING_EXAMPLE_HPP
 #define FLAT_SMOOTH_SHADING_EXAMPLE_HPP
 
-#include "GlfwOpenGlWindow.hpp"
-#include "Rigid3D.hpp"
+#include <Utils/GlfwOpenGlWindow.hpp>
+#include <Rigid3D/Rigid3D.hpp>
+
 #include <glm/gtc/reciprocal.hpp>
 #include <vector>
 #include <memory>

@@ -1,9 +1,4 @@
-// CameraExample.cpp
-
 #include "CameraExample.hpp"
-#include "GlErrorCheck.hpp"
-
-#include "Trigonometry.hpp"
 
 #include <glm/gtx/transform.hpp>
 using glm::translate;
@@ -178,5 +173,6 @@ void CameraExample::cleanup() {
     glBindVertexArray(0);
     glDeleteBuffers(1, &vbo_normals);
     glDeleteBuffers(1, &vbo_vertices);
-    glDeleteBuffers(1, &vao);
+    glDeleteVertexArrays(1, &vao);
+    Rigid3D::checkGLErrors(__FILE__, __LINE__);
 }

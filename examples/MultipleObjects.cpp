@@ -1,9 +1,8 @@
-#include <MultipleObjects.hpp>
-#include <GlErrorCheck.hpp>
+#include "MultipleObjects.hpp"
+
 #include <glm/gtx/transform.hpp>
 #include <iostream>
 
-#include "Trigonometry.hpp"
 using Rigid3D::PI;
 
 int main() {
