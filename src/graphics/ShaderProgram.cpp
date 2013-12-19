@@ -159,7 +159,7 @@ namespace Rigid3D {
             string message = "Error Compiling Shader: ";
             message += errorMessage;
 
-            throw ShaderException(message.c_str());
+            throw ShaderException(message);
         }
     }
 
@@ -201,7 +201,7 @@ namespace Rigid3D {
             stringstream strStream;
             strStream << "Error Linking Shaders: " << errorMessage << endl;
 
-            throw ShaderException(strStream.str().c_str());
+            throw ShaderException(strStream.str());
         }
     }
 
@@ -230,7 +230,7 @@ GLuint ShaderProgram::getProgramObject() const {
         if (!file) {
             stringstream strStream;
             strStream << "Error -- Failed to open file: " << sourceFile << endl;
-            throw ShaderException(strStream.str().c_str());
+            throw ShaderException(strStream.str());
         }
 
         stringstream strBuffer;
@@ -265,7 +265,7 @@ GLuint ShaderProgram::getProgramObject() const {
         if (result == -1) {
             stringstream errorMessage;
             errorMessage << "Error obtaining uniform location: " << uniformName;
-            throw ShaderException(errorMessage.str().c_str());
+            throw ShaderException(errorMessage.str());
         }
 
         return result;
@@ -289,7 +289,7 @@ GLuint ShaderProgram::getProgramObject() const {
         if (result == -1) {
             stringstream errorMessage;
             errorMessage << "Error obtaining attribute location: " << attributeName;
-            throw ShaderException(errorMessage.str().c_str());
+            throw ShaderException(errorMessage.str());
         }
 
         return result;
@@ -498,13 +498,13 @@ GLuint ShaderProgram::getProgramObject() const {
     }
 
     //------------------------------------------------------------------------------------
-    void ShaderProgram::setUniformSubroutinesuiv(GLenum shaderType, const char * subroutineName) {
+    void ShaderProgram::setUniformSubroutine(GLenum shaderType, const char * subroutineName) {
         GLuint index = glGetSubroutineIndex(programObject, shaderType, subroutineName);
         if (index == GL_INVALID_INDEX) {
             stringstream errorMessage;
             errorMessage << "Error in method ShaderProgram::setUniformSubroutinesuiv." << endl
                          << subroutineName << " is not a known subroutine.";
-            throw ShaderException(errorMessage.str().c_str());
+            throw ShaderException(errorMessage.str());
         }
         glUseProgram(programObject);
         glUniformSubroutinesuiv(shaderType, 1, &index);

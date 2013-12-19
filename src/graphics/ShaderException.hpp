@@ -1,26 +1,27 @@
-#ifndef SHADEREXCEPTION_HPP_
-#define SHADEREXCEPTION_HPP_
+#ifndef RIGID3D_SHADEREXCEPTION_HPP_
+#define RIGID3D_SHADEREXCEPTION_HPP_
 
 #include <exception>
+#include <string>
+using std::string;
 
 namespace Rigid3D {
 
     class ShaderException : public std::exception {
     public:
-        ShaderException(const char * message = "Shader Exception Occurred.")
+        ShaderException(const string & message)
             : errorMessage(message) { }
 
         virtual ~ShaderException() noexcept { }
 
         virtual const char * what() const noexcept {
-            return errorMessage;
+            return errorMessage.c_str();
         }
 
     private:
-        const char * errorMessage;
+        string errorMessage;
     };
 
 }
 
-
-#endif /* SHADEREXCEPTION_HPP_ */
+#endif /* RIGID3D_SHADEREXCEPTION_HPP_ */
