@@ -22,30 +22,30 @@ namespace Rigid3D {
      * @param currentLine - line number to reference within file, if errors exist.
      */
     void checkGLErrors(const string &currentFileName, int currentLine) {
-       GLenum glErr;
+       GLenum errorType;
        bool errorFound = false;
 
-       glErr = glGetError();
+       errorType = glGetError();
 
-       stringstream strStream;
+       stringstream errorMessage;
 
        // Write all errors to strStream until error list is exhausted.
-       while (glErr != GL_NO_ERROR) {
-         const GLubyte* sError = gluErrorString(glErr);
+       while (errorType != GL_NO_ERROR) {
+         const GLubyte* errorString = gluErrorString(errorType);
 
-         if (sError)
-             strStream << "GL Error #" << glErr << "(" << gluErrorString(glErr) << ") "
+         if (errorString)
+             errorMessage << "GL Error #" << errorType << "(" << gluErrorString(errorType) << ") "
                  << " in File " << currentFileName << " at line:" << currentLine << endl;
          else
-             strStream << "GL Error #" << glErr << " (no message available)" << " in File "
+             errorMessage << "GL Error #" << errorType << " (no message available)" << " in File "
                     << currentFileName << " at line:" << currentLine << endl;
 
          errorFound = true;
-         glErr = glGetError();
+         errorType = glGetError();
        }
 
        if (errorFound) {
-           throw ShaderException(strStream.str().c_str());
+           throw ShaderException(errorMessage.str());
        }
     }
 }
