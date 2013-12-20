@@ -1,5 +1,5 @@
 /**
- * @brief Top level include for the GlUtils library
+ * @brief Top level include for the Rigid3D library
  *
  * @author Dustin Biser
  *

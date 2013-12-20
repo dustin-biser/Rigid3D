@@ -2,40 +2,43 @@
 
 namespace Rigid3D {
 
-using std::make_pair;
-
 //----------------------------------------------------------------------------------------
 /**
  * Constructor
- * Constructs a Scene using  an 'initiaizizer_list', where every two items in
- * the list form a pair consisting of a 'meshName' c-string identifier first,
- * followed by an 'objFile' c-string representing the path to the obj-file
- * containing the mesh.
+ * Constructs a Scene using  an 'initiaizizer_list', where each element of the list
+ * is a MeshInfo object containing a 'meshName' 'string' and an 'objFile' 'string'.
+ * These are the meshes that will be part of the Scene.
  *
  * Example:
  * \code
- * Scene scene = {"meshA", "../data/meshes/someMesh.obj",
- *                "meshB", "../data/meshes/someOtherMesh.obj"};
+ * Scene scene = { MeshInfo("mesh1", "path/to/mesh/data1.obj"),
+ *                 MeshInfo("mesh2", "path/to/mesh/data2.obj")
+ *                 ...
+ *                 MeshInfo("meshN", "path/to/mesh/dataN.obj")
+ *               };
  * \endcode
  *
- * The mesh-name c-string identifier for each mesh will stored internally, and
+ * The 'meshName' string identifier for each mesh will be stored internally, and
  * can be used to generate Renderable instances of the mesh using
- * Scene::createRenderable(const char * meshName).
+ * Scene::createRenderable(const string & meshName).
  *
- * @param list
+ * @see MeshInfo
+ *
+ * @param meshList
  */
-Scene::Scene(initializer_list<pair<meshName, objFile> > list) {
+Scene::Scene(initializer_list<MeshInfo> meshlist) {
 
 //    for(auto key_value : list) {
 //        meshName mesh = key_value.first;
 //    }
 
-    // 1. Construct unordered_map<meshName, Mesh> meshMap.
+    // 1. Construct an empty unordered_map<meshName, Mesh> meshMap.
     // 2. For each pair in init_list construct a Mesh using ObjFileLoader, and
     //    insert pair<meshName, Mesh> into meshMap.
     // 3. For each pair in meshMap:
     //      + Copy vertex data from Mesh to Scene object
     //      + Construct a BatchInfo object
+
 }
 
 //----------------------------------------------------------------------------------------

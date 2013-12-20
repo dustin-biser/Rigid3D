@@ -4,9 +4,9 @@
 #include "Rigid3D/Common/Settings.hpp"
 
 #include <initializer_list>
-#include <utility>
 #include <unordered_map>
 #include <vector>
+#include <string>
 
 // Forward declaration
 namespace Rigid3D {
@@ -16,23 +16,23 @@ namespace Rigid3D {
 namespace Rigid3D {
 
 using std::initializer_list;
-using std::pair;
 using std::unordered_map;
 using std::vector;
+using std::string;
 
     struct BatchInfo {
         unsigned int startIndex;
         unsigned int numIndices;
+    };
 
-        BatchInfo() : startIndex(0), numIndices(0) { }
+    struct MeshInfo {
+        string meshName; // Unique mesh identifier
+        string objFile;  // Path to .obj file containing mesh vertex data.
     };
 
     class Scene {
-    typedef const char * meshName;
-    typedef const char * objFile;
-
     public:
-        Scene(initializer_list<pair<meshName, objFile> > list);
+        Scene(initializer_list<MeshInfo> meshList);
         ~Scene();
 
 //        Renderable * createRenderable(meshName);
@@ -43,7 +43,7 @@ using std::vector;
         vec2 * textureCoords;
         int32 numVertices;
 
-        unordered_map<meshName, BatchInfo> meshBatchMap;
+        unordered_map<string, BatchInfo> meshBatchMap;
 
         vector<Renderable *> renderables;
     };
