@@ -1,6 +1,11 @@
-#include <Rigid3D/Common/GlmOutStream.hpp> // For printing glm types to output streams for failed tests.
+ // For printing glm types to output streams for failed tests.
+#include <Rigid3D/Common/GlmOutStream.hpp>
+
+#include <Rigid3D/Common/Settings.hpp>
+using Rigid3D::uint32;
 
 #include <glm/glm.hpp>
+using glm::vec2;
 using glm::vec3;
 using glm::vec4;
 using glm::mat3;
@@ -57,6 +62,16 @@ namespace TestUtils {
      */
     inline bool float_neq(float a, float b) {
         return !float_eq(a, b);
+    }
+    //-----------------------------------------------------------------------------------
+    inline bool vec2_eq(const vec2 & expected, const vec2 & actual) {
+        return ( float_eq(expected.x, actual.x) &&
+                 float_eq(expected.y, actual.y) );
+    }
+
+    //-----------------------------------------------------------------------------------
+    inline bool vec2_neq(const vec2 & expected, const vec2 & actual) {
+        return !vec2_eq(expected, actual);
     }
 
     //-----------------------------------------------------------------------------------

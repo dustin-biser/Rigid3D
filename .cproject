@@ -28,31 +28,19 @@
 							</builder>
 							<tool id="cdt.managedbuild.tool.gnu.cross.c.compiler.740715675" name="Cross GCC Compiler" superClass="cdt.managedbuild.tool.gnu.cross.c.compiler">
 								<option id="gnu.c.compiler.option.include.paths.100816422" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" valueType="includePath">
-									<listOptionValue builtIn="false" value="/usr/local/include"/>
-									<listOptionValue builtIn="false" value="/home/dustin/Projects/C++/Rigid3D/Rigid3D/Rigid3D/ext/freetype-gl"/>
-									<listOptionValue builtIn="false" value="/home/dustin/Projects/C++/Rigid3D/Rigid3D/Rigid3D/include/utils/GlUtils"/>
-									<listOptionValue builtIn="false" value="/home/dustin/Projects/C++/Rigid3D/Rigid3D/include/examples"/>
-									<listOptionValue builtIn="false" value="/home/dustin/Projects/C++/Rigid3D/Rigid3D/Rigid3D/include"/>
-									<listOptionValue builtIn="false" value="/home/dustin/Projects/C++/Rigid3D/Rigid3D/Rigid3D/include/utils"/>
-									<listOptionValue builtIn="false" value="/home/dustin/Projects/C++/Rigid3D/Rigid3D/Rigid3D/include/utils/MathUtils"/>
-									<listOptionValue builtIn="false" value="/home/dustin/Projects/C++/Rigid3D/Rigid3D/Rigid3D/tests/include/utils"/>
-									<listOptionValue builtIn="false" value="/home/dustin/Projects/C++/Rigid3D/Rigid3D/Rigid3D/tests/include"/>
-									<listOptionValue builtIn="false" value="/usr/local/lib/glm-0.9.4.6"/>
-									<listOptionValue builtIn="false" value="/usr/local/lib/glm-0.9.4.3"/>
-									<listOptionValue builtIn="false" value="/home/dustin/Projects/C++/Rigid3D/Rigid3D/Rigid3D/examples"/>
-									<listOptionValue builtIn="false" value="/home/dustin/Projects/C++/Rigid3D/Rigid3D/Rigid3D/include/math"/>
 									<listOptionValue builtIn="false" value="/home/dustin/Projects/C++/glm/glm"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/src/math}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/src/graphics}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/src/common}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/src/collision}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/src}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/tests/src/collision}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/tests/src/utils}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/tests/src/graphics}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/tests/src}&quot;"/>
 									<listOptionValue builtIn="false" value="/usr/local/include/GLFW"/>
 									<listOptionValue builtIn="false" value="/usr/local/include/GL"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/src/Rigid3D/Math}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/src/Rigid3D/Collision}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/src/Rigid3D/Common}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/src/Rigid3D/Graphics}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/src/Rigid3D}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/tests/src/Rigid3D/Collision}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/tests/src/Rigid3D/Graphics}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/tests/src/Utils}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/tests/src}&quot;"/>
+									<listOptionValue builtIn="false" value="/usr/local/include"/>
 								</option>
 								<option id="gnu.c.compiler.option.preprocessor.def.symbols.1429203995" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="__GXX_EXPERIMENTAL_CXX0X__=1"/>
@@ -62,22 +50,19 @@
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.cross.cpp.compiler.1548255601" name="Cross G++ Compiler" superClass="cdt.managedbuild.tool.gnu.cross.cpp.compiler">
 								<option id="gnu.cpp.compiler.option.include.paths.1382980904" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/src}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/src/collision}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/src/common}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/src/math}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/src/graphics}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/tests/src/collision}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/tests/src/utils}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/tests/src/graphics}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/src/Rigid3D/Collision}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/src/Rigid3D/Common}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/src/Rigid3D/Graphics}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/src/Rigid3D/Math}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/src/Rigid3D}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/tests/src/Rigid3D/Collision}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/tests/src/Rigid3D/Graphics}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/tests/src/Utils}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/tests/src}&quot;"/>
-									<listOptionValue builtIn="false" value="/home/dustin/Projects/C++/Rigid3D/Rigid3D/Rigid3D/ext/freetype-gl"/>
-									<listOptionValue builtIn="false" value="/home/dustin/Projects/C++/Rigid3D/Rigid3D/include/examples"/>
-									<listOptionValue builtIn="false" value="/home/dustin/Projects/C++/Rigid3D/Rigid3D/Rigid3D/examples"/>
-									<listOptionValue builtIn="false" value="/usr/local/include"/>
 									<listOptionValue builtIn="false" value="/home/dustin/Projects/C++/glm"/>
 									<listOptionValue builtIn="false" value="/usr/local/include/GLFW"/>
 									<listOptionValue builtIn="false" value="/usr/local/include/GL"/>
+									<listOptionValue builtIn="false" value="/usr/local/include"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.preprocessor.def.1028643768" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="__GXX_EXPERIMENTAL_CXX0X__=1"/>
@@ -99,31 +84,15 @@
 							<tool id="cdt.managedbuild.tool.gnu.cross.archiver.526204614" name="Cross GCC Archiver" superClass="cdt.managedbuild.tool.gnu.cross.archiver"/>
 							<tool id="cdt.managedbuild.tool.gnu.cross.assembler.509782969" name="Cross GCC Assembler" superClass="cdt.managedbuild.tool.gnu.cross.assembler">
 								<option id="gnu.both.asm.option.include.paths.183965763" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" valueType="includePath">
-									<listOptionValue builtIn="false" value="/usr/local/include"/>
-									<listOptionValue builtIn="false" value="/home/dustin/Projects/C++/Rigid3D/Rigid3D/Rigid3D/ext/freetype-gl"/>
-									<listOptionValue builtIn="false" value="/home/dustin/Projects/C++/Rigid3D/Rigid3D/Rigid3D/include/utils/GlUtils"/>
-									<listOptionValue builtIn="false" value="/home/dustin/Projects/C++/Rigid3D/Rigid3D/include/examples"/>
-									<listOptionValue builtIn="false" value="/home/dustin/Projects/C++/Rigid3D/Rigid3D/Rigid3D/include"/>
-									<listOptionValue builtIn="false" value="/home/dustin/Projects/C++/Rigid3D/Rigid3D/Rigid3D/include/utils"/>
-									<listOptionValue builtIn="false" value="/home/dustin/Projects/C++/Rigid3D/Rigid3D/Rigid3D/include/utils/MathUtils"/>
-									<listOptionValue builtIn="false" value="/home/dustin/Projects/C++/Rigid3D/Rigid3D/Rigid3D/tests/include/utils"/>
-									<listOptionValue builtIn="false" value="/home/dustin/Projects/C++/Rigid3D/Rigid3D/Rigid3D/tests/include"/>
-									<listOptionValue builtIn="false" value="/usr/local/lib/glm-0.9.4.6"/>
-									<listOptionValue builtIn="false" value="/usr/local/lib/glm-0.9.4.3"/>
-									<listOptionValue builtIn="false" value="/home/dustin/Projects/C++/Rigid3D/Rigid3D/Rigid3D/examples"/>
-									<listOptionValue builtIn="false" value="/home/dustin/Projects/C++/Rigid3D/Rigid3D/Rigid3D/include/math"/>
-									<listOptionValue builtIn="false" value="/home/dustin/Projects/C++/glm/glm"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/src/math}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/src/graphics}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/src/common}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/src/collision}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/src}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/tests/src/collision}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/tests/src/utils}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/tests/src/graphics}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/src/Rigid3D/Math}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/src/Rigid3D/Collision}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/src/Rigid3D/Common}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/src/Rigid3D/Graphics}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/src/Rigid3D}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/tests/src/Rigid3D/Collision}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/tests/src/Rigid3D/Graphics}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/tests/src/Utils}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/tests/src}&quot;"/>
-									<listOptionValue builtIn="false" value="/usr/local/include/GLFW"/>
-									<listOptionValue builtIn="false" value="/usr/local/include/GL"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.1230348297" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>

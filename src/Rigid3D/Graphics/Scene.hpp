@@ -27,7 +27,7 @@ using std::string;
 
     struct MeshInfo {
         string meshName; // Unique mesh identifier
-        string objFile;  // Path to .obj file containing mesh vertex data.
+        string objFile;  // Path to .obj file containing mesh data.
     };
 
     class Scene {
@@ -42,6 +42,9 @@ using std::string;
         vec3 * normals;
         vec2 * textureCoords;
         int32 numVertices;
+
+        uint32 * indcies;
+        int32 numIndiecs;
 
         unordered_map<string, BatchInfo> meshBatchMap;
 

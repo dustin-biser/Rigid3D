@@ -16,8 +16,6 @@ using std::unordered_map;
 
 #include <iostream>
 using std::ostream;
-
-#include <iostream>
 using std::endl;
 
 using namespace Rigid3D;

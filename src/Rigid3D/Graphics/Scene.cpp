@@ -32,12 +32,13 @@ Scene::Scene(initializer_list<MeshInfo> meshlist) {
 //        meshName mesh = key_value.first;
 //    }
 
-    // 1. Construct an empty unordered_map<meshName, Mesh> meshMap.
+    // 1. Construct a local unordered_map<meshName, Mesh> meshMap.
     // 2. For each pair in init_list construct a Mesh using ObjFileLoader, and
-    //    insert pair<meshName, Mesh> into meshMap.
-    // 3. For each pair in meshMap:
+    //    insert the [meshName, Mesh] pair into meshMap.
+    // 3. For each [meshName, Mesh] pair in meshMap:
     //      + Copy vertex data from Mesh to Scene object
     //      + Construct a BatchInfo object
+    //      + Insert [meshName, BatchInfo] pair into meshBatchMap.
 
 }
 
