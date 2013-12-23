@@ -20,9 +20,6 @@ namespace Rigid3D {
 
     /**
      * A MeshData struct holds all the vertex data needed to render a Mesh.
-     * Each position, normal, and textureCoord array has its data aligned so
-     * that the i-th element from each array makes up the Mesh's i-th vertex
-     * attribute data.
      */
     struct MeshData {
         vec3 * positions;
@@ -39,6 +36,9 @@ namespace Rigid3D {
         PosNorm,
     };
 
+    /**
+     * For loading mesh data from Wavefront .obj files into MeshData structures.
+     */
     class ObjFileLoader {
     public:
         static void load(MeshData & meshData, const string & objFile);

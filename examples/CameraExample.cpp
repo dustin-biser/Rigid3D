@@ -78,11 +78,11 @@ void CameraExample::setupShaders() {
 
 //---------------------------------------------------------------------------------------
 void CameraExample::setupRenderables() {
-    grid          = Renderable(&vao, &shaderProgram, &(batchInfoMap.at("grid")));
-    bunny         = Renderable(&vao, &shaderProgram, &(batchInfoMap.at("bunny")));
-    tyrannosaurus = Renderable(&vao, &shaderProgram, &(batchInfoMap.at("tyrannosaurus")));
-    sphere        = Renderable(&vao, &shaderProgram, &(batchInfoMap.at("sphere")));
-    light         = Renderable(&vao, &shaderProgram, &(batchInfoMap.at("cube")));
+    grid          = RenderableXXX(&vao, &shaderProgram, &(batchInfoMap.at("grid")));
+    bunny         = RenderableXXX(&vao, &shaderProgram, &(batchInfoMap.at("bunny")));
+    tyrannosaurus = RenderableXXX(&vao, &shaderProgram, &(batchInfoMap.at("tyrannosaurus")));
+    sphere        = RenderableXXX(&vao, &shaderProgram, &(batchInfoMap.at("sphere")));
+    light         = RenderableXXX(&vao, &shaderProgram, &(batchInfoMap.at("cube")));
 
     renderContext.viewMatrix = camera.getViewMatrix();
     renderContext.projectionMatrix = camera.getProjectionMatrix();

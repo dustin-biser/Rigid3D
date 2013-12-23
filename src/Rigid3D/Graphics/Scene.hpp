@@ -10,7 +10,7 @@
 
 // Forward declaration
 namespace Rigid3D {
-    class Renderable;
+    class RenderableXXX;
 }
 
 namespace Rigid3D {
@@ -25,11 +25,18 @@ using std::string;
         unsigned int numIndices;
     };
 
+    /**
+     * Structure for holding a mesh name and its corresponding Wavefront .obj
+     * file.
+     */
     struct MeshInfo {
-        string meshName; // Unique mesh identifier
-        string objFile;  // Path to .obj file containing mesh data.
+        string meshName; /// Unique mesh identifier
+        string objFile;  /// Path to .obj file containing mesh data.
     };
 
+    /**
+     *
+     */
     class Scene {
     public:
         Scene(initializer_list<MeshInfo> meshList);
@@ -48,7 +55,7 @@ using std::string;
 
         unordered_map<string, BatchInfo> meshBatchMap;
 
-        vector<Renderable *> renderables;
+        vector<RenderableXXX *> renderables;
     };
 
 }

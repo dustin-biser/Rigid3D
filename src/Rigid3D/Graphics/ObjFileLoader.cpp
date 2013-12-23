@@ -46,6 +46,14 @@ uint32 ObjFileLoader::indexCounter = 0;
 /**
  * Reads mesh vertex data from 'objFile' and loads it into the 'meshData' structure.
  *
+ * Each position, normal, and textureCoord array of 'meshData' will have its
+ * data aligned so that the i-th element from each array corresponds to data for
+ * the i-th vertex.  No vertex data triplets (position, textureCoord, normal)
+ * will be duplicated within the data arrays of 'meshdata'.
+ *
+ * @note The user is responsible for deleting all memory pointed to by
+ * 'meshData', by using 'delete []'.
+ *
  * @param meshData
  * @param objFile
  */

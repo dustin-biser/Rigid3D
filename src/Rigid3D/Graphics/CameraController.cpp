@@ -218,7 +218,7 @@ void CameraController::updateTranslation() {
 
 //----------------------------------------------------------------------------------------
 void CameraController::updatePose() {
-    static const float radians = 0.005f;
+    static const float radians = 0.5f;
     if (key_q_down) {
         camera->roll(-1.0f * radians);
     }

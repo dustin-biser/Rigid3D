@@ -23,7 +23,7 @@
 #include <Rigid3D/Graphics/ModelTransform.hpp>
 #include <Rigid3D/Graphics/OpenGlContext.hpp>
 #include <Rigid3D/Graphics/RenderableFrustum.hpp>
-#include <Rigid3D/Graphics/Renderable.hpp>
+#include <Rigid3D/Graphics/RenderableXXX.hpp>
 #include <Rigid3D/Graphics/ShaderProgram.hpp>
 #include <Rigid3D/Graphics/ShaderException.hpp>
 

@@ -94,9 +94,9 @@ void PickingDemo::setupVertexBuffers() {
 
 //---------------------------------------------------------------------------------------
 void PickingDemo::setupRenderables() {
-    cube = Renderable(&vao, &shader, &batchInfoMap.at("cube"));
-    sphere = Renderable(&vao, &shader, &batchInfoMap.at("sphere"));
-    torus = Renderable(&vao, &shader, &batchInfoMap.at("torus"));
+    cube = RenderableXXX(&vao, &shader, &batchInfoMap.at("cube"));
+    sphere = RenderableXXX(&vao, &shader, &batchInfoMap.at("sphere"));
+    torus = RenderableXXX(&vao, &shader, &batchInfoMap.at("torus"));
 
     cube.setPosition(vec3(0.0f, 0.0f, -5.0f));
     cube.setPose(angleAxis(PI/3.0f, vec3(0.0f, 1.0f, 0.0f)));

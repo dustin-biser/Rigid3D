@@ -11,9 +11,9 @@ public:
     static shared_ptr<GlfwOpenGlWindow> getInstance();
 
 private:
-    Renderable cube;
-    Renderable sphere;
-    Renderable torus;
+    RenderableXXX cube;
+    RenderableXXX sphere;
+    RenderableXXX torus;
     RenderContext renderContext;
 
     ShaderProgram shader;
@@ -45,7 +45,7 @@ private:
 //    void mouseButtonInput(int button , int actions, int mods);
 //    void keyInput(int key, int action, int mods);
 
-    void computeAABB(const Renderable & r, AABB *);
+    void computeAABB(const RenderableXXX & r, AABB *);
 };
 
 #endif /* PICKING_DEMO_HPP_ */

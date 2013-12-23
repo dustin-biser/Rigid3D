@@ -1,4 +1,4 @@
-#include "Renderable.hpp"
+#include "RenderableXXX.hpp"
 
 #include <Rigid3D/Graphics/ShaderProgram.hpp>
 #include <Rigid3D/Graphics/MeshConsolidator.hpp>
@@ -9,7 +9,7 @@
 namespace Rigid3D {
 
 //---------------------------------------------------------------------------------------
-Renderable::Renderable(const GLuint * vao,
+RenderableXXX::RenderableXXX(const GLuint * vao,
                        const ShaderProgram * shaderProgram,
                        const BatchInfo * batchInfo)
     : vao(const_cast<GLuint *>(vao)),
@@ -19,7 +19,7 @@ Renderable::Renderable(const GLuint * vao,
 }
 
 //---------------------------------------------------------------------------------------
-Renderable::Renderable()
+RenderableXXX::RenderableXXX()
     : vao(nullptr),
       shaderProgram(nullptr),
       batchInfo(nullptr) {
@@ -28,7 +28,7 @@ Renderable::Renderable()
 
 //---------------------------------------------------------------------------------------
 // Initialize reasonable default values.
-void Renderable::init() {
+void RenderableXXX::init() {
     material.emission = vec3(0.0f);
     material.Ka = vec3(1.0f);
     material.Kd = vec3(1.0f);
@@ -37,12 +37,12 @@ void Renderable::init() {
 }
 
 //---------------------------------------------------------------------------------------
-Renderable::~Renderable() {
+RenderableXXX::~RenderableXXX() {
 
 }
 
 //---------------------------------------------------------------------------------------
-void Renderable::render(const RenderContext & context) {
+void RenderableXXX::render(const RenderContext & context) {
     if (vao == nullptr || shaderProgram == nullptr || batchInfo == nullptr) {
         return;
     }
@@ -77,52 +77,52 @@ void Renderable::render(const RenderContext & context) {
  *
  * @param shaderProgram
  */
-void Renderable::setShaderProgram(ShaderProgram & shaderProgram) {
+void RenderableXXX::setShaderProgram(ShaderProgram & shaderProgram) {
     this->shaderProgram = const_cast<ShaderProgram *>(&shaderProgram);
 }
 
 //---------------------------------------------------------------------------------------
-void Renderable::setPosition(const vec3 & position) {
+void RenderableXXX::setPosition(const vec3 & position) {
     modelTransform.setPosition(position);
 }
 
 //---------------------------------------------------------------------------------------
-void Renderable::setPose(const quat & pose) {
+void RenderableXXX::setPose(const quat & pose) {
     modelTransform.setPose(pose);
 }
 
 //---------------------------------------------------------------------------------------
-void Renderable::setScale(const vec3 & scale) {
+void RenderableXXX::setScale(const vec3 & scale) {
     modelTransform.setScale(scale);
 }
 
 //---------------------------------------------------------------------------------------
-void Renderable::setEmissionLevels(const vec3 & emissionLevels) {
+void RenderableXXX::setEmissionLevels(const vec3 & emissionLevels) {
     material.emission = emissionLevels;
 }
 
 //---------------------------------------------------------------------------------------
-void Renderable::setAmbientLevels(const vec3 & ambientLevels) {
+void RenderableXXX::setAmbientLevels(const vec3 & ambientLevels) {
     material.Ka = ambientLevels;
 }
 
 //---------------------------------------------------------------------------------------
-void Renderable::setDiffuseLevels(const vec3 & diffuseLevels) {
+void RenderableXXX::setDiffuseLevels(const vec3 & diffuseLevels) {
     material.Kd = diffuseLevels;
 }
 
 //---------------------------------------------------------------------------------------
-void Renderable::setSpecularIntensity(float specular) {
+void RenderableXXX::setSpecularIntensity(float specular) {
     material.Ks = specular;
 }
 
 //---------------------------------------------------------------------------------------
-void Renderable::setShininessFactor(float shininessfactor) {
+void RenderableXXX::setShininessFactor(float shininessfactor) {
     material.shininessFactor = shininessfactor;
 }
 
 //---------------------------------------------------------------------------------------
-void Renderable::loadUniformData(const RenderContext & context) {
+void RenderableXXX::loadUniformData(const RenderContext & context) {
     mat4 modelView = context.viewMatrix * modelTransform.getModelMatrix();
 
     shaderProgram->setUniform("ModelViewMatrix", modelView);

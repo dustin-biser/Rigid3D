@@ -7,7 +7,7 @@ namespace Rigid3D {
  * Constructor
  * Constructs a Scene using  an 'initiaizizer_list', where each element of the list
  * is a MeshInfo object containing a 'meshName' 'string' and an 'objFile' 'string'.
- * These are the meshes that will be part of the Scene.
+ * This will form the set of all meshes that can be rendered as part of the Scene.
  *
  * Example:
  * \code
@@ -18,7 +18,7 @@ namespace Rigid3D {
  *               };
  * \endcode
  *
- * The 'meshName' string identifier for each mesh will be stored internally, and
+ * The 'meshName' 'string' identifier for each mesh will be stored internally, and
  * can be used to generate Renderable instances of the mesh using
  * Scene::createRenderable(const string & meshName).
  *

@@ -30,11 +30,11 @@ private:
     unordered_map<const char *, BatchInfo> batchInfoMap;
 
     // Renderable Objects
-    Renderable grid;
-    Renderable bunny;
-    Renderable tyrannosaurus;
-    Renderable sphere;
-    Renderable light;
+    RenderableXXX grid;
+    RenderableXXX bunny;
+    RenderableXXX tyrannosaurus;
+    RenderableXXX sphere;
+    RenderableXXX light;
 
     RenderContext renderContext;
 
