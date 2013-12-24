@@ -12,9 +12,9 @@
 namespace Rigid3D {
 
     /**
-     * Material properties for emission, ambient, diffuse, and specular lighting.
+     * Material lighting properties for emission, ambient, diffuse, and specular lighting.
      */
-    struct MaterialProperties {
+    struct Material {
         vec3 emission; // Emission light intensity from material for each RGB component.
         vec3 Ka;       // Coefficients of ambient reflectivity for each RGB component.
         vec3 Kd;       // Coefficients of diffuse reflectivity for each RGB component.

@@ -8,7 +8,7 @@
 #define RIGID3D_RENDERABLE_XXX_HPP_
 
 #include <Rigid3D/Common/Settings.hpp>
-#include <Rigid3D/Graphics/MaterialProperties.hpp>
+#include <Rigid3D/Graphics/Material.hpp>
 #include <Rigid3D/Graphics/ModelTransform.hpp>
 
 #include <GL/glew.h>
@@ -85,7 +85,7 @@ namespace Rigid3D {
         GLuint * vao;
         ShaderProgram * shaderProgram;
         BatchInfo * batchInfo;
-        MaterialProperties material;
+        Material material;
         ModelTransform modelTransform;
 
         void init();

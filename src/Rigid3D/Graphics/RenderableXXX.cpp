@@ -2,8 +2,6 @@
 
 #include <Rigid3D/Graphics/ShaderProgram.hpp>
 #include <Rigid3D/Graphics/MeshConsolidator.hpp>
-#include <Rigid3D/Graphics/MaterialProperties.hpp>
-#include <Rigid3D/Graphics/ModelTransform.hpp>
 #include <Rigid3D/Graphics/GlErrorCheck.hpp>
 
 namespace Rigid3D {

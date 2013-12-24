@@ -151,7 +151,7 @@ void TexturedCubeDemo::setupTextureData() {
     cout << "blue mask: " << FreeImage_GetBlueMask(bitmap) << endl;
 
     // Pass the image data to OpenGL.
-    glActiveTexture(GL_TEXTURE0);
+    glActiveTexture(GL_TEXTURE0); // Activate texture unit 0.
     glGenTextures(1, &textureId);
     glBindTexture(GL_TEXTURE_2D, textureId);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, imageWidth, imageHeight,
