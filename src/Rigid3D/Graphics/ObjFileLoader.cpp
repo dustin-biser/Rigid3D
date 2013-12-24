@@ -214,8 +214,10 @@ void ObjFileLoader::copyMeshData(MeshData & meshData) {
         // Copy textureCoord data.
         meshData.textureCoords = new vec2[numElements];
         memcpy(meshData.textureCoords, textureCoords_ordered.data(), numElements * sizeof(vec2));
+        meshData.hasTextureCoords = true;
     } else {
         meshData.textureCoords = nullptr;
+        meshData.hasTextureCoords = false;
     }
 
     meshData.numVertices = numElements;

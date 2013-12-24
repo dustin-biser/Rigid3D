@@ -8,10 +8,12 @@
 #define RIGID3D_OBJFILELOADER_HPP_
 
 #include <Rigid3D/Common/Settings.hpp>
+#include <Rigid3D/Graphics/Material.hpp>
 
 #include <string>
 #include <unordered_map>
 #include <vector>
+
 
 namespace Rigid3D {
     using std::string;
@@ -26,8 +28,11 @@ namespace Rigid3D {
         vec3 * normals;
         vec2 * textureCoords;
         uint32 * indices;
+
         int32 numVertices;
         int32 numIndices;
+
+        bool hasTextureCoords;
     };
 
     enum class FaceDataLayout {

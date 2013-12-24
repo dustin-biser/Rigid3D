@@ -316,6 +316,11 @@ TEST_F(Loader_NoTextureCoords, test_index_data) {
     }
 }
 
+//----------------------------------------------------------------------------------------
+TEST_F(Loader_NoTextureCoords, test_hasTextureCoords_field) {
+    EXPECT_FALSE(meshData.hasTextureCoords);
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////
 // Test Loader_WithTextCoords
 //////////////////////////////////////////////////////////////////////////////////////////
@@ -375,4 +380,9 @@ TEST_F(Loader_WithTextureCoords, test_textureCoord_data) {
 TEST_F(Loader_WithTextureCoords, test_normal_data) {
     vector<vec3> normals = buildVector(meshData.normals, meshData.numVertices);
     EXPECT_PRED2(vectors_eq, expected_normals, normals);
+}
+
+//----------------------------------------------------------------------------------------
+TEST_F(Loader_WithTextureCoords, test_hasTextureCoords_field) {
+    EXPECT_TRUE(meshData.hasTextureCoords);
 }
