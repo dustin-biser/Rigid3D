@@ -6,7 +6,7 @@
 namespace Rigid3D {
 
     /**
-     * For computing hash codes from Rigid3D numeric types.
+     * For computing hash codes for Rigid3D numeric and vector types.
      */
     class Hasher {
     private:
