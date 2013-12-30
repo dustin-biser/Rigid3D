@@ -6,9 +6,11 @@
 #define GLM_FORCE_RADIANS
 
 #include <cstdint>
+#include <cfloat>
 
 namespace Rigid3D {
 
+// Numeric Types /////////////////////////////////////////////////////////////////////////
 typedef std::int8_t byte;
 typedef std::uint8_t ubyte;
 
@@ -23,7 +25,7 @@ typedef std::uint32_t uint32;
 typedef float float32;
 typedef double float64;
 
-// GLM types
+// Vector Types //////////////////////////////////////////////////////////////////////////
 typedef glm::vec2 vec2;
 typedef glm::vec3 vec3;
 typedef glm::vec4 vec4;
@@ -40,6 +42,12 @@ typedef glm::mat4 mat4;
 
 typedef glm::quat quat;
 
+
+// Constants /////////////////////////////////////////////////////////////////////////////
+const float PI = 3.1415926f;
+const float FLOAT_MIN = FLT_MIN;
+const float FLOAT_MAX = FLT_MIN;
+const float EPSILON = FLT_EPSILON;
 
 }
 
