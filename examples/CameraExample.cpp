@@ -4,6 +4,9 @@
 using glm::translate;
 using glm::scale;
 
+#include <glm/gtc/quaternion.hpp>
+using glm::angleAxis;
+
 int main() {
     shared_ptr<GlfwOpenGlWindow> meshDemo = CameraExample::getInstance();
     meshDemo->create(800, 600, "Rendering Multiple Objects");
