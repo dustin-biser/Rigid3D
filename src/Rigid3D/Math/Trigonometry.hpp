@@ -7,11 +7,10 @@
 #ifndef TRIGONOMETRY_HPP_
 #define TRIGONOMETRY_HPP_
 
+#include <Rigid3D/Common/Settings.hpp>
 #include <math.h>
 
 namespace Rigid3D {
-
-    constexpr float PI = 3.1415926;
 
     //-----------------------------------------------------------------------------------
     inline float cotangent(float radians) {

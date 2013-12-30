@@ -19,6 +19,7 @@ namespace Rigid3D {
         void setPosition(const vec3 & position);
         void setPose(const quat & pose);
         void setScale(const vec3 & scale);
+        void setIdentity();
 
         vec3 getPosition();
         quat getPose();

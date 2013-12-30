@@ -1,16 +1,20 @@
 #ifndef RIGID3D_RENDERABLE_HPP_
 #define RIGID3D_RENDERABLE_HPP_
 
-// Forward Declarations.
+#include <Rigid3D/Graphics/ModelTransform.hpp>
+
+#include <string>
+
+// Forward Declarations
 namespace Rigid3D {
-    class ModelTransform;
     class Scene;
     class ShaderProgram;
     struct BatchInfo;
-    struct MaterialProperties;
+    struct Material;
 }
 
 namespace Rigid3D {
+    using std::string;
 
     class Renderable {
     public:
@@ -19,13 +23,15 @@ namespace Rigid3D {
     private:
         friend Scene;
 
-        Renderable(const Scene & scene, const BatchInfo & batchInfo);
+        Renderable(const Scene & scene, const string & meshName, const BatchInfo & batchInfo);
 
         Scene * const scene;
-        ShaderProgram * shader;
-        MaterialProperties material;
-        ModelTransform modelTransform;
+        string meshName;
         BatchInfo batchInfo;
+
+        ShaderProgram * shader;
+        Material material;
+        ModelTransform modelTransform;
     };
 
 }

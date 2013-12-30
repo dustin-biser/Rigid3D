@@ -29,8 +29,8 @@ namespace Rigid3D {
         vec2 * textureCoords;
         uint32 * indices;
 
-        int32 numVertices;
-        int32 numIndices;
+        uint32 numVertices;
+        uint32 numIndices;
 
         bool hasTextureCoords;
     };

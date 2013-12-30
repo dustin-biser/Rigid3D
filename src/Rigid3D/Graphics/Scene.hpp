@@ -2,6 +2,9 @@
 #define RIGID3D_SCENE_HPP_
 
 #include "Rigid3D/Common/Settings.hpp"
+#include "Rigid3D/Graphics/ObjFileLoader.hpp"
+
+#include <GL/glew.h>
 
 #include <initializer_list>
 #include <unordered_map>
@@ -10,19 +13,18 @@
 
 // Forward declaration
 namespace Rigid3D {
-    class RenderableXXX;
+    class Renderable;
 }
 
 namespace Rigid3D {
 
 using std::initializer_list;
 using std::unordered_map;
-using std::vector;
 using std::string;
 
     struct BatchInfo {
-        unsigned int startIndex;
-        unsigned int numIndices;
+        uint32 startIndex;
+        uint32 numIndices;
     };
 
     /**
@@ -32,30 +34,56 @@ using std::string;
     struct MeshInfo {
         string meshName; /// Unique mesh identifier
         string objFile;  /// Path to .obj file containing mesh data.
+
+        MeshInfo(const string & meshName, const string & objFile);
+    };
+
+    struct Vertex {
+       vec3 position;
+       vec3 normal;
+    };
+
+    struct TexturedVertex {
+       vec3 position;
+       vec3 normal;
+       vec2 textureCoord;
     };
 
     /**
-     *
+     * Class for creating and managing all objects that would be part of a
+     * rendered scene, including Renderable, Camera, and Light objects.
      */
     class Scene {
     public:
         Scene(initializer_list<MeshInfo> meshList);
         ~Scene();
 
-//        Renderable * createRenderable(meshName);
+        Renderable * createRenderable(const string & meshName);
 
     private:
-        vec3 * positions;
-        vec3 * normals;
-        vec2 * textureCoords;
-        int32 numVertices;
-
-        uint32 * indcies;
-        int32 numIndiecs;
+        MeshData aggregateData;  // Combined vertex data for meshes with no textureCoordinates.
+        MeshData aggregateTexturedData;  // Combined vertex data for meshes with textureCoordinates.
 
         unordered_map<string, BatchInfo> meshBatchMap;
+        vector<Renderable *> renderables;
 
-        vector<RenderableXXX *> renderables;
+        GLuint vao_nonTextured;
+        GLuint vbo_nonTextured;
+
+        GLuint vao_textured;
+        GLuint vbo_textured;
+
+        void checkMeshNameExists(const string & meshName);
+
+        void checkMeshNameIsUnique(const unordered_map<string, MeshData> & meshDataMap,
+                const string & meshName);
+
+        void copyMeshDataMapData(const unordered_map<string, MeshData> & meshDataMap);
+
+        void computeTotalVerticesAndIndices(const unordered_map<string, MeshData> & meshDataMap);
+
+        void deleteMeshDataMapData(unordered_map<string, MeshData> & meshDataMap);
+
     };
 
 }

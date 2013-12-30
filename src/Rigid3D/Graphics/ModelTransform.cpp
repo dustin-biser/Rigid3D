@@ -34,7 +34,7 @@ void ModelTransform::setPosition(const vec3& position) {
  * Set the model's world space orientation.
  * @param pose - quaternion orientation in world space.
  */
-void ModelTransform::setPose(const quat& pose) {
+void ModelTransform::setPose(const quat & pose) {
     this->pose = pose;
     recalcModelMatrix = true;
 }
@@ -46,6 +46,17 @@ void ModelTransform::setPose(const quat& pose) {
  */
 void ModelTransform::setScale(const vec3 & scale) {
     this->scaleFactor = scale;
+    recalcModelMatrix = true;
+}
+
+//----------------------------------------------------------------------------------------
+/**
+ * Set the ModelTransform to Identity.
+ */
+void ModelTransform::setIdentity() {
+    position = vec3();
+    pose = quat();
+    scaleFactor = vec3(1.0f);
     recalcModelMatrix = true;
 }
 

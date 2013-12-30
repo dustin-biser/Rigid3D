@@ -7,8 +7,9 @@ namespace Rigid3D {
 
     class Transform {
     public:
-        vec3 position;
-        quat pose;
+        vec3 position;  // Position of the source space origin in destination space coordinates.
+        quat pose;  // Rotation of the source space as viewed by the destination space.
+        vec3 scale;
 
         Transform();
 
@@ -17,6 +18,8 @@ namespace Rigid3D {
         ~Transform();
 
         void setIdentity();
+
+        void set(const vec3 position, const vec3 & axis, float32 angle);
     };
 
 }
