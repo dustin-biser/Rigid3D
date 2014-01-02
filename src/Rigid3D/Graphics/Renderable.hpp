@@ -16,9 +16,16 @@ namespace Rigid3D {
 namespace Rigid3D {
     using std::string;
 
+    struct RenderableSpec {
+        string meshName;
+        ShaderProgram * shader;
+        Material material;
+        Transform transform;
+        bool isVisible;
+    };
+
     class Renderable {
     public:
-
 
     private:
         friend Scene;

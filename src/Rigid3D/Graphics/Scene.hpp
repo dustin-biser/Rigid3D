@@ -61,29 +61,53 @@ using std::string;
         Renderable * createRenderable(const string & meshName);
 
     private:
-        MeshData aggregateData;  // Combined vertex data for meshes with no textureCoordinates.
-        MeshData aggregateTexturedData;  // Combined vertex data for meshes with textureCoordinates.
+        static const GLuint positionVertexAttributeIndex;
+        static const GLuint normalVertexAttributeIndex;
+        static const GLuint textureCoordVertexAttributeIndex;
+
+        vector<Vertex> vertexVector;
+        vector<uint32> indexVector;
+
+        vector<TexturedVertex> texturedVertexVector;
+        vector<uint32> texturedIndexVector;
 
         unordered_map<string, BatchInfo> meshBatchMap;
+        unordered_map<string, MeshData> meshDataMap;
+
+        unordered_map<ivec2, uint32, Hasher> indexMap;
+        unordered_map<ivec3, uint32, Hasher> texturedIndexMap;
+
         vector<Renderable *> renderables;
 
         GLuint vao_nonTextured;
         GLuint vbo_nonTextured;
+        GLuint indexBuffer_nonTextured;
 
         GLuint vao_textured;
         GLuint vbo_textured;
+        GLuint indexBuffer_textured;
 
-        void checkMeshNameExists(const string & meshName);
+
+        void checkMeshNameExists(const string & meshName) const;
 
         void checkMeshNameIsUnique(const unordered_map<string, MeshData> & meshDataMap,
-                const string & meshName);
+                const string & meshName) const;
 
-        void copyMeshDataMapData(const unordered_map<string, MeshData> & meshDataMap);
+        void processNonTexturedMeshData(const string & meshName, const MeshData & meshData);
 
-        void computeTotalVerticesAndIndices(const unordered_map<string, MeshData> & meshDataMap);
+        void processTexturedMeshData(const string & meshName, const MeshData & meshData);
 
-        void deleteMeshDataMapData(unordered_map<string, MeshData> & meshDataMap);
+        void createBatchInfo(const string & meshName, const MeshData & meshData);
 
+        void createVertexArrayObjects();
+
+        void enableVertexAttributeArrays();
+
+        void createVertexBuffersAndCopyData();
+
+        void createIndexBuffersAndCopyData();
+
+        void deleteVertexAndIndexData();
     };
 
 }

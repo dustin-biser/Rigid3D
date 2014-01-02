@@ -7,7 +7,6 @@
 #include <sstream>
 #include <iostream>
 #include <vector>
-#include <cstring>
 #include <cassert>
 
 #include <boost/regex.hpp>
@@ -19,37 +18,37 @@ using std::ifstream;
 using std::istringstream;
 using std::stringstream;
 using std::vector;
-using std::memcpy;
 using boost::regex;
 using boost::regex_match;
-using boost::smatch;
 
-// Static variable definitions.
-FaceDataLayout ObjFileLoader::dataLayout = FaceDataLayout::None;
-
-vector<vec3> ObjFileLoader::positions_ordered;
+// Static class definitions.
+bool ObjFileLoader::startOfFaceData = true;
 vector<vec3> ObjFileLoader::position_set;
-
-vector<vec3> ObjFileLoader::normals_ordered;
 vector<vec3> ObjFileLoader::normal_set;
-
-vector<vec2> ObjFileLoader::textureCoords_ordered;
 vector<vec2> ObjFileLoader::textureCoord_set;
+vector<ivec3> ObjFileLoader::position_indices;
+vector<ivec3> ObjFileLoader::normal_indices;
+vector<ivec3> ObjFileLoader::textureCoord_indices;
 
-unordered_map<uvec3, uint32, Hasher> ObjFileLoader::indexMap;
-vector<uint32> ObjFileLoader::indices;
+//----------------------------------------------------------------------------------------
+MeshData::MeshData()
+ : positionSet(nullptr),
+   normalSet(nullptr),
+   textureCoordSet(nullptr),
+   numPositions(0),
+   numNormals(0),
+   numTextureCoords(0),
+   positionIndices(nullptr),
+   normalIndices(nullptr),
+   textureCoordIndices(nullptr),
+   numFaces(0),
+   hasTextureCoords(false) {
 
-uint32 ObjFileLoader::indexCounter = 0;
-
+}
 
 //----------------------------------------------------------------------------------------
 /**
- * Reads mesh vertex data from 'objFile' and loads it into the 'meshData' structure.
- *
- * Each position, normal, and textureCoord array of 'meshData' will have its
- * data aligned so that the i-th element from each array corresponds to data for
- * the i-th vertex.  No vertex data triplets (position, textureCoord, normal)
- * will be duplicated within the data arrays of 'meshdata'.
+ * Reads mesh vertex data from 'objFile' and loads it into the 'meshData' struct.
  *
  * @note The user is responsible for deleting all memory pointed to by
  * 'meshData', by using 'delete []'.
@@ -58,10 +57,10 @@ uint32 ObjFileLoader::indexCounter = 0;
  * @param objFile
  */
 void ObjFileLoader::load(MeshData & meshData, const string & objFile) {
-    ifstream in(objFile, std::ios::in);
-    in.exceptions(std::ifstream::badbit);
+    ifstream file(objFile, std::ios::in);
+    file.exceptions(std::ifstream::badbit);
 
-    if (!in) {
+    if (!file) {
         stringstream errorMessage;
         errorMessage << "Unable to open .obj file: " << objFile
                      << " within method Mesh::loadFromObjFile." << endl;
@@ -71,11 +70,11 @@ void ObjFileLoader::load(MeshData & meshData, const string & objFile) {
     string line;
     uint32 lineCount = 1;
 
-    while (!in.eof()) {
+    while (!file.eof()) {
         try {
-            getline(in, line);
+            getline(file, line);
         } catch(const ifstream::failure & e) {
-            in.close();
+            file.close();
             stringstream errorMessage;
             errorMessage << "Error calling getline() -- " << e.what() << endl;
             throw Rigid3DException(errorMessage.str());
@@ -85,8 +84,8 @@ void ObjFileLoader::load(MeshData & meshData, const string & objFile) {
             // Vertex data on this line.
             // Get entire line excluding first 2 chars.
             istringstream s(line.substr(2));
-            glm::vec3 vertex; s >> vertex.x; s >> vertex.y; s >> vertex.z;
-            position_set.push_back(vertex);
+            glm::vec3 position; s >> position.x; s >> position.y; s >> position.z;
+            position_set.push_back(position);
 
         } else if (line.substr(0,3) == "vn ") {
             // Normal data on this line.
@@ -104,33 +103,26 @@ void ObjFileLoader::load(MeshData & meshData, const string & objFile) {
 
         } else if (line.substr(0, 2) == "f ") {
             // Face index data on this line.
-            processFaceData(line, lineCount, objFile);
+            processFaceIndexData(meshData, line, lineCount, objFile);
         }
 
         lineCount++;
     }
 
-    in.close();
+    file.close();
 
-    // Make sure ordered vectors contain the same number of elements.
-    assert(positions_ordered.size() == normals_ordered.size());
-    if (dataLayout == FaceDataLayout::PosTextureNorm) {
-        assert(positions_ordered.size() == textureCoords_ordered.size());
-    }
+    setMeshData(meshData);
 
-    copyMeshData(meshData);
-
-    // Free all static vertex data and indices.
-    clearData();
+    resetStaticVariables();
 }
 
 //----------------------------------------------------------------------------------------
-void ObjFileLoader::processFaceData(const string & line, uint32 lineCount,
+void ObjFileLoader::processFaceIndexData(MeshData & meshData, const string & line, uint32 lineCount,
         const string & objFile) {
-    // Element order = [positionIndex, textureCoordIndex, normalIndex].
-    uvec3 indexSetA;
-    uvec3 indexSetB;
-    uvec3 indexSetC;
+    // Index element order = [positionIndex, textureCoordIndex, normalIndex].
+    vec3 indexSetA = vec3(0);
+    vec3 indexSetB = vec3(0);
+    vec3 indexSetC = vec3(0);
 
     // Regex pattern for face data line containing position, textureCoord, and
     // normal indices.
@@ -142,18 +134,26 @@ void ObjFileLoader::processFaceData(const string & line, uint32 lineCount,
 
     if (regex_match(line, pos_tex_norm_regex)) {
         // Line contains position, texture, and normal indices.
-        dataLayout = FaceDataLayout::PosTextureNorm;
         sscanf(line.c_str(), "f %d/%d/%d %d/%d/%d %d/%d/%d",
                 &indexSetA[0], &indexSetA[1], &indexSetA[2],
                 &indexSetB[0], &indexSetB[1], &indexSetB[2],
                 &indexSetC[0], &indexSetC[1], &indexSetC[2]);
 
+        if (startOfFaceData) {
+            meshData.hasTextureCoords = true;
+            startOfFaceData = false;
+        }
+
     } else if (regex_match(line, pos_norm_regex)) {
         // Line contains only position and normal indices.
-        dataLayout = FaceDataLayout::PosNorm;
         sscanf(line.c_str(), "f %d//%d %d//%d %d//%d", &indexSetA[0], &indexSetA[2],
                                                        &indexSetB[0], &indexSetB[2],
                                                        &indexSetC[0], &indexSetC[2]);
+        if (startOfFaceData) {
+            meshData.hasTextureCoords = false;
+            startOfFaceData = false;
+        }
+
     } else {
         stringstream errorMessage;
         errorMessage << "ObjFileLoader Error. Invalid face data at line " << lineCount
@@ -166,80 +166,74 @@ void ObjFileLoader::processFaceData(const string & line, uint32 lineCount,
     indexSetB -= 1;
     indexSetC -= 1;
 
-    processIndexSet(indexSetA);
-    processIndexSet(indexSetB);
-    processIndexSet(indexSetC);
-}
+    ivec3 positionIndices(indexSetA[0], indexSetB[0], indexSetC[0]);
+    position_indices.push_back(positionIndices);
 
-//----------------------------------------------------------------------------------------
-void ObjFileLoader::processIndexSet(const uvec3 indexSet) {
-    bool indexSetExists = indexMap.count(indexSet);
-    if (indexSetExists) {
-        // Append an existing index to end of indices vector.
-        uint32 exsitingIndex = indexMap[indexSet];
-        indices.push_back(exsitingIndex);
-    } else {
-        // IndexSet has not been seen yet, so put it in the indexMap with a new index number.
-        indexMap[indexSet] = indexCounter;
-        indices.push_back(indexCounter);
-        indexCounter++;
+    ivec3 normalIndices(indexSetA[2], indexSetB[2], indexSetC[2]);
+    normal_indices.push_back(normalIndices);
 
-        // Append ordered vertex data so that all types line up with respect to index.
-        if (dataLayout == FaceDataLayout::PosTextureNorm) {
-            textureCoords_ordered.push_back(textureCoord_set[indexSet[1]]);
-        }
-
-        positions_ordered.push_back(position_set[indexSet[0]]);
-        normals_ordered.push_back(normal_set[indexSet[2]]);
+    if (meshData.hasTextureCoords) {
+        ivec3 textureCoordIndices(indexSetA[1], indexSetB[1], indexSetC[1]);
+        textureCoord_indices.push_back(textureCoordIndices);
     }
 }
 
 //----------------------------------------------------------------------------------------
-void ObjFileLoader::copyMeshData(MeshData & meshData) {
-    size_t numElements = positions_ordered.size();
-
+void ObjFileLoader::setMeshData(MeshData & meshData) {
     // Copy position data.
-    meshData.positions = new vec3[numElements];
-    memcpy(meshData.positions, positions_ordered.data(), numElements * sizeof(vec3));
+    meshData.numPositions = position_set.size();
+    meshData.positionSet = new vec3[position_set.size()];
+    memcpy(meshData.positionSet, position_set.data(), position_set.size() * sizeof(vec3));
+
+    // Copy position indices.
+    meshData.positionIndices = new ivec3[position_indices.size()];
+    memcpy(meshData.positionIndices, position_indices.data(),
+            position_indices.size() * sizeof(ivec3));
 
     // Copy normal data.
-    meshData.normals = new vec3[numElements];
-    memcpy(meshData.normals, normals_ordered.data(), numElements * sizeof(vec3));
+    meshData.numNormals = normal_set.size();
+    meshData.normalSet = new vec3[normal_set.size()];
+    memcpy(meshData.normalSet, normal_set.data(), normal_set.size() * sizeof(vec3));
 
-    // Copy index data.
-    meshData.indices = new uint32[indices.size()];
-    memcpy(meshData.indices, indices.data(), indices.size() * sizeof(uint32));
+    // Copy normal indices.
+    meshData.normalIndices = new ivec3[normal_indices.size()];
+    memcpy(meshData.normalIndices, normal_indices.data(),
+            normal_indices.size() * sizeof(ivec3));
 
-    if (dataLayout == FaceDataLayout::PosTextureNorm) {
+    if (meshData.hasTextureCoords) {
         // Copy textureCoord data.
-        meshData.textureCoords = new vec2[numElements];
-        memcpy(meshData.textureCoords, textureCoords_ordered.data(), numElements * sizeof(vec2));
-        meshData.hasTextureCoords = true;
-    } else {
-        meshData.textureCoords = nullptr;
-        meshData.hasTextureCoords = false;
+        meshData.numTextureCoords = textureCoord_set.size();
+        meshData.textureCoordSet = new vec2[textureCoord_set.size()];
+        memcpy(meshData.textureCoordSet, textureCoord_set.data(),
+                textureCoord_set.size() * sizeof(vec2));
+
+        // Copy textureCoord indices.
+        meshData.textureCoordIndices = new ivec3[textureCoord_indices.size()];
+        memcpy(meshData.textureCoordIndices, textureCoord_indices.data(),
+                textureCoord_indices.size() * sizeof(ivec3));
     }
 
-    meshData.numVertices = numElements;
-    meshData.numIndices = indices.size();
+    // Confirm index vectors have the same size.
+    assert(position_indices.size() == normal_indices.size());
+    if (meshData.hasTextureCoords) {
+        assert(position_indices.size() == textureCoord_indices.size());
+    }
+
+    // Indices should be a multiple of 3.
+    assert(position_indices % 3 == 0);
+
+    meshData.numFaces = position_indices.size() / 3;
 }
 
 //----------------------------------------------------------------------------------------
-void ObjFileLoader::clearData() {
-    dataLayout = FaceDataLayout::None;
-
-    positions_ordered.clear();
+void ObjFileLoader::resetStaticVariables() {
+    startOfFaceData = true;
     position_set.clear();
-
-    normals_ordered.clear();
     normal_set.clear();
-
-    textureCoords_ordered.clear();
     textureCoord_set.clear();
-
-    indexMap.clear();
-    indices.clear();
-    indexCounter = 0;
+    position_indices.clear();
+    normal_indices.clear();
+    textureCoord_indices.clear();
 }
 
 } // end namespace Rigid3D

@@ -28,9 +28,6 @@
 							</builder>
 							<tool id="cdt.managedbuild.tool.gnu.cross.c.compiler.740715675" name="Cross GCC Compiler" superClass="cdt.managedbuild.tool.gnu.cross.c.compiler">
 								<option id="gnu.c.compiler.option.include.paths.100816422" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" valueType="includePath">
-									<listOptionValue builtIn="false" value="/home/dustin/Projects/C++/glm/glm"/>
-									<listOptionValue builtIn="false" value="/usr/local/include/GLFW"/>
-									<listOptionValue builtIn="false" value="/usr/local/include/GL"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/src/Rigid3D/Math}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/src/Rigid3D/Collision}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/src/Rigid3D/Common}&quot;"/>
@@ -40,6 +37,11 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/tests/src/Rigid3D/Graphics}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/tests/src/Utils}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/tests/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/examples/Utils}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/examples}&quot;"/>
+									<listOptionValue builtIn="false" value="/usr/local/include/GLFW"/>
+									<listOptionValue builtIn="false" value="/home/dustin/Projects/C++/glm/glm"/>
+									<listOptionValue builtIn="false" value="/usr/local/include/GL"/>
 									<listOptionValue builtIn="false" value="/usr/local/include"/>
 								</option>
 								<option id="gnu.c.compiler.option.preprocessor.def.symbols.1429203995" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols" valueType="definedSymbols">
@@ -59,6 +61,8 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/tests/src/Rigid3D/Graphics}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/tests/src/Utils}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/tests/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/examples/Utils}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/examples}&quot;"/>
 									<listOptionValue builtIn="false" value="/home/dustin/Projects/C++/glm"/>
 									<listOptionValue builtIn="false" value="/usr/local/include/GLFW"/>
 									<listOptionValue builtIn="false" value="/usr/local/include/GL"/>
@@ -93,6 +97,8 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/tests/src/Rigid3D/Graphics}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/tests/src/Utils}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/tests/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/examples/Utils}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/examples}&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.1230348297" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>

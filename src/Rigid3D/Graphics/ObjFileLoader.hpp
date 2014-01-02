@@ -11,34 +11,39 @@
 #include <Rigid3D/Graphics/Material.hpp>
 
 #include <string>
-#include <unordered_map>
 #include <vector>
 
 
 namespace Rigid3D {
     using std::string;
-    using std::unordered_map;
     using std::vector;
 
     /**
      * A MeshData struct holds all the vertex data needed to render a Mesh.
+     *
+     * The ith index triplet of 'positionIndices', 'normalIndices', and
+     * 'textureCoordIndices' each correspond to the 3 indices that from the ith
+     * face of the mesh. These indices refer to the elements within
+     * 'positionSet', 'normalSet', and 'textureCoordSets', respectively.
      */
     struct MeshData {
-        vec3 * positions;
-        vec3 * normals;
-        vec2 * textureCoords;
-        uint32 * indices;
+        vec3 * positionSet;
+        vec3 * normalSet;
+        vec2 * textureCoordSet;
 
-        uint32 numVertices;
-        uint32 numIndices;
+        int32 numPositions;
+        int32 numNormals;
+        int32 numTextureCoords;
+
+        ivec3 * positionIndices;
+        ivec3 * normalIndices;
+        ivec3 * textureCoordIndices;
+
+        int32 numFaces;
 
         bool hasTextureCoords;
-    };
 
-    enum class FaceDataLayout {
-        None,
-        PosTextureNorm,
-        PosNorm,
+        MeshData();
     };
 
     /**
@@ -49,31 +54,23 @@ namespace Rigid3D {
         static void load(MeshData & meshData, const string & objFile);
 
     private:
+        static bool startOfFaceData;
+        static vector<vec3> position_set;
+        static vector<vec3> normal_set;
+        static vector<vec2> textureCoord_set;
+        static vector<ivec3> position_indices;
+        static vector<ivec3> normal_indices;
+        static vector<ivec3> textureCoord_indices;
+
         ObjFileLoader();
 
-        static void processFaceData(const string & line, uint32 linCount, const string & objFile);
+        static void processFaceIndexData(MeshData & meshData, const string & line,
+                uint32 linCount, const string & objFile);
 
-        static void processIndexSet(const uvec3 indexSet);
+        static void setMeshData(MeshData & meshData);
 
-        static void copyMeshData(MeshData & meshData);
+        static void resetStaticVariables();
 
-        static void clearData();
-
-
-        static FaceDataLayout dataLayout;
-
-        static vector<vec3> positions_ordered;
-        static vector<vec3> position_set;
-
-        static vector<vec3> normals_ordered;
-        static vector<vec3> normal_set;
-
-        static vector<vec2> textureCoords_ordered;
-        static vector<vec2> textureCoord_set;
-
-        static unordered_map<uvec3, uint32, Hasher> indexMap;
-        static vector<uint32> indices;
-        static uint32 indexCounter;
     };
 
 }

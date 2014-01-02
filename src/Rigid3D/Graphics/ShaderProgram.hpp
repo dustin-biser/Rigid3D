@@ -30,6 +30,12 @@ using std::string;
      *   ... glDraw*();
      *  shaderProgram.end();    // calls glUseProgram(NULL)
      * \endcode
+     *
+     * @note Vertex attribute arrays for vertex shaders must use the following layout locations:
+     * positions: layout (location = 0)
+     * normals: layout (location = 1)
+     * textureCoords: layout (location = 2)
+     * colors: layout (location = 3)
      */
     class ShaderProgram {
     public:
