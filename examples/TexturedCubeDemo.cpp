@@ -54,7 +54,7 @@ void TexturedCubeDemo::setupShaders() {
     shader.loadFromFile("../data/shaders/PositionNormalTexture.vert",
                         "../data/shaders/ADS_Texture.frag");
 
-    Rigid3D::checkGLErrors(__FILE__, __LINE__);
+    Rigid3D::checkGlErrors(__FILE__, __LINE__);
 }
 
 //---------------------------------------------------------------------------------------
@@ -79,7 +79,7 @@ void TexturedCubeDemo::setupUniformData() {
     shader.setUniform("NormalMatrix", mat3(viewMatrix));
     shader.setUniform("MVP", projectionMatrix * viewMatrix * modelMatrix);
 
-    Rigid3D::checkGLErrors(__FILE__, __LINE__);
+    Rigid3D::checkGlErrors(__FILE__, __LINE__);
 }
 
 //---------------------------------------------------------------------------------------
@@ -168,7 +168,7 @@ void TexturedCubeDemo::setupTextureData() {
 
     // Done with image, so delete it.
     FreeImage_Unload(bitmap);
-    Rigid3D::checkGLErrors(__FILE__, __LINE__);
+    Rigid3D::checkGlErrors(__FILE__, __LINE__);
 }
 
 //---------------------------------------------------------------------------------------
@@ -219,7 +219,7 @@ void TexturedCubeDemo::cleanup() {
     glDeleteBuffers(1, &vao);
     glDeleteTextures(1, &textureId);
 
-    Rigid3D::checkGLErrors(__FILE__, __LINE__);
+    Rigid3D::checkGlErrors(__FILE__, __LINE__);
 }
 
 //---------------------------------------------------------------------------------------

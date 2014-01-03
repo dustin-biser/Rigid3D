@@ -69,7 +69,7 @@ void MultipleObjects::setupShaders() {
     GLint normal_Location = shaderProgram.getAttribLocation("vertexNormal");
     glEnableVertexAttribArray(normal_Location);
 
-    Rigid3D::checkGLErrors(__FILE__, __LINE__);
+    Rigid3D::checkGlErrors(__FILE__, __LINE__);
 }
 
 //---------------------------------------------------------------------------------------
@@ -89,7 +89,7 @@ void MultipleObjects::setupGLBuffers()
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-    Rigid3D::checkGLErrors(__FILE__, __LINE__);
+    Rigid3D::checkGlErrors(__FILE__, __LINE__);
 }
 
 //---------------------------------------------------------------------------------------
@@ -121,7 +121,7 @@ void MultipleObjects::draw()
     drawSphere();
     drawLight();
 
-    Rigid3D::checkGLErrors(__FILE__, __LINE__);
+    Rigid3D::checkGlErrors(__FILE__, __LINE__);
 }
 
 //---------------------------------------------------------------------------------------

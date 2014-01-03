@@ -1,8 +1,8 @@
 #ifndef RIGID3D_SCENE_HPP_
 #define RIGID3D_SCENE_HPP_
 
-#include "Rigid3D/Common/Settings.hpp"
-#include "Rigid3D/Graphics/ObjFileLoader.hpp"
+#include <Rigid3D/Common/Settings.hpp>
+#include <Rigid3D/Graphics/ObjFileLoader.hpp>
 
 #include <GL/glew.h>
 
@@ -11,9 +11,11 @@
 #include <vector>
 #include <string>
 
-// Forward declaration
+// Forward declarations.
 namespace Rigid3D {
     class Renderable;
+    class Camera;
+    struct RenderableSpec;
 }
 
 namespace Rigid3D {
@@ -21,10 +23,12 @@ namespace Rigid3D {
 using std::initializer_list;
 using std::unordered_map;
 using std::string;
+using std::vector;
 
     struct BatchInfo {
-        uint32 startIndex;
-        uint32 numIndices;
+        uint16 startIndex;
+        uint16 numIndices;
+        uint16 baseVertex;
     };
 
     /**
@@ -55,29 +59,46 @@ using std::string;
      */
     class Scene {
     public:
+        Scene();
         Scene(initializer_list<MeshInfo> meshList);
         ~Scene();
 
-        Renderable * createRenderable(const string & meshName);
+        Renderable * createRenderable(const RenderableSpec & spec);
+
+        void render(const Camera & camera);
 
     private:
-        static const GLuint positionVertexAttributeIndex;
-        static const GLuint normalVertexAttributeIndex;
-        static const GLuint textureCoordVertexAttributeIndex;
+        friend class Renderable;
 
-        vector<Vertex> vertexVector;
-        vector<uint32> indexVector;
+        // Layout location for vertex shader position attribute array.
+        static const GLuint positionAttributeLocation;
 
-        vector<TexturedVertex> texturedVertexVector;
-        vector<uint32> texturedIndexVector;
+        // Layout location for vertex shader normal attribute array.
+        static const GLuint normalAttributeLocation;
+
+        // Layout location for vertex shader texture coordinate attribute array.
+        static const GLuint textureCoordAttributeLocation;
+
+        // Layout location for vertex shader Model-View-Matrix uniform.
+        static const GLuint modelViewMatrixUniformLocation;
+
+        // Layout location for vertex shader Normal-Matrix uniform.
+        static const GLuint normalMatrixUniformLocation;
+
+        // Layout location for vertex shader Projection-Matrix uniform.
+        static const GLuint projectionMatrixUniformLocation;
+
+        vector<Vertex> vertexVector_nonTextured;
+        vector<TexturedVertex> vertexVector_textured;
+
+        vector<uint16> indexVector_nonTextured;
+        vector<uint16> indexVector_textured;
 
         unordered_map<string, BatchInfo> meshBatchMap;
         unordered_map<string, MeshData> meshDataMap;
 
-        unordered_map<ivec2, uint32, Hasher> indexMap;
-        unordered_map<ivec3, uint32, Hasher> texturedIndexMap;
-
-        vector<Renderable *> renderables;
+        vector<Renderable *> renderables_nonTextured;
+        vector<Renderable *> renderables_textured;
 
         GLuint vao_nonTextured;
         GLuint vbo_nonTextured;
@@ -92,6 +113,8 @@ using std::string;
 
         void checkMeshNameIsUnique(const unordered_map<string, MeshData> & meshDataMap,
                 const string & meshName) const;
+
+        void checkRenderableSpecIsValid(const RenderableSpec & spec) const;
 
         void processNonTexturedMeshData(const string & meshName, const MeshData & meshData);
 
@@ -108,6 +131,8 @@ using std::string;
         void createIndexBuffersAndCopyData();
 
         void deleteVertexAndIndexData();
+
+        void render(Renderable & r, const Camera & camera);
     };
 
 }

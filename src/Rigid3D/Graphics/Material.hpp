@@ -19,7 +19,9 @@ namespace Rigid3D {
         vec3 Ka; // Coefficients of ambient reflectivity for each RGB component.
         vec3 Kd; // Coefficients of diffuse reflectivity for each RGB component.
         float Ks; // Coefficient of specular reflectivity, uniform across each RGB component.
-        float shininessFactor; // Specular shininess factor.
+        float shininess; // Specular shininess factor.
+
+        Material();
     };
 
 }

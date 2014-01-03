@@ -26,9 +26,9 @@ bool ObjFileLoader::startOfFaceData = true;
 vector<vec3> ObjFileLoader::position_set;
 vector<vec3> ObjFileLoader::normal_set;
 vector<vec2> ObjFileLoader::textureCoord_set;
-vector<ivec3> ObjFileLoader::position_indices;
-vector<ivec3> ObjFileLoader::normal_indices;
-vector<ivec3> ObjFileLoader::textureCoord_indices;
+vector<uvec3> ObjFileLoader::position_indices;
+vector<uvec3> ObjFileLoader::normal_indices;
+vector<uvec3> ObjFileLoader::textureCoord_indices;
 
 //----------------------------------------------------------------------------------------
 MeshData::MeshData()
@@ -120,9 +120,9 @@ void ObjFileLoader::load(MeshData & meshData, const string & objFile) {
 void ObjFileLoader::processFaceIndexData(MeshData & meshData, const string & line, uint32 lineCount,
         const string & objFile) {
     // Index element order = [positionIndex, textureCoordIndex, normalIndex].
-    vec3 indexSetA = vec3(0);
-    vec3 indexSetB = vec3(0);
-    vec3 indexSetC = vec3(0);
+    uvec3 indexSetA(0);
+    uvec3 indexSetB(0);
+    uvec3 indexSetC(0);
 
     // Regex pattern for face data line containing position, textureCoord, and
     // normal indices.
@@ -162,31 +162,45 @@ void ObjFileLoader::processFaceIndexData(MeshData & meshData, const string & lin
     }
 
     // .obj files use indices that start at 1, so subtract 1 so they start at 0.
-    indexSetA -= 1;
-    indexSetB -= 1;
-    indexSetC -= 1;
+    // Subtract 1 from position and normal indices.
+    indexSetA -= vec3(1,0,1);
+    indexSetB -= vec3(1,0,1);
+    indexSetC -= vec3(1,0,1);
 
-    ivec3 positionIndices(indexSetA[0], indexSetB[0], indexSetC[0]);
+    if (meshData.hasTextureCoords) {
+        // Subtract 1 from textureCoord indices.
+        indexSetA -= vec3(0,1,0);
+        indexSetB -= vec3(0,1,0);
+        indexSetC -= vec3(0,1,0);
+    }
+
+    uvec3 positionIndices(indexSetA[0], indexSetB[0], indexSetC[0]);
     position_indices.push_back(positionIndices);
 
-    ivec3 normalIndices(indexSetA[2], indexSetB[2], indexSetC[2]);
+    uvec3 normalIndices(indexSetA[2], indexSetB[2], indexSetC[2]);
     normal_indices.push_back(normalIndices);
 
     if (meshData.hasTextureCoords) {
-        ivec3 textureCoordIndices(indexSetA[1], indexSetB[1], indexSetC[1]);
+        uvec3 textureCoordIndices(indexSetA[1], indexSetB[1], indexSetC[1]);
         textureCoord_indices.push_back(textureCoordIndices);
     }
 }
 
 //----------------------------------------------------------------------------------------
 void ObjFileLoader::setMeshData(MeshData & meshData) {
+    // Confirm index vectors have the same size.
+    assert(position_indices.size() == normal_indices.size());
+    if (meshData.hasTextureCoords) {
+        assert(position_indices.size() == textureCoord_indices.size());
+    }
+
     // Copy position data.
     meshData.numPositions = position_set.size();
     meshData.positionSet = new vec3[position_set.size()];
     memcpy(meshData.positionSet, position_set.data(), position_set.size() * sizeof(vec3));
 
     // Copy position indices.
-    meshData.positionIndices = new ivec3[position_indices.size()];
+    meshData.positionIndices = new uvec3[position_indices.size()];
     memcpy(meshData.positionIndices, position_indices.data(),
             position_indices.size() * sizeof(ivec3));
 
@@ -196,7 +210,7 @@ void ObjFileLoader::setMeshData(MeshData & meshData) {
     memcpy(meshData.normalSet, normal_set.data(), normal_set.size() * sizeof(vec3));
 
     // Copy normal indices.
-    meshData.normalIndices = new ivec3[normal_indices.size()];
+    meshData.normalIndices = new uvec3[normal_indices.size()];
     memcpy(meshData.normalIndices, normal_indices.data(),
             normal_indices.size() * sizeof(ivec3));
 
@@ -208,21 +222,12 @@ void ObjFileLoader::setMeshData(MeshData & meshData) {
                 textureCoord_set.size() * sizeof(vec2));
 
         // Copy textureCoord indices.
-        meshData.textureCoordIndices = new ivec3[textureCoord_indices.size()];
+        meshData.textureCoordIndices = new uvec3[textureCoord_indices.size()];
         memcpy(meshData.textureCoordIndices, textureCoord_indices.data(),
                 textureCoord_indices.size() * sizeof(ivec3));
     }
 
-    // Confirm index vectors have the same size.
-    assert(position_indices.size() == normal_indices.size());
-    if (meshData.hasTextureCoords) {
-        assert(position_indices.size() == textureCoord_indices.size());
-    }
-
-    // Indices should be a multiple of 3.
-    assert(position_indices % 3 == 0);
-
-    meshData.numFaces = position_indices.size() / 3;
+    meshData.numFaces = position_indices.size();
 }
 
 //----------------------------------------------------------------------------------------

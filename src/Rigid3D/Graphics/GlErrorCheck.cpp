@@ -18,7 +18,7 @@ using std::endl;
      * @param currentFileName - name of file to reference, if errors exist.
      * @param currentLine - line number to reference within file, if errors exist.
      */
-    void checkGLErrors(const string &currentFileName, int currentLine) {
+    void checkGlErrors(const string &currentFileName, int currentLine) {
        GLenum errorType;
        bool errorFound = false;
 

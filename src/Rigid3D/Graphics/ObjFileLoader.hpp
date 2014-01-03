@@ -31,15 +31,15 @@ namespace Rigid3D {
         vec3 * normalSet;
         vec2 * textureCoordSet;
 
-        int32 numPositions;
-        int32 numNormals;
-        int32 numTextureCoords;
+        uint16 numPositions;
+        uint16 numNormals;
+        uint16 numTextureCoords;
 
-        ivec3 * positionIndices;
-        ivec3 * normalIndices;
-        ivec3 * textureCoordIndices;
+        uvec3 * positionIndices;
+        uvec3 * normalIndices;
+        uvec3 * textureCoordIndices;
 
-        int32 numFaces;
+        uint32 numFaces;
 
         bool hasTextureCoords;
 
@@ -58,9 +58,9 @@ namespace Rigid3D {
         static vector<vec3> position_set;
         static vector<vec3> normal_set;
         static vector<vec2> textureCoord_set;
-        static vector<ivec3> position_indices;
-        static vector<ivec3> normal_indices;
-        static vector<ivec3> textureCoord_indices;
+        static vector<uvec3> position_indices;
+        static vector<uvec3> normal_indices;
+        static vector<uvec3> textureCoord_indices;
 
         ObjFileLoader();
 

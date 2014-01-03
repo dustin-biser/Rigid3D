@@ -437,7 +437,7 @@ void GlfwOpenGlWindow::setupCamera() {
     float aspectRatio = (float) windowWidth / (float) windowHeight;
     camera = Camera(45.0f, aspectRatio, 1.0f, 100.0f);
 
-    cameraController.registerCamera(&camera);
+    cameraController.registerCamera(camera);
 }
 
 //----------------------------------------------------------------------------------------

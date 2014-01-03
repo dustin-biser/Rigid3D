@@ -98,7 +98,9 @@ void RenderableFrustum::render(unsigned int vertexAttribIndex) {
     glBindVertexArray(0);
     glBindVertexArray(0);
 
-    checkGLErrors(__FILE__, __LINE__);
+    #ifdef DEBUG
+        checkGlErrors(__FILE__, __LINE__);
+    #endif
 }
 
 //---------------------------------------------------------------------------------------
@@ -116,4 +118,4 @@ void RenderableFrustum::setModelMatrix(const mat4 & modelMatrix) {
    this->modelMatrix = modelMatrix;
 }
 
-} // end namespace GlUtils.
+} // end namespace Rigid3D

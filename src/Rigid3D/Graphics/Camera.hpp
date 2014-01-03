@@ -7,6 +7,10 @@
 #include <glm/gtc/quaternion.hpp>
 
 namespace Rigid3D {
+    class Renderable;
+}
+
+namespace Rigid3D {
 
     /**
      * Class for encapsulating a view frustum camera, capable of either orthographic or perspective

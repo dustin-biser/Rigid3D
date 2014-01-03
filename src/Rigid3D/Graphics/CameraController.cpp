@@ -38,9 +38,8 @@ CameraController::~CameraController() {
 }
 
 //----------------------------------------------------------------------------------------
-void CameraController::registerCamera(Camera * camera) {
-    assert ( (camera != 0) && (camera != nullptr) );
-    this->camera = camera;
+void CameraController::registerCamera(Camera & camera) {
+    this->camera = &camera;
 }
 
 //----------------------------------------------------------------------------------------
@@ -118,7 +117,7 @@ void CameraController::mouseButtonInput(int button , int actions, int mods){
  */
 void CameraController::mouseScroll(double xOffSet, double yOffSet) {
     static float fieldOfViewY = 45.0f;
-    static const float delta = 5.0f;
+    static const float delta = 1.0f;
 
     if (yOffSet < 0) {
        fieldOfViewY += delta;
@@ -277,4 +276,4 @@ void CameraController::updateLookAt() {
     flagRotation = false;
 }
 
-} // end namespace GlUtils
+} // end namespace Rigid3D

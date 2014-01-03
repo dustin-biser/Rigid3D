@@ -121,7 +121,7 @@ void ShadowMap::setupShaders() {
 
     shaderProgram.setUniform("shadowMap", 0); // Use Texture Unit 0.
 
-    checkGLErrors(__FILE__, __LINE__);
+    checkGlErrors(__FILE__, __LINE__);
 }
 
 //---------------------------------------------------------------------------------------
@@ -143,7 +143,7 @@ void ShadowMap::setupGLBuffers()
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-    Rigid3D::checkGLErrors(__FILE__, __LINE__);
+    Rigid3D::checkGlErrors(__FILE__, __LINE__);
 }
 
 //---------------------------------------------------------------------------------------
@@ -207,7 +207,7 @@ void ShadowMap::setupShadowFBO() {
 
     // Revert to the default framebuffer for now.
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
-    checkGLErrors(__FILE__, __LINE__);
+    checkGlErrors(__FILE__, __LINE__);
 }
 
 //---------------------------------------------------------------------------------------
@@ -254,7 +254,7 @@ void ShadowMap::draw()
         drawShadowMap();
     }
 
-    checkGLErrors(__FILE__, __LINE__);
+    checkGlErrors(__FILE__, __LINE__);
 }
 
 //---------------------------------------------------------------------------------------
@@ -397,7 +397,7 @@ void ShadowMap::drawLightFrustum() {
         renderableFrustum.render(vertexIndex);
     frustumShader.disable();
 
-    checkGLErrors(__FILE__, __LINE__);
+    checkGlErrors(__FILE__, __LINE__);
 }
 
 //---------------------------------------------------------------------------------------
@@ -696,6 +696,6 @@ void ShadowMap::reloadShaderProgram() {
 
     shaderProgram.setUniform("shadowMap", 0); // Use Texture Unit 0.
 
-    checkGLErrors(__FILE__, __LINE__);
+    checkGlErrors(__FILE__, __LINE__);
     cout << "Loading Shader Program" << endl;
 }

@@ -11,16 +11,13 @@ public:
     static shared_ptr<GlfwOpenGlWindow> getInstance();
 
 private:
-    RenderableXXX cube;
-    RenderableXXX sphere;
-    RenderableXXX torus;
-    RenderContext renderContext;
+    Scene scene;
+
+    Renderable * cube;
+    Renderable * sphere;
+    Renderable * torus;
 
     ShaderProgram shader;
-
-    // Mesh and Batch Containers
-    MeshConsolidator meshConsolidator;
-    unordered_map<const char *, BatchInfo> batchInfoMap;
 
     struct LightSource {
         vec3 position;      // Light position in world space.
@@ -28,24 +25,13 @@ private:
     };
     LightSource light;
 
-    GLuint vao;
-    GLuint vbo_vertices;
-    GLuint vbo_normals;
-
     void init();
 
     void setupShaders();
-    void setupVertexBuffers();
     void setupRenderables();
 
     void logic();
     void draw();
-    void cleanup();
-//    void cursorPosition(double xPos, double yPos);
-//    void mouseButtonInput(int button , int actions, int mods);
-//    void keyInput(int key, int action, int mods);
-
-    void computeAABB(const RenderableXXX & r, AABB *);
 };
 
 #endif /* PICKING_DEMO_HPP_ */

@@ -19,7 +19,7 @@ namespace Rigid3D {
         CameraController();
         ~CameraController();
 
-        void registerCamera(Camera * camera);
+        void registerCamera(Camera & camera);
 
         void keyInput(int key, int action, int mods);
         void mouseButtonInput(int button , int actions, int mods);

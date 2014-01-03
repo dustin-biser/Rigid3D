@@ -102,7 +102,10 @@ using std::stringstream;
             glDeleteProgram(prevProgramObject);
             prevProgramObject = 0;
 
-            checkGLErrors(__FILE__, __LINE__);
+            #ifdef DEBUG
+                checkGlErrors(__FILE__, __LINE__);
+            #endif
+
         }
 
         cleanUpResources();
@@ -124,17 +127,20 @@ using std::stringstream;
         default:
             break;
         }
-        checkGLErrors(__FILE__, __LINE__);
+
+        #ifdef DEBUG
+            checkGlErrors(__FILE__, __LINE__);
+        #endif
     }
 
     //------------------------------------------------------------------------------------
     void ShaderProgram::compileShader(const Shader &shader) {
         const char *source = shader.sourceCode.c_str();
         glShaderSource(shader.shaderObject, 1, (const GLchar **)&source, NULL);
-        checkGLErrors(__FILE__, __LINE__);
+        checkGlErrors(__FILE__, __LINE__);
 
         glCompileShader(shader.shaderObject);
-        checkGLErrors(__FILE__, __LINE__);
+        checkGlErrors(__FILE__, __LINE__);
         checkCompilationStatus(shader);
     }
 
@@ -172,7 +178,9 @@ using std::stringstream;
         glAttachShader(programObject, vertexShader.shaderObject);
         glAttachShader(programObject, fragmentShader.shaderObject);
 
-        checkGLErrors(__FILE__, __LINE__);
+        #ifdef DEBUG
+            checkGlErrors(__FILE__, __LINE__);
+        #endif
 
         glLinkProgram(programObject);
         checkLinkStatus();
@@ -511,7 +519,10 @@ GLuint ShaderProgram::getProgramObject() const {
         glUseProgram(programObject);
         glUniformSubroutinesuiv(shaderType, 1, &index);
         glUseProgram(activeProgram);
-        checkGLErrors(__FILE__, __LINE__);
+
+        #ifdef DEBUG
+            checkGlErrors(__FILE__, __LINE__);
+        #endif
     }
 
-} // end namespace GlUtils
+} // end namespace Rigid3D

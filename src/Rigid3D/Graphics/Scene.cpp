@@ -2,6 +2,7 @@
 
 #include <Rigid3D/Graphics/ObjFileLoader.hpp>
 #include <Rigid3D/Graphics/Renderable.hpp>
+#include <Rigid3D/Graphics/ShaderProgram.hpp>
 #include <Rigid3D/Graphics/GlErrorCheck.hpp>
 
 #include <Rigid3D/Common/Rigid3DException.hpp>
@@ -10,21 +11,38 @@
 #include <sstream>
 #include <cstring>
 
+
 namespace Rigid3D {
 
 using std::stringstream;
 using std::endl;
 using std::memcpy;
 
-// Static class variable definitions.
-const GLuint Scene::positionVertexAttributeIndex = 0;
-const GLuint Scene::normalVertexAttributeIndex = 1;
-const GLuint Scene::textureCoordVertexAttributeIndex = 2;
+//----------------------------------------------------------------------------------------
+//-- Static class variable definitions.
+const GLuint Scene::positionAttributeLocation = 0;
+const GLuint Scene::normalAttributeLocation = 1;
+const GLuint Scene::textureCoordAttributeLocation = 2;
+
+const GLuint Scene::modelViewMatrixUniformLocation = 0;
+const GLuint Scene::normalMatrixUniformLocation = 1;
+const GLuint Scene::projectionMatrixUniformLocation = 2;
 
 //----------------------------------------------------------------------------------------
 MeshInfo::MeshInfo(const string & meshName, const string & objFile)
     : meshName(meshName),
       objFile(objFile) {
+
+}
+
+//----------------------------------------------------------------------------------------
+Scene::Scene()
+    : vao_nonTextured(0),
+      vbo_nonTextured(0),
+      indexBuffer_nonTextured(0),
+      vao_textured(0),
+      vbo_textured(0),
+      indexBuffer_textured(0) {
 
 }
 
@@ -113,29 +131,37 @@ Scene::~Scene() {
     }
 
     // Delete all Renderables.
-    for(Renderable * renderable : renderables) {
+    for(Renderable * renderable : renderables_textured) {
+        delete renderable;
+    }
+
+    for(Renderable * renderable : renderables_nonTextured) {
         delete renderable;
     }
 }
 
 //----------------------------------------------------------------------------------------
 /**
- * Creates a Renderable object representing an instance of the Mesh with name 'meshName'.
+ * Creates a Renderable object with properties tailored from a RenderableSpec.
  *
  * @warning Users should never call delete on the pointer returned from this
  * method.  Memory associated with a Renderable will automatically be freed once
- * the Scene destructor is called.
+ * the Scene's destructor is called.
  *
- * @param meshName
- * @return a pointer to a new Renderable.
+ * @param spec - specification properties for the Renderable to be created.
+ * @return a pointer to a new Renderable object.
  */
-Renderable * Scene::createRenderable(const string & meshName) {
-    checkMeshNameExists(meshName);
+Renderable * Scene::createRenderable(const RenderableSpec & spec) {
+    checkMeshNameExists(spec.meshName);
+    checkRenderableSpecIsValid(spec);
 
-    BatchInfo batchInfo = meshBatchMap[meshName];
+    Renderable * renderable = new Renderable(*this, spec);
 
-    Renderable * renderable = new Renderable(*this, meshName, batchInfo);
-    renderables.push_back(renderable);
+    if(meshDataMap[spec.meshName].hasTextureCoords) {
+        renderables_textured.push_back(renderable);
+    } else {
+        renderables_nonTextured.push_back(renderable);
+    }
 
     return renderable;
 }
@@ -144,8 +170,8 @@ Renderable * Scene::createRenderable(const string & meshName) {
 void Scene::checkMeshNameExists(const string & meshName) const {
     if (meshBatchMap.count(meshName) == 0) {
         stringstream errorMessage;
-        errorMessage <<"Exception thrown from class Rigid3D::Scene" << endl;
-        errorMessage <<"Mesh with name \'" << meshName <<  "\' does not exist. ";
+        errorMessage << "Exception thrown from class Rigid3D::Scene" << endl;
+        errorMessage << "Mesh with name \'" << meshName <<  "\' does not exist. ";
 
         throw Rigid3DException(errorMessage.str());
     }
@@ -157,8 +183,8 @@ void Scene::checkMeshNameIsUnique(const unordered_map<string, MeshData> & meshDa
 
     if (meshDataMap.count(meshName) > 0) {
         stringstream errorMessage;
-        errorMessage <<"Exception thrown from class Rigid3D::Scene" << endl;
-        errorMessage <<"Duplicate mesh name \'" << meshName <<  "\' not allowed. ";
+        errorMessage << "Exception thrown from class Rigid3D::Scene" << endl;
+        errorMessage << "Duplicate mesh name \'" << meshName <<  "\' not allowed. ";
         errorMessage << "Mesh names must be unique.";
 
         throw Rigid3DException(errorMessage.str());
@@ -166,21 +192,36 @@ void Scene::checkMeshNameIsUnique(const unordered_map<string, MeshData> & meshDa
 }
 
 //----------------------------------------------------------------------------------------
+void Scene::checkRenderableSpecIsValid(const RenderableSpec & spec) const {
+
+    if ( (spec.shader == 0) || (spec.shader == nullptr) ) {
+        stringstream errorMessage;
+        errorMessage << "Exception thrown from class Rigid3D::Scene." << endl;
+        errorMessage << "RenderableSpec::shader cannot be null.";
+
+        throw Rigid3DException(errorMessage.str());
+    }
+
+}
+
+//----------------------------------------------------------------------------------------
 void Scene::createBatchInfo(const string & meshName, const MeshData & meshData) {
     BatchInfo batchInfo;
-    int32 numIndicesPerFace = 3;
+    uint16 numIndicesPerFace = 3;
 
     batchInfo.numIndices = meshData.numFaces * numIndicesPerFace;
 
     if (meshData.hasTextureCoords) {
-        // The starting index for this mesh begins at the current end of the
-        // texturedIndices vector.
-        batchInfo.startIndex = texturedIndexVector.size();
+        // The starting index offset for this mesh begins at the current end of the
+        // indexVector_textured.
+        batchInfo.startIndex = indexVector_textured.size();
+        batchInfo.baseVertex = vertexVector_textured.size();
 
     } else {
-        // The starting index for this mesh begins at the current end of the
+        // The starting index offset for this mesh begins at the current end of the
         // indexVector.
-        batchInfo.startIndex = indexVector.size();
+        batchInfo.startIndex = indexVector_nonTextured.size();
+        batchInfo.baseVertex = vertexVector_nonTextured.size();
     }
 
     meshBatchMap[meshName] = batchInfo;
@@ -188,89 +229,77 @@ void Scene::createBatchInfo(const string & meshName, const MeshData & meshData) 
 
 //----------------------------------------------------------------------------------------
 // Processes the vertex data and indices for a non-textured mesh.
-// Appends the mesh's vertex set to the vertexVector vector.  Determines the
-// indices of vertexVector's elements to use for rendering the mesh, and appends
-// these indices to indexVector.  Also constructs a BatchInfo and stores
-// it in meshBatchMap.
 void Scene::processNonTexturedMeshData(const string & meshName, const MeshData & meshData) {
-    unordered_map<ivec2, uint32, Hasher> indexMap;
-    ivec2 indexPair; // (positionIndex, normalIndex).
+    unordered_map<uvec2, uint16, Hasher> indexMap;
+    uvec2 indexPair; // (positionIndex, normalIndex).
     Vertex vertex;
-    uint32 vertexIndex;
-    int32 numIndicesPerFace = 3;
+    uint16 index = 0;
+    uint8 numIndicesPerFace = 3;
 
-    int32 posIndex;
-    int32 normalIndex;
+    uint16 posIndex;
+    uint16 normalIndex;
 
-    for (int32 face_i = 0; face_i < meshData.numFaces; face_i++) {
-        for (int32 j = 0; j < numIndicesPerFace; j++) {
+    for (uint32 face_i = 0; face_i < meshData.numFaces; face_i++) {
+        for (uint8 j = 0; j < numIndicesPerFace; j++) {
             posIndex = meshData.positionIndices[face_i][j];
             normalIndex = meshData.normalIndices[face_i][j];
-            indexPair = ivec2(posIndex, normalIndex);
+            indexPair = uvec2(posIndex, normalIndex);
 
             if (indexMap.count(indexPair) == 0) {
                 // First time seeing this indexPair for the given mesh.
-
-                vertexIndex = vertexVector.size();
                 vertex.position = meshData.positionSet[indexPair[0]];
                 vertex.normal = meshData.normalSet[indexPair[1]];
+                vertexVector_nonTextured.push_back(vertex);
 
-                vertexVector.push_back(vertex);
-
-                indexMap[indexPair] = vertexIndex;
+                indexMap[indexPair] = index;
+                indexVector_nonTextured.push_back(index);
+                index++;
 
             } else {
-                // Get the previously stored vertexIndex for the indexPair.
-                vertexIndex = indexMap[indexPair];
+                // Get the previously stored index for the indexPair.
+                indexVector_nonTextured.push_back(indexMap[indexPair]);
             }
 
-            indexVector.push_back(vertexIndex);
         }
     }
 }
 
 //----------------------------------------------------------------------------------------
 // Processes the vertex data and indices for a textured mesh.
-// Appends the mesh's vertex set to the texturedVertexVector vector.  Determines the
-// indices of texturedVertexVector's elements to use for rendering the mesh, and appends
-// these indices to texturedIndexVector.  Also constructs a BatchInfo and stores
-// it in meshBatchMap.
 void Scene::processTexturedMeshData(const string & meshName, const MeshData & meshData) {
-    unordered_map<ivec3, uint32, Hasher> indexMap;
-    ivec3 indexTriplet; // (positionIndex, normalIndex, textureCoordIndex).
+    unordered_map<uvec3, uint16, Hasher> indexMap;
+    uvec3 indexTriplet; // (positionIndex, normalIndex, textureCoordIndex).
     TexturedVertex vertex;
-    uint32 vertexIndex;
-    int32 numIndicesPerFace = 3;
+    uint16 index = 0;
+    uint8 numIndicesPerFace = 3;
 
-    int32 posIndex;
-    int32 normalIndex;
-    int32 textureCoordIndex;
+    uint16 posIndex;
+    uint16 normalIndex;
+    uint16 textureCoordIndex;
 
-    for (int32 face_i = 0; face_i < meshData.numFaces; face_i++) {
-        for (int32 j = 0; j < numIndicesPerFace; j++) {
+    for (uint32 face_i = 0; face_i < meshData.numFaces; face_i++) {
+        for (uint8 j = 0; j < numIndicesPerFace; j++) {
             posIndex = meshData.positionIndices[face_i][j];
             normalIndex = meshData.normalIndices[face_i][j];
             textureCoordIndex = meshData.textureCoordIndices[face_i][j];
-            indexTriplet = ivec3(posIndex, normalIndex, textureCoordIndex);
+            indexTriplet = uvec3(posIndex, normalIndex, textureCoordIndex);
 
             if (indexMap.count(indexTriplet) == 0) {
                 // First time seeing this indexTriplet for the given mesh.
-
-                vertexIndex = texturedVertexVector.size();
                 vertex.position = meshData.positionSet[indexTriplet[0]];
                 vertex.normal = meshData.normalSet[indexTriplet[1]];
                 vertex.textureCoord = meshData.textureCoordSet[indexTriplet[2]];
+                vertexVector_textured.push_back(vertex);
 
-                texturedVertexVector.push_back(vertex);
-
-                indexMap[indexTriplet] = vertexIndex;
+                indexMap[indexTriplet] = index;
+                indexVector_textured.push_back(index);
+                index++;
 
             } else {
-                // Get the previously stored vertexIndex for the indexTriplet.
-                vertexIndex = indexMap[indexTriplet];
+                // Get the previously stored index for the indexTriplet.
+                indexVector_textured.push_back(indexMap[indexTriplet]);
             }
 
-            texturedIndexVector.push_back(vertexIndex);
         }
     }
 }
@@ -284,17 +313,19 @@ void Scene::createVertexArrayObjects() {
 //----------------------------------------------------------------------------------------
 void Scene::enableVertexAttributeArrays() {
     glBindVertexArray(vao_nonTextured);
-    glEnableVertexAttribArray(positionVertexAttributeIndex);
-    glEnableVertexAttribArray(normalVertexAttributeIndex);
+    glEnableVertexAttribArray(positionAttributeLocation);
+    glEnableVertexAttribArray(normalAttributeLocation);
 
     glBindVertexArray(vao_textured);
-    glEnableVertexAttribArray(positionVertexAttributeIndex);
-    glEnableVertexAttribArray(normalVertexAttributeIndex);
-    glEnableVertexAttribArray(textureCoordVertexAttributeIndex);
+    glEnableVertexAttribArray(positionAttributeLocation);
+    glEnableVertexAttribArray(normalAttributeLocation);
+    glEnableVertexAttribArray(textureCoordAttributeLocation);
 
     glBindVertexArray(0);
 
-    checkGLErrors(__FILE__, __LINE__);
+    #ifdef DEBUG
+        checkGlErrors(__FILE__, __LINE__);
+    #endif
 }
 
 //----------------------------------------------------------------------------------------
@@ -304,31 +335,31 @@ void Scene::createVertexBuffersAndCopyData() {
     // Copy interleaved non-textured vertex data into OpenGL buffer.
     glGenBuffers(1, &vbo_nonTextured);
     glBindBuffer(GL_ARRAY_BUFFER, vbo_nonTextured);
-    numBytes = vertexVector.size() * sizeof(Vertex);
-    glBufferData(GL_ARRAY_BUFFER, numBytes, vertexVector.data(), GL_STATIC_DRAW);
+    numBytes = vertexVector_nonTextured.size() * sizeof(Vertex);
+    glBufferData(GL_ARRAY_BUFFER, numBytes, vertexVector_nonTextured.data(), GL_STATIC_DRAW);
 
     glBindVertexArray(vao_nonTextured);
-    glVertexAttribPointer(positionVertexAttributeIndex, 3, GL_FLOAT, GL_FALSE,
+    glVertexAttribPointer(positionAttributeLocation, 3, GL_FLOAT, GL_FALSE,
             sizeof(Vertex),
             reinterpret_cast<void *>(offsetof(struct Vertex, position)));
-    glVertexAttribPointer(normalVertexAttributeIndex, 3, GL_FLOAT, GL_FALSE,
+    glVertexAttribPointer(normalAttributeLocation, 3, GL_FLOAT, GL_FALSE,
             sizeof(Vertex),
             reinterpret_cast<void *>(offsetof(struct Vertex, normal)));
 
     // Copy interleaved textured vertex data into OpenGL buffer.
     glGenBuffers(1, &vbo_textured);
     glBindBuffer(GL_ARRAY_BUFFER, vbo_textured);
-    numBytes = texturedVertexVector.size() * sizeof(TexturedVertex);
-    glBufferData(GL_ARRAY_BUFFER, numBytes, texturedVertexVector.data(), GL_STATIC_DRAW);
+    numBytes = vertexVector_textured.size() * sizeof(TexturedVertex);
+    glBufferData(GL_ARRAY_BUFFER, numBytes, vertexVector_textured.data(), GL_STATIC_DRAW);
 
     glBindVertexArray(vao_textured);
-    glVertexAttribPointer(positionVertexAttributeIndex, 3, GL_FLOAT, GL_FALSE,
+    glVertexAttribPointer(positionAttributeLocation, 3, GL_FLOAT, GL_FALSE,
             sizeof(TexturedVertex),
             reinterpret_cast<void *>(offsetof(struct TexturedVertex, position)));
-    glVertexAttribPointer(normalVertexAttributeIndex, 3, GL_FLOAT, GL_FALSE,
+    glVertexAttribPointer(normalAttributeLocation, 3, GL_FLOAT, GL_FALSE,
             sizeof(TexturedVertex),
             reinterpret_cast<void *>(offsetof(struct TexturedVertex, normal)));
-    glVertexAttribPointer(textureCoordVertexAttributeIndex, 2, GL_FLOAT, GL_FALSE,
+    glVertexAttribPointer(textureCoordAttributeLocation, 2, GL_FLOAT, GL_FALSE,
             sizeof(TexturedVertex),
             reinterpret_cast<void *>(offsetof(struct TexturedVertex, textureCoord)));
 
@@ -336,7 +367,9 @@ void Scene::createVertexBuffersAndCopyData() {
     glBindVertexArray(0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-    checkGLErrors(__FILE__, __LINE__);
+    #ifdef DEBUG
+        checkGlErrors(__FILE__, __LINE__);
+    #endif
 }
 
 //----------------------------------------------------------------------------------------
@@ -350,27 +383,83 @@ void Scene::createIndexBuffersAndCopyData() {
     // Copy indices into index buffer for non-textured meshes.
     glBindVertexArray(vao_nonTextured);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer_nonTextured);
-    numBytes = indexVector.size() * sizeof(uint32);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, numBytes, indexVector.data(), GL_STATIC_DRAW);
+    numBytes = indexVector_nonTextured.size() * sizeof(uint16);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, numBytes, indexVector_nonTextured.data(), GL_STATIC_DRAW);
 
     // Copy indices into index buffer for textured meshes.
     glBindVertexArray(vao_textured);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer_textured);
-    numBytes = texturedIndexVector.size() * sizeof(uint32);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, numBytes, texturedIndexVector.data(), GL_STATIC_DRAW);
+    numBytes = indexVector_textured.size() * sizeof(uint16);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, numBytes, indexVector_textured.data(), GL_STATIC_DRAW);
 
     glBindVertexArray(0);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
-    checkGLErrors(__FILE__, __LINE__);
+    #ifdef DEBUG
+        checkGlErrors(__FILE__, __LINE__);
+    #endif
 }
 
 //----------------------------------------------------------------------------------------
 void Scene::deleteVertexAndIndexData() {
-    vertexVector.clear();
-    texturedVertexVector.clear();
-    indexVector.clear();
-    texturedIndexVector.clear();
+    vertexVector_nonTextured.clear();
+    vertexVector_textured.clear();
+    indexVector_nonTextured.clear();
+    indexVector_textured.clear();
+}
+
+//----------------------------------------------------------------------------------------
+void Scene::render(const Camera & camera) {
+    // Record the previously bound vao.
+    GLint prev_vao;
+    glGetIntegerv(GL_VERTEX_ARRAY_BINDING, &prev_vao);
+
+    // Record the previously bound index buffer.
+    GLint prev_indexBuffer;
+    glGetIntegerv(GL_ELEMENT_ARRAY_BUFFER_BINDING, &prev_indexBuffer);
+
+    // Render textured Renderables.
+    glBindVertexArray(vao_textured);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer_textured);
+    for(Renderable * r : renderables_textured) {
+        render(*r, camera);
+    }
+
+    // Render non-textured Renderables.
+    glBindVertexArray(vao_nonTextured);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer_nonTextured);
+    for(Renderable * r : renderables_nonTextured) {
+        render(*r, camera);
+    }
+
+    // Restore the previously bound vao and indexBuffer.
+    glBindVertexArray(prev_vao);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, prev_indexBuffer);
+
+    #ifdef DEBUG
+        checkGlErrors(__FILE__, __LINE__);
+    #endif
+}
+
+//----------------------------------------------------------------------------------------
+void Scene::render(Renderable & r, const Camera & camera) {
+    if (r.cull) return;
+
+    BatchInfo batchInfo;
+
+    batchInfo = meshBatchMap[r.meshName];
+
+    r.loadShaderUniforms(camera);
+
+    r.shader->enable();
+    glDrawElementsBaseVertex(GL_TRIANGLES, batchInfo.numIndices, GL_UNSIGNED_SHORT,
+            reinterpret_cast<void *>(batchInfo.startIndex * sizeof(uint16)),
+            batchInfo.baseVertex);
+    r.shader->disable();
+
+    #ifdef DEBUG
+        checkGlErrors(__FILE__, __LINE__);
+    #endif
 }
 
 } // end namespace Rigid3D.

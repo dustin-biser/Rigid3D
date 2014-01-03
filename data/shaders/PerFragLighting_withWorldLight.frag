@@ -19,7 +19,7 @@ struct MaterialProperties {
     vec3 Ka;        // Coefficients of ambient reflectivity for each RGB component.
     vec3 Kd;        // Coefficients of diffuse reflectivity for each RGB component.
     float Ks;       // Coefficient of specular reflectivity, uniform across each RGB component.
-    float shininessFactor;   // Specular shininess factor.
+    float shininess;  // Specular shininess factor.
 };
 uniform MaterialProperties material;
 
@@ -36,7 +36,7 @@ vec3 eadsLightLevel(vec3 fragPosition, vec3 fragNormal) {
     vec3 specular = vec3(0.0);
     if (n_dot_l > 0.0) {
         float n_dot_h = max(dot(fragNormal, h), 0.0);
-        specular = vec3(material.Ks * pow(n_dot_h, material.shininessFactor)); 
+        specular = vec3(material.Ks * pow(n_dot_h, material.shininess)); 
     }    
    
     return material.emission + ambient + lightSource.rgbIntensity * (diffuse + specular);

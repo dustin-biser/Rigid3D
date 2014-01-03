@@ -18,14 +18,12 @@
 #include <Rigid3D/Graphics/Frustum.hpp>
 #include <Rigid3D/Graphics/GlErrorCheck.hpp>
 #include <Rigid3D/Graphics/Material.hpp>
-#include <Rigid3D/Graphics/Mesh.hpp>
-#include <Rigid3D/Graphics/MeshConsolidator.hpp>
-#include <Rigid3D/Graphics/ModelTransform.hpp>
 #include <Rigid3D/Graphics/OpenGlContext.hpp>
+#include <Rigid3D/Graphics/Renderable.hpp>
 #include <Rigid3D/Graphics/RenderableFrustum.hpp>
-#include <Rigid3D/Graphics/RenderableXXX.hpp>
-#include <Rigid3D/Graphics/ShaderProgram.hpp>
+#include <Rigid3D/Graphics/Scene.hpp>
 #include <Rigid3D/Graphics/ShaderException.hpp>
+#include <Rigid3D/Graphics/ShaderProgram.hpp>
 
 #include <Rigid3D/Math/Trigonometry.hpp>
 

@@ -439,4 +439,4 @@ void Camera::lookAt(const vec3 & eye, const vec3 & center, const vec3 & up) {
     recalcViewMatrix = true;
 }
 
-} // end namespace GlUtils
+} // end namespace Rigid3D

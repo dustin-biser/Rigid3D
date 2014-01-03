@@ -53,7 +53,7 @@ namespace Rigid3D {
         const static unsigned short floatTolerance = 5;
     };
 
-} // end namespace GlUtils
+} // end namespace Rigid3D
 
 
 #endif /* RIGID3D_FRUSTUM_HPP_ */
