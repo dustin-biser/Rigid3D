@@ -4,6 +4,7 @@
 #include <Rigid3D/Graphics/Renderable.hpp>
 #include <Rigid3D/Graphics/ShaderProgram.hpp>
 #include <Rigid3D/Graphics/GlErrorCheck.hpp>
+#include <Rigid3D/Graphics/Light.hpp>
 
 #include <Rigid3D/Common/Rigid3DException.hpp>
 
@@ -19,14 +20,31 @@ using std::endl;
 using std::memcpy;
 
 //----------------------------------------------------------------------------------------
-//-- Static class variable definitions.
-const GLuint Scene::positionAttributeLocation = 0;
-const GLuint Scene::normalAttributeLocation = 1;
-const GLuint Scene::textureCoordAttributeLocation = 2;
+const uint Scene::MAX_NUM_LIGHTS = 10;
+const GLuint Scene::NUM_LIGHT_UNIFORM_FIELDS = 5;
 
-const GLuint Scene::modelViewMatrixUniformLocation = 0;
-const GLuint Scene::normalMatrixUniformLocation = 1;
-const GLuint Scene::projectionMatrixUniformLocation = 2;
+//-- Vertex Attribute Layout Locations.
+const GLuint Scene::POSITION_ATTRIBUTE_INDEX = 0;
+const GLuint Scene::NORMAL_ATTRIBUTE_INDEX = 1;
+const GLuint Scene::TEXTURE_COORD_ATTRIBUTE_INDEX = 2;
+
+//-- Uniform Variable Layout Locations.
+const GLuint Scene::MODEL_VIEW_MATRIX_UNIFORM_LOCATION = 0;
+const GLuint Scene::NORMAL_MATRIX_UNIFORM_LOCATION = 1;
+const GLuint Scene::PROJECTION_MATRIX_UNIFORM_LOCATION = 2;
+
+const GLuint Scene::MATERIAL_UNIFORM_EMISSION_OFFSET = 3;
+const GLuint Scene::MATERIAL_UNIFORM_KA_OFFSET = 4;
+const GLuint Scene::MATERIAL_UNIFORM_KD_OFFSET = 5;
+const GLuint Scene::MATERIAL_UNIFORM_KS_OFFSET = 6;
+const GLuint Scene::MATERIAL_UNIFORM_SHININESS_OFFSET = 7;
+
+const GLuint Scene::LIGHT_UNIFORM_TYPE_OFFSET = 8;
+const GLuint Scene::LIGHT_UNIFORM_POSITION_OFFSET = 9;
+const GLuint Scene::LIGHT_UNIFORM_DIRECTION_OFFSET = 10;
+const GLuint Scene::LIGHT_UNIFORM_COLOR_OFFSET = 11;
+const GLuint Scene::LIGHT_UNIFORM_ENABLED_OFFSET = 12;
+
 
 //----------------------------------------------------------------------------------------
 MeshInfo::MeshInfo(const string & meshName, const string & objFile)
@@ -101,7 +119,7 @@ Scene::Scene(initializer_list<MeshInfo> meshList) {
 
 //----------------------------------------------------------------------------------------
 Scene::~Scene() {
-    // Delete all MeshData.
+    //-- Delete all MeshData.
     for(auto & key_value : meshDataMap) {
         MeshData meshData = key_value.second;
 
@@ -130,13 +148,18 @@ Scene::~Scene() {
         meshData.hasTextureCoords = false;
     }
 
-    // Delete all Renderables.
+    //-- Delete all Renderables.
     for(Renderable * renderable : renderables_textured) {
         delete renderable;
     }
 
     for(Renderable * renderable : renderables_nonTextured) {
         delete renderable;
+    }
+
+    //-- Delete all Lights.
+    for(Light * light : lights) {
+        delete light;
     }
 }
 
@@ -313,13 +336,13 @@ void Scene::createVertexArrayObjects() {
 //----------------------------------------------------------------------------------------
 void Scene::enableVertexAttributeArrays() {
     glBindVertexArray(vao_nonTextured);
-    glEnableVertexAttribArray(positionAttributeLocation);
-    glEnableVertexAttribArray(normalAttributeLocation);
+    glEnableVertexAttribArray(POSITION_ATTRIBUTE_INDEX);
+    glEnableVertexAttribArray(NORMAL_ATTRIBUTE_INDEX);
 
     glBindVertexArray(vao_textured);
-    glEnableVertexAttribArray(positionAttributeLocation);
-    glEnableVertexAttribArray(normalAttributeLocation);
-    glEnableVertexAttribArray(textureCoordAttributeLocation);
+    glEnableVertexAttribArray(POSITION_ATTRIBUTE_INDEX);
+    glEnableVertexAttribArray(NORMAL_ATTRIBUTE_INDEX);
+    glEnableVertexAttribArray(TEXTURE_COORD_ATTRIBUTE_INDEX);
 
     glBindVertexArray(0);
 
@@ -339,10 +362,10 @@ void Scene::createVertexBuffersAndCopyData() {
     glBufferData(GL_ARRAY_BUFFER, numBytes, vertexVector_nonTextured.data(), GL_STATIC_DRAW);
 
     glBindVertexArray(vao_nonTextured);
-    glVertexAttribPointer(positionAttributeLocation, 3, GL_FLOAT, GL_FALSE,
+    glVertexAttribPointer(POSITION_ATTRIBUTE_INDEX, 3, GL_FLOAT, GL_FALSE,
             sizeof(Vertex),
             reinterpret_cast<void *>(offsetof(struct Vertex, position)));
-    glVertexAttribPointer(normalAttributeLocation, 3, GL_FLOAT, GL_FALSE,
+    glVertexAttribPointer(NORMAL_ATTRIBUTE_INDEX, 3, GL_FLOAT, GL_FALSE,
             sizeof(Vertex),
             reinterpret_cast<void *>(offsetof(struct Vertex, normal)));
 
@@ -353,13 +376,13 @@ void Scene::createVertexBuffersAndCopyData() {
     glBufferData(GL_ARRAY_BUFFER, numBytes, vertexVector_textured.data(), GL_STATIC_DRAW);
 
     glBindVertexArray(vao_textured);
-    glVertexAttribPointer(positionAttributeLocation, 3, GL_FLOAT, GL_FALSE,
+    glVertexAttribPointer(POSITION_ATTRIBUTE_INDEX, 3, GL_FLOAT, GL_FALSE,
             sizeof(TexturedVertex),
             reinterpret_cast<void *>(offsetof(struct TexturedVertex, position)));
-    glVertexAttribPointer(normalAttributeLocation, 3, GL_FLOAT, GL_FALSE,
+    glVertexAttribPointer(NORMAL_ATTRIBUTE_INDEX, 3, GL_FLOAT, GL_FALSE,
             sizeof(TexturedVertex),
             reinterpret_cast<void *>(offsetof(struct TexturedVertex, normal)));
-    glVertexAttribPointer(textureCoordAttributeLocation, 2, GL_FLOAT, GL_FALSE,
+    glVertexAttribPointer(TEXTURE_COORD_ATTRIBUTE_INDEX, 2, GL_FLOAT, GL_FALSE,
             sizeof(TexturedVertex),
             reinterpret_cast<void *>(offsetof(struct TexturedVertex, textureCoord)));
 
@@ -460,6 +483,14 @@ void Scene::render(Renderable & r, const Camera & camera) {
     #ifdef DEBUG
         checkGlErrors(__FILE__, __LINE__);
     #endif
+}
+
+//----------------------------------------------------------------------------------------
+Light * Scene::createLight(const LightSpec & spec) {
+    Light * light = new Light(*this, spec);
+    lights.push_back(light);
+
+    return light;
 }
 
 } // end namespace Rigid3D.

@@ -71,7 +71,7 @@ namespace Rigid3D {
     private:
         friend class Scene;
 
-        Scene * const scene;
+        Scene & scene;
         string meshName;
 
         ShaderProgram * shader;

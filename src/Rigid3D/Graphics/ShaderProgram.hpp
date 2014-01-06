@@ -44,9 +44,9 @@ using std::string;
      * @note Attached vertex shaders must have present the following uniforms with
      * given types and layout locations:
      * \code
-     * layout (location = 0) mat4 ModelViewMatrix
-     * layout (location = 1) mat3 NormalMatrix
-     * layout (location = 2) mat4 ProjectionMatrix
+     * layout (location = 0) uniform mat4 ModelViewMatrix
+     * layout (location = 1) uniform mat3 NormalMatrix
+     * layout (location = 2) uniform mat4 ProjectionMatrix
      * \endcode
      * There are no restrictions imposed on the naming of these uniform matrices
      * within the vertex shader.

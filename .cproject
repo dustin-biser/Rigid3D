@@ -39,6 +39,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/tests/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/examples/Utils}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/examples}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/ext/glew-1.10.0/include}&quot;"/>
 									<listOptionValue builtIn="false" value="/usr/local/include/GLFW"/>
 									<listOptionValue builtIn="false" value="/home/dustin/Projects/C++/glm/glm"/>
 									<listOptionValue builtIn="false" value="/usr/local/include/GL"/>
@@ -63,6 +64,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/tests/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/examples/Utils}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/examples}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/ext/glew-1.10.0/include}&quot;"/>
 									<listOptionValue builtIn="false" value="/home/dustin/Projects/C++/glm"/>
 									<listOptionValue builtIn="false" value="/usr/local/include/GLFW"/>
 									<listOptionValue builtIn="false" value="/usr/local/include/GL"/>
@@ -99,6 +101,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/tests/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/examples/Utils}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/examples}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Rigid3D/ext/glew-1.10.0/include}&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.1230348297" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>

@@ -1,5 +1,9 @@
 #include "PickingDemo.hpp"
 
+#include <iostream>
+using std::cout;
+using std::endl;
+
 
 //---------------------------------------------------------------------------------------
 int main() {
@@ -21,6 +25,13 @@ shared_ptr<GlfwOpenGlWindow> PickingDemo::getInstance() {
 
 //---------------------------------------------------------------------------------------
 void PickingDemo::init() {
+    if(GLEW_ARB_explicit_uniform_location) {
+        cout << "Uniform locations enabled" << endl;
+    } else {
+        cout << "Uniform locations disabled" << endl;
+    }
+
+
     scene = {
         MeshInfo("cube", "../data/meshes/cube.obj"),
         MeshInfo("sphere", "../data/meshes/sphere_smooth.obj"),

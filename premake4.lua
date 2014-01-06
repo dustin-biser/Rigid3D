@@ -29,9 +29,7 @@ includeDirList = {"ext",
                   "examples/Utils",
                   "../glm",
                   "/usr/local/include",
-                  "/usr/include",
-                  "/usr/include/freetype2/freetype",
-                  "/usr/include/freetype2"}
+                  "/usr/include" }
 
 solution "Rigid3D"
     configurations { "Debug", "Release" }

@@ -13,8 +13,10 @@
 
 // Forward declarations.
 namespace Rigid3D {
-    class Renderable;
     class Camera;
+    class Light;
+    class Renderable;
+    struct LightSpec;
     struct RenderableSpec;
 }
 
@@ -65,28 +67,49 @@ using std::vector;
 
         Renderable * createRenderable(const RenderableSpec & spec);
 
+        Light * createLight(const LightSpec & spec);
+
         void render(const Camera & camera);
 
     private:
         friend class Renderable;
 
         // Layout location for vertex shader position attribute array.
-        static const GLuint positionAttributeLocation;
+        static const GLuint POSITION_ATTRIBUTE_INDEX;
 
         // Layout location for vertex shader normal attribute array.
-        static const GLuint normalAttributeLocation;
+        static const GLuint NORMAL_ATTRIBUTE_INDEX;
 
         // Layout location for vertex shader texture coordinate attribute array.
-        static const GLuint textureCoordAttributeLocation;
+        static const GLuint TEXTURE_COORD_ATTRIBUTE_INDEX;
 
         // Layout location for vertex shader Model-View-Matrix uniform.
-        static const GLuint modelViewMatrixUniformLocation;
+        static const GLuint MODEL_VIEW_MATRIX_UNIFORM_LOCATION;
 
         // Layout location for vertex shader Normal-Matrix uniform.
-        static const GLuint normalMatrixUniformLocation;
+        static const GLuint NORMAL_MATRIX_UNIFORM_LOCATION;
 
         // Layout location for vertex shader Projection-Matrix uniform.
-        static const GLuint projectionMatrixUniformLocation;
+        static const GLuint PROJECTION_MATRIX_UNIFORM_LOCATION;
+
+        // Layout locations for shader uniform Material struct data.
+        static const GLuint MATERIAL_UNIFORM_EMISSION_OFFSET;
+        static const GLuint MATERIAL_UNIFORM_KA_OFFSET;
+        static const GLuint MATERIAL_UNIFORM_KD_OFFSET;
+        static const GLuint MATERIAL_UNIFORM_KS_OFFSET;
+        static const GLuint MATERIAL_UNIFORM_SHININESS_OFFSET;
+
+        static const GLuint NUM_LIGHT_UNIFORM_FIELDS;
+
+        // Layout locations for shader uniform Light struct data.
+        static const GLuint LIGHT_UNIFORM_TYPE_OFFSET;
+        static const GLuint LIGHT_UNIFORM_POSITION_OFFSET;
+        static const GLuint LIGHT_UNIFORM_DIRECTION_OFFSET;
+        static const GLuint LIGHT_UNIFORM_COLOR_OFFSET;
+        static const GLuint LIGHT_UNIFORM_ENABLED_OFFSET;
+
+        // Maximum number of lights that can contribute to a Scene's lighting.
+        static const uint MAX_NUM_LIGHTS;
 
         vector<Vertex> vertexVector_nonTextured;
         vector<TexturedVertex> vertexVector_textured;
@@ -99,6 +122,7 @@ using std::vector;
 
         vector<Renderable *> renderables_nonTextured;
         vector<Renderable *> renderables_textured;
+        vector<Light *> lights;
 
         GLuint vao_nonTextured;
         GLuint vbo_nonTextured;

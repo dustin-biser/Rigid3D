@@ -1,10 +1,10 @@
 #ifndef RIGID3D_SETTINGS_HPP_
 #define RIGID3D_SETTINGS_HPP_
 
+#define GLM_FORCE_RADIANS
 #include <glm/glm.hpp>
 #include <glm/gtc/quaternion.hpp>
 #include <glm/gtx/quaternion.hpp>
-#define GLM_FORCE_RADIANS
 
 #include <cstdint>
 #include <cfloat>
