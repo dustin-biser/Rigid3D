@@ -107,59 +107,6 @@ void Renderable::loadShaderUniforms(const Camera & camera) {
     shader->setUniform("material.Kd", material.Kd);
     shader->setUniform("material.Ks", material.Ks);
     shader->setUniform("material.shininess", material.shininess);
-
-    uint32 numActiveLights = scene.lights.size();
-    vec3 lightPos;  // Light position in eye coords.
-    vec3 lightDir;  // Light direction in eye coords.
-    vec4 tmp;
-    char uniformName[20];
-
-    //-- Upload all active light uniform data.
-    for (uint32 i = 0; i < numActiveLights; i++) {
-        // light's position in world space.
-        lightPos = scene.lights[i]->position;
-        tmp.x = lightPos.x; tmp.y = lightPos.y; tmp.z = lightPos.z;
-
-         // light's position in eye space.
-        tmp = (camera.getViewMatrix() * tmp);
-        lightPos.x = tmp.x; lightPos.y = tmp.y; lightPos.z = tmp.z;
-
-        std::sprintf(uniformName, "light[%d].type", i);
-        shader->setUniform(uniformName, (uint32)(scene.lights[i]->type));
-        uniformName[0] = '\0';
-
-        std::sprintf(uniformName, "light[%d].position", i);
-        shader->setUniform(uniformName, lightPos);
-        uniformName[0] = '\0';
-
-
-        if (scene.lights[i]->type == LightType::Directional) {
-            // Transform light direction from world coords to eye coords.
-            tmp = modelView * vec4(scene.lights[i]->direction, 1.0f);
-            lightDir.x = tmp.x; lightDir.y = tmp.y; lightDir.z = tmp.z;
-
-            std::sprintf(uniformName, "light[%d].direction", i);
-            shader->setUniform(uniformName, lightDir);
-            uniformName[0] = '\0';
-        }
-
-        std::sprintf(uniformName, "light[%d].color", i);
-        shader->setUniform(uniformName, scene.lights[i]->color);
-        uniformName[0] = '\0';
-
-        std::sprintf(uniformName, "light[%d].isEnabled", i);
-        shader->setUniform(uniformName, true);
-        uniformName[0] = '\0';
-    }
-
-    //-- Disable all in-active lights.
-    uint32 firstDisabledLightIndex = scene.MAX_NUM_LIGHTS - numActiveLights;
-    for (uint32 i = firstDisabledLightIndex; i < scene.MAX_NUM_LIGHTS; i++) {
-        std::sprintf(uniformName, "light[%d].isEnabled", i);
-        shader->setUniform(uniformName, false);
-        uniformName[0] = '\0';
-    }
-
 }
 
 //----------------------------------------------------------------------------------------
@@ -177,12 +124,12 @@ const Transform & Renderable::getTransform() const {
 void Renderable::setShader(const ShaderProgram & shader) {
     if (this->shader != nullptr) {
         // Remove this Renderable from its current shader's Renderable Set.
-        GLuint prevProgramObject = this->shader->programObject;
-        scene.shaderRenderableMap[prevProgramObject].erase(this);
+        scene.shaderRenderableMap[this->shader].erase(this);
     }
 
     // Now add this Renderable to the new shader's Renderable Set.
-    scene.shaderRenderableMap[shader.programObject].insert(this);
+    ShaderProgram * shaderPtr = const_cast<ShaderProgram *>(&shader);
+    scene.shaderRenderableMap[shaderPtr].insert(this);
     this->shader = const_cast<ShaderProgram *>(&shader);
 }
 

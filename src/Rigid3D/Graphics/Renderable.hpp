@@ -51,6 +51,7 @@ namespace Rigid3D {
     class ModelTransform {
     private:
         friend class Renderable;
+        friend class Scene;
 
         Transform transform;
         mutable mat4 modelMatrix;

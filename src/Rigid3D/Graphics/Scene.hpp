@@ -16,6 +16,7 @@
 namespace Rigid3D {
     class Camera;
     class Light;
+    class ShaderProgram;
     class Renderable;
     struct LightSpec;
     struct RenderableSpec;
@@ -98,7 +99,7 @@ using std::vector;
         unordered_map<string, MeshData> meshDataMap;
 
         // Keys are shader program objects (GLuints)
-        unordered_map<GLuint, unordered_set<Renderable *> > shaderRenderableMap;
+        unordered_map<ShaderProgram *, unordered_set<Renderable *> > shaderRenderableMap;
 
         vector<Renderable *> renderables_nonTextured;
         vector<Renderable *> renderables_textured;
@@ -135,6 +136,8 @@ using std::vector;
         void deleteVertexAndIndexData();
 
         void render(Renderable & r, const Camera & camera);
+
+        void loadLightUniformData(ShaderProgram * shader, const Camera & camera);
     };
 
 }

@@ -1,5 +1,6 @@
 #include "Scene.hpp"
 
+#include <Rigid3D/Graphics/Camera.hpp>
 #include <Rigid3D/Graphics/ObjFileLoader.hpp>
 #include <Rigid3D/Graphics/Renderable.hpp>
 #include <Rigid3D/Graphics/ShaderProgram.hpp>
@@ -408,14 +409,32 @@ void Scene::render(const Camera & camera) {
 
     // Render textured Renderables.
     glBindVertexArray(vao_textured);
-    for(Renderable * r : renderables_textured) {
-        render(*r, camera);
+    for (auto & key_value : shaderRenderableMap) {
+        ShaderProgram * shader = key_value.first;
+        auto & renderableSet = key_value.second;
+
+        loadLightUniformData(shader, camera);
+
+        for (Renderable * renderable : renderableSet) {
+            if(meshDataMap[renderable->meshName].hasTextureCoords) {
+                render(*renderable, camera);
+            }
+        }
     }
 
     // Render non-textured Renderables.
     glBindVertexArray(vao_nonTextured);
-    for(Renderable * r : renderables_nonTextured) {
-        render(*r, camera);
+    for (auto & key_value : shaderRenderableMap) {
+        ShaderProgram * shader = key_value.first;
+        auto & renderableSet = key_value.second;
+
+        loadLightUniformData(shader, camera);
+
+        for (Renderable * renderable : renderableSet) {
+            if(meshDataMap[renderable->meshName].hasTextureCoords == false) {
+                render(*renderable, camera);
+            }
+        }
     }
 
     // Restore the previously bound vao and indexBuffer.
@@ -431,7 +450,6 @@ void Scene::render(Renderable & r, const Camera & camera) {
     if (r.cull) return;
 
     BatchInfo batchInfo;
-
     batchInfo = meshBatchMap[r.meshName];
 
     r.loadShaderUniforms(camera);
@@ -454,5 +472,65 @@ Light * Scene::createLight(const LightSpec & spec) {
 
     return light;
 }
+
+//----------------------------------------------------------------------------------------
+void Scene::loadLightUniformData(ShaderProgram * shader, const Camera & camera) {
+    uint32 numActiveLights = lights.size();
+    vec3 lightPos;  // Light's position.
+    vec3 lightDir;  // Light's direction.
+    vec4 tmp;
+    char uniformName[20];
+
+    //-- Upload all active light uniform data.
+    for (uint32 i = 0; i < numActiveLights; i++) {
+        // Upload light type.
+        std::sprintf(uniformName, "light[%d].type", i);
+        shader->setUniform(uniformName, (uint32)(lights[i]->type));
+        uniformName[0] = '\0';
+
+        // Transform light's position from world coords to eye coords.
+        lightPos = lights[i]->position;
+        tmp.x = lightPos.x; tmp.y = lightPos.y; tmp.z = lightPos.z;
+        tmp = (camera.getViewMatrix() * tmp);
+        lightPos.x = tmp.x; lightPos.y = tmp.y; lightPos.z = tmp.z;
+
+        // Upload light position.
+        std::sprintf(uniformName, "light[%d].position", i);
+        shader->setUniform(uniformName, lightPos);
+        uniformName[0] = '\0';
+
+
+        if (lights[i]->type == LightType::Directional) {
+            // Transform light's direction from world coords to eye coords.
+            tmp = camera.getViewMatrix() * vec4(lights[i]->direction, 1.0f);
+            lightDir.x = tmp.x; lightDir.y = tmp.y; lightDir.z = tmp.z;
+
+            // Upload light direction.
+            std::sprintf(uniformName, "light[%d].direction", i);
+            shader->setUniform(uniformName, lightDir);
+            uniformName[0] = '\0';
+        }
+
+        // Upload light color.
+        std::sprintf(uniformName, "light[%d].color", i);
+        shader->setUniform(uniformName, lights[i]->color);
+        uniformName[0] = '\0';
+
+        // Set light's isEnabled field to true.
+        std::sprintf(uniformName, "light[%d].isEnabled", i);
+        shader->setUniform(uniformName, true);
+        uniformName[0] = '\0';
+    }
+
+    //-- Disable all in-active lights.
+    uint32 firstDisabledLightIndex = MAX_NUM_LIGHTS - numActiveLights;
+    for (uint32 i = firstDisabledLightIndex; i < MAX_NUM_LIGHTS; i++) {
+        // Set light's isEnabled field to false.
+        std::sprintf(uniformName, "light[%d].isEnabled", i);
+        shader->setUniform(uniformName, false);
+        uniformName[0] = '\0';
+    }
+}
+
 
 } // end namespace Rigid3D.
