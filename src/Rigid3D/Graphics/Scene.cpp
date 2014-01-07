@@ -9,8 +9,9 @@
 #include <Rigid3D/Common/Rigid3DException.hpp>
 
 #include <cstddef>
-#include <sstream>
 #include <cstring>
+#include <sstream>
+#include <iostream>
 
 
 namespace Rigid3D {
@@ -158,7 +159,6 @@ Scene::~Scene() {
  */
 Renderable * Scene::createRenderable(const RenderableSpec & spec) {
     checkMeshNameExists(spec.meshName);
-    checkRenderableSpecIsValid(spec);
 
     Renderable * renderable = new Renderable(*this, spec);
 
@@ -194,19 +194,6 @@ void Scene::checkMeshNameIsUnique(const unordered_map<string, MeshData> & meshDa
 
         throw Rigid3DException(errorMessage.str());
     }
-}
-
-//----------------------------------------------------------------------------------------
-void Scene::checkRenderableSpecIsValid(const RenderableSpec & spec) const {
-
-    if ( (spec.shader == 0) || (spec.shader == nullptr) ) {
-        stringstream errorMessage;
-        errorMessage << "Exception thrown from class Rigid3D::Scene." << endl;
-        errorMessage << "RenderableSpec::shader cannot be null.";
-
-        throw Rigid3DException(errorMessage.str());
-    }
-
 }
 
 //----------------------------------------------------------------------------------------

@@ -1,5 +1,6 @@
 #include "Renderable.hpp"
 
+#include <Rigid3D/Common/Rigid3DException.hpp>
 #include <Rigid3D/Graphics/Camera.hpp>
 #include <Rigid3D/Graphics/GlErrorCheck.hpp>
 #include <Rigid3D/Graphics/Light.hpp>
@@ -7,8 +8,14 @@
 #include <Rigid3D/Graphics/ShaderProgram.hpp>
 
 #include <cstdio>
+#include <iostream>
+#include <sstream>
 
 namespace Rigid3D {
+
+using std::endl;
+using std::stringstream;
+using std::vector;
 
 
 //----------------------------------------------------------------------------------------
@@ -72,14 +79,18 @@ RenderableSpec::RenderableSpec()
 }
 
 //----------------------------------------------------------------------------------------
-Renderable::Renderable(const Scene & scene, const RenderableSpec & spec)
-    : scene(const_cast<Scene &>(scene)) {
+Renderable::Renderable(Scene & scene, const RenderableSpec & spec)
+    : scene(scene),
+      shader(nullptr) {
+
+    checkShaderIsNotNull(spec.shader);
+    setShader(*(spec.shader));
 
     this->meshName = spec.meshName;
-    this->shader = spec.shader;
     this->material = spec.material;
     this->modelTransform.set(spec.transform);
     this->cull = spec.cull;
+
 }
 
 //----------------------------------------------------------------------------------------
@@ -159,6 +170,36 @@ void Renderable::setTransform(const Transform & transform) {
 //----------------------------------------------------------------------------------------
 const Transform & Renderable::getTransform() const {
     return modelTransform.transform;
+}
+
+
+//----------------------------------------------------------------------------------------
+void Renderable::setShader(const ShaderProgram & shader) {
+    if (this->shader != nullptr) {
+        // Remove this Renderable from its current shader's Renderable Set.
+        GLuint prevProgramObject = this->shader->programObject;
+        scene.shaderRenderableMap[prevProgramObject].erase(this);
+    }
+
+    // Now add this Renderable to the new shader's Renderable Set.
+    scene.shaderRenderableMap[shader.programObject].insert(this);
+    this->shader = const_cast<ShaderProgram *>(&shader);
+}
+
+//----------------------------------------------------------------------------------------
+ShaderProgram & Renderable::getShader() const {
+    return *shader;
+}
+
+//----------------------------------------------------------------------------------------
+void Renderable::checkShaderIsNotNull(const ShaderProgram * shader) const {
+    if ( (shader == 0) || (shader == nullptr) ) {
+        stringstream errorMessage;
+        errorMessage << "Exception thrown from class Rigid3D::Renderable." << endl;
+        errorMessage << "ShaderProgram cannot be null." << endl;
+
+        throw Rigid3DException(errorMessage.str());
+    }
 }
 
 } // end namespace Rigid3D

@@ -7,9 +7,10 @@
 #include <GL/glew.h>
 
 #include <initializer_list>
-#include <unordered_map>
-#include <vector>
 #include <string>
+#include <unordered_map>
+#include <unordered_set>
+#include <vector>
 
 // Forward declarations.
 namespace Rigid3D {
@@ -23,8 +24,9 @@ namespace Rigid3D {
 namespace Rigid3D {
 
 using std::initializer_list;
-using std::unordered_map;
 using std::string;
+using std::unordered_map;
+using std::unordered_set;
 using std::vector;
 
     struct BatchInfo {
@@ -95,6 +97,9 @@ using std::vector;
         unordered_map<string, BatchInfo> meshBatchMap;
         unordered_map<string, MeshData> meshDataMap;
 
+        // Keys are shader program objects (GLuints)
+        unordered_map<GLuint, unordered_set<Renderable *> > shaderRenderableMap;
+
         vector<Renderable *> renderables_nonTextured;
         vector<Renderable *> renderables_textured;
         vector<Light *> lights;
@@ -112,8 +117,6 @@ using std::vector;
 
         void checkMeshNameIsUnique(const unordered_map<string, MeshData> & meshDataMap,
                 const string & meshName) const;
-
-        void checkRenderableSpecIsValid(const RenderableSpec & spec) const;
 
         void processNonTexturedMeshData(const string & meshName, const MeshData & meshData);
 

@@ -22,15 +22,24 @@ namespace Rigid3D {
      * @note 'cull' defaults to false.
      */
     struct RenderableSpec {
+        /// Mesh name that identifies the mesh to use for rendering the  Renderable.
         string meshName;
+
+        /// Shader to use when rendering the Renderable.
         ShaderProgram * shader;
+
+        /// Material lighting properties to use when rendering the Renderable.
         Material material;
+
+        /// Transform for positioning, orienting, and scaling the Renderable.
         Transform transform;
 
         /**
          *  If true, the corresponding Renderable's vertex data will not be sent
          *  through the rendering pipeline upon calling
          *  Rigid3D::Renderable::render or Rigid3D::Scene::render.
+         *
+         *  Default value is false.
          */
         bool cull;
 
@@ -64,23 +73,27 @@ namespace Rigid3D {
     public:
         void setTransform(const Transform & transform);
 
+        void setShader(const ShaderProgram & shader);
+
+        ShaderProgram & getShader() const;
+
         const Transform & getTransform() const;
 
     private:
         friend class Scene;
 
         Scene & scene;
-        string meshName;
-
         ShaderProgram * shader;
+        string meshName;
         Material material;
         ModelTransform modelTransform;
         bool cull;
 
-        Renderable(const Scene & scene, const RenderableSpec & spec);
+        Renderable(Scene & scene, const RenderableSpec & spec);
 
         void loadShaderUniforms(const Camera & camera);
 
+        void checkShaderIsNotNull(const ShaderProgram * shader) const;
     };
 
 }

@@ -101,6 +101,8 @@ using std::string;
 
 
     private:
+        friend class Renderable;
+
         struct Shader {
             string sourceCode;
             GLuint shaderObject;
