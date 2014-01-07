@@ -17,6 +17,7 @@
 #include <Rigid3D/Graphics/Camera.hpp>
 #include <Rigid3D/Graphics/Frustum.hpp>
 #include <Rigid3D/Graphics/GlErrorCheck.hpp>
+#include <Rigid3D/Graphics/Light.hpp>
 #include <Rigid3D/Graphics/Material.hpp>
 #include <Rigid3D/Graphics/OpenGlContext.hpp>
 #include <Rigid3D/Graphics/Renderable.hpp>

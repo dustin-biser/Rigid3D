@@ -21,29 +21,11 @@ using std::memcpy;
 
 //----------------------------------------------------------------------------------------
 const uint Scene::MAX_NUM_LIGHTS = 10;
-const GLuint Scene::NUM_LIGHT_UNIFORM_FIELDS = 5;
 
 //-- Vertex Attribute Layout Locations.
 const GLuint Scene::POSITION_ATTRIBUTE_INDEX = 0;
 const GLuint Scene::NORMAL_ATTRIBUTE_INDEX = 1;
 const GLuint Scene::TEXTURE_COORD_ATTRIBUTE_INDEX = 2;
-
-//-- Uniform Variable Layout Locations.
-const GLuint Scene::MODEL_VIEW_MATRIX_UNIFORM_LOCATION = 0;
-const GLuint Scene::NORMAL_MATRIX_UNIFORM_LOCATION = 1;
-const GLuint Scene::PROJECTION_MATRIX_UNIFORM_LOCATION = 2;
-
-const GLuint Scene::MATERIAL_UNIFORM_EMISSION_OFFSET = 3;
-const GLuint Scene::MATERIAL_UNIFORM_KA_OFFSET = 4;
-const GLuint Scene::MATERIAL_UNIFORM_KD_OFFSET = 5;
-const GLuint Scene::MATERIAL_UNIFORM_KS_OFFSET = 6;
-const GLuint Scene::MATERIAL_UNIFORM_SHININESS_OFFSET = 7;
-
-const GLuint Scene::LIGHT_UNIFORM_TYPE_OFFSET = 8;
-const GLuint Scene::LIGHT_UNIFORM_POSITION_OFFSET = 9;
-const GLuint Scene::LIGHT_UNIFORM_DIRECTION_OFFSET = 10;
-const GLuint Scene::LIGHT_UNIFORM_COLOR_OFFSET = 11;
-const GLuint Scene::LIGHT_UNIFORM_ENABLED_OFFSET = 12;
 
 
 //----------------------------------------------------------------------------------------
@@ -437,27 +419,20 @@ void Scene::render(const Camera & camera) {
     GLint prev_vao;
     glGetIntegerv(GL_VERTEX_ARRAY_BINDING, &prev_vao);
 
-    // Record the previously bound index buffer.
-    GLint prev_indexBuffer;
-    glGetIntegerv(GL_ELEMENT_ARRAY_BUFFER_BINDING, &prev_indexBuffer);
-
     // Render textured Renderables.
     glBindVertexArray(vao_textured);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer_textured);
     for(Renderable * r : renderables_textured) {
         render(*r, camera);
     }
 
     // Render non-textured Renderables.
     glBindVertexArray(vao_nonTextured);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer_nonTextured);
     for(Renderable * r : renderables_nonTextured) {
         render(*r, camera);
     }
 
     // Restore the previously bound vao and indexBuffer.
     glBindVertexArray(prev_vao);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, prev_indexBuffer);
 
     #ifdef DEBUG
         checkGlErrors(__FILE__, __LINE__);

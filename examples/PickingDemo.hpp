@@ -13,21 +13,18 @@ public:
 private:
     Scene scene;
 
+    Light * light;
+
     Renderable * cube;
     Renderable * sphere;
     Renderable * torus;
 
     ShaderProgram shader;
 
-    struct LightSource {
-        vec3 position;      // Light position in world space.
-        vec3 rgbIntensity;  // Light intensity for each RGB component.
-    };
-    LightSource light;
-
     void init();
 
     void setupShaders();
+    void setupLight();
     void setupRenderables();
 
     void logic();

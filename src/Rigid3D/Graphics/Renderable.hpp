@@ -62,8 +62,6 @@ namespace Rigid3D {
      */
     class Renderable {
     public:
-        void render(const Camera & camera);
-
         void setTransform(const Transform & transform);
 
         const Transform & getTransform() const;

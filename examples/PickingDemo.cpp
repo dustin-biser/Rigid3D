@@ -25,13 +25,6 @@ shared_ptr<GlfwOpenGlWindow> PickingDemo::getInstance() {
 
 //---------------------------------------------------------------------------------------
 void PickingDemo::init() {
-    if(GLEW_ARB_explicit_uniform_location) {
-        cout << "Uniform locations enabled" << endl;
-    } else {
-        cout << "Uniform locations disabled" << endl;
-    }
-
-
     scene = {
         MeshInfo("cube", "../data/meshes/cube.obj"),
         MeshInfo("sphere", "../data/meshes/sphere_smooth.obj"),
@@ -44,9 +37,20 @@ void PickingDemo::init() {
                   vec3(0.0f, 1.0f, 0.0f));  // up vector
 
     setupShaders();
+    setupLight();
     setupRenderables();
 
     glClearColor(0.2, 0.2, 0.2, 1.0);
+}
+
+//---------------------------------------------------------------------------------------
+void PickingDemo::setupLight() {
+    LightSpec lightSpec;
+    lightSpec.position = vec3(0.0f, 5.0f, 10.0f);
+    lightSpec.color = vec3(1.0f);
+    lightSpec.type = LightType::Point;
+
+    light = scene.createLight(lightSpec);
 }
 
 //---------------------------------------------------------------------------------------
@@ -54,12 +58,7 @@ void PickingDemo::setupShaders() {
     shader.loadFromFile("../data/shaders/Pos-Norm-Tex-Color.vert",
                         "../data/shaders/PerFragLighting_withWorldLight.frag");
 
-    light.position = vec3(0.0f, 5.0f, 10.0f);
-    light.rgbIntensity = vec3(1.0f);
-
     shader.setUniform("ambientIntensity", vec3(0.1f, 0.1f, 0.1f));
-    shader.setUniform("lightSource.position", light.position);
-    shader.setUniform("lightSource.rgbIntensity", light.rgbIntensity);
 }
 
 //---------------------------------------------------------------------------------------

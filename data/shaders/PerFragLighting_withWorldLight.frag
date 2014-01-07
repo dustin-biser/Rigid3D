@@ -1,6 +1,5 @@
 // PerFragLighting_withWorldLight.frag
 #version 420
-#extension GL_ARB_explicit_uniform_location : enable
 
 in vec3 position;
 in vec3 normal;
@@ -14,7 +13,7 @@ struct Material {
     float Ks;       // Coefficient of specular reflectivity, uniform across each RGB component.
     float shininess;  // Specular shininess factor.
 };
-layout (location = 3) uniform Material material;
+uniform Material material;
 
 const uint MAX_NUM_LIGHTS = 10;
 const uint LIGHT_TYPE_DIRECTIONAL = 0;
@@ -26,7 +25,7 @@ struct Light {
     vec3 color;     // Light intensity for each RGB component.
     bool isEnabled; // True if Light contributes to this fragment's color.
 };
-layout (location = 8) uniform Light light[MAX_NUM_LIGHTS];
+uniform Light light[MAX_NUM_LIGHTS];
 
 uniform vec3 ambientIntensity; // Environmental ambient light intensity for each RGB component.
 
@@ -57,6 +56,8 @@ void main() {
     for(uint i = 0; i < MAX_NUM_LIGHTS; i++) { 
         if (!light[i].isEnabled) continue;
 
-	    fragColor += vec4(computePhong(position, normal, i), 1.0);
+        if (light[i].type == LIGHT_TYPE_POINT) {
+		    fragColor += vec4(computePhong(position, normal, i), 1.0);
+	    }
     }
 }

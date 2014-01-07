@@ -13,9 +13,9 @@ using std::string;
         Rigid3DException(const string & message)
             : errorMessage(message) { }
 
-        virtual ~Rigid3DException() noexcept { }
+        ~Rigid3DException() noexcept { }
 
-        virtual const char * what() const noexcept {
+        const char * what() const noexcept {
             return errorMessage.c_str();
         }
 

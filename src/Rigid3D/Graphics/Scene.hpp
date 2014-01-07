@@ -83,31 +83,6 @@ using std::vector;
         // Layout location for vertex shader texture coordinate attribute array.
         static const GLuint TEXTURE_COORD_ATTRIBUTE_INDEX;
 
-        // Layout location for vertex shader Model-View-Matrix uniform.
-        static const GLuint MODEL_VIEW_MATRIX_UNIFORM_LOCATION;
-
-        // Layout location for vertex shader Normal-Matrix uniform.
-        static const GLuint NORMAL_MATRIX_UNIFORM_LOCATION;
-
-        // Layout location for vertex shader Projection-Matrix uniform.
-        static const GLuint PROJECTION_MATRIX_UNIFORM_LOCATION;
-
-        // Layout locations for shader uniform Material struct data.
-        static const GLuint MATERIAL_UNIFORM_EMISSION_OFFSET;
-        static const GLuint MATERIAL_UNIFORM_KA_OFFSET;
-        static const GLuint MATERIAL_UNIFORM_KD_OFFSET;
-        static const GLuint MATERIAL_UNIFORM_KS_OFFSET;
-        static const GLuint MATERIAL_UNIFORM_SHININESS_OFFSET;
-
-        static const GLuint NUM_LIGHT_UNIFORM_FIELDS;
-
-        // Layout locations for shader uniform Light struct data.
-        static const GLuint LIGHT_UNIFORM_TYPE_OFFSET;
-        static const GLuint LIGHT_UNIFORM_POSITION_OFFSET;
-        static const GLuint LIGHT_UNIFORM_DIRECTION_OFFSET;
-        static const GLuint LIGHT_UNIFORM_COLOR_OFFSET;
-        static const GLuint LIGHT_UNIFORM_ENABLED_OFFSET;
-
         // Maximum number of lights that can contribute to a Scene's lighting.
         static const uint MAX_NUM_LIGHTS;
 
