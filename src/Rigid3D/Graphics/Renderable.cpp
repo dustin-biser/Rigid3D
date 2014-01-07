@@ -9,12 +9,10 @@
 
 #include <cstdio>
 #include <iostream>
-#include <sstream>
 
 namespace Rigid3D {
 
 using std::endl;
-using std::stringstream;
 using std::vector;
 
 
@@ -83,7 +81,6 @@ Renderable::Renderable(Scene & scene, const RenderableSpec & spec)
     : scene(scene),
       shader(nullptr) {
 
-    checkShaderIsNotNull(spec.shader);
     setShader(*(spec.shader));
 
     this->meshName = spec.meshName;
@@ -136,17 +133,6 @@ void Renderable::setShader(const ShaderProgram & shader) {
 //----------------------------------------------------------------------------------------
 ShaderProgram & Renderable::getShader() const {
     return *shader;
-}
-
-//----------------------------------------------------------------------------------------
-void Renderable::checkShaderIsNotNull(const ShaderProgram * shader) const {
-    if ( (shader == 0) || (shader == nullptr) ) {
-        stringstream errorMessage;
-        errorMessage << "Exception thrown from class Rigid3D::Renderable." << endl;
-        errorMessage << "ShaderProgram cannot be null." << endl;
-
-        throw Rigid3DException(errorMessage.str());
-    }
 }
 
 } // end namespace Rigid3D

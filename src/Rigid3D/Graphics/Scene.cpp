@@ -160,6 +160,7 @@ Scene::~Scene() {
  */
 Renderable * Scene::createRenderable(const RenderableSpec & spec) {
     checkMeshNameExists(spec.meshName);
+    checkShaderIsNotNull(spec.shader);
 
     Renderable * renderable = new Renderable(*this, spec);
 
@@ -192,6 +193,17 @@ void Scene::checkMeshNameIsUnique(const unordered_map<string, MeshData> & meshDa
         errorMessage << "Exception thrown from class Rigid3D::Scene" << endl;
         errorMessage << "Duplicate mesh name \'" << meshName <<  "\' not allowed. ";
         errorMessage << "Mesh names must be unique.";
+
+        throw Rigid3DException(errorMessage.str());
+    }
+}
+
+//----------------------------------------------------------------------------------------
+void Scene::checkShaderIsNotNull(const ShaderProgram * shader) const {
+    if ( (shader == 0) || (shader == nullptr) ) {
+        stringstream errorMessage;
+        errorMessage << "Exception thrown from class Rigid3D::Scene. ";
+        errorMessage << "Field RenderableSpec::shader cannot be null." << endl;
 
         throw Rigid3DException(errorMessage.str());
     }

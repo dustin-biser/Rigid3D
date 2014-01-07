@@ -119,6 +119,8 @@ using std::vector;
         void checkMeshNameIsUnique(const unordered_map<string, MeshData> & meshDataMap,
                 const string & meshName) const;
 
+        void checkShaderIsNotNull(const ShaderProgram * shader) const;
+
         void processNonTexturedMeshData(const string & meshName, const MeshData & meshData);
 
         void processTexturedMeshData(const string & meshName, const MeshData & meshData);

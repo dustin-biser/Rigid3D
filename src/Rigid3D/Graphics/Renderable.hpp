@@ -93,8 +93,6 @@ namespace Rigid3D {
         Renderable(Scene & scene, const RenderableSpec & spec);
 
         void loadShaderUniforms(const Camera & camera);
-
-        void checkShaderIsNotNull(const ShaderProgram * shader) const;
     };
 
 }
