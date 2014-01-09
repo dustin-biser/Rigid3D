@@ -13,18 +13,23 @@ public:
 private:
     Scene scene;
 
-    Light * redLight;
-    Light * blueLight;
-    Light * greenLight;
+    Light * light;
 
+    RenderableSpec cubeSpec;
     Renderable * cube;
+
+    RenderableSpec sphereSpec;
     Renderable * sphere;
+
+    RenderableSpec torusSpec;
     Renderable * torus;
-    Renderable * redLightMesh;
-    Renderable * blueLightMesh;
-    Renderable * greenLightMesh;
+
+    RenderableSpec lightSpec;
+    Renderable * lightMesh;
 
     ShaderProgram shader;
+
+    bool key_f1_down;
 
     void init();
 
@@ -34,6 +39,7 @@ private:
 
     void logic();
     void draw();
+    void keyInput(int key, int action, int mods);
 };
 
 #endif /* PICKING_DEMO_HPP_ */

@@ -36,6 +36,7 @@ void PickingDemo::init() {
                   vec3(0.0f, 0.0f, -10.0f), // center
                   vec3(0.0f, 1.0f, 0.0f));  // up vector
 
+    key_f1_down = false;
     setupShaders();
     setupLight();
     setupRenderables();
@@ -46,20 +47,10 @@ void PickingDemo::init() {
 //---------------------------------------------------------------------------------------
 void PickingDemo::setupLight() {
     LightSpec lightSpec;
-    lightSpec.position = vec3(1.5f, 4.0f, -9.0f);
-    lightSpec.color = vec3(1.0f, 0.2f, 0.2f);
+    lightSpec.position = vec3(-1.5f, 4.0f, 5.0f);
+    lightSpec.color = vec3(1.0f);
     lightSpec.type = LightType::Point;
-    redLight = scene.createLight(lightSpec);
-
-    lightSpec.position = vec3(-2.0f, 2.0f, -4.0f);
-    lightSpec.color = vec3(0.2f, 0.2f, 1.0f);
-    lightSpec.type = LightType::Point;
-    blueLight = scene.createLight(lightSpec);
-
-    lightSpec.position = vec3(0.0f, 3.0f, -12.0f);
-    lightSpec.color = vec3(0.2f, 1.0f, 0.2f);
-    lightSpec.type = LightType::Point;
-    greenLight = scene.createLight(lightSpec);
+    light = scene.createLight(lightSpec);
 }
 
 //---------------------------------------------------------------------------------------
@@ -72,11 +63,10 @@ void PickingDemo::setupShaders() {
 
 //---------------------------------------------------------------------------------------
 void PickingDemo::setupRenderables() {
-    RenderableSpec cubeSpec;
     cubeSpec.meshName = "cube";
     cubeSpec.shader = &shader;
     cubeSpec.material.Ka = vec3(1.0f);
-    cubeSpec.material.Kd = vec3(1.0f, 1.0f, 1.0f);
+    cubeSpec.material.Kd = vec3(0.2f, 1.0f, 0.2f);
     cubeSpec.material.Ks = 0.3f;
     cubeSpec.material.emission = vec3(0.0f);
     cubeSpec.material.shininess = 10.0f;
@@ -84,11 +74,10 @@ void PickingDemo::setupRenderables() {
 
     cube = scene.createRenderable(cubeSpec);
 
-    RenderableSpec sphereSpec;
     sphereSpec.meshName = "sphere";
     sphereSpec.shader = &shader;
     sphereSpec.material.Ka = vec3(1.0f);
-    sphereSpec.material.Kd = vec3(1.0f, 1.0f, 1.0f);
+    sphereSpec.material.Kd = vec3(0.8f, 0.1f, 0.1f);
     sphereSpec.material.Ks = 0.3f;
     sphereSpec.material.emission = vec3(0.0f);
     sphereSpec.material.shininess = 10.0f;
@@ -96,11 +85,10 @@ void PickingDemo::setupRenderables() {
 
     sphere = scene.createRenderable(sphereSpec);
 
-    RenderableSpec torusSpec;
     torusSpec.meshName = "torus";
     torusSpec.shader = &shader;
     torusSpec.material.Ka = vec3(1.0f);
-    torusSpec.material.Kd = vec3(1.0f, 1.0f, 1.0f);
+    torusSpec.material.Kd = vec3(0.1f, 0.1f, 0.7f);
     torusSpec.material.Ks = 0.3f;
     torusSpec.material.emission = vec3(0.0f);
     torusSpec.material.shininess = 10.0f;
@@ -108,39 +96,19 @@ void PickingDemo::setupRenderables() {
 
     torus = scene.createRenderable(torusSpec);
 
-    RenderableSpec redLightSpec;
-    redLightSpec.meshName = "sphere";
-    redLightSpec.shader = &shader;
-    redLightSpec.material.Ka = vec3(0);
-    redLightSpec.material.Kd = vec3(0);
-    redLightSpec.material.Kd = redLight->color;
-    redLightSpec.material.emission = redLight->color;
-    redLightSpec.transform.position = redLight->position;
-    redLightSpec.transform.scale = vec3(0.2f);
+    lightSpec.meshName = "sphere";
+    lightSpec.shader = &shader;
+    lightSpec.material.Ka = vec3(0);
+    lightSpec.material.Kd = vec3(0);
+    lightSpec.material.Kd = light->color;
+    lightSpec.material.emission = light->color;
+    lightSpec.transform.position = light->position;
+    lightSpec.transform.scale = vec3(0.2f);
 
-    redLightMesh = scene.createRenderable(redLightSpec);
+    lightMesh = scene.createRenderable(lightSpec);
 
-    RenderableSpec blueLightSpec;
-    blueLightSpec.meshName = "sphere";
-    blueLightSpec.shader = &shader;
-    blueLightSpec.material.Ka = vec3(0);
-    blueLightSpec.material.Kd = vec3(0);
-    blueLightSpec.material.emission = blueLight->color;
-    blueLightSpec.transform.position = blueLight->position;
-    blueLightSpec.transform.scale = vec3(0.2f);
 
-    blueLightMesh = scene.createRenderable(blueLightSpec);
 
-    RenderableSpec greenLightSpec;
-    greenLightSpec.meshName = "sphere";
-    greenLightSpec.shader = &shader;
-    greenLightSpec.material.Ka = vec3(0);
-    greenLightSpec.material.Kd = vec3(0);
-    greenLightSpec.material.emission = greenLight->color;
-    greenLightSpec.transform.position = greenLight->position;
-    greenLightSpec.transform.scale = vec3(0.2f);
-
-    greenLightMesh = scene.createRenderable(greenLightSpec);
 }
 
 //---------------------------------------------------------------------------------------
@@ -150,4 +118,79 @@ void PickingDemo::logic() {
 //---------------------------------------------------------------------------------------
 void PickingDemo::draw() {
     scene.render(camera);
+}
+
+//---------------------------------------------------------------------------------------
+void PickingDemo::keyInput(int key, int action, int mods) {
+    if (action == GLFW_PRESS) {
+        if (key == GLFW_KEY_F1) {
+            if (key_f1_down == false) {
+                key_f1_down = true;
+
+                // Create 15*6*3 = 270 more meshes for the scene to render.
+                const int numShapes = 15;
+                for(int i = 0; i < numShapes; i++) {
+                    cubeSpec.transform.position = cube->getTransform().position + vec3(0, 0, 3*i);
+                    scene.createRenderable(cubeSpec);
+
+                    cubeSpec.transform.position = cube->getTransform().position + vec3(0, 0, -3*i);
+                    scene.createRenderable(cubeSpec);
+
+                    cubeSpec.transform.position = cube->getTransform().position + vec3(0, 2, 3*i);
+                    scene.createRenderable(cubeSpec);
+
+                    cubeSpec.transform.position = cube->getTransform().position + vec3(0, 2, -3*i);
+                    scene.createRenderable(cubeSpec);
+
+                    cubeSpec.transform.position = cube->getTransform().position + vec3(0, -2, 3*i);
+                    scene.createRenderable(cubeSpec);
+
+                    cubeSpec.transform.position = cube->getTransform().position + vec3(0, -2, -3*i);
+                    scene.createRenderable(cubeSpec);
+                }
+
+                for(int i = 0; i < numShapes; i++) {
+                    sphereSpec.transform.position = sphere->getTransform().position + vec3(0, 0, 3*i);
+                    scene.createRenderable(sphereSpec);
+
+                    sphereSpec.transform.position = sphere->getTransform().position + vec3(0, 0, -3*i);
+                    scene.createRenderable(sphereSpec);
+
+                    sphereSpec.transform.position = sphere->getTransform().position + vec3(0, 4, 3*i);
+                    scene.createRenderable(sphereSpec);
+
+                    sphereSpec.transform.position = sphere->getTransform().position + vec3(0, 4, -3*i);
+                    scene.createRenderable(sphereSpec);
+
+                    sphereSpec.transform.position = sphere->getTransform().position + vec3(0, -4, 3*i);
+                    scene.createRenderable(sphereSpec);
+
+                    sphereSpec.transform.position = sphere->getTransform().position + vec3(0, -4, -3*i);
+                    scene.createRenderable(sphereSpec);
+                }
+
+                for(int i = 0; i < numShapes; i++) {
+                    torusSpec.transform.position = torus->getTransform().position + vec3(0, 0, 3*i);
+                    scene.createRenderable(torusSpec);
+
+                    torusSpec.transform.position = torus->getTransform().position + vec3(0, 0, -3*i);
+                    scene.createRenderable(torusSpec);
+
+                    torusSpec.transform.position = torus->getTransform().position + vec3(0, -5, 3*i);
+                    scene.createRenderable(torusSpec);
+
+                    torusSpec.transform.position = torus->getTransform().position + vec3(0, -5, -3*i);
+                    scene.createRenderable(torusSpec);
+
+                    torusSpec.transform.position = torus->getTransform().position + vec3(0, 5, 3*i);
+                    scene.createRenderable(torusSpec);
+
+                    torusSpec.transform.position = torus->getTransform().position + vec3(0, 5, -3*i);
+                    scene.createRenderable(torusSpec);
+                }
+            }
+
+        }
+    }
+
 }
