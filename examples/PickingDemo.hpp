@@ -13,11 +13,16 @@ public:
 private:
     Scene scene;
 
-    Light * light;
+    Light * redLight;
+    Light * blueLight;
+    Light * greenLight;
 
     Renderable * cube;
     Renderable * sphere;
     Renderable * torus;
+    Renderable * redLightMesh;
+    Renderable * blueLightMesh;
+    Renderable * greenLightMesh;
 
     ShaderProgram shader;
 

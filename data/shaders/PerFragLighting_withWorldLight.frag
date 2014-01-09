@@ -29,20 +29,24 @@ uniform Light light[MAX_NUM_LIGHTS];
 
 uniform vec3 ambientIntensity; // Environmental ambient light intensity for each RGB component.
 
+vec3 computePhong(vec3 position, vec3 normal, uint index) {
+	// Direction from fragment to light source.
+    vec3 l = normalize(light[index].position - position);
 
-vec3 computePhong(vec3 fragPosition, vec3 fragNormal, uint index) {
-    vec3 l = normalize(light[index].position - fragPosition); // Direction from fragment to light source.
-    vec3 v = normalize(-fragPosition); // Direction from fragment to viewer (origin - fragPosition).
-    vec3 h = normalize(v + l); // Halfway vector.
+	// Direction from fragment to viewer ('camera origin' - position).
+    vec3 v = normalize(-position);
+
+	 // Halfway vector.
+    vec3 h = normalize(v + l);
 
     vec3 ambient = ambientIntensity * material.Ka;
 
-    float n_dot_l = max(dot(fragNormal, l), 0.0);
+    float n_dot_l = max(dot(normal, l), 0.0);
     vec3 diffuse = material.Kd * n_dot_l;
     
     vec3 specular = vec3(0.0);
     if (n_dot_l > 0.0) {
-        float n_dot_h = max(dot(fragNormal, h), 0.0);
+        float n_dot_h = max(dot(normal, h), 0.0);
         specular = vec3(material.Ks * pow(n_dot_h, material.shininess)); 
     }    
    
