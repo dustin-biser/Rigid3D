@@ -2,6 +2,7 @@
 
 #include <glm/glm.hpp>
 using glm::transpose;
+using glm::inverse;
 using glm::normalize;
 
 #include <glm/gtc/matrix_transform.hpp>
@@ -11,7 +12,6 @@ using glm::infinitePerspective;
 using glm::perspective;
 using glm::translate;
 using glm::scale;
-using glm::inverse;
 
 #include <unordered_map>
 using std::unordered_map;
@@ -150,7 +150,7 @@ void ShadowMap::setupGLBuffers()
 void ShadowMap::setupMatrices() {
     camera.setProjectionMatrix(infinitePerspective(45.0f, (float)windowWidth / windowHeight, 1.0f));
 //    camera.setPosition(vec3(4.0f, 2.0f, -5.0f));
-    camera.setPosition(vec3(25.0f, 2.0f, 5.0f));
+//    camera.setPosition(vec3(25.0f, 2.0f, 5.0f));
     camera.lookAt(glm::vec3(0.0f, 0.0f, -10.0f));
 
     mat4 identity = mat4();

@@ -1,9 +1,9 @@
 #ifndef RIGID3D_SETTINGS_HPP_
 #define RIGID3D_SETTINGS_HPP_
 
+#define GLM_FORCE_RADIANS
 #include <glm/glm.hpp>
 #include <glm/gtc/quaternion.hpp>
-#define GLM_FORCE_RADIANS
 
 namespace Rigid3D {
 

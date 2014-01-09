@@ -228,6 +228,11 @@ void CameraController::updatePose() {
 }
 
 //----------------------------------------------------------------------------------------
+/*
+ * This method points the registered camera's forward vector towards a point on
+ * an encompassing sphere, which the camera is at the center of.  This is what
+ * gives the camera a first person "feel" based on mouse movements.
+ */
 void CameraController::updateLookAt() {
     if (flagRotation == false) { return; }
     if (xPos_prev == 0 || yPos_prev == 0) { return; }
@@ -264,6 +269,8 @@ void CameraController::updateLookAt() {
     const float y = sinPolar * sin(azimuthAngle);
     const float z = cos(polarAngle);
 
+    // XXX(Dustin) - Refactor this method.  Need to take into consideration camera's initial center / forward direction.
+
     const vec3 f(0.0f, 0.0f, -1.0f);
     const vec3 u(0.0f, 1.0f, 0.0f);
     const vec3 l(-1.0f, 0.0f, 0.0f);
@@ -273,6 +280,7 @@ void CameraController::updateLookAt() {
     center += eye;
 
     camera->lookAt(eye, center, u);
+
 
     flagRotation = false;
 }

@@ -55,8 +55,8 @@ void MultipleObjects::init()
 
 //---------------------------------------------------------------------------------------
 void MultipleObjects::setupShaders() {
-    shaderProgram.loadFromFile("../data/shaders/PerFragLighting_withWorldLightPos.vert",
-                               "../data/shaders/PerFragLighting_withWorldLightPos.frag");
+    shaderProgram.loadFromFile("../data/shaders/PerFragLighting_withWorldLight.vert",
+                               "../data/shaders/PerFragLighting_withWorldLight.frag");
 
     shaderProgram.setUniform("ambientIntensity", vec3(0.1f, 0.1f, 0.1f));
     shaderProgram.setUniform("lightSource.rgbIntensity", lightSource.rgbIntensity);
