@@ -14,7 +14,6 @@
 #include <sstream>
 #include <iostream>
 
-
 namespace Rigid3D {
 
 using std::stringstream;
@@ -490,7 +489,7 @@ void Scene::loadLightUniformData(ShaderProgram * shader, const Camera & camera) 
     uint32 numActiveLights = lights.size();
     vec3 lightPos;  // Light's position.
     vec3 lightDir;  // Light's direction.
-    vec4 tmp;
+    vec4 tmp(0,0,0,1); // {x,y,z,w}
     char uniformName[20];
 
     //-- Upload all active light uniform data.

@@ -13,7 +13,7 @@ public:
 private:
     Scene scene;
 
-    Light * light;
+    Light * whiteLight;
 
     RenderableSpec cubeSpec;
     Renderable * cube;

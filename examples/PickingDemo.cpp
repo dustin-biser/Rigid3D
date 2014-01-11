@@ -50,7 +50,7 @@ void PickingDemo::setupLight() {
     lightSpec.position = vec3(-1.5f, 4.0f, 5.0f);
     lightSpec.color = vec3(1.0f);
     lightSpec.type = LightType::Point;
-    light = scene.createLight(lightSpec);
+    whiteLight = scene.createLight(lightSpec);
 }
 
 //---------------------------------------------------------------------------------------
@@ -100,9 +100,9 @@ void PickingDemo::setupRenderables() {
     lightSpec.shader = &shader;
     lightSpec.material.Ka = vec3(0);
     lightSpec.material.Kd = vec3(0);
-    lightSpec.material.Kd = light->color;
-    lightSpec.material.emission = light->color;
-    lightSpec.transform.position = light->position;
+    lightSpec.material.Kd = whiteLight->color;
+    lightSpec.material.emission = whiteLight->color;
+    lightSpec.transform.position = whiteLight->position;
     lightSpec.transform.scale = vec3(0.2f);
 
     lightMesh = scene.createRenderable(lightSpec);
