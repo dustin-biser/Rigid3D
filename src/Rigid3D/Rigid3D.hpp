@@ -13,6 +13,8 @@
 #include <Rigid3D/Common/Rigid3DException.hpp>
 
 #include <Rigid3D/Collision/AABB.hpp>
+#include <Rigid3D/Collision/RayCastInput.hpp>
+#include <Rigid3D/Collision/RayCastOutput.hpp>
 
 #include <Rigid3D/Graphics/Camera.hpp>
 #include <Rigid3D/Graphics/Frustum.hpp>

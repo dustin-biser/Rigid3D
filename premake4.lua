@@ -84,4 +84,4 @@ solution "Rigid3D"
 --CreateDemo("CameraExample", "examples/CameraExample.cpp", "examples/Utils/GlfwOpenGlWindow.cpp")
 --CreateDemo("ShadowMap", "examples/ShadowMap.cpp", "examples/Utils/GlfwOpenGlWindow.cpp")
 --CreateDemo("TexturedCubeDemo", "examples/TexturedCubeDemo.cpp", "examples/Utils/GlfwOpenGlWindow.cpp")
-CreateDemo("PickingDemo", "examples/PickingDemo.cpp", "examples/Utils/GlfwOpenGlWindow.cpp")
+CreateDemo("RayPickingDemo", "examples/RayPickingDemo.cpp", "examples/Utils/GlfwOpenGlWindow.cpp")
