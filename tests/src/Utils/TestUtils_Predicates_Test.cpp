@@ -1,9 +1,10 @@
 #include <gtest/gtest.h>
 
-#include <glm/glm.hpp>
+#include <Rigid3D/Rigid3D.hpp>
+using namespace Rigid3D;
 
 #include <TestUtils.hpp>
-using namespace TestUtils::predicates;
+using namespace TestUtils;
 
 #include <boost/math/special_functions/next.hpp>
 using boost::math::float_next;
@@ -24,7 +25,7 @@ namespace {  // limit class visibility to this file.
         static const float e; // epsilon
     };
 
-    const float TestUtils_Predicates_Test::e = TestUtils::predicates::epsilon;
+    const float TestUtils_Predicates_Test::e = Rigid3D::TestUtils::epsilon;
 
 }
 //////////////////////////////////////////////////////////////////////////////////////////

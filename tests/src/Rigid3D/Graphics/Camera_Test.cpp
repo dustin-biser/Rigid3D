@@ -2,28 +2,19 @@
 
 #include <gtest/gtest.h>
 
+#include <Rigid3D/Rigid3D.hpp>
 #include <TestUtils.hpp>
-using namespace TestUtils::predicates;
-
-#include <Rigid3D/Graphics/Camera.hpp>
-using Rigid3D::Camera;
-
-#include <Rigid3D/Math/Trigonometry.hpp>
-using Rigid3D::PI;
 
 #include <glm/glm.hpp>
-using glm::vec3;
-using glm::vec4;
-using glm::dot;
-using glm::mat4;
-using glm::determinant;
-using glm::transpose;
-
 #include <glm/gtx/norm.hpp>
-using glm::length;
-
 
 namespace {  // limit class visibility to this file.
+using namespace Rigid3D;
+using namespace TestUtils;
+using glm::dot;
+using glm::determinant;
+using glm::transpose;
+using glm::length;
 
     class Camera_Test : public ::testing::Test {
     protected:

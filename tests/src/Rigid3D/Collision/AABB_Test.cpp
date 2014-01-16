@@ -2,16 +2,11 @@
 
 #include "gtest/gtest.h"
 
-#include <Rigid3D/Collision/AABB.hpp>
-using Rigid3D::AABB;
-
-#include <Rigid3D/Collision/RayCastInput.hpp>
-#include <Rigid3D/Collision/RayCastOutput.hpp>
-using Rigid3D::RayCastInput;
-using Rigid3D::RayCastOutput;
+#include <Rigid3D/Rigid3D.hpp>
+using namespace Rigid3D;
 
 #include "TestUtils.hpp"
-using namespace TestUtils::predicates;
+using namespace TestUtils;
 
 namespace {  // limit class visibility to this file.
 

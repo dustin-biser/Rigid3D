@@ -6,15 +6,16 @@
 
 #include <gtest/gtest.h>
 #include <Rigid3D/Common/GlmOutStream.hpp>
+using namespace Rigid3D;
 
 #include <sstream>
+
+namespace {
 using std::ostringstream;
 using std::streambuf;
 using std::stringstream;
 using std::cout;
-
-
-namespace {
+using std::endl;
 
     class GlmOutStream_Test : public ::testing::Test {
     protected:
@@ -36,34 +37,34 @@ namespace {
 }
 
 TEST_F(GlmOutStream_Test, test_vec2_ints) {
-    glm::vec2 v(1,2);
+    vec2 v(1,2);
     cout << v;
     EXPECT_EQ("vec2:[1.000000 2.000000]", strCout.str());
 
 }
 
 TEST_F(GlmOutStream_Test, test_vec2_floats) {
-    glm::vec2 v(1.0f, 2.0f);
+    vec2 v(1.0f, 2.0f);
     cout << v;
     EXPECT_EQ("vec2:[1.000000 2.000000]", strCout.str());
 
 }
 
 TEST_F(GlmOutStream_Test, test_vec3_floats) {
-    glm::vec3 v(1.0f, 2.0f, 3.0f);
+    vec3 v(1.0f, 2.0f, 3.0f);
     cout << v;
     EXPECT_EQ("vec3:[1.000000 2.000000 3.000000]", strCout.str());
 }
 
 TEST_F(GlmOutStream_Test, test_vec4_floats) {
-    glm::vec4 v(1,2,3,4);
+    vec4 v(1,2,3,4);
     cout << v;
     EXPECT_EQ("vec4:[1.000000 2.000000 3.000000 4.000000]", strCout.str());
 }
 
 TEST_F(GlmOutStream_Test, test_mat2_format) {
-    glm::mat2 m(1,2,    // first column
-                3,4);   // second column
+    mat2 m(1,2,    // first column
+           3,4);   // second column
     cout << m;
 
     stringstream sbuf;
@@ -74,9 +75,9 @@ TEST_F(GlmOutStream_Test, test_mat2_format) {
 }
 
 TEST_F(GlmOutStream_Test, test_mat3_format) {
-    glm::mat3 m(1,2,3,  // first column
-                4,5,6,  // second column
-                7,8,9); // third column
+    mat3 m(1,2,3,  // first column
+           4,5,6,  // second column
+           7,8,9); // third column
     cout << m;
 
     stringstream sbuf;
@@ -88,10 +89,10 @@ TEST_F(GlmOutStream_Test, test_mat3_format) {
 }
 
 TEST_F(GlmOutStream_Test, test_mat4_format) {
-    glm::mat4 m( 1,  2,  3,  4,     // first column
-                 5,  6,  7,  8,     // second column
-                 9, 10, 11, 12,     // third column
-                13, 14, 15, 16);    // fourth column
+    mat4 m( 1,  2,  3,  4,     // first column
+            5,  6,  7,  8,     // second column
+            9, 10, 11, 12,     // third column
+            13, 14, 15, 16);    // fourth column
     cout << m;
 
     stringstream sbuf;

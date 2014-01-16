@@ -17,9 +17,8 @@ using std::swap;
 /**
  * Performs a ray-cast against this AABB.
  *
- * If ray intersects AABB, 'output' is filled in with information pertaining to
- * the ray intersection.  If ray does not intersect AABB, then data is not
- * written to 'output'.
+ * If 'input' ray intersects AABB, and 'output' is non-null then 'output' is
+ * filled in with information pertaining to the ray intersection.
  *
  * @param input - struct containing ray-cast info.
  * @param output - struct containing ray-cast intersection info if ray hits AABB.

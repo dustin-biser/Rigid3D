@@ -71,7 +71,7 @@ solution "Rigid3D"
     end
 
 -- Build Tests
---dofile("tests/tests.lua")
+dofile("tests/tests.lua")
 
 -- Create a project for each demo
 --CreateDemo("Glfw-Example", "examples/Glfw-Example.cpp")

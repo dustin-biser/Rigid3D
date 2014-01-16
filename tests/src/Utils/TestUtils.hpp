@@ -2,27 +2,19 @@
 #include <Rigid3D/Common/GlmOutStream.hpp>
 
 #include <Rigid3D/Common/Settings.hpp>
-using Rigid3D::uint32;
-
-#include <glm/glm.hpp>
-using glm::vec2;
-using glm::vec3;
-using glm::vec4;
-using glm::mat3;
-using glm::mat4;
 
 #include <vector>
-using std::vector;
 
 #include <boost/math/special_functions/next.hpp>
-using boost::math::float_distance;
 
 #include <cmath>
-
 #include <limits>
 
+namespace Rigid3D {
+
 namespace TestUtils {
-    namespace predicates {
+using boost::math::float_distance;
+using std::vector;
 
     // Floating point numbers must be less than this distance apart to be considered equal.
     const int ulpTolerance = 5;
@@ -63,6 +55,43 @@ namespace TestUtils {
     inline bool float_neq(float a, float b) {
         return !float_eq(a, b);
     }
+
+    //-----------------------------------------------------------------------------------
+    inline bool uvec2_eq(const uvec2 & expected, const uvec2 & actual) {
+        return ( (expected.x == actual.x) &&
+                 (expected.y == actual.y) );
+    }
+
+    //-----------------------------------------------------------------------------------
+    inline bool uvec2_neq(const uvec2 & expected, const uvec2 & actual) {
+        return !uvec2_eq(expected, actual);
+    }
+
+    //-----------------------------------------------------------------------------------
+    inline bool uvec3_eq(const uvec3 & expected, const uvec3 & actual) {
+        return ( (expected.x == actual.x) &&
+                 (expected.y == actual.y) &&
+                 (expected.z == actual.z) );
+    }
+
+    //-----------------------------------------------------------------------------------
+    inline bool uvec3_neq(const uvec3 & expected, const uvec3 & actual) {
+        return !uvec3_eq(expected, actual);
+    }
+
+    //-----------------------------------------------------------------------------------
+    inline bool uvec4_eq(const uvec4 & expected, const uvec4 & actual) {
+        return ( (expected.x == actual.x) &&
+                 (expected.y == actual.y) &&
+                 (expected.z == actual.z) &&
+                 (expected.w == actual.w) );
+    }
+
+    //-----------------------------------------------------------------------------------
+    inline bool uvec4_neq(const uvec4 & expected, const uvec4 & actual) {
+        return !uvec4_eq(expected, actual);
+    }
+
     //-----------------------------------------------------------------------------------
     inline bool vec2_eq(const vec2 & expected, const vec2 & actual) {
         return ( float_eq(expected.x, actual.x) &&
@@ -148,4 +177,5 @@ namespace TestUtils {
         return true;
     }
 
-}} // end namespace TestUtils::predicates
+} // end namespace TestUtils
+} // end namespace Rigid3D

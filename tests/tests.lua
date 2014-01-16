@@ -37,8 +37,6 @@ end
 
 -- Create Unit Tests
 SetupTest("RunAllTests", "src/**")
-SetupTest("Mesh_Test", "src/Rigid3D/Graphics/Mesh_Test.cpp")
-SetupTest("MeshConsolidator_Test", "src/Rigid3D/Graphics/MeshConsolidator_Test.cpp")
 SetupTest("ShaderProgram_Test", "src/Rigid3D/Graphics/ShaderProgram_Test.cpp", "../src/Rigid3D/Graphics/OpenGlContext.cpp")
 SetupTest("GlmOutStream_Test", "src/Rigid3D/Graphics/GlmOutStream_Test.cpp")
 SetupTest("Camera_Test", "src/Rigid3D/Graphics/Camera_Test.cpp")

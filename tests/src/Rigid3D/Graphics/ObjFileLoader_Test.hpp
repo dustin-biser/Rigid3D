@@ -7,7 +7,7 @@
 using namespace Rigid3D;
 
 #include <Utils/TestUtils.hpp>
-using namespace TestUtils::predicates;
+using namespace TestUtils;
 
 #include <vector>
 #include <iostream>
@@ -16,64 +16,65 @@ using namespace std;
 class ObjFileLoader_Test : public ::testing::Test {
 protected:
     MeshData meshData;
-    static const int32 expected_num_vertices;
-    static const int32 expected_num_indices;
+    static const uint32 expected_num_positions;
+    static const uint32 expected_num_normals;
+    static const uint32 expected_num_faces;
 
     template <typename T>
     static vector<T> buildVector(const T * v, int32 numElements);
 
     // Ran before each test.
     virtual void SetUp() {
-        meshData.positions = nullptr;
-        meshData.normals = nullptr;
-        meshData.textureCoords = nullptr;
-        meshData.indices = nullptr;
+        // Clear previous MeshData fields.
+        meshData = MeshData();
     }
 
     // Ran after each test.
     virtual void TearDown() {
-        // Clean up all mesh data.
-        if (meshData.positions != nullptr ) {
-            delete [] meshData.positions;
+        // Delete all mesh data that resides on the heap.
+        if (meshData.positionSet != nullptr ) {
+            delete [] meshData.positionSet;
         }
-        meshData.positions = nullptr;
+        meshData.positionSet = nullptr;
 
-        if (meshData.normals != nullptr) {
-            delete [] meshData.normals;
+        if (meshData.normalSet != nullptr) {
+            delete [] meshData.normalSet;
         }
-        meshData.normals = nullptr;
+        meshData.normalSet = nullptr;
 
-        if (meshData.textureCoords != nullptr) {
-            delete [] meshData.textureCoords;
+        if (meshData.textureCoordSet != nullptr) {
+            delete [] meshData.textureCoordSet;
         }
-        meshData.textureCoords = nullptr;
+        meshData.textureCoordSet = nullptr;
 
-        if (meshData.indices != nullptr) {
-            delete [] meshData.indices;
+        if (meshData.positionIndices != nullptr) {
+            delete [] meshData.positionIndices;
         }
-        meshData.indices = nullptr;
+        meshData.positionIndices = nullptr;
 
-        meshData.numIndices = 0;
-        meshData.numVertices = 0;
+        if (meshData.normalIndices != nullptr) {
+            delete [] meshData.normalIndices;
+        }
+        meshData.normalIndices = nullptr;
+
+        if (meshData.textureCoordIndices != nullptr) {
+            delete [] meshData.textureCoordIndices;
+        }
+        meshData.textureCoordIndices = nullptr;
     }
 
 };
 
 class Loader_NoTextureCoords : public ObjFileLoader_Test {
 protected:
-    static vector<vec3> position_set;
-    static vector<vec3> normal_set;
+    static vector<vec3> expected_position_set;
+    static vector<vec3> expected_normal_set;
 
-    static vector<vec3> expected_positions;
-    static vector<vec3> expected_normals;
-    static vector<uint32> expected_indices;
+    static vector<uvec3> expected_position_indices;
+    static vector<uvec3> expected_normal_indices;
 
-    static void setupExpectedVertexData();
-
-    // Ran once before all tests.
-    static void SetUpTestCase() {
-        setupExpectedVertexData();
-    }
+    // Ran before all tests in this test case.
+    static void SetUpTestCase();
 
     // Ran before each test.
     virtual void SetUp() {
@@ -85,21 +86,18 @@ protected:
 
 class Loader_WithTextureCoords : public ObjFileLoader_Test {
 protected:
-    static vector<vec3> position_set;
-    static vector<vec2> textureCoord_set;
-    static vector<vec3> normal_set;
+    static const uint32 expected_num_textureCoords;
 
-    static vector<vec3> expected_positions;
-    static vector<vec2> expected_textureCoords;
-    static vector<vec3> expected_normals;
-    static vector<uint32> expected_indices;
+    static vector<vec3> expected_position_set;
+    static vector<vec3> expected_normal_set;
+    static vector<vec2> expected_textureCoord_set;
 
-    static void setupExpectedVertexData();
+    static vector<uvec3> expected_position_indices;
+    static vector<uvec3> expected_normal_indices;
+    static vector<uvec3> expected_textureCoord_indices;
 
-    // Ran once before all tests.
-    static void SetUpTestCase() {
-        setupExpectedVertexData();
-    }
+    // Ran before all tests in this test case.
+    static void SetUpTestCase();
 
     // Ran before each test.
     virtual void SetUp() {
