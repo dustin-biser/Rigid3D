@@ -19,7 +19,7 @@ namespace Rigid3D {
         CameraController();
         ~CameraController();
 
-        void registerCamera(Camera * camera);
+        void registerCamera(Camera & camera);
 
         void keyInput(int key, int action, int mods);
         void mouseButtonInput(int button , int actions, int mods);
@@ -33,10 +33,10 @@ namespace Rigid3D {
 
         bool flagRotation;
 
-        double xPos_prev;
-        double xPos;
-        double yPos_prev;
-        double yPos;
+        double xScreenPos_prev;
+        double xScreenPos;
+        double yScreenPos_prev;
+        double yScreenPos;
 
         // Input Key States
         bool key_r_down = false;

@@ -1,7 +1,7 @@
 /**
  * GlErrorCheck.hpp
  *
- * @brief class for checking and reporting OpenGL errors.
+ * @brief For checking and reporting OpenGL errors.
  *
  * @author Dustin Biser
  */
@@ -15,7 +15,7 @@ namespace Rigid3D {
 
 using std::string;
 
-    void checkGLErrors(const string & currentFileName, int currentLineNumber);
+    void checkGlErrors(const string & currentFileName, int currentLineNumber);
 
 }
 

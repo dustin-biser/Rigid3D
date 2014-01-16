@@ -41,6 +41,9 @@ void GlfwOpenGlWindow::windowResizeCallBack(GLFWwindow * window, int width, int 
 
 //----------------------------------------------------------------------------------------
 void GlfwOpenGlWindow::resize(int width, int height) {
+    this->windowWidth = width;
+    this->windowHeight = height;
+
     float aspectRatio = ((float) width) / height;
     float frustumYScale = cotangent(degreesToRadians(camera.getFieldOfViewY() / 2));
 
@@ -437,7 +440,7 @@ void GlfwOpenGlWindow::setupCamera() {
     float aspectRatio = (float) windowWidth / (float) windowHeight;
     camera = Camera(45.0f, aspectRatio, 1.0f, 100.0f);
 
-    cameraController.registerCamera(&camera);
+    cameraController.registerCamera(camera);
 }
 
 //----------------------------------------------------------------------------------------

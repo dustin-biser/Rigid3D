@@ -10,7 +10,6 @@
 #include <glm/gtx/norm.hpp>
 
 #include <iostream>
-
 #include <cassert>
 
 namespace Rigid3D {
@@ -25,10 +24,10 @@ using glm::length2;
 CameraController::CameraController()
     : camera(nullptr),
       flagRotation(false),
-      xPos_prev(0),
-      xPos(0),
-      yPos_prev(0),
-      yPos(0) {
+      xScreenPos_prev(0),
+      xScreenPos(0),
+      yScreenPos_prev(0),
+      yScreenPos(0) {
 
 }
 
@@ -38,9 +37,8 @@ CameraController::~CameraController() {
 }
 
 //----------------------------------------------------------------------------------------
-void CameraController::registerCamera(Camera * camera) {
-    assert ( (camera != 0) && (camera != nullptr) );
-    this->camera = camera;
+void CameraController::registerCamera(Camera & camera) {
+    this->camera = &camera;
 }
 
 //----------------------------------------------------------------------------------------
@@ -118,7 +116,7 @@ void CameraController::mouseButtonInput(int button , int actions, int mods){
  */
 void CameraController::mouseScroll(double xOffSet, double yOffSet) {
     static float fieldOfViewY = 45.0f;
-    static const float delta = 5.0f;
+    static const float delta = 1.0f;
 
     if (yOffSet < 0) {
        fieldOfViewY += delta;
@@ -145,11 +143,11 @@ void CameraController::mouseScroll(double xOffSet, double yOffSet) {
  * @param yPos
  */
 void CameraController::cursorPosition(double xPos, double yPos) {
-    this->xPos_prev = this->xPos;
-    this->xPos = xPos;
+    this->xScreenPos_prev = this->xScreenPos;
+    this->xScreenPos = xPos;
 
-    this->yPos_prev = this->yPos;
-    this->yPos = yPos;
+    this->yScreenPos_prev = this->yScreenPos;
+    this->yScreenPos = yPos;
 
     flagRotation = true;
 }
@@ -176,10 +174,10 @@ void CameraController::updateCamera() {
  * states. The registered camera does not change.
  */
 void CameraController::resetState() {
-    xPos_prev = 0;
-    xPos = 0;
-    yPos_prev = 0;
-    yPos = 0;
+    xScreenPos_prev = 0;
+    xScreenPos = 0;
+    yScreenPos_prev = 0;
+    yScreenPos = 0;
     key_r_down = false;
     key_f_down = false;
     key_q_down = false;
@@ -197,10 +195,10 @@ void CameraController::updateTranslation() {
     static const float translation_delta = 0.05f;
 
     if (key_r_down) {
-        camera->translateRelative(0.0f, translation_delta, 0.0f);
+        camera->translate(0.0f, translation_delta, 0.0f);
     }
     if (key_f_down) {
-        camera->translateRelative(0.0f, -1.0f * translation_delta, 0.0f);
+        camera->translate(0.0f, -1.0f * translation_delta, 0.0f);
     }
     if (key_a_down) {
         camera->translateRelative(translation_delta, 0.0f,  0.0f);
@@ -235,15 +233,15 @@ void CameraController::updatePose() {
  */
 void CameraController::updateLookAt() {
     if (flagRotation == false) { return; }
-    if (xPos_prev == 0 || yPos_prev == 0) { return; }
+    if (xScreenPos_prev == 0 || yScreenPos_prev == 0) { return; }
 
     static const float angleDelta = (PI * 0.5f) * 0.0005f;
     static const float radius = 10.0f;
     static float polarAngle = PI * 0.5f;
     static float azimuthAngle = 0.0f;
 
-    const float xDelta = (float)(xPos - xPos_prev);
-    const float yDelta = (float)(yPos - yPos_prev);
+    const float xDelta = (float)(xScreenPos - xScreenPos_prev);
+    const float yDelta = (float)(yScreenPos - yScreenPos_prev);
 
     polarAngle += yDelta * angleDelta;
     azimuthAngle -= xDelta * angleDelta;
@@ -285,4 +283,4 @@ void CameraController::updateLookAt() {
     flagRotation = false;
 }
 
-} // end namespace GlUtils
+} // end namespace Rigid3D

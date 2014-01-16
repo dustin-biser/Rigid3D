@@ -1,141 +1,138 @@
 #include "Renderable.hpp"
 
-#include <Rigid3D/Graphics/ShaderProgram.hpp>
-#include <Rigid3D/Graphics/MeshConsolidator.hpp>
-#include <Rigid3D/Graphics/MaterialProperties.hpp>
-#include <Rigid3D/Graphics/ModelTransform.hpp>
+#include <Rigid3D/Common/Rigid3DException.hpp>
+#include <Rigid3D/Graphics/Camera.hpp>
 #include <Rigid3D/Graphics/GlErrorCheck.hpp>
+#include <Rigid3D/Graphics/Light.hpp>
+#include <Rigid3D/Graphics/Scene.hpp>
+#include <Rigid3D/Graphics/ShaderProgram.hpp>
+
+#include <cstdio>
+#include <iostream>
 
 namespace Rigid3D {
 
-//---------------------------------------------------------------------------------------
-Renderable::Renderable(const GLuint * vao,
-                       const ShaderProgram * shaderProgram,
-                       const BatchInfo * batchInfo)
-    : vao(const_cast<GLuint *>(vao)),
-      shaderProgram(const_cast<ShaderProgram *>(shaderProgram)),
-      batchInfo(const_cast<BatchInfo *>(batchInfo)) {
+using std::endl;
+using std::vector;
+
+
+//----------------------------------------------------------------------------------------
+ModelTransform::ModelTransform()
+    : transform(),
+      modelMatrix(),
+      recalcModelMatrix(false) {
 
 }
 
-//---------------------------------------------------------------------------------------
-Renderable::Renderable()
-    : vao(nullptr),
-      shaderProgram(nullptr),
-      batchInfo(nullptr) {
-
+//----------------------------------------------------------------------------------------
+void ModelTransform::set(const Transform & transform) {
+    this->transform = transform;
+    recalcModelMatrix = true;
 }
 
-//---------------------------------------------------------------------------------------
-// Initialize reasonable default values.
-void Renderable::init() {
-    material.emission = vec3(0.0f);
-    material.Ka = vec3(1.0f);
-    material.Kd = vec3(1.0f);
-    material.Ks = 1.0f;
-    material.shininessFactor = 1.0f;
+//----------------------------------------------------------------------------------------
+const Transform & ModelTransform::getTransform() const {
+    return transform;
 }
 
-//---------------------------------------------------------------------------------------
-Renderable::~Renderable() {
-
-}
-
-//---------------------------------------------------------------------------------------
-void Renderable::render(const RenderContext & context) {
-    if (vao == nullptr || shaderProgram == nullptr || batchInfo == nullptr) {
-        return;
+//----------------------------------------------------------------------------------------
+mat4 ModelTransform::getModelMatrix() const {
+    if (!recalcModelMatrix) {
+        return modelMatrix;
     }
 
-    loadUniformData(context);
+    // 1. Scale
+    // 2. Rotate
+    // 3. Translate
 
-    // 1. Get and save currently bound VAO.
-    // 2. Bind local VAO.
-    // 3. Enable ShaderProgram
-    // 4. Call glDraw*(...)
-    // 5. Disable ShaderProgram
-    // 6. Bind previous VAO.
+    // Scale
+    mat3 matrix;
+    matrix = mat3();
+    matrix[0][0] = transform.scale[0];
+    matrix[1][1] = transform.scale[1];
+    matrix[2][2] = transform.scale[2];
 
-    GLint prev_vao;
-    glGetIntegerv(GL_VERTEX_ARRAY_BINDING, &prev_vao);
-    glBindVertexArray(*vao);
+    // Rotate
+    matrix = glm::toMat3(transform.pose) * matrix;
+    modelMatrix = mat4(matrix);
 
-    shaderProgram->enable();
-        glDrawArrays(GL_TRIANGLES, batchInfo->startIndex, batchInfo->numIndices);
-    shaderProgram->disable();
+    // Translate
+    modelMatrix[3][0] = transform.position.x;
+    modelMatrix[3][1] = transform.position.y;
+    modelMatrix[3][2] = transform.position.z;
 
-    glBindVertexArray(prev_vao);
+    recalcModelMatrix = false;
 
-    Rigid3D::checkGLErrors(__FILE__, __LINE__);
+    return modelMatrix;
 }
 
-//---------------------------------------------------------------------------------------
-/**
- * Uses 'shaderProgram' for when Renderable::render() is called.
- * @note Only only ShaderProgram can be set at a time.
- * @note Uniform variables for the ShaderProgram will be modified.
- *
- * @param shaderProgram
- */
-void Renderable::setShaderProgram(ShaderProgram & shaderProgram) {
-    this->shaderProgram = const_cast<ShaderProgram *>(&shaderProgram);
+//----------------------------------------------------------------------------------------
+RenderableSpec::RenderableSpec()
+    : meshName(),
+      shader(nullptr),
+      material(),
+      transform(),
+      cull(false) {
+
 }
 
-//---------------------------------------------------------------------------------------
-void Renderable::setPosition(const vec3 & position) {
-    modelTransform.setPosition(position);
+//----------------------------------------------------------------------------------------
+Renderable::Renderable(Scene & scene, const RenderableSpec & spec)
+    : scene(scene),
+      shader(nullptr) {
+
+    setShader(*(spec.shader));
+
+    this->meshName = spec.meshName;
+    this->material = spec.material;
+    this->modelTransform.set(spec.transform);
+    this->cull = spec.cull;
+
 }
 
-//---------------------------------------------------------------------------------------
-void Renderable::setPose(const quat & pose) {
-    modelTransform.setPose(pose);
+//----------------------------------------------------------------------------------------
+void Renderable::loadShaderUniforms(const Camera & camera) {
+    mat4 modelView = camera.getViewMatrix() * modelTransform.getModelMatrix();
+
+    shader->setUniform("ModelViewMatrix", modelView);
+    shader->setUniform("ProjectionMatrix", camera.getProjectionMatrix());
+    shader->setUniform("NormalMatrix", glm::transpose(glm::inverse(mat3(modelView))));
+
+    //-- Upload material properties
+    shader->setUniform("material.emission", material.emission);
+    shader->setUniform("material.Ka", material.Ka);
+    shader->setUniform("material.Kd", material.Kd);
+    shader->setUniform("material.Ks", material.Ks);
+    shader->setUniform("material.shininess", material.shininess);
 }
 
-//---------------------------------------------------------------------------------------
-void Renderable::setScale(const vec3 & scale) {
-    modelTransform.setScale(scale);
+//----------------------------------------------------------------------------------------
+void Renderable::setTransform(const Transform & transform) {
+    modelTransform.set(transform);
 }
 
-//---------------------------------------------------------------------------------------
-void Renderable::setEmissionLevels(const vec3 & emissionLevels) {
-    material.emission = emissionLevels;
-}
-
-//---------------------------------------------------------------------------------------
-void Renderable::setAmbientLevels(const vec3 & ambientLevels) {
-    material.Ka = ambientLevels;
-}
-
-//---------------------------------------------------------------------------------------
-void Renderable::setDiffuseLevels(const vec3 & diffuseLevels) {
-    material.Kd = diffuseLevels;
-}
-
-//---------------------------------------------------------------------------------------
-void Renderable::setSpecularIntensity(float specular) {
-    material.Ks = specular;
-}
-
-//---------------------------------------------------------------------------------------
-void Renderable::setShininessFactor(float shininessfactor) {
-    material.shininessFactor = shininessfactor;
-}
-
-//---------------------------------------------------------------------------------------
-void Renderable::loadUniformData(const RenderContext & context) {
-    mat4 modelView = context.viewMatrix * modelTransform.getModelMatrix();
-
-    shaderProgram->setUniform("ModelViewMatrix", modelView);
-    shaderProgram->setUniform("ProjectionMatrix", context.projectionMatrix);
-    shaderProgram->setUniform("NormalMatrix", glm::transpose(glm::inverse(mat3(modelView))));
-
-    shaderProgram->setUniform("material.emission", material.emission);
-    shaderProgram->setUniform("material.Ka", material.Ka);
-    shaderProgram->setUniform("material.Kd", material.Kd);
-    shaderProgram->setUniform("material.Ks", material.Ks);
-    shaderProgram->setUniform("material.shininessFactor", material.shininessFactor);
+//----------------------------------------------------------------------------------------
+const Transform & Renderable::getTransform() const {
+    return modelTransform.transform;
 }
 
 
-} // end namespace GlUtils
+//----------------------------------------------------------------------------------------
+void Renderable::setShader(const ShaderProgram & shader) {
+    if (this->shader != nullptr) {
+        // Remove this Renderable from its current shader's Renderable Set.
+        scene.shaderRenderableMap[this->shader].erase(this);
+    }
 
+    // Now add this Renderable to the new shader's Renderable Set.
+    ShaderProgram * shaderPtr = const_cast<ShaderProgram *>(&shader);
+    scene.shaderRenderableMap[shaderPtr].insert(this);
+    this->shader = const_cast<ShaderProgram *>(&shader);
+}
+
+//----------------------------------------------------------------------------------------
+ShaderProgram & Renderable::getShader() const {
+    return *shader;
+}
+
+} // end namespace Rigid3D

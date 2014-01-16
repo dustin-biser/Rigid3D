@@ -1,97 +1,100 @@
-/**
- * @brief Renderable
- *
- * @author Dustin Biser
- */
-
 #ifndef RIGID3D_RENDERABLE_HPP_
 #define RIGID3D_RENDERABLE_HPP_
 
-#include <Rigid3D/Common/Settings.hpp>
-#include <Rigid3D/Graphics/MaterialProperties.hpp>
-#include <Rigid3D/Graphics/ModelTransform.hpp>
+#include <Rigid3D/Math/Transform.hpp>
+#include <Rigid3D/Graphics/Material.hpp>
 
-#include <GL/glew.h>
+#include <string>
 
-// Forward declarations
+// Forward Declarations
 namespace Rigid3D {
-    struct BatchInfo;
+    class Scene;
     class ShaderProgram;
+    class Camera;
 }
 
 namespace Rigid3D {
+    using std::string;
 
     /**
-     * Datastructure for encapsulating the view and projection coordinate
-     * transformation context for which a Renderable should be drawn.
+     * Specification details to be used for constructing a Renderable.
+     *
+     * @note 'cull' defaults to false.
      */
-    struct RenderContext {
-        mat4 viewMatrix;
-        mat4 projectionMatrix;
+    struct RenderableSpec {
+        /// Mesh name that identifies the mesh to use for rendering the  Renderable.
+        string meshName;
+
+        /// Shader to use when rendering the Renderable.
+        ShaderProgram * shader;
+
+        /// Material lighting properties to use when rendering the Renderable.
+        Material material;
+
+        /// Transform for positioning, orienting, and scaling the Renderable.
+        Transform transform;
+
+        /**
+         *  If true, the corresponding Renderable's vertex data will not be sent
+         *  through the rendering pipeline upon calling
+         *  Rigid3D::Renderable::render or Rigid3D::Scene::render.
+         *
+         *  Default value is false.
+         */
+        bool cull;
+
+        RenderableSpec();
+    };
+
+    // Augmented Transform class used for computing a model matrix from a
+    // Transform.
+    class ModelTransform {
+    private:
+        friend class Renderable;
+        friend class Scene;
+
+        Transform transform;
+        mutable mat4 modelMatrix;
+        mutable bool recalcModelMatrix;
+
+        ModelTransform();
+
+        void set(const Transform & transform);
+
+        const Transform & getTransform() const;
+
+        mat4 getModelMatrix() const;
     };
 
     /**
-     * @brief Class for encapsulating the data required to render a mesh.
-     *
-     * This class holds information including:
-     * # Model Transformations
-     * # Material Lighting Properties
-     * # ShaderProgram
-     * # Vertex Array Object
-     * # BatchInfo
-     *
-     * @note The following uniform variables must be present in the attached 'ShaderProgram'
-     * for a 'Renderable' object to be rendered without error.
-     *
-     * # uniform mat4 ModelViewMatrix
-     * # uniform mat4 ProjectionMatrix
-     * # uniform mat3 NormalMatrix
-     * # struct MaterialProperties {
-     *      vec3 emission;
-     *      vec3 Ka;
-     *      vec3 Kd;
-     *      float Ks;
-     *      float shininessFactor;
-     *   };
-     *   uniform MaterialProperties material;
+     * An entity that can be rendered to the screen.  Renderables are created
+     * using Rigid3D::Scene::createRenderable.
      */
     class Renderable {
     public:
-        Renderable(const GLuint * vao,
-                   const ShaderProgram * shaderProgram,
-                   const BatchInfo * batchInfo);
+        void setTransform(const Transform & transform);
 
-        Renderable();
+        void setShader(const ShaderProgram & shader);
 
-        ~Renderable() noexcept;
+        ShaderProgram & getShader() const;
 
-        void render(const RenderContext & context);
-
-        void setShaderProgram(ShaderProgram & shaderProgram);
-
-        // Model Transform Operations
-        void setPosition(const vec3 & position);
-        void setPose(const quat & pose);
-        void setScale(const vec3 & scale);
-
-        // Material Properties
-        void setEmissionLevels(const vec3 & emissionLevels);
-        void setAmbientLevels(const vec3 & ambientLevels);
-        void setDiffuseLevels(const vec3 & diffuseLevels);
-        void setSpecularIntensity(float specular);
-        void setShininessFactor(float shininessfactor);
+        const Transform & getTransform() const;
 
     private:
-        GLuint * vao;
-        ShaderProgram * shaderProgram;
-        BatchInfo * batchInfo;
-        MaterialProperties material;
+        friend class Scene;
+
+        Scene & scene;
+        ShaderProgram * shader;
+        string meshName;
+        Material material;
         ModelTransform modelTransform;
+        bool cull;
 
-        void init();
-        void loadUniformData(const RenderContext & context);
+        Renderable(Scene & scene, const RenderableSpec & spec);
 
+        void loadShaderUniforms(const Camera & camera);
     };
+
 }
 
 #endif /* RIGID3D_RENDERABLE_HPP_ */

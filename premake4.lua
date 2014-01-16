@@ -29,9 +29,7 @@ includeDirList = {"ext",
                   "examples/Utils",
                   "../glm",
                   "/usr/local/include",
-                  "/usr/include",
-                  "/usr/include/freetype2/freetype",
-                  "/usr/include/freetype2"}
+                  "/usr/include" }
 
 solution "Rigid3D"
     configurations { "Debug", "Release" }
@@ -73,17 +71,17 @@ solution "Rigid3D"
     end
 
 -- Build Tests
-dofile("tests/tests.lua")
+--dofile("tests/tests.lua")
 
 -- Create a project for each demo
-CreateDemo("Glfw-Example", "examples/Glfw-Example.cpp")
-CreateDemo("GlfwOpenGlWindowExample", "examples/GlfwOpenGlWindowExample.cpp", "examples/Utils/GlfwOpenGlWindow.cpp")
-CreateDemo("LoadMeshObj_Example", "examples/LoadMeshObj_Example.cpp", "examples/Utils/GlfwOpenGlWindow.cpp")
-CreateDemo("FlatSmoothShading_Example", "examples/FlatSmoothShading_Example.cpp", "examples/Utils/GlfwOpenGlWindow.cpp")
-CreateDemo("MeshNormals", "examples/MeshNormals.cpp", "examples/Utils/GlfwOpenGlWindow.cpp")
-CreateDemo("DepthMapping", "examples/DepthMapping.cpp", "examples/Utils/GlfwOpenGlWindow.cpp")
-CreateDemo("MultipleObjects", "examples/MultipleObjects.cpp", "examples/Utils/GlfwOpenGlWindow.cpp")
-CreateDemo("CameraExample", "examples/CameraExample.cpp", "examples/Utils/GlfwOpenGlWindow.cpp")
-CreateDemo("ShadowMap", "examples/ShadowMap.cpp", "examples/Utils/GlfwOpenGlWindow.cpp")
-CreateDemo("TexturedCubeDemo", "examples/TexturedCubeDemo.cpp", "examples/Utils/GlfwOpenGlWindow.cpp")
-CreateDemo("PickingDemo", "examples/PickingDemo.cpp", "examples/Utils/GlfwOpenGlWindow.cpp")
+--CreateDemo("Glfw-Example", "examples/Glfw-Example.cpp")
+--CreateDemo("GlfwOpenGlWindowExample", "examples/GlfwOpenGlWindowExample.cpp", "examples/Utils/GlfwOpenGlWindow.cpp")
+--CreateDemo("LoadMeshObj_Example", "examples/LoadMeshObj_Example.cpp", "examples/Utils/GlfwOpenGlWindow.cpp")
+--CreateDemo("FlatSmoothShading_Example", "examples/FlatSmoothShading_Example.cpp", "examples/Utils/GlfwOpenGlWindow.cpp")
+--CreateDemo("MeshNormals", "examples/MeshNormals.cpp", "examples/Utils/GlfwOpenGlWindow.cpp")
+--CreateDemo("DepthMapping", "examples/DepthMapping.cpp", "examples/Utils/GlfwOpenGlWindow.cpp")
+--CreateDemo("MultipleObjects", "examples/MultipleObjects.cpp", "examples/Utils/GlfwOpenGlWindow.cpp")
+--CreateDemo("CameraExample", "examples/CameraExample.cpp", "examples/Utils/GlfwOpenGlWindow.cpp")
+--CreateDemo("ShadowMap", "examples/ShadowMap.cpp", "examples/Utils/GlfwOpenGlWindow.cpp")
+--CreateDemo("TexturedCubeDemo", "examples/TexturedCubeDemo.cpp", "examples/Utils/GlfwOpenGlWindow.cpp")
+CreateDemo("RayPickingDemo", "examples/RayPickingDemo.cpp", "examples/Utils/GlfwOpenGlWindow.cpp")

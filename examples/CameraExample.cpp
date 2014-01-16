@@ -4,6 +4,9 @@
 using glm::translate;
 using glm::scale;
 
+#include <glm/gtc/quaternion.hpp>
+using glm::angleAxis;
+
 int main() {
     shared_ptr<GlfwOpenGlWindow> meshDemo = CameraExample::getInstance();
     meshDemo->create(800, 600, "Rendering Multiple Objects");
@@ -73,16 +76,16 @@ void CameraExample::setupShaders() {
 
     glBindVertexArray(0);
 
-    Rigid3D::checkGLErrors(__FILE__, __LINE__);
+    Rigid3D::checkGlErrors(__FILE__, __LINE__);
 }
 
 //---------------------------------------------------------------------------------------
 void CameraExample::setupRenderables() {
-    grid          = Renderable(&vao, &shaderProgram, &(batchInfoMap.at("grid")));
-    bunny         = Renderable(&vao, &shaderProgram, &(batchInfoMap.at("bunny")));
-    tyrannosaurus = Renderable(&vao, &shaderProgram, &(batchInfoMap.at("tyrannosaurus")));
-    sphere        = Renderable(&vao, &shaderProgram, &(batchInfoMap.at("sphere")));
-    light         = Renderable(&vao, &shaderProgram, &(batchInfoMap.at("cube")));
+    grid          = RenderableXXX(&vao, &shaderProgram, &(batchInfoMap.at("grid")));
+    bunny         = RenderableXXX(&vao, &shaderProgram, &(batchInfoMap.at("bunny")));
+    tyrannosaurus = RenderableXXX(&vao, &shaderProgram, &(batchInfoMap.at("tyrannosaurus")));
+    sphere        = RenderableXXX(&vao, &shaderProgram, &(batchInfoMap.at("sphere")));
+    light         = RenderableXXX(&vao, &shaderProgram, &(batchInfoMap.at("cube")));
 
     renderContext.viewMatrix = camera.getViewMatrix();
     renderContext.projectionMatrix = camera.getProjectionMatrix();
@@ -144,7 +147,7 @@ void CameraExample::setupGLBuffers()
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
-    Rigid3D::checkGLErrors(__FILE__, __LINE__);
+    Rigid3D::checkGlErrors(__FILE__, __LINE__);
 }
 
 //---------------------------------------------------------------------------------------
@@ -174,5 +177,5 @@ void CameraExample::cleanup() {
     glDeleteBuffers(1, &vbo_normals);
     glDeleteBuffers(1, &vbo_vertices);
     glDeleteVertexArrays(1, &vao);
-    Rigid3D::checkGLErrors(__FILE__, __LINE__);
+    Rigid3D::checkGlErrors(__FILE__, __LINE__);
 }

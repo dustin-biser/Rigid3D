@@ -13,11 +13,10 @@ namespace Rigid3D {
 using std::string;
 
     /**
-     * A \c ShaderProgram encapsulates the compilation, linkage, and usage of both a
-     * vertex shader and fragment shader with respect to a single OpenGL program
-     * object.
+     * A ShaderProgram encapsulates the compilation, linkage, and usage of both a
+     * vertex shader and fragment shader with respect to an OpenGL program.
      *
-     * The goal of the \c ShaderProgram class is to make loading and using shader
+     * The goal of the ShaderProgram class is to make loading and using shader
      * programs as painless as possible.
      *
      * Example usage:
@@ -26,10 +25,31 @@ using std::string;
      *  ShaderProgram shaderProgram;
      *  shaderProgram.loadFromFile("verexShaderFile", "fragmentShaderFile");
      *
-     *  shaderProgram.begin();  // calls glUseProgram(...)
-     *   ... glDraw*();
-     *  shaderProgram.end();    // calls glUseProgram(NULL)
+     *  shaderProgram.begin();
+     *      glDraw*(...); // Call OpenGL drawing command here.
+     *  shaderProgram.end();
      * \endcode
+     *
+     * @note Attached vertex shaders must have present the following input
+     * variables with given types and layout locations:
+     * \code
+     * layout (location = 0) in vec3 vertexPosition;
+     * layout (location = 1) in vec3 vertexNormal;
+     * layout (location = 2) in vec2 vertexTextureCoord;
+     * layout (location = 3) in vec3 vertexColor;
+     * \endcode
+     * There are no restrictions imposed on the naming of these input variables
+     * within the attached vertex shader.
+     *
+     * @note Attached vertex shaders must have present the following uniforms with
+     * given types and layout locations:
+     * \code
+     * layout (location = 0) uniform mat4 ModelViewMatrix
+     * layout (location = 1) uniform mat3 NormalMatrix
+     * layout (location = 2) uniform mat4 ProjectionMatrix
+     * \endcode
+     * There are no restrictions imposed on the naming of these uniform matrices
+     * within the vertex shader.
      */
     class ShaderProgram {
     public:
@@ -81,6 +101,8 @@ using std::string;
 
 
     private:
+        friend class Renderable;
+
         struct Shader {
             string sourceCode;
             GLuint shaderObject;

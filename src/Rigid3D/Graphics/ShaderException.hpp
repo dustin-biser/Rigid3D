@@ -13,9 +13,9 @@ using std::string;
         ShaderException(const string & message)
             : errorMessage(message) { }
 
-        virtual ~ShaderException() noexcept { }
+        ~ShaderException() noexcept { }
 
-        virtual const char * what() const noexcept {
+        const char * what() const noexcept {
             return errorMessage.c_str();
         }
 
