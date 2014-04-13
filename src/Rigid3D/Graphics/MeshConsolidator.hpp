@@ -9,12 +9,9 @@
 #include <unordered_map>
 
 namespace Rigid3D {
-
-using std::shared_ptr;
-using std::make_shared;
-using std::pair;
-using std::initializer_list;
-using std::unordered_map;
+    
+    typedef  const char *  MeshID;
+    typedef  const char *  ObjFile;
 
     /**
      * Datastructure for specifying the layout of a \c Mesh object's data
@@ -83,9 +80,9 @@ using std::unordered_map;
     public:
         MeshConsolidator();
 
-        MeshConsolidator(initializer_list<pair<const char *, const Mesh * > > list);
+        MeshConsolidator(std::initializer_list<std::pair<MeshID, const Mesh *> > list);
 
-        MeshConsolidator(initializer_list<pair<const char *, const char *> > list);
+        MeshConsolidator(std::initializer_list<std::pair<MeshID, ObjFile> > list);
 
         ~MeshConsolidator();
 
@@ -97,23 +94,23 @@ using std::unordered_map;
 
         unsigned long getNumVertexNormalBytes() const;
 
-        void getBatchInfo(unordered_map<const char *, BatchInfo> & batchInfoMap) const;
+        void getBatchInfo(std::unordered_map<const char *, BatchInfo> & batchInfoMap) const;
 
     private:
-        void processMeshes(const unordered_map<const char *, const Mesh *> & meshMap);
+        void processMeshes(const std::unordered_map<MeshID, const Mesh *> & meshMap);
 
-        void consolidateMesh(const char * meshId, const Mesh & mesh);
+        void consolidateMesh(MeshID meshId, const Mesh & mesh);
 
         unsigned long totalPositionBytes;
         unsigned long totalNormalBytes;
 
-        shared_ptr<float> vertexPositionDataPtr_head;
+        std::shared_ptr<float> vertexPositionDataPtr_head;
         float * vertexPositionDataPtr_tail;
 
-        shared_ptr<float> normalDataPtr_head;
+        std::shared_ptr<float> normalDataPtr_head;
         float * normalDataPtr_tail;
 
-        unordered_map<const char *, BatchInfo> batchInfoMap;
+        std::unordered_map<MeshID, BatchInfo> batchInfoMap;
 
         static const short num_floats_per_vertex = 3;
     };

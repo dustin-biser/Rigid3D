@@ -8,7 +8,6 @@
 #ifndef GLFWOPENGLWINDOW_HPP_
 #define GLFWOPENGLWINDOW_HPP_
 
-#include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
 #include <Rigid3D/Graphics/Camera.hpp>
@@ -24,7 +23,7 @@ using std::shared_ptr;
 
 #include <glm/glm.hpp>
 
-#include <boost/utility.hpp>
+#include <boost/noncopyable.hpp>
 using boost::noncopyable;
 
 /// Singleton

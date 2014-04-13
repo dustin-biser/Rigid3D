@@ -7,7 +7,8 @@
 #ifndef CAMERAEXAMPLE_HPP_
 #define CAMERAEXAMPLE_HPP_
 
-#include <Utils/GlfwOpenGlWindow.hpp>
+#include "Utils/GlfwOpenGlWindow.hpp"
+
 #include <Rigid3D/Rigid3D.hpp>
 
 #include <unordered_map>

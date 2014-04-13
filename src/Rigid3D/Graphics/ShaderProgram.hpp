@@ -3,14 +3,12 @@
 
 #include <Rigid3D/Common/Settings.hpp>
 
-#include <GL/glew.h>
+#include <OpenGL/gl3.h>
 
 #include <string>
 
 
 namespace Rigid3D {
-
-using std::string;
 
     /**
      * A \c ShaderProgram encapsulates the compilation, linkage, and usage of both a
@@ -82,8 +80,8 @@ using std::string;
 
     private:
         struct Shader {
-            string sourceCode;
-            GLuint shaderObject;
+          std::string sourceCode;
+          GLuint shaderObject;
         };
 
         Shader vertexShader;

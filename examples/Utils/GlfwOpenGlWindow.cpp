@@ -3,12 +3,20 @@
 #include <Rigid3D/Graphics/GlfwException.hpp>
 #include <Rigid3D/Graphics/GlErrorCheck.hpp>
 
+#include <OpenGL/gl3.h>
+//#include <OpenGL/glext.h>
+//#include <OpenGL/gl3.h>
+
 #include <Rigid3D/Math/Trigonometry.hpp>
 using Rigid3D::cotangent;
 using Rigid3D::degreesToRadians;
 
 #include <sstream>
 using std::stringstream;
+
+#include <iostream>
+using std::cout;
+using std::endl;
 
 shared_ptr<GlfwOpenGlWindow> GlfwOpenGlWindow::p_instance = nullptr;
 
@@ -80,6 +88,48 @@ shared_ptr<GlfwOpenGlWindow> GlfwOpenGlWindow::getInstance() {
 }
 
 //----------------------------------------------------------------------------------------
+static void printGLInfo() {
+    const GLubyte * renderer = glGetString( GL_RENDER );
+    const GLubyte * vendor = glGetString( GL_VENDOR );
+    const GLubyte * version = glGetString( GL_VERSION );
+    const GLubyte * glsl_version = glGetString( GL_SHADING_LANGUAGE_VERSION );
+    
+    GLint majorVersion, minorVersion;
+    
+    glGetIntegerv(GL_MAJOR_VERSION, &majorVersion);
+    glGetIntegerv(GL_MINOR_VERSION, &minorVersion);
+    
+    stringstream message;
+    
+    if (vendor)
+        message << "GL Vendor          : " << vendor << endl;
+   
+    if (renderer)
+        message << "GL Renderer        : " << renderer << endl;
+    
+    if (version)
+        message << "GL Version         : " << version << endl;
+    
+    message << "GL Version         : " << majorVersion << "." << minorVersion << endl
+            << "GLSL Version       : " << glsl_version << endl;
+    
+    cout << message.str();
+    
+    cout << "Supported Extensions: " << endl;
+    const GLubyte * extension;
+    GLint nExtensions;
+    glGetIntegerv(GL_NUM_EXTENSIONS, &nExtensions);
+    
+    for (int i = 0; i < nExtensions; ++i) {
+        extension = glGetStringi(GL_EXTENSIONS, i);
+        if (extension) {
+            cout << extension << endl;
+        }
+    }
+    
+}
+
+//----------------------------------------------------------------------------------------
 void GlfwOpenGlWindow::create(int width, int height, const string & windowTitle) {
     windowWidth = width;
     windowHeight = height;
@@ -91,7 +141,8 @@ void GlfwOpenGlWindow::create(int width, int height, const string & windowTitle)
 
     glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_API);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
+    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     glfwWindowHint(GLFW_VISIBLE, GL_TRUE);
     glfwWindowHint(GLFW_SAMPLES, 0);
@@ -112,25 +163,20 @@ void GlfwOpenGlWindow::create(int width, int height, const string & windowTitle)
         glfwTerminate();
         throw GlfwException("Call to glfwCreateWindow failed.");
     }
+    
 
     centerWindow();
     glfwMakeContextCurrent(window);
+    
+#ifdef DEBUG
+    printGLInfo();
+#endif
 
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
     registerGlfwCallBacks();
 
-    // Initialize OpenGL extensions with GLEW
-    glewExperimental = GL_TRUE;
-    GLenum errorCode = glewInit();
-    if (errorCode != GLEW_OK) {
-        stringstream errorMessage;
-        errorMessage << "Failed to initialize GLEW -- " << gluErrorString(errorCode);
-        throw GlfwException(errorMessage.str());
-    }
-    // Clear error buffer.  Specifically due to glewInit() causing a
-    // GLError(invalid enumerant), which is safe to ignore.
-    // http://www.opengl.org/wiki/OpenGL_Loading_Library
+    // Clear error buffer.
     while(glGetError() != GL_NO_ERROR);
 
     setupGl();

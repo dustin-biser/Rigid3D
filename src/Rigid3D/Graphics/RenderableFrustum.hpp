@@ -10,8 +10,7 @@
 #include <Rigid3D/Common/Settings.hpp>
 #include <Rigid3D/Graphics/Frustum.hpp>
 
-#include <GL/glew.h>
-
+#include <OpenGL/gltypes.h>
 
 namespace Rigid3D {
 

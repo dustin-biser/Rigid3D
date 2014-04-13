@@ -1,8 +1,7 @@
 #ifndef RIGID3D_OPENGLCONTEXT_HPP_
 #define RIGID3D_OPENGLCONTEXT_HPP_
 
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
+struct GLFWwindow;
 
 namespace Rigid3D {
 

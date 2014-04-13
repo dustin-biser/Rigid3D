@@ -11,7 +11,7 @@
 #include <Rigid3D/Graphics/MaterialProperties.hpp>
 #include <Rigid3D/Graphics/ModelTransform.hpp>
 
-#include <GL/glew.h>
+#include <OpenGL/gltypes.h>
 
 // Forward declarations
 namespace Rigid3D {

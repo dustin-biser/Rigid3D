@@ -2,6 +2,8 @@
 
 #include <Rigid3D/Graphics/GlErrorCheck.hpp>
 
+#include <OpenGL/gl3.h>
+
 #include <glm/gtx/transform.hpp>
 
 #include <vector>

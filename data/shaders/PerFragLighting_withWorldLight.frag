@@ -1,10 +1,10 @@
 // PerFragLighting_withWorldLight.frag
-#version 400
+#version 410
 
 in vec3 position;
 in vec3 normal;
 
-out layout (location = 0) vec4 fragColor;
+out vec4 fragColor;
 
 struct LightSource {
     vec3 position;      // Light position in eye coordinate space.

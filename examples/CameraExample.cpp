@@ -34,11 +34,11 @@ CameraExample::CameraExample()
 void CameraExample::init()
 {
     meshConsolidator =  {
-            {"grid", "../data/meshes/grid.obj"},
-            {"bunny", "../data/meshes/bunny_smooth.obj"},
-            {"tyrannosaurus", "../data/meshes/tyrannosaurus_smooth.obj"},
-            {"sphere", "../data/meshes/sphere_smooth.obj"},
-            {"cube", "../data/meshes/cube.obj"}
+            {"grid", "data/meshes/grid.obj"},
+            {"bunny", "data/meshes/bunny_smooth.obj"},
+            {"tyrannosaurus", "data/meshes/tyrannosaurus_smooth.obj"},
+            {"sphere", "data/meshes/sphere_smooth.obj"},
+            {"cube", "data/meshes/cube.obj"}
     };
 
     meshConsolidator.getBatchInfo(batchInfoMap);
@@ -57,8 +57,8 @@ void CameraExample::init()
 
 //---------------------------------------------------------------------------------------
 void CameraExample::setupShaders() {
-    shaderProgram.loadFromFile("../data/shaders/Pos-Norm-Tex-Color.vert",
-                               "../data/shaders/PerFragLighting_withWorldLight.frag");
+    shaderProgram.loadFromFile("data/shaders/Pos-Norm-Tex-Color.vert",
+                               "data/shaders/PerFragLighting_withWorldLight.frag");
 
     shaderProgram.setUniform("ambientIntensity", vec3(0.1f, 0.1f, 0.1f));
     shaderProgram.setUniform("lightSource.position", lightSource.position);

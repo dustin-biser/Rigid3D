@@ -37,7 +37,7 @@ void Renderable::init() {
 }
 
 //---------------------------------------------------------------------------------------
-Renderable::~Renderable() {
+Renderable::~Renderable() noexcept {
 
 }
 

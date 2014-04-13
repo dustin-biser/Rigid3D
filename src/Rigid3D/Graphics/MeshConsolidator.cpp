@@ -6,6 +6,8 @@
 #include <cstdlib>
 
 namespace Rigid3D {
+    
+using namespace std;
 
 //----------------------------------------------------------------------------------------
 /**
@@ -107,7 +109,7 @@ MeshConsolidator::~MeshConsolidator() {
 
 //----------------------------------------------------------------------------------------
 void MeshConsolidator::consolidateMesh(const char * meshId, const Mesh & mesh) {
-    unsigned int startIndex = (vertexPositionDataPtr_tail - vertexPositionDataPtr_head.get()) / num_floats_per_vertex;
+    unsigned int startIndex = (unsigned int)((vertexPositionDataPtr_tail - vertexPositionDataPtr_head.get()) / num_floats_per_vertex);
     unsigned int numIndices = mesh.getNumVertexPositions();
 
     memcpy(vertexPositionDataPtr_tail, mesh.getVertexPositionDataPtr(), mesh.getNumVertexPositionBytes());

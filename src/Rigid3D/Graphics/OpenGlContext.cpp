@@ -1,5 +1,6 @@
 #include "OpenGlContext.hpp"
 
+#include <GLFW/glfw3.h>
 #include <Rigid3D/Graphics/GlfwException.hpp>
 #include <sstream>
 
@@ -37,14 +38,6 @@ void OpenGlContext::init() {
     glfwMakeContextCurrent(window);
     glfwSetWindowShouldClose(window, GL_TRUE);
 
-    // Initialize OpenGL extensions with GLEW
-    glewExperimental = GL_TRUE;
-    GLenum errorCode = glewInit();
-    if (errorCode != GLEW_OK) {
-        stringstream errorMessage;
-        errorMessage << "Failed to initialize GLEW -- " << gluErrorString(errorCode);
-        throw GlfwException(errorMessage.str());
-    }
     // Clear error buffer.  Specifically due to glewInit() causing a
     // GLError(invalid enumerant), which is safe to ignore.
     // http://www.opengl.org/wiki/OpenGL_Loading_Library
