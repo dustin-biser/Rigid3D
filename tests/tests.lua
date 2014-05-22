@@ -39,7 +39,7 @@ end
 SetupTest("RunAllTests", "src/**")
 SetupTest("Mesh_Test", "src/Rigid3D/Graphics/Mesh_Test.cpp")
 SetupTest("MeshConsolidator_Test", "src/Rigid3D/Graphics/MeshConsolidator_Test.cpp")
-SetupTest("ShaderProgram_Test", "src/Rigid3D/Graphics/ShaderProgram_Test.cpp", "../src/Rigid3D/Graphics/OpenGlContext.cpp")
+SetupTest("ShaderProgram_Test", "src/Rigid3D/Graphics/ShaderProgram_Test.cpp", "../src/Rigid3D/Graphics/OpenGLContext.cpp")
 SetupTest("GlmOutStream_Test", "src/Rigid3D/Graphics/GlmOutStream_Test.cpp")
 SetupTest("Camera_Test", "src/Rigid3D/Graphics/Camera_Test.cpp")
 SetupTest("TestUtils_Predicates_Test", "src/Utils/TestUtils_Predicates_Test.cpp")

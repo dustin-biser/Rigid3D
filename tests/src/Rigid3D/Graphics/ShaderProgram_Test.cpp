@@ -8,7 +8,7 @@
 
 #include <Rigid3D/Graphics/ShaderProgram.hpp>
 #include <Rigid3D/Graphics/ShaderException.hpp>
-#include <Rigid3D/Graphics/OpenGlContext.hpp>
+#include "OpenGLContext.hpp"
 
 #include <memory>
 
@@ -22,7 +22,7 @@ namespace {  // limit class visibility to this file.
 
         shared_ptr<ShaderProgram> shaderProgram;
         static shared_ptr<ShaderProgram> goodProgram;
-        static shared_ptr<OpenGlContext> glContext;
+        static shared_ptr<OpenGLContext> glContext;
 
         ShaderProgram_Test() {
             shaderProgram = make_shared<ShaderProgram>();
@@ -30,7 +30,7 @@ namespace {  // limit class visibility to this file.
 
         // Code here will be ran once before all tests.
         static void SetUpTestCase() {
-            glContext = make_shared<OpenGlContext>(4, 2);
+            glContext = make_shared<OpenGLContext>(4, 2);
             glContext->init();
 
             goodProgram = make_shared<ShaderProgram>();
@@ -50,7 +50,7 @@ namespace {  // limit class visibility to this file.
     };
 
     // Define static class variables.
-    shared_ptr<OpenGlContext> ShaderProgram_Test::glContext;
+    shared_ptr<OpenGLContext> ShaderProgram_Test::glContext;
     shared_ptr<ShaderProgram> ShaderProgram_Test::goodProgram;
 
     //----------------------------------------------------------------------------------------

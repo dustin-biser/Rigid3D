@@ -12,12 +12,12 @@ namespace Rigid3D {
      *
      * @author Dustin Biser
      */
-    class OpenGlContext {
+    class OpenGLContext {
     public:
-        OpenGlContext(unsigned int majorVersion, unsigned int minorVersion)
+        OpenGLContext(unsigned int majorVersion, unsigned int minorVersion)
                 : window(nullptr), majorVersion(majorVersion), minorVersion(minorVersion) { }
 
-        ~OpenGlContext();
+        ~OpenGLContext();
 
          void init();
 

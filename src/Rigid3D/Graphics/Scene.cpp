@@ -3,6 +3,8 @@
 namespace Rigid3D {
 
 using std::make_pair;
+using std::initializer_list;
+using std::pair;
 
 //----------------------------------------------------------------------------------------
 /**

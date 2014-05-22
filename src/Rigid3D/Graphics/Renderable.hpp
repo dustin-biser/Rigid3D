@@ -63,7 +63,7 @@ namespace Rigid3D {
 
         Renderable();
 
-        ~Renderable() noexcept;
+        ~Renderable();
 
         void render(const RenderContext & context);
 

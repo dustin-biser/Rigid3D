@@ -11,8 +11,10 @@
 
 #include <Rigid3D/Rigid3D.hpp>
 
+#include <memory>
 #include <unordered_map>
 using std::unordered_map;
+using std::shared_ptr;
 
 using namespace Rigid3D;
 
@@ -21,7 +23,7 @@ class CameraExample : public GlfwOpenGlWindow {
 public:
     ~CameraExample() { }
 
-    static shared_ptr<GlfwOpenGlWindow> getInstance();
+    static std::shared_ptr<GlfwOpenGlWindow> getInstance();
 
 private:
     CameraExample(); // Singleton. Prevent direct construction.

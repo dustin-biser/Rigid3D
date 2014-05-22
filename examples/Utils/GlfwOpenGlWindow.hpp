@@ -11,35 +11,29 @@
 #include <GLFW/glfw3.h>
 
 #include <Rigid3D/Graphics/Camera.hpp>
-using Rigid3D::Camera;
-
 #include <Rigid3D/Graphics/CameraController.hpp>
-using Rigid3D::CameraController;
-
-#include <string>
-#include <memory>
-using std::string;
-using std::shared_ptr;
 
 #include <glm/glm.hpp>
 
+#include <string>
+#include <memory>
+
 #include <boost/noncopyable.hpp>
-using boost::noncopyable;
 
 /// Singleton
-class GlfwOpenGlWindow : private noncopyable {
+class GlfwOpenGlWindow : private boost::noncopyable {
 public:
     virtual ~GlfwOpenGlWindow();
 
-    static shared_ptr<GlfwOpenGlWindow> getInstance();
+    static std::shared_ptr<GlfwOpenGlWindow> getInstance();
 
-    void create(int width, int height, const string & windowTitle);
+    void create(int width, int height, const std::string & windowTitle);
 
 protected:
     GLFWwindow * window;
     GLFWwindow * prevWindow;
     GLFWmonitor * monitor;
-    string windowTitle;
+    std::string windowTitle;
     int windowWidth;
     int windowHeight;
 
@@ -47,10 +41,10 @@ protected:
     bool fullScreen;
     bool destroyPrevWindow;
 
-    Camera camera;
-    CameraController cameraController;
+    Rigid3D::Camera camera;
+    Rigid3D::CameraController cameraController;
 
-    static shared_ptr<GlfwOpenGlWindow> p_instance;
+    static std::shared_ptr<GlfwOpenGlWindow> p_instance;
 
     GlfwOpenGlWindow();
 

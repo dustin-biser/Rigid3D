@@ -1,4 +1,4 @@
-#include "OpenGlContext.hpp"
+#include "OpenGLContext.hpp"
 
 #include <GLFW/glfw3.h>
 #include <Rigid3D/Graphics/GlfwException.hpp>
@@ -9,15 +9,15 @@ namespace Rigid3D {
 using std::stringstream;
 
 //----------------------------------------------------------------------------------------
-void OpenGlContext::error_callback(int error, const char* description) {
+void OpenGLContext::error_callback(int error, const char* description) {
     throw GlfwException(description);
 }
 
 //----------------------------------------------------------------------------------------
 /**
- * Initializes the \c OpenGlContext for use.
+ * Initializes the \c OpenGLContext for use.
  */
-void OpenGlContext::init() {
+void OpenGLContext::init() {
     glfwSetErrorCallback(error_callback);
 
     if (glfwInit() == GL_FALSE) {
@@ -45,7 +45,7 @@ void OpenGlContext::init() {
 }
 
 //----------------------------------------------------------------------------------------
-OpenGlContext::~OpenGlContext() {
+OpenGLContext::~OpenGLContext() {
     glfwDestroyWindow(window);
     glfwTerminate();
 }

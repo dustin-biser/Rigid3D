@@ -15,11 +15,6 @@ namespace Rigid3D {
 
 namespace Rigid3D {
 
-using std::initializer_list;
-using std::pair;
-using std::unordered_map;
-using std::vector;
-
     struct BatchInfo {
         unsigned int startIndex;
         unsigned int numIndices;
@@ -32,7 +27,7 @@ using std::vector;
     typedef const char * objFile;
 
     public:
-        Scene(initializer_list<pair<meshName, objFile> > list);
+        Scene(std::initializer_list<std::pair<meshName, objFile> > list);
         ~Scene();
 
 //        Renderable * createRenderable(meshName);
@@ -43,9 +38,9 @@ using std::vector;
         vec2 * textureCoords;
         int32 numVertices;
 
-        unordered_map<meshName, BatchInfo> meshBatchMap;
+        std::unordered_map<meshName, BatchInfo> meshBatchMap;
 
-        vector<Renderable *> renderables;
+        std::vector<Renderable *> renderables;
     };
 
 }

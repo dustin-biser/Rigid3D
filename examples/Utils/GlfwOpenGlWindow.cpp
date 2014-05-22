@@ -1,22 +1,23 @@
 #include "GlfwOpenGlWindow.hpp"
+using Rigid3D::Camera;
+using Rigid3D::CameraController;
 
 #include <Rigid3D/Graphics/GlfwException.hpp>
 #include <Rigid3D/Graphics/GlErrorCheck.hpp>
 
 #include <OpenGL/gl3.h>
-//#include <OpenGL/glext.h>
-//#include <OpenGL/gl3.h>
 
 #include <Rigid3D/Math/Trigonometry.hpp>
 using Rigid3D::cotangent;
 using Rigid3D::degreesToRadians;
 
 #include <sstream>
-using std::stringstream;
-
 #include <iostream>
 using std::cout;
 using std::endl;
+using std::stringstream;
+using std::shared_ptr;
+using std::string;
 
 shared_ptr<GlfwOpenGlWindow> GlfwOpenGlWindow::p_instance = nullptr;
 
