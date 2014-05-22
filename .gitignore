@@ -5,6 +5,7 @@
 **Makefile
 **MakeFile
 **.make
+build/
 
 # Ignore binaries
 **bin
@@ -13,3 +14,7 @@ ext/gtest/test1_example
 
 # Ignore hidden directories
 .settings
+
+# Ignore mac specific items
+.DS_Store
+.idea/
