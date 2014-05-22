@@ -22,7 +22,7 @@
 		683D53D918F9ED8A0035B9BB /* Mesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 683D538918F9E89E0035B9BB /* Mesh.cpp */; };
 		683D53DA18F9ED8A0035B9BB /* MeshConsolidator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 683D538B18F9E89E0035B9BB /* MeshConsolidator.cpp */; };
 		683D53DB18F9ED8A0035B9BB /* ModelTransform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 683D538D18F9E89E0035B9BB /* ModelTransform.cpp */; };
-		683D53DC18F9ED8A0035B9BB /* OpenGLContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 683D538F18F9E89E0035B9BB /* OpenGLContext.cpp */; };
+		683D53DC18F9ED8A0035B9BB /* OpenGlContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 683D538F18F9E89E0035B9BB /* OpenGlContext.cpp */; };
 		683D53DD18F9ED8A0035B9BB /* Renderable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 683D539118F9E89E0035B9BB /* Renderable.cpp */; };
 		683D53DE18F9ED8A0035B9BB /* RenderableFrustum.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 683D539318F9E89E0035B9BB /* RenderableFrustum.cpp */; };
 		683D53DF18F9ED8A0035B9BB /* Scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 683D539518F9E89E0035B9BB /* Scene.cpp */; };
@@ -1092,8 +1092,8 @@
 		683D538C18F9E89E0035B9BB /* MeshConsolidator.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = MeshConsolidator.hpp; sourceTree = "<group>"; };
 		683D538D18F9E89E0035B9BB /* ModelTransform.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ModelTransform.cpp; sourceTree = "<group>"; };
 		683D538E18F9E89E0035B9BB /* ModelTransform.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ModelTransform.hpp; sourceTree = "<group>"; };
-		683D538F18F9E89E0035B9BB /* OpenGLContext.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = OpenGLContext.cpp; sourceTree = "<group>"; };
-		683D539018F9E89E0035B9BB /* OpenGLContext.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = OpenGLContext.hpp; sourceTree = "<group>"; };
+		683D538F18F9E89E0035B9BB /* OpenGlContext.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = OpenGlContext.cpp; sourceTree = "<group>"; };
+		683D539018F9E89E0035B9BB /* OpenGlContext.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = OpenGlContext.hpp; sourceTree = "<group>"; };
 		683D539118F9E89E0035B9BB /* Renderable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Renderable.cpp; sourceTree = "<group>"; };
 		683D539218F9E89E0035B9BB /* Renderable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Renderable.hpp; sourceTree = "<group>"; };
 		683D539318F9E89E0035B9BB /* RenderableFrustum.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = RenderableFrustum.cpp; sourceTree = "<group>"; };
@@ -2562,8 +2562,8 @@
 				683D538C18F9E89E0035B9BB /* MeshConsolidator.hpp */,
 				683D538D18F9E89E0035B9BB /* ModelTransform.cpp */,
 				683D538E18F9E89E0035B9BB /* ModelTransform.hpp */,
-				683D538F18F9E89E0035B9BB /* OpenGLContext.cpp */,
-				683D539018F9E89E0035B9BB /* OpenGLContext.hpp */,
+				683D538F18F9E89E0035B9BB /* OpenGlContext.cpp */,
+				683D539018F9E89E0035B9BB /* OpenGlContext.hpp */,
 				683D539118F9E89E0035B9BB /* Renderable.cpp */,
 				683D539218F9E89E0035B9BB /* Renderable.hpp */,
 				683D539318F9E89E0035B9BB /* RenderableFrustum.cpp */,
@@ -2811,7 +2811,7 @@
 				683D53D918F9ED8A0035B9BB /* Mesh.cpp in Sources */,
 				683D53DA18F9ED8A0035B9BB /* MeshConsolidator.cpp in Sources */,
 				683D53DB18F9ED8A0035B9BB /* ModelTransform.cpp in Sources */,
-				683D53DC18F9ED8A0035B9BB /* OpenGLContext.cpp in Sources */,
+				683D53DC18F9ED8A0035B9BB /* OpenGlContext.cpp in Sources */,
 				683D53DD18F9ED8A0035B9BB /* Renderable.cpp in Sources */,
 				683D53DE18F9ED8A0035B9BB /* RenderableFrustum.cpp in Sources */,
 				683D53DF18F9ED8A0035B9BB /* Scene.cpp in Sources */,
