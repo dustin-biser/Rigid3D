@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		683D53C718F9EABC0035B9BB /* libglfw3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 683D536A18F9E89E0035B9BB /* libglfw3.a */; };
 		683D53C818F9EAE90035B9BB /* glfw_test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 683D4FA318F9E89B0035B9BB /* glfw_test.cpp */; };
 		683D53CA18F9EB050035B9BB /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 683D53C918F9EB050035B9BB /* OpenGL.framework */; };
 		683D53CE18F9EB2C0035B9BB /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 683D53CC18F9EB2C0035B9BB /* IOKit.framework */; };
@@ -28,6 +27,9 @@
 		683D53DF18F9ED8A0035B9BB /* Scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 683D539518F9E89E0035B9BB /* Scene.cpp */; };
 		683D53E018F9ED8A0035B9BB /* ShaderProgram.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 683D539818F9E89E0035B9BB /* ShaderProgram.cpp */; };
 		683D53E118F9ED8A0035B9BB /* Transform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 683D539B18F9E89E0035B9BB /* Transform.cpp */; };
+		68647ABF19312F120067C4DF /* libglfw3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 68647ABE19312F120067C4DF /* libglfw3.a */; };
+		68647AC019312F970067C4DF /* libglfw3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 68647ABE19312F120067C4DF /* libglfw3.a */; };
+		68647AC11931327C0067C4DF /* libglfw3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 68647ABE19312F120067C4DF /* libglfw3.a */; };
 		689E54C218FA357700F1A724 /* CameraExample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 683D4F9C18F9E89B0035B9BB /* CameraExample.cpp */; };
 		689E54C318FA42E900F1A724 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 683D53CC18F9EB2C0035B9BB /* IOKit.framework */; };
 		689E54C418FA42EF00F1A724 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 683D53C918F9EB050035B9BB /* OpenGL.framework */; };
@@ -35,7 +37,6 @@
 		689E54C618FA42FA00F1A724 /* libRigid3D.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 683D4F5F18F9E8490035B9BB /* libRigid3D.a */; };
 		689E54C718FA430700F1A724 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 683D53CF18F9EB4A0035B9BB /* CoreVideo.framework */; };
 		689E54CA18FA438A00F1A724 /* GlfwOpenGlWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 683D4FB218F9E89B0035B9BB /* GlfwOpenGlWindow.cpp */; };
-		689E54CB18FA462600F1A724 /* libglfw3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 683D536A18F9E89E0035B9BB /* libglfw3.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1061,7 +1062,6 @@
 		683D536618F9E89E0035B9BB /* gtest.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = gtest.cc; sourceTree = "<group>"; };
 		683D536718F9E89E0035B9BB /* gtest_main.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = gtest_main.cc; sourceTree = "<group>"; };
 		683D536818F9E89E0035B9BB /* test1.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = test1.cpp; sourceTree = "<group>"; };
-		683D536A18F9E89E0035B9BB /* libglfw3.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libglfw3.a; sourceTree = "<group>"; };
 		683D536E18F9E89E0035B9BB /* AABB.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AABB.cpp; sourceTree = "<group>"; };
 		683D536F18F9E89E0035B9BB /* AABB.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = AABB.hpp; sourceTree = "<group>"; };
 		683D537118F9E89E0035B9BB /* AABBFactory.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = AABBFactory.hpp; sourceTree = "<group>"; };
@@ -1131,6 +1131,7 @@
 		683D53CC18F9EB2C0035B9BB /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		683D53CF18F9EB4A0035B9BB /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
 		683D53D118F9EB530035B9BB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		68647ABE19312F120067C4DF /* libglfw3.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libglfw3.a; sourceTree = "<group>"; };
 		689E54B918FA355200F1A724 /* CameraExample */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = CameraExample; sourceTree = BUILT_PRODUCTS_DIR; };
 		68E0A52118FB09C3003F0702 /* glcorearb.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = glcorearb.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1140,6 +1141,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				68647ABF19312F120067C4DF /* libglfw3.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1149,9 +1151,9 @@
 			files = (
 				683D53D218F9EB530035B9BB /* Cocoa.framework in Frameworks */,
 				683D53D018F9EB4A0035B9BB /* CoreVideo.framework in Frameworks */,
+				68647AC11931327C0067C4DF /* libglfw3.a in Frameworks */,
 				683D53CE18F9EB2C0035B9BB /* IOKit.framework in Frameworks */,
 				683D53CA18F9EB050035B9BB /* OpenGL.framework in Frameworks */,
-				683D53C718F9EABC0035B9BB /* libglfw3.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1163,8 +1165,8 @@
 				689E54C618FA42FA00F1A724 /* libRigid3D.a in Frameworks */,
 				689E54C518FA42F600F1A724 /* Cocoa.framework in Frameworks */,
 				689E54C418FA42EF00F1A724 /* OpenGL.framework in Frameworks */,
+				68647AC019312F970067C4DF /* libglfw3.a in Frameworks */,
 				689E54C318FA42E900F1A724 /* IOKit.framework in Frameworks */,
-				689E54CB18FA462600F1A724 /* libglfw3.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1174,11 +1176,11 @@
 		683D4F5618F9E8490035B9BB = {
 			isa = PBXGroup;
 			children = (
+				68647ABD19312F120067C4DF /* lib */,
 				689E54B418FA34BA00F1A724 /* Frameworks */,
 				683D4F6618F9E89B0035B9BB /* data */,
 				683D4F9B18F9E89B0035B9BB /* examples */,
 				683D4FB418F9E89B0035B9BB /* ext */,
-				683D536918F9E89E0035B9BB /* libs */,
 				683D536B18F9E89E0035B9BB /* src */,
 				683D539F18F9E89E0035B9BB /* tests */,
 				683D4F6018F9E8490035B9BB /* Products */,
@@ -2479,14 +2481,6 @@
 			path = src;
 			sourceTree = "<group>";
 		};
-		683D536918F9E89E0035B9BB /* libs */ = {
-			isa = PBXGroup;
-			children = (
-				683D536A18F9E89E0035B9BB /* libglfw3.a */,
-			);
-			path = libs;
-			sourceTree = "<group>";
-		};
 		683D536B18F9E89E0035B9BB /* src */ = {
 			isa = PBXGroup;
 			children = (
@@ -2674,6 +2668,14 @@
 				683D53B818F9E89E0035B9BB /* TestUtils_Predicates_Test.cpp */,
 			);
 			path = Utils;
+			sourceTree = "<group>";
+		};
+		68647ABD19312F120067C4DF /* lib */ = {
+			isa = PBXGroup;
+			children = (
+				68647ABE19312F120067C4DF /* libglfw3.a */,
+			);
+			path = lib;
 			sourceTree = "<group>";
 		};
 		689E54B418FA34BA00F1A724 /* Frameworks */ = {
@@ -2891,7 +2893,7 @@
 					ext/glm,
 					ext/OpenGL,
 				);
-				LIBRARY_SEARCH_PATHS = libs;
+				LIBRARY_SEARCH_PATHS = lib;
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
@@ -2936,7 +2938,7 @@
 					ext/glm,
 					ext/OpenGL,
 				);
-				LIBRARY_SEARCH_PATHS = libs;
+				LIBRARY_SEARCH_PATHS = lib;
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				SDKROOT = macosx;
 				USER_HEADER_SEARCH_PATHS = "ext src";
@@ -2947,6 +2949,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/lib",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -2955,6 +2961,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/lib",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -2969,7 +2979,7 @@
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/libs",
+					"$(PROJECT_DIR)/lib",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -2981,7 +2991,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/libs",
+					"$(PROJECT_DIR)/lib",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -2996,7 +3006,7 @@
 				INFOPLIST_PREPROCESSOR_DEFINITIONS = "";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/libs",
+					"$(PROJECT_DIR)/lib",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USER_HEADER_SEARCH_PATHS = "ext src examples/Utils examples";
@@ -3011,7 +3021,7 @@
 				GENERATE_PROFILING_CODE = YES;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/libs",
+					"$(PROJECT_DIR)/lib",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USER_HEADER_SEARCH_PATHS = "ext src examples/Utils examples";

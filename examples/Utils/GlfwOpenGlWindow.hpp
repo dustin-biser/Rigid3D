@@ -8,6 +8,8 @@
 #ifndef GLFWOPENGLWINDOW_HPP_
 #define GLFWOPENGLWINDOW_HPP_
 
+// Force GLFW to include gl3.h core functionality instead of gl.h deprecated code.
+#define GLFW_INCLUDE_GLCOREARB
 #include <GLFW/glfw3.h>
 
 #include <Rigid3D/Graphics/Camera.hpp>

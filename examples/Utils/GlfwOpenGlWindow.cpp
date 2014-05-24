@@ -5,8 +5,6 @@ using Rigid3D::CameraController;
 #include <Rigid3D/Graphics/GlfwException.hpp>
 #include <Rigid3D/Graphics/GlErrorCheck.hpp>
 
-#include <OpenGL/gl3.h>
-
 #include <Rigid3D/Math/Trigonometry.hpp>
 using Rigid3D::cotangent;
 using Rigid3D::degreesToRadians;
@@ -90,7 +88,7 @@ shared_ptr<GlfwOpenGlWindow> GlfwOpenGlWindow::getInstance() {
 
 //----------------------------------------------------------------------------------------
 static void printGLInfo() {
-    const GLubyte * renderer = glGetString( GL_RENDER );
+    const GLubyte * renderer = glGetString( GL_RENDERER );
     const GLubyte * vendor = glGetString( GL_VENDOR );
     const GLubyte * version = glGetString( GL_VERSION );
     const GLubyte * glsl_version = glGetString( GL_SHADING_LANGUAGE_VERSION );
