@@ -143,43 +143,6 @@
 		683D4FB018F9E89B0035B9BB /* TexturedCubeDemo.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = TexturedCubeDemo.hpp; sourceTree = "<group>"; };
 		683D4FB218F9E89B0035B9BB /* GlfwOpenGlWindow.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GlfwOpenGlWindow.cpp; sourceTree = "<group>"; };
 		683D4FB318F9E89B0035B9BB /* GlfwOpenGlWindow.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = GlfwOpenGlWindow.hpp; sourceTree = "<group>"; };
-		683D4FB618F9E89B0035B9BB /* arial-16.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "arial-16.h"; sourceTree = "<group>"; };
-		683D4FB818F9E89B0035B9BB /* 256colors.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = 256colors.txt; sourceTree = "<group>"; };
-		683D4FB918F9E89B0035B9BB /* edtaa3func.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = edtaa3func.h; sourceTree = "<group>"; };
-		683D4FBA18F9E89B0035B9BB /* font-manager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "font-manager.h"; sourceTree = "<group>"; };
-		683D4FBC18F9E89B0035B9BB /* ObelixPro.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = ObelixPro.ttf; sourceTree = "<group>"; };
-		683D4FBD18F9E89B0035B9BB /* VERA-COPYRIGHT */ = {isa = PBXFileReference; lastKnownFileType = text; path = "VERA-COPYRIGHT"; sourceTree = "<group>"; };
-		683D4FBE18F9E89B0035B9BB /* Vera.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Vera.ttf; sourceTree = "<group>"; };
-		683D4FBF18F9E89B0035B9BB /* VeraMoBd.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = VeraMoBd.ttf; sourceTree = "<group>"; };
-		683D4FC018F9E89B0035B9BB /* VeraMoBI.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = VeraMoBI.ttf; sourceTree = "<group>"; };
-		683D4FC118F9E89B0035B9BB /* VeraMoIt.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = VeraMoIt.ttf; sourceTree = "<group>"; };
-		683D4FC218F9E89B0035B9BB /* VeraMono.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = VeraMono.ttf; sourceTree = "<group>"; };
-		683D4FC318F9E89B0035B9BB /* freetype-gl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "freetype-gl.h"; sourceTree = "<group>"; };
-		683D4FC418F9E89B0035B9BB /* markup.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = markup.h; sourceTree = "<group>"; };
-		683D4FC518F9E89B0035B9BB /* mat4.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = mat4.h; sourceTree = "<group>"; };
-		683D4FC618F9E89B0035B9BB /* opengl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = opengl.h; sourceTree = "<group>"; };
-		683D4FC718F9E89B0035B9BB /* platform.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = platform.h; sourceTree = "<group>"; };
-		683D4FC818F9E89B0035B9BB /* shader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = shader.h; sourceTree = "<group>"; };
-		683D4FCA18F9E89B0035B9BB /* cube.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = cube.frag; sourceTree = "<group>"; };
-		683D4FCB18F9E89B0035B9BB /* cube.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = cube.vert; sourceTree = "<group>"; };
-		683D4FCC18F9E89B0035B9BB /* distance-field-2.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = "distance-field-2.frag"; sourceTree = "<group>"; };
-		683D4FCD18F9E89B0035B9BB /* distance-field-2.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = "distance-field-2.vert"; sourceTree = "<group>"; };
-		683D4FCE18F9E89B0035B9BB /* distance-field-3.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = "distance-field-3.frag"; sourceTree = "<group>"; };
-		683D4FCF18F9E89B0035B9BB /* distance-field.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = "distance-field.frag"; sourceTree = "<group>"; };
-		683D4FD018F9E89B0035B9BB /* distance-field.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = "distance-field.vert"; sourceTree = "<group>"; };
-		683D4FD118F9E89B0035B9BB /* text.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = text.frag; sourceTree = "<group>"; };
-		683D4FD218F9E89B0035B9BB /* text.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = text.vert; sourceTree = "<group>"; };
-		683D4FD318F9E89B0035B9BB /* v3f-c4f.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = "v3f-c4f.frag"; sourceTree = "<group>"; };
-		683D4FD418F9E89B0035B9BB /* v3f-c4f.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = "v3f-c4f.vert"; sourceTree = "<group>"; };
-		683D4FD518F9E89B0035B9BB /* v3f-t2f-c4f.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = "v3f-t2f-c4f.frag"; sourceTree = "<group>"; };
-		683D4FD618F9E89B0035B9BB /* v3f-t2f-c4f.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = "v3f-t2f-c4f.vert"; sourceTree = "<group>"; };
-		683D4FD718F9E89B0035B9BB /* text-buffer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "text-buffer.h"; sourceTree = "<group>"; };
-		683D4FD818F9E89B0035B9BB /* texture-atlas.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "texture-atlas.h"; sourceTree = "<group>"; };
-		683D4FD918F9E89B0035B9BB /* texture-font.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "texture-font.h"; sourceTree = "<group>"; };
-		683D4FDA18F9E89B0035B9BB /* vec234.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = vec234.h; sourceTree = "<group>"; };
-		683D4FDB18F9E89B0035B9BB /* vector.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = vector.h; sourceTree = "<group>"; };
-		683D4FDC18F9E89B0035B9BB /* vertex-attribute.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "vertex-attribute.h"; sourceTree = "<group>"; };
-		683D4FDD18F9E89B0035B9BB /* vertex-buffer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "vertex-buffer.h"; sourceTree = "<group>"; };
 		683D4FE018F9E89B0035B9BB /* blacklist */ = {isa = PBXFileReference; lastKnownFileType = text; path = blacklist; sourceTree = "<group>"; };
 		683D4FE318F9E89B0035B9BB /* GL_APPLE_float_pixels */ = {isa = PBXFileReference; lastKnownFileType = text; path = GL_APPLE_float_pixels; sourceTree = "<group>"; };
 		683D4FE418F9E89B0035B9BB /* GL_APPLE_pixel_buffer */ = {isa = PBXFileReference; lastKnownFileType = text; path = GL_APPLE_pixel_buffer; sourceTree = "<group>"; };
@@ -1326,80 +1289,11 @@
 			isa = PBXGroup;
 			children = (
 				68E0A51F18FB09C3003F0702 /* OpenGL */,
-				683D4FB518F9E89B0035B9BB /* freetype-gl */,
 				683D4FDE18F9E89B0035B9BB /* glew-1.10.0 */,
 				683D533B18F9E89E0035B9BB /* GLFW */,
 				683D533E18F9E89E0035B9BB /* gtest */,
 			);
 			path = ext;
-			sourceTree = "<group>";
-		};
-		683D4FB518F9E89B0035B9BB /* freetype-gl */ = {
-			isa = PBXGroup;
-			children = (
-				683D4FB618F9E89B0035B9BB /* arial-16.h */,
-				683D4FB718F9E89B0035B9BB /* data */,
-				683D4FB918F9E89B0035B9BB /* edtaa3func.h */,
-				683D4FBA18F9E89B0035B9BB /* font-manager.h */,
-				683D4FBB18F9E89B0035B9BB /* fonts */,
-				683D4FC318F9E89B0035B9BB /* freetype-gl.h */,
-				683D4FC418F9E89B0035B9BB /* markup.h */,
-				683D4FC518F9E89B0035B9BB /* mat4.h */,
-				683D4FC618F9E89B0035B9BB /* opengl.h */,
-				683D4FC718F9E89B0035B9BB /* platform.h */,
-				683D4FC818F9E89B0035B9BB /* shader.h */,
-				683D4FC918F9E89B0035B9BB /* shaders */,
-				683D4FD718F9E89B0035B9BB /* text-buffer.h */,
-				683D4FD818F9E89B0035B9BB /* texture-atlas.h */,
-				683D4FD918F9E89B0035B9BB /* texture-font.h */,
-				683D4FDA18F9E89B0035B9BB /* vec234.h */,
-				683D4FDB18F9E89B0035B9BB /* vector.h */,
-				683D4FDC18F9E89B0035B9BB /* vertex-attribute.h */,
-				683D4FDD18F9E89B0035B9BB /* vertex-buffer.h */,
-			);
-			path = "freetype-gl";
-			sourceTree = "<group>";
-		};
-		683D4FB718F9E89B0035B9BB /* data */ = {
-			isa = PBXGroup;
-			children = (
-				683D4FB818F9E89B0035B9BB /* 256colors.txt */,
-			);
-			path = data;
-			sourceTree = "<group>";
-		};
-		683D4FBB18F9E89B0035B9BB /* fonts */ = {
-			isa = PBXGroup;
-			children = (
-				683D4FBC18F9E89B0035B9BB /* ObelixPro.ttf */,
-				683D4FBD18F9E89B0035B9BB /* VERA-COPYRIGHT */,
-				683D4FBE18F9E89B0035B9BB /* Vera.ttf */,
-				683D4FBF18F9E89B0035B9BB /* VeraMoBd.ttf */,
-				683D4FC018F9E89B0035B9BB /* VeraMoBI.ttf */,
-				683D4FC118F9E89B0035B9BB /* VeraMoIt.ttf */,
-				683D4FC218F9E89B0035B9BB /* VeraMono.ttf */,
-			);
-			path = fonts;
-			sourceTree = "<group>";
-		};
-		683D4FC918F9E89B0035B9BB /* shaders */ = {
-			isa = PBXGroup;
-			children = (
-				683D4FCA18F9E89B0035B9BB /* cube.frag */,
-				683D4FCB18F9E89B0035B9BB /* cube.vert */,
-				683D4FCC18F9E89B0035B9BB /* distance-field-2.frag */,
-				683D4FCD18F9E89B0035B9BB /* distance-field-2.vert */,
-				683D4FCE18F9E89B0035B9BB /* distance-field-3.frag */,
-				683D4FCF18F9E89B0035B9BB /* distance-field.frag */,
-				683D4FD018F9E89B0035B9BB /* distance-field.vert */,
-				683D4FD118F9E89B0035B9BB /* text.frag */,
-				683D4FD218F9E89B0035B9BB /* text.vert */,
-				683D4FD318F9E89B0035B9BB /* v3f-c4f.frag */,
-				683D4FD418F9E89B0035B9BB /* v3f-c4f.vert */,
-				683D4FD518F9E89B0035B9BB /* v3f-t2f-c4f.frag */,
-				683D4FD618F9E89B0035B9BB /* v3f-t2f-c4f.vert */,
-			);
-			path = shaders;
 			sourceTree = "<group>";
 		};
 		683D4FDE18F9E89B0035B9BB /* glew-1.10.0 */ = {
