@@ -22,10 +22,10 @@ namespace Rigid3D {
         BatchInfo() : startIndex(0), numIndices(0) { }
     };
 
-    class Scene {
     typedef const char * meshName;
     typedef const char * objFile;
 
+    class Scene {
     public:
         Scene(std::initializer_list<std::pair<meshName, objFile> > list);
         ~Scene();
