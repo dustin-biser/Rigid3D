@@ -1,11 +1,10 @@
 /**
- * @brief CameraExample.hpp
+ * @brief Rigid3D Demo
  *
  * @author Dustin Biser
  */
 
-#ifndef CAMERAEXAMPLE_HPP_
-#define CAMERAEXAMPLE_HPP_
+#pragma once
 
 #include "Utils/GlfwOpenGlWindow.hpp"
 
@@ -18,15 +17,15 @@ using std::shared_ptr;
 
 using namespace Rigid3D;
 
-class CameraExample : public GlfwOpenGlWindow {
+class Rigid3D_Demo : public GlfwOpenGlWindow {
 
 public:
-    ~CameraExample() { }
+    ~Rigid3D_Demo() { }
 
     static std::shared_ptr<GlfwOpenGlWindow> getInstance();
 
 private:
-    CameraExample(); // Singleton. Prevent direct construction.
+    Rigid3D_Demo(); // Singleton. Prevent direct construction.
 
     // Mesh and Batch Containers
     MeshConsolidator meshConsolidator;
@@ -63,5 +62,3 @@ private:
     void setupRenderables();
     void setupGLBuffers();
 };
-
-#endif /* CAMERAEXAMPLE_HPP_ */

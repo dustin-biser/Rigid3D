@@ -17,6 +17,8 @@ using std::string;
 
     void checkGLErrors(const string & currentFileName, int currentLineNumber);
 
+    #define CHECK_GL_ERRORS checkGLErrors(__FILE__, __LINE__)
+
 }
 
 

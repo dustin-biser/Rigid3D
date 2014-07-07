@@ -4,15 +4,20 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>CameraExample.xcscheme</key>
+		<key>DrawElementsBaseVertex_Example.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>2</integer>
+			<integer>4</integer>
 		</dict>
 		<key>Rigid3D.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>0</integer>
+		</dict>
+		<key>Rigid3D_Demo.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>2</integer>
 		</dict>
 		<key>TexturedCube.xcscheme</key>
 		<dict>
@@ -33,6 +38,16 @@
 			<true/>
 		</dict>
 		<key>683D53BD18F9EAB00035B9BB</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>683DA171196A4969001F2112</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>683DA185196A4AA4001F2112</key>
 		<dict>
 			<key>primary</key>
 			<true/>

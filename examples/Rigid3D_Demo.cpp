@@ -1,19 +1,19 @@
-#include "CameraExample.hpp"
+#include "Rigid3D_Demo.hpp"
 
 #include <glm/gtx/transform.hpp>
 using glm::translate;
 using glm::scale;
 
 int main() {
-    shared_ptr<GlfwOpenGlWindow> meshDemo = CameraExample::getInstance();
-    meshDemo->create(800, 600, "Rendering Multiple Objects");
+    shared_ptr<GlfwOpenGlWindow> demo = Rigid3D_Demo::getInstance();
+    demo->create(800, 600, "Rigid3D Demo");
 
     return 0;
 }
 
 //---------------------------------------------------------------------------------------
-shared_ptr<GlfwOpenGlWindow> CameraExample::getInstance() {
-    static GlfwOpenGlWindow * instance = new CameraExample();
+shared_ptr<GlfwOpenGlWindow> Rigid3D_Demo::getInstance() {
+    static GlfwOpenGlWindow * instance = new Rigid3D_Demo();
     if (p_instance == nullptr) {
         p_instance = shared_ptr<GlfwOpenGlWindow>(instance);
     }
@@ -22,7 +22,7 @@ shared_ptr<GlfwOpenGlWindow> CameraExample::getInstance() {
 }
 
 //---------------------------------------------------------------------------------------
-CameraExample::CameraExample()
+Rigid3D_Demo::Rigid3D_Demo()
         : vao(0), vbo_vertices(0), vbo_normals(0) {
 }
 
@@ -31,7 +31,7 @@ CameraExample::CameraExample()
  * Called after the window and OpenGL are initialized. Called exactly once,
  * before the main loop.
  */
-void CameraExample::init()
+void Rigid3D_Demo::init()
 {
     meshConsolidator =  {
             {"grid", "data/meshes/grid.obj"},
@@ -56,7 +56,7 @@ void CameraExample::init()
 }
 
 //---------------------------------------------------------------------------------------
-void CameraExample::setupShaders() {
+void Rigid3D_Demo::setupShaders() {
     shaderProgram.loadFromFile("data/shaders/Pos-Norm-Tex-Color.vert",
                                "data/shaders/PerFragLighting_withWorldLight.frag");
 
@@ -77,7 +77,7 @@ void CameraExample::setupShaders() {
 }
 
 //---------------------------------------------------------------------------------------
-void CameraExample::setupRenderables() {
+void Rigid3D_Demo::setupRenderables() {
     grid          = Renderable(&vao, &shaderProgram, &(batchInfoMap.at("grid")));
     bunny         = Renderable(&vao, &shaderProgram, &(batchInfoMap.at("bunny")));
     tyrannosaurus = Renderable(&vao, &shaderProgram, &(batchInfoMap.at("tyrannosaurus")));
@@ -127,7 +127,7 @@ void CameraExample::setupRenderables() {
 }
 
 //---------------------------------------------------------------------------------------
-void CameraExample::setupGLBuffers()
+void Rigid3D_Demo::setupGLBuffers()
 {
     glBindVertexArray(vao);
     // Copy position data to OpenGL buffer.
@@ -148,7 +148,7 @@ void CameraExample::setupGLBuffers()
 }
 
 //---------------------------------------------------------------------------------------
-void CameraExample::draw()
+void Rigid3D_Demo::draw()
 {
     grid.render(renderContext);
     bunny.render(renderContext);
@@ -158,7 +158,7 @@ void CameraExample::draw()
 }
 
 //---------------------------------------------------------------------------------------
-void CameraExample::logic() {
+void Rigid3D_Demo::logic() {
     renderContext.viewMatrix = camera.getViewMatrix();
     renderContext.projectionMatrix = camera.getProjectionMatrix();
 
@@ -169,7 +169,7 @@ void CameraExample::logic() {
 
 
 //---------------------------------------------------------------------------------------
-void CameraExample::cleanup() {
+void Rigid3D_Demo::cleanup() {
     glBindVertexArray(0);
     glDeleteBuffers(1, &vbo_normals);
     glDeleteBuffers(1, &vbo_vertices);
