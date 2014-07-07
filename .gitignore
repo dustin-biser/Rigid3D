@@ -18,3 +18,6 @@ ext/gtest/test1_example
 # Ignore mac specific items
 .DS_Store
 .idea/
+
+# Ignore XCode specific items
+Rigid3D.xcodeproj/project.xcworkspace/xcuserdata/*
