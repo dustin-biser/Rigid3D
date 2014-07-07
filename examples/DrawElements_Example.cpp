@@ -1,15 +1,15 @@
-#include "DrawElementsBaseVertex_Example.hpp"
+#include "DrawElements_Example.hpp"
 
 int main() {
-    shared_ptr<GlfwOpenGlWindow> demo = DrawElementsBaseVertex_Example::getInstance();
-    demo->create(800, 600, "DrawElementsBaseVertex Example");
+    shared_ptr<GlfwOpenGlWindow> demo = DrawElements_Example::getInstance();
+    demo->create(800, 600, "DrawElements Example");
 
     return 0;
 }
 
 //---------------------------------------------------------------------------------------
-shared_ptr<GlfwOpenGlWindow> DrawElementsBaseVertex_Example::getInstance() {
-    static GlfwOpenGlWindow * instance = new DrawElementsBaseVertex_Example();
+shared_ptr<GlfwOpenGlWindow> DrawElements_Example::getInstance() {
+    static GlfwOpenGlWindow * instance = new DrawElements_Example();
     if (p_instance == nullptr) {
         p_instance = shared_ptr<GlfwOpenGlWindow>(instance);
     }
@@ -18,25 +18,14 @@ shared_ptr<GlfwOpenGlWindow> DrawElementsBaseVertex_Example::getInstance() {
 }
 
 //---------------------------------------------------------------------------------------
-DrawElementsBaseVertex_Example::DrawElementsBaseVertex_Example()
+DrawElements_Example::DrawElements_Example()
     : vao(0), vbo(0) {
 }
 
 //---------------------------------------------------------------------------------------
-void DrawElementsBaseVertex_Example::init()
+void DrawElements_Example::init()
 {
-//    meshConsolidator =  {
-//        {"grid", "data/meshes/grid.obj"},
-//        {"bunny", "data/meshes/bunny_smooth.obj"},
-//        {"tyrannosaurus", "data/meshes/tyrannosaurus_smooth.obj"},
-//        {"sphere", "data/meshes/sphere_smooth.obj"},
-//        {"cube", "data/meshes/cube.obj"}
-//    };
-//
-//    meshConsolidator.getBatchInfo(batchInfoMap);
-
     glGenVertexArrays(1, &vao);
-
 
     setupShaders();
     setupGLBuffers();
@@ -45,20 +34,7 @@ void DrawElementsBaseVertex_Example::init()
 }
 
 //---------------------------------------------------------------------------------------
-void DrawElementsBaseVertex_Example::setupShaders() {
-//    shaderProgram.loadFromFile("data/shaders/Pos-Norm-Tex-Color.vert",
-//                               "data/shaders/PerFragLighting_withWorldLight.frag");
-//
-//    shaderProgram.setUniform("ambientIntensity", vec3(0.1f, 0.1f, 0.1f));
-//    shaderProgram.setUniform("lightSource.position", lightSource.position);
-//    shaderProgram.setUniform("lightSource.rgbIntensity", lightSource.rgbIntensity);
-//
-//    glBindVertexArray(vao);
-//
-//    GLint position_Location = shaderProgram.getAttribLocation("vertexPosition");
-//    glEnableVertexAttribArray(position_Location);
-//    GLint normal_Location = shaderProgram.getAttribLocation("vertexNormal");
-//    glEnableVertexAttribArray(normal_Location);
+void DrawElements_Example::setupShaders() {
 
     glBindVertexArray(0);
 
@@ -66,8 +42,15 @@ void DrawElementsBaseVertex_Example::setupShaders() {
 }
 
 //---------------------------------------------------------------------------------------
-void DrawElementsBaseVertex_Example::setupGLBuffers()
+void DrawElements_Example::setupGLBuffers()
 {
+    float32 vertices[] = { -1.0f, 0.0f, 0.0f,
+                           1.0f, 0.0f, 0.0f,
+                            0.0f, 1.0f, 0.0f };
+
+    // TODO Dustin - Use the above vertex data to create multiple triangles.
+
+
     glBindVertexArray(vao);
     // Copy position data to OpenGL buffer.
 //    glGenBuffers(1, &vbo_vertices);
@@ -87,17 +70,17 @@ void DrawElementsBaseVertex_Example::setupGLBuffers()
 }
 
 //---------------------------------------------------------------------------------------
-void DrawElementsBaseVertex_Example::draw()
+void DrawElements_Example::draw()
 {
 }
 
 //---------------------------------------------------------------------------------------
-void DrawElementsBaseVertex_Example::logic() {
+void DrawElements_Example::logic() {
 }
 
 
 //---------------------------------------------------------------------------------------
-void DrawElementsBaseVertex_Example::cleanup() {
+void DrawElements_Example::cleanup() {
     glBindVertexArray(0);
     glDeleteBuffers(1, &vbo);
     glDeleteVertexArrays(1, &vao);

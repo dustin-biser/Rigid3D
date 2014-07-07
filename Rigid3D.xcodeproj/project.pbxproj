@@ -26,7 +26,7 @@
 		683D53DF18F9ED8A0035B9BB /* Scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 683D539518F9E89E0035B9BB /* Scene.cpp */; };
 		683D53E018F9ED8A0035B9BB /* ShaderProgram.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 683D539818F9E89E0035B9BB /* ShaderProgram.cpp */; };
 		683D53E118F9ED8A0035B9BB /* Transform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 683D539B18F9E89E0035B9BB /* Transform.cpp */; };
-		683DA17B196A4981001F2112 /* DrawElementsBaseVertex_Example.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B03B105AAFAF14963174D704 /* DrawElementsBaseVertex_Example.cpp */; };
+		683DA17B196A4981001F2112 /* DrawElements_Example.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B03B105AAFAF14963174D704 /* DrawElements_Example.cpp */; };
 		683DA17C196A4994001F2112 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 683D53CF18F9EB4A0035B9BB /* CoreVideo.framework */; };
 		683DA17D196A499F001F2112 /* libglfw3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 68647ABE19312F120067C4DF /* libglfw3.a */; };
 		683DA17E196A49A3001F2112 /* libRigid3D.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 683D4F5F18F9E8490035B9BB /* libRigid3D.a */; };
@@ -45,8 +45,8 @@
 		689E54C718FA430700F1A724 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 683D53CF18F9EB4A0035B9BB /* CoreVideo.framework */; };
 		689E54CA18FA438A00F1A724 /* GlfwOpenGlWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 683D4FB218F9E89B0035B9BB /* GlfwOpenGlWindow.cpp */; };
 		B03B116295CBF02A18C5BF42 /* glfw_test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B03B1E241097DF3ECC135603 /* glfw_test.cpp */; };
-		B03B1F97FF033AE6075C75E1 /* DrawElementsBaseVertex_Example.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B03B105AAFAF14963174D704 /* DrawElementsBaseVertex_Example.cpp */; };
-		B03B1FD0BC450435611868EE /* DrawElementsBaseVertex_Example.hpp in Headers */ = {isa = PBXBuildFile; fileRef = B03B147582D380CDCDA77548 /* DrawElementsBaseVertex_Example.hpp */; };
+		B03B1F97FF033AE6075C75E1 /* DrawElements_Example.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B03B105AAFAF14963174D704 /* DrawElements_Example.cpp */; };
+		B03B1FD0BC450435611868EE /* DrawElements_Example.hpp in Headers */ = {isa = PBXBuildFile; fileRef = B03B147582D380CDCDA77548 /* DrawElements_Example.hpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1103,15 +1103,15 @@
 		683D53D118F9EB530035B9BB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		683DA172196A4969001F2112 /* DrawElementsBaseVertex_Example */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = DrawElementsBaseVertex_Example; sourceTree = BUILT_PRODUCTS_DIR; };
 		68647ABE19312F120067C4DF /* libglfw3.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libglfw3.a; sourceTree = "<group>"; };
-		689E54B918FA355200F1A724 /* CameraExample */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; name = CameraExample; path = "Rigid3D-Demo"; sourceTree = BUILT_PRODUCTS_DIR; };
+		689E54B918FA355200F1A724 /* CameraExample */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; name = CameraExample; path = Rigid3D_Demo; sourceTree = BUILT_PRODUCTS_DIR; };
 		68E0A52118FB09C3003F0702 /* glcorearb.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = glcorearb.h; sourceTree = "<group>"; };
-		B03B105AAFAF14963174D704 /* DrawElementsBaseVertex_Example.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DrawElementsBaseVertex_Example.cpp; sourceTree = "<group>"; };
+		B03B105AAFAF14963174D704 /* DrawElements_Example.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DrawElements_Example.cpp; sourceTree = "<group>"; };
 		B03B1089697D8B4417D8D168 /* LoadMeshObj_Example.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LoadMeshObj_Example.cpp; sourceTree = "<group>"; };
 		B03B10E30A48300C8B98A34E /* LoadMeshObj_Example.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = LoadMeshObj_Example.hpp; sourceTree = "<group>"; };
 		B03B12263402B4668DD1A502 /* DepthMapping.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = DepthMapping.hpp; sourceTree = "<group>"; };
 		B03B12CB4FBCF086993E6AF8 /* FlatSmoothShading_Example.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FlatSmoothShading_Example.hpp; sourceTree = "<group>"; };
 		B03B13B7FF42852CE87119E9 /* MultipleObjects.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MultipleObjects.cpp; sourceTree = "<group>"; };
-		B03B147582D380CDCDA77548 /* DrawElementsBaseVertex_Example.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = DrawElementsBaseVertex_Example.hpp; sourceTree = "<group>"; };
+		B03B147582D380CDCDA77548 /* DrawElements_Example.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = DrawElements_Example.hpp; sourceTree = "<group>"; };
 		B03B16A2B195A9762C07F701 /* TexturedCubeDemo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TexturedCubeDemo.cpp; sourceTree = "<group>"; };
 		B03B17867912C087C5C59CD0 /* GlfwOpenGlWindowExample.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GlfwOpenGlWindowExample.cpp; sourceTree = "<group>"; };
 		B03B17C09ECC9361B5723D2F /* MultipleObjects.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MultipleObjects.hpp; sourceTree = "<group>"; };
@@ -1296,8 +1296,8 @@
 				683D4F9C18F9E89B0035B9BB /* Rigid3D_Demo.cpp */,
 				683D4F9D18F9E89B0035B9BB /* Rigid3D_Demo.hpp */,
 				683D4FB118F9E89B0035B9BB /* Utils */,
-				B03B147582D380CDCDA77548 /* DrawElementsBaseVertex_Example.hpp */,
-				B03B105AAFAF14963174D704 /* DrawElementsBaseVertex_Example.cpp */,
+				B03B147582D380CDCDA77548 /* DrawElements_Example.hpp */,
+				B03B105AAFAF14963174D704 /* DrawElements_Example.cpp */,
 				B03B1C32533848B1723A49D5 /* Deprecated */,
 			);
 			path = examples;
@@ -2660,7 +2660,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B03B1FD0BC450435611868EE /* DrawElementsBaseVertex_Example.hpp in Headers */,
+				B03B1FD0BC450435611868EE /* DrawElements_Example.hpp in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2701,9 +2701,9 @@
 			productReference = 683D53BE18F9EAB00035B9BB /* glfw_test */;
 			productType = "com.apple.product-type.tool";
 		};
-		683DA171196A4969001F2112 /* DrawElementsBaseVertex_Example */ = {
+		683DA171196A4969001F2112 /* DrawElements_Example */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 683DA17A196A4969001F2112 /* Build configuration list for PBXNativeTarget "DrawElementsBaseVertex_Example" */;
+			buildConfigurationList = 683DA17A196A4969001F2112 /* Build configuration list for PBXNativeTarget "DrawElements_Example" */;
 			buildPhases = (
 				683DA16E196A4969001F2112 /* Sources */,
 				683DA16F196A4969001F2112 /* Frameworks */,
@@ -2714,7 +2714,7 @@
 			dependencies = (
 				683DA183196A49E0001F2112 /* PBXTargetDependency */,
 			);
-			name = DrawElementsBaseVertex_Example;
+			name = DrawElements_Example;
 			productName = DrawElementsBaseVertex_Example;
 			productReference = 683DA172196A4969001F2112 /* DrawElementsBaseVertex_Example */;
 			productType = "com.apple.product-type.tool";
@@ -2761,7 +2761,7 @@
 				683D4F5E18F9E8490035B9BB /* Rigid3D */,
 				683D53BD18F9EAB00035B9BB /* glfw_test */,
 				689E54B818FA355200F1A724 /* Rigid3D_Demo */,
-				683DA171196A4969001F2112 /* DrawElementsBaseVertex_Example */,
+				683DA171196A4969001F2112 /* DrawElements_Example */,
 			);
 		};
 /* End PBXProject section */
@@ -2786,7 +2786,7 @@
 				683D53DF18F9ED8A0035B9BB /* Scene.cpp in Sources */,
 				683D53E018F9ED8A0035B9BB /* ShaderProgram.cpp in Sources */,
 				683D53E118F9ED8A0035B9BB /* Transform.cpp in Sources */,
-				B03B1F97FF033AE6075C75E1 /* DrawElementsBaseVertex_Example.cpp in Sources */,
+				B03B1F97FF033AE6075C75E1 /* DrawElements_Example.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2803,7 +2803,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				683DA184196A49F9001F2112 /* GlfwOpenGlWindow.cpp in Sources */,
-				683DA17B196A4981001F2112 /* DrawElementsBaseVertex_Example.cpp in Sources */,
+				683DA17B196A4981001F2112 /* DrawElements_Example.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3069,7 +3069,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		683DA17A196A4969001F2112 /* Build configuration list for PBXNativeTarget "DrawElementsBaseVertex_Example" */ = {
+		683DA17A196A4969001F2112 /* Build configuration list for PBXNativeTarget "DrawElements_Example" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				683DA178196A4969001F2112 /* Debug */,

@@ -13,15 +13,15 @@ using namespace Rigid3D;
 #include <memory>
 using std::shared_ptr;
 
-class DrawElementsBaseVertex_Example : public GlfwOpenGlWindow {
+class DrawElements_Example : public GlfwOpenGlWindow {
 
 public:
-    ~DrawElementsBaseVertex_Example() { }
+    ~DrawElements_Example() { }
 
     static shared_ptr<GlfwOpenGlWindow> getInstance();
 
 private:
-    DrawElementsBaseVertex_Example(); // Singleton. Prevent direct construction.
+    DrawElements_Example(); // Singleton. Prevent direct construction.
 
     ShaderProgram shaderProgram;
 
