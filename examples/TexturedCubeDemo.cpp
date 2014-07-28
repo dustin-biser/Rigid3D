@@ -1,6 +1,7 @@
 #include "TexturedCubeDemo.hpp"
 
-#include "FreeImage.h"
+#include <LoadPNG/lodepng.h>
+using namespace lodepng;
 
 #include "glm/gtx/transform.hpp"
 using glm::translate;
@@ -38,7 +39,7 @@ shared_ptr<GlfwOpenGlWindow> TexturedCubeDemo::getInstance() {
 
 //---------------------------------------------------------------------------------------
 void TexturedCubeDemo::init() {
-    texturedCube.fromObjFile("../data/meshes/cube_uv_mapped.obj");
+    texturedCube.fromObjFile("data/meshes/cube_uv_mapped.obj");
 
     camera.lookAt(vec3(0.0f), vec3(0.0f, 0.0f, -5.0f), vec3(0.0f, 1.0f, 0.0f));
 
@@ -51,8 +52,8 @@ void TexturedCubeDemo::init() {
 
 //---------------------------------------------------------------------------------------
 void TexturedCubeDemo::setupShaders() {
-    shader.loadFromFile("../data/shaders/PositionNormalTexture.vert",
-                        "../data/shaders/ADS_Texture.frag");
+    shader.loadFromFile("data/shaders/PositionNormalTexture.vert",
+                        "data/shaders/ADS_Texture.frag");
 
     Rigid3D::checkGLErrors(__FILE__, __LINE__);
 }
@@ -118,56 +119,35 @@ void TexturedCubeDemo::setupVertexData() {
 
 //---------------------------------------------------------------------------------------
 void TexturedCubeDemo::setupTextureData() {
-    FIBITMAP * bitmap = FreeImage_Load(FIF_JPEG, "../data/textures/ash_uvgrid08.jpg", JPEG_ACCURATE);
-    if (!bitmap) {
-        throw Rigid3DException("Error opening texture file");
-    }
-    unsigned int imageWidth = FreeImage_GetWidth(bitmap);
-    unsigned int imageHeight = FreeImage_GetHeight(bitmap);
+    std::vector<unsigned char> png;
+    std::vector<unsigned char> imageData; //the raw pixels
+    unsigned width, height;
 
-    cout << "image width: " << imageWidth << endl;
-    cout << "image height: " << imageHeight << endl;
+    //load and decode
+    lodepng::load_file(png, "data/textures/uvgrid.png");
+    unsigned error = lodepng::decode(imageData, width, height, png);
 
-    void * imageData = FreeImage_GetBits(bitmap);
+    //if there's an error, display it
+    if(error) std::cout << "decoder error " << error << ": " << lodepng_error_text(error) << std::endl;
 
-    cout << "bytes per pixel: " << FreeImage_GetBPP(bitmap) << endl;
+    //the pixels are now in the vector "image", 4 bytes per pixel, ordered RGBARGBA..., use it as texture, draw it, ...
 
-    cout << "color type: ";
-    switch(FreeImage_GetColorType(bitmap)) {
-    case FIC_RGB:
-        cout << "FIC_RGB";
-        break;
-    case FIC_RGBALPHA:
-        cout << "FIC_RGBALPHA";
-        break;
-    default:
-        cout << "Other";
-        break;
-    }
-    cout << endl;
-
-    cout << "red mask: " << FreeImage_GetRedMask(bitmap) << endl;
-    cout << "green mask: " << FreeImage_GetGreenMask(bitmap) << endl;
-    cout << "blue mask: " << FreeImage_GetBlueMask(bitmap) << endl;
+    cout << "image width: " << width << endl;
+    cout << "image height: " << height << endl;
 
     // Pass the image data to OpenGL.
     glActiveTexture(GL_TEXTURE0);
     glGenTextures(1, &textureId);
     glBindTexture(GL_TEXTURE_2D, textureId);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, imageWidth, imageHeight,
-            0, GL_RGB, GL_UNSIGNED_BYTE, (GLvoid *)imageData);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height,
+            0, GL_RGBA, GL_UNSIGNED_BYTE, reinterpret_cast<GLvoid *>(imageData.data()));
 
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
     // Set fragment shader's sampler2D to use texture unit 0.
-    int location = shader.getUniformLocation("texture2d");
-    shader.enable();
-        glUniform1i(location, 0);
-    shader.disable();
+    shader.setUniform("texture2d", 0);
 
-    // Done with image, so delete it.
-    FreeImage_Unload(bitmap);
     Rigid3D::checkGLErrors(__FILE__, __LINE__);
 }
 
@@ -182,8 +162,8 @@ void TexturedCubeDemo::setupGl(){
     glEnable(GL_DEPTH_TEST);
     glDepthMask(GL_TRUE);
     glDepthFunc(GL_LEQUAL);
-    glDepthRange(0.0f, 1.0f);
     glEnable(GL_DEPTH_CLAMP);
+
 
     glClearDepth(1.0f);
     glClearColor(0.2, 0.2, 0.2, 1.0);

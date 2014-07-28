@@ -9,15 +9,20 @@
 			<key>orderHint</key>
 			<integer>2</integer>
 		</dict>
+		<key>LoadPNG.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>3</integer>
+		</dict>
 		<key>Rigid3D.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>0</integer>
 		</dict>
-		<key>TexturedCube.xcscheme</key>
+		<key>TexturedCubeDemo.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>3</integer>
+			<integer>4</integer>
 		</dict>
 		<key>glfw_test.xcscheme</key>
 		<dict>
@@ -27,12 +32,27 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>680A10FE1985F88100199C6A</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>683D4F5E18F9E8490035B9BB</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
 		<key>683D53BD18F9EAB00035B9BB</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>6861A61C1985F966003D6AF7</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>686956361986D38200F5DEF3</key>
 		<dict>
 			<key>primary</key>
 			<true/>

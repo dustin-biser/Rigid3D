@@ -27,9 +27,19 @@
 		683D53DF18F9ED8A0035B9BB /* Scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 683D539518F9E89E0035B9BB /* Scene.cpp */; };
 		683D53E018F9ED8A0035B9BB /* ShaderProgram.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 683D539818F9E89E0035B9BB /* ShaderProgram.cpp */; };
 		683D53E118F9ED8A0035B9BB /* Transform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 683D539B18F9E89E0035B9BB /* Transform.cpp */; };
+		6861A6211985F975003D6AF7 /* lodepng.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 680A11141985F8EB00199C6A /* lodepng.cpp */; };
 		68647ABF19312F120067C4DF /* libglfw3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 68647ABE19312F120067C4DF /* libglfw3.a */; };
 		68647AC019312F970067C4DF /* libglfw3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 68647ABE19312F120067C4DF /* libglfw3.a */; };
 		68647AC11931327C0067C4DF /* libglfw3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 68647ABE19312F120067C4DF /* libglfw3.a */; };
+		686956441986D39E00F5DEF3 /* TexturedCubeDemo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 683D4FAF18F9E89B0035B9BB /* TexturedCubeDemo.cpp */; };
+		686956451986D3BA00F5DEF3 /* GlfwOpenGlWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 683D4FB218F9E89B0035B9BB /* GlfwOpenGlWindow.cpp */; };
+		686956461986D3F700F5DEF3 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 683D53CF18F9EB4A0035B9BB /* CoreVideo.framework */; };
+		686956471986D40D00F5DEF3 /* libLoadPNG.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6861A61D1985F966003D6AF7 /* libLoadPNG.a */; };
+		686956481986D40F00F5DEF3 /* libRigid3D.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 683D4F5F18F9E8490035B9BB /* libRigid3D.a */; };
+		686956491986D41100F5DEF3 /* libglfw3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 68647ABE19312F120067C4DF /* libglfw3.a */; };
+		6869564A1986D59400F5DEF3 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 683D53CC18F9EB2C0035B9BB /* IOKit.framework */; };
+		6869564B1986D59D00F5DEF3 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 683D53C918F9EB050035B9BB /* OpenGL.framework */; };
+		6869564C1986D5A900F5DEF3 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 683D53D118F9EB530035B9BB /* Cocoa.framework */; };
 		689E54C218FA357700F1A724 /* CameraExample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 683D4F9C18F9E89B0035B9BB /* CameraExample.cpp */; };
 		689E54C318FA42E900F1A724 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 683D53CC18F9EB2C0035B9BB /* IOKit.framework */; };
 		689E54C418FA42EF00F1A724 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 683D53C918F9EB050035B9BB /* OpenGL.framework */; };
@@ -40,6 +50,27 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		6861A6221985F995003D6AF7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 683D4F5718F9E8490035B9BB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6861A61C1985F966003D6AF7;
+			remoteInfo = LoadPNG;
+		};
+		686956401986D38700F5DEF3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 683D4F5718F9E8490035B9BB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6861A61C1985F966003D6AF7;
+			remoteInfo = LoadPNG;
+		};
+		686956421986D38900F5DEF3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 683D4F5718F9E8490035B9BB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 683D4F5E18F9E8490035B9BB;
+			remoteInfo = Rigid3D;
+		};
 		689E54C818FA432200F1A724 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 683D4F5718F9E8490035B9BB /* Project object */;
@@ -51,6 +82,15 @@
 
 /* Begin PBXCopyFilesBuildPhase section */
 		683D53BC18F9EAB00035B9BB /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+		686956351986D38200F5DEF3 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = /usr/share/man/man1/;
@@ -71,6 +111,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		680A11141985F8EB00199C6A /* lodepng.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = lodepng.cpp; sourceTree = "<group>"; };
+		680A11151985F8EB00199C6A /* lodepng.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = lodepng.h; sourceTree = "<group>"; };
 		683D4F5F18F9E8490035B9BB /* libRigid3D.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRigid3D.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		683D4F6818F9E89B0035B9BB /* DroidSansMono.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = DroidSansMono.ttf; sourceTree = "<group>"; };
 		683D4F6A18F9E89B0035B9BB /* bunny_lowres.obj */ = {isa = PBXFileReference; lastKnownFileType = text; path = bunny_lowres.obj; sourceTree = "<group>"; };
@@ -1094,7 +1136,9 @@
 		683D53CC18F9EB2C0035B9BB /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		683D53CF18F9EB4A0035B9BB /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
 		683D53D118F9EB530035B9BB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		6861A61D1985F966003D6AF7 /* libLoadPNG.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libLoadPNG.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		68647ABE19312F120067C4DF /* libglfw3.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libglfw3.a; sourceTree = "<group>"; };
+		686956371986D38200F5DEF3 /* TexturedCubeDemo */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TexturedCubeDemo; sourceTree = BUILT_PRODUCTS_DIR; };
 		689E54B918FA355200F1A724 /* CameraExample */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = CameraExample; sourceTree = BUILT_PRODUCTS_DIR; };
 		68E0A52118FB09C3003F0702 /* glcorearb.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = glcorearb.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1120,6 +1164,27 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		6861A61A1985F966003D6AF7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		686956341986D38200F5DEF3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6869564C1986D5A900F5DEF3 /* Cocoa.framework in Frameworks */,
+				6869564B1986D59D00F5DEF3 /* OpenGL.framework in Frameworks */,
+				6869564A1986D59400F5DEF3 /* IOKit.framework in Frameworks */,
+				686956491986D41100F5DEF3 /* libglfw3.a in Frameworks */,
+				686956481986D40F00F5DEF3 /* libRigid3D.a in Frameworks */,
+				686956461986D3F700F5DEF3 /* CoreVideo.framework in Frameworks */,
+				686956471986D40D00F5DEF3 /* libLoadPNG.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		689E54B618FA355200F1A724 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -1136,6 +1201,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		680A11131985F8EB00199C6A /* LoadPNG */ = {
+			isa = PBXGroup;
+			children = (
+				680A11141985F8EB00199C6A /* lodepng.cpp */,
+				680A11151985F8EB00199C6A /* lodepng.h */,
+			);
+			path = LoadPNG;
+			sourceTree = "<group>";
+		};
 		683D4F5618F9E8490035B9BB = {
 			isa = PBXGroup;
 			children = (
@@ -1156,6 +1230,8 @@
 				683D4F5F18F9E8490035B9BB /* libRigid3D.a */,
 				683D53BE18F9EAB00035B9BB /* glfw_test */,
 				689E54B918FA355200F1A724 /* CameraExample */,
+				6861A61D1985F966003D6AF7 /* libLoadPNG.a */,
+				686956371986D38200F5DEF3 /* TexturedCubeDemo */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1288,6 +1364,7 @@
 		683D4FB418F9E89B0035B9BB /* ext */ = {
 			isa = PBXGroup;
 			children = (
+				680A11131985F8EB00199C6A /* LoadPNG */,
 				68E0A51F18FB09C3003F0702 /* OpenGL */,
 				683D4FDE18F9E89B0035B9BB /* glew-1.10.0 */,
 				683D533B18F9E89E0035B9BB /* GLFW */,
@@ -2610,6 +2687,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		6861A61B1985F966003D6AF7 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
@@ -2624,6 +2708,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				6861A6231985F995003D6AF7 /* PBXTargetDependency */,
 			);
 			name = Rigid3D;
 			productName = Rigid3D;
@@ -2645,6 +2730,42 @@
 			name = glfw_test;
 			productName = glfw_test;
 			productReference = 683D53BE18F9EAB00035B9BB /* glfw_test */;
+			productType = "com.apple.product-type.tool";
+		};
+		6861A61C1985F966003D6AF7 /* LoadPNG */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6861A6201985F966003D6AF7 /* Build configuration list for PBXNativeTarget "LoadPNG" */;
+			buildPhases = (
+				6861A6191985F966003D6AF7 /* Sources */,
+				6861A61A1985F966003D6AF7 /* Frameworks */,
+				6861A61B1985F966003D6AF7 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = LoadPNG;
+			productName = LoadPNG;
+			productReference = 6861A61D1985F966003D6AF7 /* libLoadPNG.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		686956361986D38200F5DEF3 /* TexturedCubeDemo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6869563D1986D38200F5DEF3 /* Build configuration list for PBXNativeTarget "TexturedCubeDemo" */;
+			buildPhases = (
+				686956331986D38200F5DEF3 /* Sources */,
+				686956341986D38200F5DEF3 /* Frameworks */,
+				686956351986D38200F5DEF3 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				686956411986D38700F5DEF3 /* PBXTargetDependency */,
+				686956431986D38900F5DEF3 /* PBXTargetDependency */,
+			);
+			name = TexturedCubeDemo;
+			productName = TexturedCubeDemo;
+			productReference = 686956371986D38200F5DEF3 /* TexturedCubeDemo */;
 			productType = "com.apple.product-type.tool";
 		};
 		689E54B818FA355200F1A724 /* CameraExample */ = {
@@ -2686,9 +2807,11 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
+				6861A61C1985F966003D6AF7 /* LoadPNG */,
 				683D4F5E18F9E8490035B9BB /* Rigid3D */,
 				683D53BD18F9EAB00035B9BB /* glfw_test */,
 				689E54B818FA355200F1A724 /* CameraExample */,
+				686956361986D38200F5DEF3 /* TexturedCubeDemo */,
 			);
 		};
 /* End PBXProject section */
@@ -2724,6 +2847,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		6861A6191985F966003D6AF7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6861A6211985F975003D6AF7 /* lodepng.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		686956331986D38200F5DEF3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				686956451986D3BA00F5DEF3 /* GlfwOpenGlWindow.cpp in Sources */,
+				686956441986D39E00F5DEF3 /* TexturedCubeDemo.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		689E54B518FA355200F1A724 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2736,6 +2876,21 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		6861A6231985F995003D6AF7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6861A61C1985F966003D6AF7 /* LoadPNG */;
+			targetProxy = 6861A6221985F995003D6AF7 /* PBXContainerItemProxy */;
+		};
+		686956411986D38700F5DEF3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6861A61C1985F966003D6AF7 /* LoadPNG */;
+			targetProxy = 686956401986D38700F5DEF3 /* PBXContainerItemProxy */;
+		};
+		686956431986D38900F5DEF3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 683D4F5E18F9E8490035B9BB /* Rigid3D */;
+			targetProxy = 686956421986D38900F5DEF3 /* PBXContainerItemProxy */;
+		};
 		689E54C918FA432200F1A724 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 683D4F5E18F9E8490035B9BB /* Rigid3D */;
@@ -2891,6 +3046,58 @@
 			};
 			name = Release;
 		};
+		6861A61E1985F966003D6AF7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				EXECUTABLE_PREFIX = lib;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		6861A61F1985F966003D6AF7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				EXECUTABLE_PREFIX = lib;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		6869563E1986D38200F5DEF3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/lib",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		6869563F1986D38200F5DEF3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/lib",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		689E54C018FA355200F1A724 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2951,6 +3158,23 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		6861A6201985F966003D6AF7 /* Build configuration list for PBXNativeTarget "LoadPNG" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6861A61E1985F966003D6AF7 /* Debug */,
+				6861A61F1985F966003D6AF7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6869563D1986D38200F5DEF3 /* Build configuration list for PBXNativeTarget "TexturedCubeDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6869563E1986D38200F5DEF3 /* Debug */,
+				6869563F1986D38200F5DEF3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 		689E54BF18FA355200F1A724 /* Build configuration list for PBXNativeTarget "CameraExample" */ = {
 			isa = XCConfigurationList;
