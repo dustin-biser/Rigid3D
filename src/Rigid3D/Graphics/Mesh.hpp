@@ -17,6 +17,8 @@ using std::string;
 
         Mesh();
 
+        Mesh & operator = (Mesh && other);
+
         const float * getVertexPositionDataPtr() const;
         const vector<vec3> * getVertexPositionVector() const;
 

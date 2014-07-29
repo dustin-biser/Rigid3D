@@ -3,16 +3,9 @@
 #include <Rigid3D/Common/Rigid3DException.hpp>
 #include <Rigid3D/Graphics/ObjFileLoader.hpp>
 
-#include <fstream>
-#include <sstream>
-#include <iostream>
+#include <utility>
 
 namespace Rigid3D {
-
-using std::ifstream;
-using std::istringstream;
-using std::stringstream;
-using std::endl;
 
 //----------------------------------------------------------------------------------------
 /**
@@ -30,6 +23,18 @@ Mesh::Mesh(const char * objFileName) {
 //----------------------------------------------------------------------------------------
 Mesh::Mesh() {
     // Empty, like my ice cold heart.
+}
+
+//----------------------------------------------------------------------------------------
+/**
+* Move assignment operator.
+*/
+Mesh & Mesh::operator = (Mesh && other) {
+    this->vertexPositions = std::move(other.vertexPositions);
+    this->vertexNormals = std::move(other.vertexNormals);
+    this->textureCoords = std::move(other.textureCoords);
+
+    return *this;
 }
 
 //----------------------------------------------------------------------------------------
