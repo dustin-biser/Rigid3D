@@ -12,24 +12,10 @@ using std::vector;
 using std::string;
 
     class Mesh {
-    protected:
-        vector<vec3> vertexPositions;
-        static const short num_elements_per_vertex_position = 3;
-
-        vector<vec3>  vertexNormals;
-        static const short num_elements_per_vertex_normal = 3;
-
-        vector<vec2> textureCoords;
-        static const short num_elements_per_texturedCoord = 2;
-
     public:
         Mesh(const char * objFileName);
 
         Mesh();
-
-        virtual ~Mesh();
-
-        void fromObjFile(const char * objFileName);
 
         const float * getVertexPositionDataPtr() const;
         const vector<vec3> * getVertexPositionVector() const;
@@ -53,7 +39,14 @@ using std::string;
         unsigned int getNumElementsPerTextureCoord() const;
 
     private:
-        void loadFromObjFile(const char * objFileName);
+        vector<vec3> vertexPositions;
+        static const short num_elements_per_vertex_position = 3;
+
+        vector<vec3>  vertexNormals;
+        static const short num_elements_per_vertex_normal = 3;
+
+        vector<vec2> textureCoords;
+        static const short num_elements_per_texturedCoord = 2;
     };
 }
 

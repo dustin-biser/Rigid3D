@@ -232,7 +232,7 @@ void CameraController::updateLookAt() {
     if (flagRotation == false) { return; }
     if (xPos_prev == 0 || yPos_prev == 0) { return; }
 
-    static const float angleDelta = (PI * 0.5f) * 0.0005f;
+    static const float angleDelta = (PI * 0.5f) * 0.0009f;
     static const float radius = 10.0f;
     static float polarAngle = PI * 0.5f;
     static float azimuthAngle = 0.0f;

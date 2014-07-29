@@ -39,7 +39,7 @@ shared_ptr<GlfwOpenGlWindow> TexturedCubeDemo::getInstance() {
 
 //---------------------------------------------------------------------------------------
 void TexturedCubeDemo::init() {
-    texturedCube.fromObjFile("data/meshes/cube_uv_mapped.obj");
+    texturedCube = Mesh("data/meshes/cube_uv_mapped.obj");
 
     camera.lookAt(vec3(0.0f), vec3(0.0f, 0.0f, -5.0f), vec3(0.0f, 1.0f, 0.0f));
 
@@ -129,11 +129,7 @@ void TexturedCubeDemo::setupTextureData() {
 
     //if there's an error, display it
     if(error) std::cout << "decoder error " << error << ": " << lodepng_error_text(error) << std::endl;
-
     //the pixels are now in the vector "image", 4 bytes per pixel, ordered RGBARGBA..., use it as texture, draw it, ...
-
-    cout << "image width: " << width << endl;
-    cout << "image height: " << height << endl;
 
     // Pass the image data to OpenGL.
     glActiveTexture(GL_TEXTURE0);

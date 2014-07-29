@@ -1,6 +1,7 @@
 #include "Mesh.hpp"
 
 #include <Rigid3D/Common/Rigid3DException.hpp>
+#include <Rigid3D/Graphics/ObjFileLoader.hpp>
 
 #include <fstream>
 #include <sstream>
@@ -20,137 +21,15 @@ using std::endl;
  * @param objFileName - path to .obj file
  */
 Mesh::Mesh(const char * objFileName) {
-    loadFromObjFile(objFileName);
+    ObjFileLoader::decode(objFileName,
+                          this->vertexPositions,
+                          this->vertexNormals,
+                          this->textureCoords);
 }
 
 //----------------------------------------------------------------------------------------
 Mesh::Mesh() {
-
-}
-
-//----------------------------------------------------------------------------------------
-Mesh::~Mesh() {
-
-}
-
-//----------------------------------------------------------------------------------------
-void Mesh::loadFromObjFile(const char * objFileName){
-    // Reset datastructures before loading them with data.  Useful if new .obj
-    // file contains a mesh with less vertex/normal data than previously parsed file.
-    vertexPositions.resize(0);
-    vertexNormals.resize(0);
-    textureCoords.resize(0);
-    
-    ifstream in(objFileName, std::ios::in);
-    in.exceptions(std::ifstream::badbit);
-    
-    if (!in) {
-        stringstream errorMessage;
-        errorMessage << "Unable to open .obj file: " << objFileName
-        << " within method Mesh::loadFromObjFile." << endl;
-        throw Rigid3DException(errorMessage.str().c_str());
-    }
-    
-    string line;
-    int vertexIndexA, vertexIndexB, vertexIndexC;
-    int normalIndexA, normalIndexB, normalIndexC;
-    int textureCoordIndexA, textureCoordIndexB, textureCoordIndexC;
-    vector<vec3> tmp_vertices;
-    vector<vec3> tmp_normals;
-    vector<vec2> tmp_textureCoords;
-    
-    while (!in.eof()) {
-        try {
-            getline(in, line);
-        } catch(const ifstream::failure & e) {
-            in.close();
-            stringstream errorMessage;
-            errorMessage << "Error calling getline() -- " << e.what() << endl;
-            throw Rigid3DException(errorMessage.str());
-        }
-        
-        if (line.substr(0,2) == "v ") {
-            // Vertex data on this line.
-            // Get entire line excluding first 2 chars.
-            istringstream s(line.substr(2));
-            glm::vec3 vertex; s >> vertex.x; s >> vertex.y; s >> vertex.z;
-            tmp_vertices.push_back(vertex);
-            
-        } else if (line.substr(0,3) == "vn ") {
-            // Normal data on this line.
-            // Get entire line excluding first 2 chars.
-            istringstream s(line.substr(2));
-            vec3 normal; s >> normal.x; s >> normal.y; s >> normal.z;
-            tmp_normals.push_back(normal);
-            
-        } else if (line.substr(0,3) == "vt ") {
-            // Texture coordinate data on this line.
-            // Get entire line excluding first 2 chars.
-            istringstream s(line.substr(2));
-            vec2 textureCoord; s >> textureCoord.s; s >> textureCoord.t;
-            tmp_textureCoords.push_back(textureCoord);
-            
-        } else if (line.substr(0, 2) == "f ") {
-            // Face index data on this line.
-            
-            int index;
-            
-            // sscanf will return the number of matched index values it found
-            // from the pattern.
-            int numberOfIndexMatches = sscanf(line.c_str(), "f %d/%d/%d",
-                                              &index, &index, &index);
-            
-            if (numberOfIndexMatches == 3) {
-                // Line contains vertex, texture, and normal indices.
-                sscanf(line.c_str(), "f %d/%d/%d %d/%d/%d %d/%d/%d",
-                       &vertexIndexA, &textureCoordIndexA, &normalIndexA,
-                       &vertexIndexB, &textureCoordIndexB, &normalIndexB,
-                       &vertexIndexC, &textureCoordIndexC, &normalIndexC);
-                
-                // .obj file uses indices that start at 1, so subtract 1 so they start at 0.
-                textureCoordIndexA--;
-                textureCoordIndexB--;
-                textureCoordIndexC--;
-                
-                textureCoords.push_back(tmp_textureCoords[textureCoordIndexA]);
-                textureCoords.push_back(tmp_textureCoords[textureCoordIndexB]);
-                textureCoords.push_back(tmp_textureCoords[textureCoordIndexC]);
-                
-            } else {
-                // Line contains only vertex, and normal indices.
-                sscanf(line.c_str(), "f %d//%d %d//%d %d//%d", &vertexIndexA, &normalIndexA,
-                       &vertexIndexB, &normalIndexB,
-                       &vertexIndexC, &normalIndexC);
-            }
-            
-            vertexIndexA--;
-            vertexIndexB--;
-            vertexIndexC--;
-            normalIndexA--;
-            normalIndexB--;
-            normalIndexC--;
-            
-            vertexPositions.push_back(tmp_vertices[vertexIndexA]);
-            vertexPositions.push_back(tmp_vertices[vertexIndexB]);
-            vertexPositions.push_back(tmp_vertices[vertexIndexC]);
-            
-            vertexNormals.push_back(tmp_normals[normalIndexA]);
-            vertexNormals.push_back(tmp_normals[normalIndexB]);
-            vertexNormals.push_back(tmp_normals[normalIndexC]);
-        }
-    }
-    
-    in.close();
-}
-
-//----------------------------------------------------------------------------------------
-/**
- * Initialize this Mesh object using contents of the given Wavefront .obj file.
- *
- * @param objFileName - path to .obj file
- */
-void Mesh::fromObjFile(const char * objFileName) {
-    loadFromObjFile(objFileName);
+    // Empty, like my ice cold heart.
 }
 
 //----------------------------------------------------------------------------------------
