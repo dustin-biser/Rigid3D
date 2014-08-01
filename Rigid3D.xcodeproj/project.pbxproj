@@ -32,6 +32,15 @@
 		689E54C618FA42FA00F1A724 /* libRigid3D.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 683D4F5F18F9E8490035B9BB /* libRigid3D.a */; };
 		689E54C718FA430700F1A724 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 683D53CF18F9EB4A0035B9BB /* CoreVideo.framework */; };
 		689E54CA18FA438A00F1A724 /* GlfwOpenGlWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 683D4FB218F9E89B0035B9BB /* GlfwOpenGlWindow.cpp */; };
+		68BEBA321989D9D3009EB28E /* GlfwOpenGlWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 683D4FB218F9E89B0035B9BB /* GlfwOpenGlWindow.cpp */; };
+		68BEBA351989D9D3009EB28E /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 683D53D118F9EB530035B9BB /* Cocoa.framework */; };
+		68BEBA361989D9D3009EB28E /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 683D53C918F9EB050035B9BB /* OpenGL.framework */; };
+		68BEBA371989D9D3009EB28E /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 683D53CC18F9EB2C0035B9BB /* IOKit.framework */; };
+		68BEBA381989D9D3009EB28E /* libglfw3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 68647ABE19312F120067C4DF /* libglfw3.a */; };
+		68BEBA391989D9D3009EB28E /* libRigid3D.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 683D4F5F18F9E8490035B9BB /* libRigid3D.a */; };
+		68BEBA3A1989D9D3009EB28E /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 683D53CF18F9EB4A0035B9BB /* CoreVideo.framework */; };
+		68BEBA3B1989D9D3009EB28E /* libLoadPNG.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6861A61D1985F966003D6AF7 /* libLoadPNG.a */; };
+		68BEBA411989DA67009EB28E /* MultiTexturedCubesDemo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B03B16B57CC8CFE78412EF67 /* MultiTexturedCubesDemo.cpp */; };
 		B03B11DE852E22804FCB4E2B /* Geometry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B03B1A4C44F237F20967556C /* Geometry.cpp */; };
 		B03B11FFD77379631C2A2A0A /* OpenGlContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B03B16D3036A7960D65A00A4 /* OpenGlContext.cpp */; };
 		B03B13D8BF6BBF10B383ADA0 /* ObjFileLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B03B15D34C21CA29D9407C83 /* ObjFileLoader.cpp */; };
@@ -80,6 +89,20 @@
 			remoteGlobalIDString = 683D4F5E18F9E8490035B9BB;
 			remoteInfo = Rigid3D;
 		};
+		68BEBA2E1989D9D3009EB28E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 683D4F5718F9E8490035B9BB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6861A61C1985F966003D6AF7;
+			remoteInfo = LoadPNG;
+		};
+		68BEBA301989D9D3009EB28E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 683D4F5718F9E8490035B9BB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 683D4F5E18F9E8490035B9BB;
+			remoteInfo = Rigid3D;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -102,6 +125,15 @@
 			runOnlyForDeploymentPostprocessing = 1;
 		};
 		689E54B718FA355200F1A724 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+		68BEBA3C1989D9D3009EB28E /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = /usr/share/man/man1/;
@@ -1096,6 +1128,7 @@
 		68647ABE19312F120067C4DF /* libglfw3.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libglfw3.a; sourceTree = "<group>"; };
 		686956371986D38200F5DEF3 /* TexturedCubeDemo */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TexturedCubeDemo; sourceTree = BUILT_PRODUCTS_DIR; };
 		689E54B918FA355200F1A724 /* CameraExample */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = CameraExample; sourceTree = BUILT_PRODUCTS_DIR; };
+		68BEBA401989D9D3009EB28E /* TexturedCubeDemo copy */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "TexturedCubeDemo copy"; sourceTree = BUILT_PRODUCTS_DIR; };
 		68E0A52118FB09C3003F0702 /* glcorearb.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = glcorearb.h; sourceTree = "<group>"; };
 		B03B109AC7A24C870FBE103A /* Renderable.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Renderable.hpp; sourceTree = "<group>"; };
 		B03B109F4AD9E4C3DCF358E2 /* AABB.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AABB.cpp; sourceTree = "<group>"; };
@@ -1120,6 +1153,7 @@
 		B03B15D12E25DD9FBD24D82D /* GlfwException.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GlfwException.hpp; sourceTree = "<group>"; };
 		B03B15D22B8D30203DA061DE /* Transform.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Transform.hpp; sourceTree = "<group>"; };
 		B03B15D34C21CA29D9407C83 /* ObjFileLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ObjFileLoader.cpp; sourceTree = "<group>"; };
+		B03B16B57CC8CFE78412EF67 /* MultiTexturedCubesDemo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MultiTexturedCubesDemo.cpp; sourceTree = "<group>"; };
 		B03B16D3036A7960D65A00A4 /* OpenGlContext.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OpenGlContext.cpp; sourceTree = "<group>"; };
 		B03B1730C5649EEFD3F7B533 /* ModelTransform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ModelTransform.cpp; sourceTree = "<group>"; };
 		B03B173786E32AC56F3F110C /* Transform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Transform.cpp; sourceTree = "<group>"; };
@@ -1139,6 +1173,7 @@
 		B03B1B932F37EFBE978A3DAC /* Trigonometry.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Trigonometry.hpp; sourceTree = "<group>"; };
 		B03B1B9EB3F3BEAA2A315240 /* CameraController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CameraController.cpp; sourceTree = "<group>"; };
 		B03B1D13936EEBF337BE3C09 /* RayCastOutput.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RayCastOutput.hpp; sourceTree = "<group>"; };
+		B03B1D72FB0375C7812E5CA2 /* MultiTexturedCubesDemo.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MultiTexturedCubesDemo.hpp; sourceTree = "<group>"; };
 		B03B1E2E79A437D77DAB6C7F /* Camera.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Camera.hpp; sourceTree = "<group>"; };
 		B03B1E42C18347049F4B8112 /* ShaderProgram.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShaderProgram.cpp; sourceTree = "<group>"; };
 		B03B1E5F3E0BEBB442DE0759 /* Rigid3D.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Rigid3D.hpp; sourceTree = "<group>"; };
@@ -1202,6 +1237,20 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		68BEBA341989D9D3009EB28E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				68BEBA351989D9D3009EB28E /* Cocoa.framework in Frameworks */,
+				68BEBA361989D9D3009EB28E /* OpenGL.framework in Frameworks */,
+				68BEBA371989D9D3009EB28E /* IOKit.framework in Frameworks */,
+				68BEBA381989D9D3009EB28E /* libglfw3.a in Frameworks */,
+				68BEBA391989D9D3009EB28E /* libRigid3D.a in Frameworks */,
+				68BEBA3A1989D9D3009EB28E /* CoreVideo.framework in Frameworks */,
+				68BEBA3B1989D9D3009EB28E /* libLoadPNG.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -1236,6 +1285,7 @@
 				689E54B918FA355200F1A724 /* CameraExample */,
 				6861A61D1985F966003D6AF7 /* libLoadPNG.a */,
 				686956371986D38200F5DEF3 /* TexturedCubeDemo */,
+				68BEBA401989D9D3009EB28E /* TexturedCubeDemo copy */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1352,6 +1402,8 @@
 				683D4FAF18F9E89B0035B9BB /* TexturedCubeDemo.cpp */,
 				683D4FB018F9E89B0035B9BB /* TexturedCubeDemo.hpp */,
 				683D4FB118F9E89B0035B9BB /* Utils */,
+				B03B1D72FB0375C7812E5CA2 /* MultiTexturedCubesDemo.hpp */,
+				B03B16B57CC8CFE78412EF67 /* MultiTexturedCubesDemo.cpp */,
 			);
 			path = examples;
 			sourceTree = "<group>";
@@ -2793,6 +2845,25 @@
 			productReference = 689E54B918FA355200F1A724 /* CameraExample */;
 			productType = "com.apple.product-type.tool";
 		};
+		68BEBA2C1989D9D3009EB28E /* MultiTexturedCubesDemo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 68BEBA3D1989D9D3009EB28E /* Build configuration list for PBXNativeTarget "MultiTexturedCubesDemo" */;
+			buildPhases = (
+				68BEBA311989D9D3009EB28E /* Sources */,
+				68BEBA341989D9D3009EB28E /* Frameworks */,
+				68BEBA3C1989D9D3009EB28E /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				68BEBA2D1989D9D3009EB28E /* PBXTargetDependency */,
+				68BEBA2F1989D9D3009EB28E /* PBXTargetDependency */,
+			);
+			name = MultiTexturedCubesDemo;
+			productName = TexturedCubeDemo;
+			productReference = 68BEBA401989D9D3009EB28E /* TexturedCubeDemo copy */;
+			productType = "com.apple.product-type.tool";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -2819,6 +2890,7 @@
 				683D53BD18F9EAB00035B9BB /* glfw_test */,
 				689E54B818FA355200F1A724 /* CameraExample */,
 				686956361986D38200F5DEF3 /* TexturedCubeDemo */,
+				68BEBA2C1989D9D3009EB28E /* MultiTexturedCubesDemo */,
 			);
 		};
 /* End PBXProject section */
@@ -2881,6 +2953,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		68BEBA311989D9D3009EB28E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				68BEBA321989D9D3009EB28E /* GlfwOpenGlWindow.cpp in Sources */,
+				68BEBA411989DA67009EB28E /* MultiTexturedCubesDemo.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -2903,6 +2984,16 @@
 			isa = PBXTargetDependency;
 			target = 683D4F5E18F9E8490035B9BB /* Rigid3D */;
 			targetProxy = 689E54C818FA432200F1A724 /* PBXContainerItemProxy */;
+		};
+		68BEBA2D1989D9D3009EB28E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6861A61C1985F966003D6AF7 /* LoadPNG */;
+			targetProxy = 68BEBA2E1989D9D3009EB28E /* PBXContainerItemProxy */;
+		};
+		68BEBA2F1989D9D3009EB28E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 683D4F5E18F9E8490035B9BB /* Rigid3D */;
+			targetProxy = 68BEBA301989D9D3009EB28E /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -3155,6 +3246,43 @@
 			};
 			name = Release;
 		};
+		68BEBA3E1989D9D3009EB28E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CLANG_WARN_CXX0X_EXTENSIONS = YES;
+				GCC_C_LANGUAGE_STANDARD = c11;
+				GCC_ENABLE_CPP_RTTI = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/lib",
+				);
+				PRODUCT_NAME = "TexturedCubeDemo copy";
+			};
+			name = Debug;
+		};
+		68BEBA3F1989D9D3009EB28E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CLANG_WARN_CXX0X_EXTENSIONS = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = c11;
+				GCC_ENABLE_CPP_RTTI = NO;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/lib",
+				);
+				PRODUCT_NAME = "TexturedCubeDemo copy";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -3208,6 +3336,15 @@
 			buildConfigurations = (
 				689E54C018FA355200F1A724 /* Debug */,
 				689E54C118FA355200F1A724 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		68BEBA3D1989D9D3009EB28E /* Build configuration list for PBXNativeTarget "MultiTexturedCubesDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				68BEBA3E1989D9D3009EB28E /* Debug */,
+				68BEBA3F1989D9D3009EB28E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

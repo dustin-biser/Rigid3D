@@ -76,7 +76,7 @@ void checkGLErrors(const string &currentFileName, int currentLine) {
     throw Rigid3DException(errorMessage.str());
   }
 }
-  
+
 } // namespace Rigid3D
 
 

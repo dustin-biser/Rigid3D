@@ -11,11 +11,16 @@
 
 #include <string>
 
+
+#if(DEBUG)
+#define CHECK_GL_ERRORS Rigid3D::checkGLErrors(__FILE__, __LINE__);
+#else
+#define CHECK_GL_ERRORS
+#endif
+
 namespace Rigid3D {
 
-using std::string;
-
-    void checkGLErrors(const string & currentFileName, int currentLineNumber);
+    void checkGLErrors(const std::string & currentFileName, int currentLineNumber);
 
 }
 
