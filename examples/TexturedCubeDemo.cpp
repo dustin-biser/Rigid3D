@@ -93,26 +93,29 @@ void TexturedCubeDemo::setupVertexData() {
     glBindBuffer(GL_ARRAY_BUFFER, vbo_vertices);
     glBufferData(GL_ARRAY_BUFFER, texturedCube.getNumVertexPositionBytes(),
             texturedCube.getVertexPositionDataPtr(), GL_STATIC_DRAW);
-    glVertexAttribPointer(shader.getAttribLocation("vertexPosition"), 3, GL_FLOAT, GL_FALSE, 0, 0);
+    glVertexAttribPointer(shader.getAttribLocation("v_Position"), 3, GL_FLOAT,
+                          GL_FALSE, 0, 0);
 
     // Copy vertex normals to its respective GL buffer.
     glGenBuffers(1, &vbo_normals);
     glBindBuffer(GL_ARRAY_BUFFER, vbo_normals);
     glBufferData(GL_ARRAY_BUFFER, texturedCube.getNumVertexNormalBytes(),
             texturedCube.getVertexNormalDataPtr(), GL_STATIC_DRAW);
-    glVertexAttribPointer(shader.getAttribLocation("vertexNormal"), 3, GL_FLOAT, GL_FALSE, 0, 0);
+    glVertexAttribPointer(shader.getAttribLocation("v_Normal"), 3, GL_FLOAT, GL_FALSE,
+                          0, 0);
 
     // Copy texture coordinates to its respective GL buffer.
     glGenBuffers(1, &vbo_textureCoords);
     glBindBuffer(GL_ARRAY_BUFFER, vbo_textureCoords);
     glBufferData(GL_ARRAY_BUFFER, texturedCube.getNumTextureCoordBytes(),
             texturedCube.getTextureCoordDataPtr(), GL_STATIC_DRAW);
-    glVertexAttribPointer(shader.getAttribLocation("vertexTextureCoord"), 2, GL_FLOAT, GL_FALSE, 0, 0);
+    glVertexAttribPointer(shader.getAttribLocation("v_TextureCoord"), 2, GL_FLOAT,
+                          GL_FALSE, 0, 0);
 
     // Enable vertex attribute arrays.
-    glEnableVertexAttribArray(shader.getAttribLocation("vertexPosition"));
-    glEnableVertexAttribArray(shader.getAttribLocation("vertexNormal"));
-    glEnableVertexAttribArray(shader.getAttribLocation("vertexTextureCoord"));
+    glEnableVertexAttribArray(shader.getAttribLocation("v_Position"));
+    glEnableVertexAttribArray(shader.getAttribLocation("v_Normal"));
+    glEnableVertexAttribArray(shader.getAttribLocation("v_TextureCoord"));
 
     glBindVertexArray(0);
 }
