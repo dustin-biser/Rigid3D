@@ -24,6 +24,11 @@
 			<key>orderHint</key>
 			<integer>0</integer>
 		</dict>
+		<key>SkyBoxDemo.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>6</integer>
+		</dict>
 		<key>TexturedCubeDemo.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -38,6 +43,11 @@
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
 		<key>680A10FE1985F88100199C6A</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>682401B219969549009F5A29</key>
 		<dict>
 			<key>primary</key>
 			<true/>

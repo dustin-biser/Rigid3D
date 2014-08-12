@@ -7,6 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		682401B819969549009F5A29 /* GlfwOpenGlWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 683D4FB218F9E89B0035B9BB /* GlfwOpenGlWindow.cpp */; };
+		682401BB19969549009F5A29 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 683D53D118F9EB530035B9BB /* Cocoa.framework */; };
+		682401BC19969549009F5A29 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 683D53C918F9EB050035B9BB /* OpenGL.framework */; };
+		682401BD19969549009F5A29 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 683D53CC18F9EB2C0035B9BB /* IOKit.framework */; };
+		682401BE19969549009F5A29 /* libglfw3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 68647ABE19312F120067C4DF /* libglfw3.a */; };
+		682401BF19969549009F5A29 /* libRigid3D.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 683D4F5F18F9E8490035B9BB /* libRigid3D.a */; };
+		682401C019969549009F5A29 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 683D53CF18F9EB4A0035B9BB /* CoreVideo.framework */; };
+		682401C119969549009F5A29 /* libLoadPNG.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6861A61D1985F966003D6AF7 /* libLoadPNG.a */; };
+		682401C719969561009F5A29 /* SkyboxDemo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B03B1A4AC3D623C147B3708E /* SkyboxDemo.cpp */; };
 		683D53C818F9EAE90035B9BB /* glfw_test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 683D4FA318F9E89B0035B9BB /* glfw_test.cpp */; };
 		683D53CA18F9EB050035B9BB /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 683D53C918F9EB050035B9BB /* OpenGL.framework */; };
 		683D53CE18F9EB2C0035B9BB /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 683D53CC18F9EB2C0035B9BB /* IOKit.framework */; };
@@ -61,6 +70,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		682401B419969549009F5A29 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 683D4F5718F9E8490035B9BB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6861A61C1985F966003D6AF7;
+			remoteInfo = LoadPNG;
+		};
+		682401B619969549009F5A29 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 683D4F5718F9E8490035B9BB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 683D4F5E18F9E8490035B9BB;
+			remoteInfo = Rigid3D;
+		};
 		6861A6221985F995003D6AF7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 683D4F5718F9E8490035B9BB /* Project object */;
@@ -106,6 +129,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		682401C219969549009F5A29 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
 		683D53BC18F9EAB00035B9BB /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -147,6 +179,7 @@
 /* Begin PBXFileReference section */
 		680A11141985F8EB00199C6A /* lodepng.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = lodepng.cpp; sourceTree = "<group>"; };
 		680A11151985F8EB00199C6A /* lodepng.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = lodepng.h; sourceTree = "<group>"; };
+		682401C619969549009F5A29 /* TexturedCubeDemo copy */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "TexturedCubeDemo copy"; sourceTree = BUILT_PRODUCTS_DIR; };
 		683D4F5F18F9E8490035B9BB /* libRigid3D.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRigid3D.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		683D4F6818F9E89B0035B9BB /* DroidSansMono.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = DroidSansMono.ttf; sourceTree = "<group>"; };
 		683D4F6A18F9E89B0035B9BB /* bunny_lowres.obj */ = {isa = PBXFileReference; lastKnownFileType = text; path = bunny_lowres.obj; sourceTree = "<group>"; };
@@ -1130,17 +1163,26 @@
 		689E54B918FA355200F1A724 /* CameraExample */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = CameraExample; sourceTree = BUILT_PRODUCTS_DIR; };
 		68BEBA401989D9D3009EB28E /* TexturedCubeDemo copy */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "TexturedCubeDemo copy"; sourceTree = BUILT_PRODUCTS_DIR; };
 		68E0A52118FB09C3003F0702 /* glcorearb.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = glcorearb.h; sourceTree = "<group>"; };
+		68E3AC45199ABE270055357B /* TropicalSunnyDayBack512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TropicalSunnyDayBack512.png; sourceTree = "<group>"; };
+		68E3AC46199ABE270055357B /* TropicalSunnyDayDown512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TropicalSunnyDayDown512.png; sourceTree = "<group>"; };
+		68E3AC47199ABE270055357B /* TropicalSunnyDayFront512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TropicalSunnyDayFront512.png; sourceTree = "<group>"; };
+		68E3AC48199ABE270055357B /* TropicalSunnyDayLeft512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TropicalSunnyDayLeft512.png; sourceTree = "<group>"; };
+		68E3AC49199ABE270055357B /* TropicalSunnyDayRight512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TropicalSunnyDayRight512.png; sourceTree = "<group>"; };
+		68E3AC4A199ABE270055357B /* TropicalSunnyDayUp512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TropicalSunnyDayUp512.png; sourceTree = "<group>"; };
 		B03B109AC7A24C870FBE103A /* Renderable.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Renderable.hpp; sourceTree = "<group>"; };
 		B03B109F4AD9E4C3DCF358E2 /* AABB.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AABB.cpp; sourceTree = "<group>"; };
 		B03B10CA7D83AB8B1763A965 /* Frustum.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Frustum.hpp; sourceTree = "<group>"; };
 		B03B10E75A36D7DCE0CABF4E /* BoundingVolume.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BoundingVolume.hpp; sourceTree = "<group>"; };
 		B03B115263095C9943FE8176 /* Scene.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Scene.hpp; sourceTree = "<group>"; };
+		B03B117BD313D8D824A3009A /* SkyBox.fs */ = {isa = PBXFileReference; lastKnownFileType = file.fs; path = SkyBox.fs; sourceTree = "<group>"; };
 		B03B118AE12BE6A40DF5CD8F /* Settings.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Settings.hpp; sourceTree = "<group>"; };
 		B03B119407B8FE086D269FE3 /* BoundingVolumeFactory.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BoundingVolumeFactory.hpp; sourceTree = "<group>"; };
 		B03B11AB60ED69A4E437159D /* RenderableFrustum.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RenderableFrustum.hpp; sourceTree = "<group>"; };
+		B03B11B229C84C106E00619E /* SkyboxDemo.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SkyboxDemo.hpp; sourceTree = "<group>"; };
 		B03B11D94A56C177B683C4E3 /* AABB.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AABB.hpp; sourceTree = "<group>"; };
 		B03B1236C99F7DE5319A71C4 /* Shape.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Shape.hpp; sourceTree = "<group>"; };
 		B03B12956F7C4DDB9139D5EE /* ShaderProgram.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ShaderProgram.hpp; sourceTree = "<group>"; };
+		B03B13360498C619007E6209 /* SkyBox.vs */ = {isa = PBXFileReference; lastKnownFileType = file.vs; path = SkyBox.vs; sourceTree = "<group>"; };
 		B03B133ADB0AB0F8C4A58780 /* Renderable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Renderable.cpp; sourceTree = "<group>"; };
 		B03B138BF1BE6C23F0D9464A /* ObjFileLoader.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ObjFileLoader.hpp; sourceTree = "<group>"; };
 		B03B138C8C643B265E1DF720 /* uvgrid.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = uvgrid.png; sourceTree = "<group>"; };
@@ -1163,6 +1205,7 @@
 		B03B18C5C671FAA81E599FFE /* PolyhedronShape.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PolyhedronShape.hpp; sourceTree = "<group>"; };
 		B03B18EE466AAE09D02A1CA0 /* AABBFactory.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AABBFactory.hpp; sourceTree = "<group>"; };
 		B03B19B74555CF9115A0F619 /* OpenGlContext.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = OpenGlContext.hpp; sourceTree = "<group>"; };
+		B03B1A4AC3D623C147B3708E /* SkyboxDemo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SkyboxDemo.cpp; sourceTree = "<group>"; };
 		B03B1A4C44F237F20967556C /* Geometry.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Geometry.cpp; sourceTree = "<group>"; };
 		B03B1ABCD886F1ED6C53E7B2 /* Geometry.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Geometry.hpp; sourceTree = "<group>"; };
 		B03B1AC098B9FD6B2C14A2E6 /* Mesh.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Mesh.hpp; sourceTree = "<group>"; };
@@ -1183,6 +1226,20 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		682401BA19969549009F5A29 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				682401BB19969549009F5A29 /* Cocoa.framework in Frameworks */,
+				682401BC19969549009F5A29 /* OpenGL.framework in Frameworks */,
+				682401BD19969549009F5A29 /* IOKit.framework in Frameworks */,
+				682401BE19969549009F5A29 /* libglfw3.a in Frameworks */,
+				682401BF19969549009F5A29 /* libRigid3D.a in Frameworks */,
+				682401C019969549009F5A29 /* CoreVideo.framework in Frameworks */,
+				682401C119969549009F5A29 /* libLoadPNG.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		683D4F5C18F9E8490035B9BB /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -1286,6 +1343,7 @@
 				6861A61D1985F966003D6AF7 /* libLoadPNG.a */,
 				686956371986D38200F5DEF3 /* TexturedCubeDemo */,
 				68BEBA401989D9D3009EB28E /* TexturedCubeDemo copy */,
+				682401C619969549009F5A29 /* TexturedCubeDemo copy */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1364,6 +1422,8 @@
 				683D4F9518F9E89B0035B9BB /* TestNormals.frag */,
 				683D4F9618F9E89B0035B9BB /* UniformVertexColors.frag */,
 				683D4F9718F9E89B0035B9BB /* UniformVertexColors.vert */,
+				B03B13360498C619007E6209 /* SkyBox.vs */,
+				B03B117BD313D8D824A3009A /* SkyBox.fs */,
 			);
 			path = shaders;
 			sourceTree = "<group>";
@@ -1371,6 +1431,7 @@
 		683D4F9818F9E89B0035B9BB /* textures */ = {
 			isa = PBXGroup;
 			children = (
+				68E3AC35199AB0310055357B /* cube_maps */,
 				683D4F9A18F9E89B0035B9BB /* concrete_texture.png */,
 				B03B138C8C643B265E1DF720 /* uvgrid.png */,
 			);
@@ -1404,6 +1465,8 @@
 				683D4FB118F9E89B0035B9BB /* Utils */,
 				B03B1D72FB0375C7812E5CA2 /* MultiTexturedCubesDemo.hpp */,
 				B03B16B57CC8CFE78412EF67 /* MultiTexturedCubesDemo.cpp */,
+				B03B1A4AC3D623C147B3708E /* SkyboxDemo.cpp */,
+				B03B11B229C84C106E00619E /* SkyboxDemo.hpp */,
 			);
 			path = examples;
 			sourceTree = "<group>";
@@ -2641,6 +2704,27 @@
 			path = GL;
 			sourceTree = "<group>";
 		};
+		68E3AC35199AB0310055357B /* cube_maps */ = {
+			isa = PBXGroup;
+			children = (
+				68E3AC3E199AB1C50055357B /* TropicalSunnyDay */,
+			);
+			path = cube_maps;
+			sourceTree = "<group>";
+		};
+		68E3AC3E199AB1C50055357B /* TropicalSunnyDay */ = {
+			isa = PBXGroup;
+			children = (
+				68E3AC45199ABE270055357B /* TropicalSunnyDayBack512.png */,
+				68E3AC46199ABE270055357B /* TropicalSunnyDayDown512.png */,
+				68E3AC47199ABE270055357B /* TropicalSunnyDayFront512.png */,
+				68E3AC48199ABE270055357B /* TropicalSunnyDayLeft512.png */,
+				68E3AC49199ABE270055357B /* TropicalSunnyDayRight512.png */,
+				68E3AC4A199ABE270055357B /* TropicalSunnyDayUp512.png */,
+			);
+			path = TropicalSunnyDay;
+			sourceTree = "<group>";
+		};
 		B03B1321029BC0B9195A3C8B /* Rigid3D */ = {
 			isa = PBXGroup;
 			children = (
@@ -2756,6 +2840,25 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		682401B219969549009F5A29 /* SkyBoxDemo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 682401C319969549009F5A29 /* Build configuration list for PBXNativeTarget "SkyBoxDemo" */;
+			buildPhases = (
+				682401B719969549009F5A29 /* Sources */,
+				682401BA19969549009F5A29 /* Frameworks */,
+				682401C219969549009F5A29 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				682401B319969549009F5A29 /* PBXTargetDependency */,
+				682401B519969549009F5A29 /* PBXTargetDependency */,
+			);
+			name = SkyBoxDemo;
+			productName = TexturedCubeDemo;
+			productReference = 682401C619969549009F5A29 /* TexturedCubeDemo copy */;
+			productType = "com.apple.product-type.tool";
+		};
 		683D4F5E18F9E8490035B9BB /* Rigid3D */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 683D4F6318F9E8490035B9BB /* Build configuration list for PBXNativeTarget "Rigid3D" */;
@@ -2891,11 +2994,21 @@
 				689E54B818FA355200F1A724 /* CameraExample */,
 				686956361986D38200F5DEF3 /* TexturedCubeDemo */,
 				68BEBA2C1989D9D3009EB28E /* MultiTexturedCubesDemo */,
+				682401B219969549009F5A29 /* SkyBoxDemo */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
+		682401B719969549009F5A29 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				682401C719969561009F5A29 /* SkyboxDemo.cpp in Sources */,
+				682401B819969549009F5A29 /* GlfwOpenGlWindow.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		683D4F5B18F9E8490035B9BB /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2965,6 +3078,16 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		682401B319969549009F5A29 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6861A61C1985F966003D6AF7 /* LoadPNG */;
+			targetProxy = 682401B419969549009F5A29 /* PBXContainerItemProxy */;
+		};
+		682401B519969549009F5A29 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 683D4F5E18F9E8490035B9BB /* Rigid3D */;
+			targetProxy = 682401B619969549009F5A29 /* PBXContainerItemProxy */;
+		};
 		6861A6231985F995003D6AF7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 6861A61C1985F966003D6AF7 /* LoadPNG */;
@@ -2998,6 +3121,43 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		682401C419969549009F5A29 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CLANG_WARN_CXX0X_EXTENSIONS = YES;
+				GCC_C_LANGUAGE_STANDARD = c11;
+				GCC_ENABLE_CPP_RTTI = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/lib",
+				);
+				PRODUCT_NAME = "TexturedCubeDemo copy";
+			};
+			name = Debug;
+		};
+		682401C519969549009F5A29 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CLANG_WARN_CXX0X_EXTENSIONS = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = c11;
+				GCC_ENABLE_CPP_RTTI = NO;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/lib",
+				);
+				PRODUCT_NAME = "TexturedCubeDemo copy";
+			};
+			name = Release;
+		};
 		683D4F6118F9E8490035B9BB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -3286,6 +3446,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		682401C319969549009F5A29 /* Build configuration list for PBXNativeTarget "SkyBoxDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				682401C419969549009F5A29 /* Debug */,
+				682401C519969549009F5A29 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		683D4F5A18F9E8490035B9BB /* Build configuration list for PBXProject "Rigid3D" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
