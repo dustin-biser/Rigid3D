@@ -1,5 +1,5 @@
 /*************************************************************************
- * GLFW 3.0 - www.glfw.org
+ * GLFW 3.1 - www.glfw.org
  * A library for OpenGL, window and input
  *------------------------------------------------------------------------
  * Copyright (c) 2002-2006 Marcus Geelnard
@@ -81,6 +81,7 @@ extern "C" {
  #endif
 #elif defined(GLFW_EXPOSE_NATIVE_X11)
  #include <X11/Xlib.h>
+ #include <X11/extensions/Xrandr.h>
 #else
  #error "No window API specified"
 #endif
