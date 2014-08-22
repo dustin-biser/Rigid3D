@@ -39,7 +39,7 @@ CameraController::~CameraController() {
 
 //----------------------------------------------------------------------------------------
 void CameraController::registerCamera(Camera * camera) {
-    assert ( (camera != 0) && (camera != nullptr) );
+    assert (camera != nullptr);
     this->camera = camera;
 }
 
