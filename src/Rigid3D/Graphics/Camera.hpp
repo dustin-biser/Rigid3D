@@ -49,8 +49,8 @@ namespace Rigid3D {
         void rotate(float angle, const vec3 & axis);
         void translate(float x, float y, float z);
         void translate(const vec3 &v);
-        void translateRelative(float left, float up, float forward);
-        void translateRelative(const vec3 &v);
+        void translateLocal(float left, float up, float forward);
+        void translateLocal(const vec3 &v);
 
     private:
         vec3 eyePosition; // Location of camera in world coordinates.

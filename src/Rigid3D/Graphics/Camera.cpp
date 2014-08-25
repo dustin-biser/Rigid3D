@@ -8,19 +8,7 @@
 
 namespace Rigid3D {
 
-using glm::angleAxis;
-using glm::cross;
-using glm::conjugate;
-using glm::mat4_cast;
-using glm::normalize;
-using glm::dot;
-using glm::rotate;
-using glm::quat_cast;
-using glm::toQuat;
-using glm::translate;
-using glm::transpose;
-
-using Rigid3D::radiansToDegrees;
+using namespace glm;
 
 //----------------------------------------------------------------------------------------
 /**
@@ -181,9 +169,9 @@ mat4 Camera::getViewMatrix() const {
         viewMatrix = mat4_cast(q);
 
         // Translate by inverse eyePosition.
-        vec3 v = -1.0f * eyePosition;
+        vec3 v = -eyePosition;
         mat4 m = viewMatrix;
-        viewMatrix[3] = m[0] * v[0] + m[1] * v[1] + m[2] * v[2] + m[3];
+        viewMatrix[3] = (m[0] * v[0]) + (m[1] * v[1]) + (m[2] * v[2]) + m[3];
 
         recalcViewMatrix = false;
     }
@@ -246,7 +234,7 @@ void Camera::roll(float angle) {
  * @param angle - rotation angle in radians.
  */
 void Camera::pitch(float angle) {
-    quat q = angleAxis(angle, -1.0f * l);
+    quat q = angleAxis(angle, -l);
 
     u = glm::rotate(q, u);
     f = glm::rotate(q, f);
@@ -337,7 +325,7 @@ void Camera::translate(const vec3& v) {
  * @param up - translation along the \c Camera's up direction.
  * @param forward - translation along the \c Camera's forward direction.
  */
-void Camera::translateRelative(float left, float up, float forward) {
+void Camera::translateLocal(float left, float up, float forward) {
     eyePosition += left * l;
     eyePosition += up * u;
     eyePosition += forward * f;
@@ -355,8 +343,8 @@ void Camera::translateRelative(float left, float up, float forward) {
  *
  * @param v
  */
-void Camera::translateRelative(const vec3& v) {
-    translateRelative(v.x, v.y, v.z);
+void Camera::translateLocal(const vec3 &v) {
+    translateLocal(v.x, v.y, v.z);
 }
 
 //----------------------------------------------------------------------------------------

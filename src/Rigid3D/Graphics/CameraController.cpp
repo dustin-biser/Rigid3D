@@ -1,6 +1,5 @@
 #include "CameraController.hpp"
 
-#include <Rigid3D/Common/Settings.hpp>
 #include <Rigid3D/Common/GlmOutStream.hpp>
 #include <Rigid3D/Graphics/Camera.hpp>
 #include <Rigid3D/Math/Trigonometry.hpp>
@@ -9,27 +8,36 @@
 
 #include <glm/gtx/norm.hpp>
 
-#include <iostream>
 
 #include <cassert>
 
+
+// TODO Dustin - Remove this:
+    #include <iostream>
+    #include <glm/gtx/io.hpp>
+    using namespace std;
+
 namespace Rigid3D {
 
-using Rigid3D::Camera;
-using Rigid3D::degreesToRadians;
-using Rigid3D::PI;
-using glm::dot;
-using glm::length2;
+using namespace glm;
 
 //----------------------------------------------------------------------------------------
 CameraController::CameraController()
     : camera(nullptr),
-      flagRotation(false),
-      xPos_prev(0),
-      xPos(0),
-      yPos_prev(0),
-      yPos(0) {
+      xCursorPos_prev(0),
+      xCursorPos(0),
+      yCursorPos_prev(0),
+      yCursorPos(0),
+      flagRotation(false) {
 
+    //-- Set initial transform scale factors to resonable defaults:
+    float angle = PI * 0.5 * 0.001;
+    scaleFactors.rollAngle = 10*angle;
+    scaleFactors.pitchAngle = angle;
+    scaleFactors.yawAngle = angle;
+    scaleFactors.forwardDelta = 0.1f;
+    scaleFactors.sideStrafeDelta = 0.1f;
+    scaleFactors.upDelta = 0.1f;
 }
 
 //----------------------------------------------------------------------------------------
@@ -41,6 +49,8 @@ CameraController::~CameraController() {
 void CameraController::registerCamera(Camera * camera) {
     assert (camera != nullptr);
     this->camera = camera;
+
+    yawAxis = camera->getUpDirection();
 }
 
 //----------------------------------------------------------------------------------------
@@ -105,7 +115,7 @@ void CameraController::keyInput(int key, int action, int mods) {
  * @param actions
  * @param mods
  */
-void CameraController::mouseButtonInput(int button , int actions, int mods){
+void CameraController::mouseButton(int button, int actions, int mods){
 
 }
 
@@ -117,7 +127,9 @@ void CameraController::mouseButtonInput(int button , int actions, int mods){
  * @param yOffSet
  */
 void CameraController::mouseScroll(double xOffSet, double yOffSet) {
-    static float fieldOfViewY = 45.0f;
+
+    // TODO Dustin - Use the Camera's fieldOfViewY as starting value, don't hardcode!
+    static float fieldOfViewY = 70.0f;
     static const float delta = 5.0f;
 
     if (yOffSet < 0) {
@@ -133,7 +145,6 @@ void CameraController::mouseScroll(double xOffSet, double yOffSet) {
         fieldOfViewY = 180.0f;
     }
 
-    std::cout << "fieldOfViewY: " << fieldOfViewY << std::endl;
     camera->setFieldOfViewY(fieldOfViewY);
 }
 
@@ -145,11 +156,11 @@ void CameraController::mouseScroll(double xOffSet, double yOffSet) {
  * @param yPos
  */
 void CameraController::cursorPosition(double xPos, double yPos) {
-    this->xPos_prev = this->xPos;
-    this->xPos = xPos;
+    xCursorPos_prev = xCursorPos;
+    xCursorPos = xPos;
 
-    this->yPos_prev = this->yPos;
-    this->yPos = yPos;
+    yCursorPos_prev = yCursorPos;
+    yCursorPos = yPos;
 
     flagRotation = true;
 }
@@ -160,10 +171,10 @@ void CameraController::cursorPosition(double xPos, double yPos) {
  * mouse buttons, and cursor position.
  */
 void CameraController::updateCamera() {
-    assert ( (camera != 0) && (camera != nullptr) );
+    assert (camera != nullptr);
 
     updateTranslation();
-    updatePose();
+    updateRoll();
 
     if (key_left_shift_down == false) {
         updateLookAt();
@@ -175,11 +186,11 @@ void CameraController::updateCamera() {
  * Reset the 'CameraController' object state, which includes all key and cursor position
  * states. The registered camera does not change.
  */
-void CameraController::resetState() {
-    xPos_prev = 0;
-    xPos = 0;
-    yPos_prev = 0;
-    yPos = 0;
+void CameraController::reset() {
+    xCursorPos_prev = 0;
+    xCursorPos = 0;
+    yCursorPos_prev = 0;
+    yCursorPos = 0;
     key_r_down = false;
     key_f_down = false;
     key_q_down = false;
@@ -194,87 +205,90 @@ void CameraController::resetState() {
 
 //----------------------------------------------------------------------------------------
 void CameraController::updateTranslation() {
-    static const float translation_delta = 0.05f;
-
     if (key_r_down) {
-        camera->translateRelative(0.0f, translation_delta, 0.0f);
+        camera->translateLocal(0.0f, scaleFactors.upDelta, 0.0f);
     }
     if (key_f_down) {
-        camera->translateRelative(0.0f, -1.0f * translation_delta, 0.0f);
+        camera->translateLocal(0.0f, -scaleFactors.upDelta, 0.0f);
     }
     if (key_a_down) {
-        camera->translateRelative(translation_delta, 0.0f,  0.0f);
+        camera->translateLocal(scaleFactors.sideStrafeDelta, 0.0f, 0.0f);
     }
     if (key_d_down) {
-        camera->translateRelative(-1.0f * translation_delta, 0.0f,  0.0f);
+        camera->translateLocal(-scaleFactors.sideStrafeDelta, 0.0f, 0.0f);
     }
     if (key_w_down) {
-        camera->translateRelative(0.0f, 0.0f, translation_delta);
+        camera->translateLocal(0.0f, 0.0f, scaleFactors.forwardDelta);
     }
     if (key_s_down) {
-        camera->translateRelative(0.0f, 0.0f, -1.0f * translation_delta);
+        camera->translateLocal(0.0f, 0.0f, -scaleFactors.forwardDelta);
     }
 }
 
 //----------------------------------------------------------------------------------------
-void CameraController::updatePose() {
-    static const float radians = 0.005f;
+void CameraController::updateRoll() {
+    float angle = scaleFactors.rollAngle;
     if (key_q_down) {
-        camera->roll(-1.0f * radians);
+        angle *= -1;
+        camera->roll(angle);
+        rotateYawAxis(angle, camera->getForwardDirection());
     }
     if (key_e_down) {
-        camera->roll(radians);
+        camera->roll(angle);
+        rotateYawAxis(angle, camera->getForwardDirection());
     }
+
+}
+
+//----------------------------------------------------------------------------------------
+void CameraController::rotateYawAxis(float angle, vec3 axis) {
+    quat q = angleAxis(angle, axis);
+    yawAxis = glm::rotate(q, yawAxis);
 }
 
 //----------------------------------------------------------------------------------------
 void CameraController::updateLookAt() {
     if (flagRotation == false) { return; }
-    if (xPos_prev == 0 || yPos_prev == 0) { return; }
+    if (xCursorPos_prev == 0 || yCursorPos_prev == 0) { return; }
 
-    static const float angleDelta = (PI * 0.5f) * 0.0009f;
-    static const float radius = 10.0f;
-    static float polarAngle = PI * 0.5f;
-    static float azimuthAngle = 0.0f;
+    float xDelta = (float)(xCursorPos - xCursorPos_prev);
+    float yDelta = (float)(yCursorPos - yCursorPos_prev);
 
-    const float xDelta = (float)(xPos - xPos_prev);
-    const float yDelta = (float)(yPos - yPos_prev);
-
-    polarAngle += yDelta * angleDelta;
-    azimuthAngle -= xDelta * angleDelta;
-
-    // Prevent camera's forward vector from going completely vertical, so that
-    // lookAt's up vector is never parallel with it.
-    if (polarAngle < 0.001f) {
-        polarAngle = 0.001f;
-    }
-    else if (polarAngle > PI) {
-        polarAngle = PI - 0.001f;
-    }
-
-    if (azimuthAngle < 0.0f) {
-        azimuthAngle += 2*PI;
-    }
-    else if (azimuthAngle > 2*PI) {
-        azimuthAngle -= 2*PI;
-    }
-
-    const float sinPolar = sin(polarAngle);
-    const float x = sinPolar * cos(azimuthAngle);
-    const float y = sinPolar * sin(azimuthAngle);
-    const float z = cos(polarAngle);
-
-    const vec3 f(0.0f, 0.0f, -1.0f);
-    const vec3 u(0.0f, 1.0f, 0.0f);
-    const vec3 l(-1.0f, 0.0f, 0.0f);
-
-    vec3 center = radius * ((x * f) + (y * l) + (z * u));
-    vec3 eye = camera->getPosition();
-    center += eye;
-
-    camera->lookAt(eye, center, u);
+    float pitchAngle = -yDelta * scaleFactors.pitchAngle;
+    camera->pitch(pitchAngle);
+    camera->rotate(-xDelta * scaleFactors.yawAngle, yawAxis);
 
     flagRotation = false;
+}
+
+//----------------------------------------------------------------------------------------
+void CameraController::setRollScaleFactor(float rollScale) {
+    scaleFactors.rollAngle = rollScale;
+}
+
+//----------------------------------------------------------------------------------------
+void CameraController::setPitchScaleFactor(float pitchScale) {
+    scaleFactors.pitchAngle = pitchScale;
+}
+
+//----------------------------------------------------------------------------------------
+void CameraController::setYawScaleFactor(float yawScale) {
+    scaleFactors.yawAngle = yawScale;
+}
+
+//----------------------------------------------------------------------------------------
+void CameraController::setUpScaleFactor(float upScale) {
+    scaleFactors.upDelta = upScale;
+}
+
+//----------------------------------------------------------------------------------------
+void CameraController::setForwardScaleFactor(float forwardScale) {
+    scaleFactors.forwardDelta = forwardScale;
+}
+
+//----------------------------------------------------------------------------------------
+void CameraController::setSideStrafeScaleFactor(float sideStrafeScale) {
+    scaleFactors.sideStrafeDelta = sideStrafeScale;
 }
 
 } // end namespace GlUtils

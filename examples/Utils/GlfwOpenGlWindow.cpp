@@ -250,7 +250,7 @@ void GlfwOpenGlWindow::switchToFullScreen() {
         throw GlfwException("Call to glfwCreateWindow failed.");
     }
     resize(videoMode->width, videoMode->height);
-    cameraController.resetState();
+    cameraController.reset();
 
     initNewOpenGlContext();
 }
@@ -268,7 +268,7 @@ void GlfwOpenGlWindow::switchToWindowedMode() {
     }
     resize(windowWidth, windowHeight);
     centerWindow();
-    cameraController.resetState();
+    cameraController.reset();
 
     initNewOpenGlContext();
 }
@@ -377,7 +377,7 @@ void GlfwOpenGlWindow::mouseButtonCallBack(GLFWwindow * window, int button , int
  * @param mods
  */
 void GlfwOpenGlWindow::mouseButtonInputBase(int button , int actions, int mods) {
-    cameraController.mouseButtonInput(button, actions, mods);
+    cameraController.mouseButton(button, actions, mods);
 }
 
 //----------------------------------------------------------------------------------------
