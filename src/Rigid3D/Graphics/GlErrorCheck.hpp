@@ -13,7 +13,7 @@
 
 
 #if(DEBUG)
-#define CHECK_GL_ERRORS Rigid3D::checkGLErrors(__FILE__, __LINE__);
+#define CHECK_GL_ERRORS Rigid3D::checkGLErrors(__FILE__, __LINE__)
 #else
 #define CHECK_GL_ERRORS
 #endif
