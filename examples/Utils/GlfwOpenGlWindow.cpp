@@ -1,6 +1,13 @@
 #include "GlfwOpenGlWindow.hpp"
 using Rigid3D::Camera;
 using Rigid3D::CameraController;
+using std::string;
+using std::shared_ptr;
+using std::chrono::seconds;
+using std::chrono::duration;
+using std::chrono::steady_clock;
+using std::chrono::duration_cast;
+
 
 #include <Rigid3D/Graphics/GlfwException.hpp>
 #include <Rigid3D/Graphics/GlErrorCheck.hpp>
@@ -10,12 +17,17 @@ using Rigid3D::cotangent;
 using Rigid3D::degreesToRadians;
 
 #include <sstream>
+using std::stringstream;
+
 #include <iostream>
 using std::cout;
 using std::endl;
-using std::stringstream;
-using std::shared_ptr;
-using std::string;
+
+#include <thread>
+using std::this_thread::sleep_for;
+
+
+
 
 shared_ptr<GlfwOpenGlWindow> GlfwOpenGlWindow::p_instance = nullptr;
 
@@ -129,7 +141,12 @@ static void printGLInfo() {
 }
 
 //----------------------------------------------------------------------------------------
-void GlfwOpenGlWindow::create(int width, int height, const string & windowTitle) {
+void GlfwOpenGlWindow::create(
+        int width,
+        int height,
+        const string & windowTitle,
+        double secondsPerFrame)
+{
     windowWidth = width;
     windowHeight = height;
     glfwSetErrorCallback(error_callback);
@@ -182,7 +199,11 @@ void GlfwOpenGlWindow::create(int width, int height, const string & windowTitle)
     setupCamera();
     init();
 
+    steady_clock::time_point frameStartTime;
+
     while (!glfwWindowShouldClose(window)) {
+        frameStartTime = steady_clock::now();
+
         glfwPollEvents();
         if (!paused) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -192,10 +213,34 @@ void GlfwOpenGlWindow::create(int width, int height, const string & windowTitle)
             glfwSwapBuffers(window);
         }
         destroyPrevWindowCheck();
+
+        frameLimiter(secondsPerFrame, frameStartTime);
     }
 
     cleanup();
     glfwDestroyWindow(window);
+}
+//----------------------------------------------------------------------------------------
+duration<double> GlfwOpenGlWindow::frameLimiter(
+        double desiredSecondsPerFrame,
+        const steady_clock::time_point & startTime) const
+{
+    steady_clock::time_point time2;
+    steady_clock::time_point time3;
+    duration<double> elapsedTime;
+    duration<double> d(desiredSecondsPerFrame);
+
+    time2 = steady_clock::now();
+    elapsedTime = duration_cast<duration<double> >(time2 - startTime);
+
+    if(elapsedTime < d) {
+        std::this_thread::sleep_for(d - elapsedTime);
+    }
+
+    time3 = steady_clock::now();
+
+    // Elapsed time for this frame, after frame limiting.
+    return duration_cast<duration<double> >(time3 - startTime);
 }
 
 //----------------------------------------------------------------------------------------

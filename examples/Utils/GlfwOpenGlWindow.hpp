@@ -1,6 +1,6 @@
 /**
  * @brief Abstract class for other classes to inherit from that want access to an
- * GLFW OpenGL context window for rendering.
+ * GLFW window and OpenGL context for rendering.
  *
  * @author Dustin Biser
  */
@@ -19,6 +19,7 @@
 
 #include <string>
 #include <memory>
+#include <chrono>
 
 #include <boost/noncopyable.hpp>
 
@@ -29,7 +30,10 @@ public:
 
     static std::shared_ptr<GlfwOpenGlWindow> getInstance();
 
-    void create(int width, int height, const std::string & windowTitle);
+    void create(int width,
+                int height,
+                const std::string & windowTitle,
+                double secondsPerFrame = 1/60.0f);
 
 protected:
     GLFWwindow * window;
@@ -47,6 +51,9 @@ protected:
     Rigid3D::CameraController cameraController;
 
     static std::shared_ptr<GlfwOpenGlWindow> p_instance;
+
+    // TODO Dustin - Make some of these methods private since derived classes wont need
+    // to use them.
 
     GlfwOpenGlWindow();
 
@@ -99,6 +106,10 @@ protected:
     virtual void resize(int width, int height);
     virtual void keyInput(int key, int action, int mods);
 
+private:
+    std::chrono::duration<double> frameLimiter(
+            double desiredSecondsPerFrame,
+            const std::chrono::steady_clock::time_point & startTime) const;
 };
 
 #endif /* GLFWOPENGLWINDOW_HPP_ */
