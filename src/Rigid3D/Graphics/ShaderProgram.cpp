@@ -180,10 +180,12 @@ using std::stringstream;
 
     void ShaderProgram::enable() {
         glUseProgram(programObject);
+        checkGLErrors;
     }
 
     void ShaderProgram::disable() {
         glUseProgram((GLuint)NULL);
+        checkGLErrors;
     }
 
     //------------------------------------------------------------------------------------
@@ -212,7 +214,7 @@ using std::stringstream;
      *
      * @return a \c GLuint representing the program object for this \c ShaderProgram
      */
-GLuint ShaderProgram::getProgramObject() const {
+    GLuint ShaderProgram::getProgramObject() const {
         return programObject;
     }
 
@@ -310,6 +312,8 @@ GLuint ShaderProgram::getProgramObject() const {
         GLint uniformLocation = getUniformLocation(uniformName);
         glUniform1i(uniformLocation, b);
         glUseProgram(activeProgram);
+
+        CHECK_GL_ERRORS;
     }
 
     //------------------------------------------------------------------------------------
@@ -325,6 +329,8 @@ GLuint ShaderProgram::getProgramObject() const {
         GLint uniformLocation = getUniformLocation(uniformName);
         glUniform1i(uniformLocation, i);
         glUseProgram(activeProgram);
+
+        CHECK_GL_ERRORS;
     }
 
     //------------------------------------------------------------------------------------
@@ -340,6 +346,8 @@ GLuint ShaderProgram::getProgramObject() const {
         GLint uniformLocation = getUniformLocation(uniformName);
         glUniform1ui(uniformLocation, ui);
         glUseProgram(activeProgram);
+
+        CHECK_GL_ERRORS;
     }
 
     //------------------------------------------------------------------------------------
@@ -355,6 +363,8 @@ GLuint ShaderProgram::getProgramObject() const {
         GLint uniformLocation = getUniformLocation(uniformName);
         glUniform1f(uniformLocation, f);
         glUseProgram(activeProgram);
+
+        CHECK_GL_ERRORS;
     }
 
     //------------------------------------------------------------------------------------
@@ -371,6 +381,8 @@ GLuint ShaderProgram::getProgramObject() const {
         GLint uniformLocation = getUniformLocation(uniformName);
         glUniform2f(uniformLocation, x, y);
         glUseProgram(activeProgram);
+
+        CHECK_GL_ERRORS;
     }
 
     //------------------------------------------------------------------------------------
@@ -388,6 +400,8 @@ GLuint ShaderProgram::getProgramObject() const {
         GLint uniformLocation = getUniformLocation(uniformName);
         glUniform3f(uniformLocation, x, y, z);
         glUseProgram(activeProgram);
+
+        CHECK_GL_ERRORS;
     }
 
     //------------------------------------------------------------------------------------
@@ -406,6 +420,8 @@ GLuint ShaderProgram::getProgramObject() const {
         GLint uniformLocation = getUniformLocation(uniformName);
         glUniform4f(uniformLocation, x, y, z, w);
         glUseProgram(activeProgram);
+
+        CHECK_GL_ERRORS;
     }
 
     //------------------------------------------------------------------------------------
@@ -454,6 +470,8 @@ GLuint ShaderProgram::getProgramObject() const {
         GLint uniformLocation = getUniformLocation(uniformName);
         glUniformMatrix2fv(uniformLocation, 1, GL_FALSE, glm::value_ptr(m));
         glUseProgram(activeProgram);
+
+        CHECK_GL_ERRORS;
     }
 
     //------------------------------------------------------------------------------------
@@ -469,6 +487,8 @@ GLuint ShaderProgram::getProgramObject() const {
         GLint uniformLocation = getUniformLocation(uniformName);
         glUniformMatrix3fv(uniformLocation, 1, GL_FALSE, glm::value_ptr(m));
         glUseProgram(activeProgram);
+
+        CHECK_GL_ERRORS;
     }
 
     //------------------------------------------------------------------------------------
@@ -484,6 +504,8 @@ GLuint ShaderProgram::getProgramObject() const {
         GLint uniformLocation = getUniformLocation(uniformName);
         glUniformMatrix4fv(uniformLocation, 1, GL_FALSE, glm::value_ptr(m));
         glUseProgram(activeProgram);
+
+        CHECK_GL_ERRORS;
     }
 
     //------------------------------------------------------------------------------------
@@ -511,7 +533,8 @@ GLuint ShaderProgram::getProgramObject() const {
         glUseProgram(programObject);
         glUniformSubroutinesuiv(shaderType, 1, &index);
         glUseProgram(activeProgram);
-        checkGLErrors(__FILE__, __LINE__);
+
+        CHECK_GL_ERRORS;
     }
 
 } // end namespace GlUtils
