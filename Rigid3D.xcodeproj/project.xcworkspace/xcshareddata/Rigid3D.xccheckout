@@ -10,29 +10,29 @@
 	<string>Rigid3D</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>60F3CF4C-760D-4B2C-B8E1-DDA8FE73BCE1</key>
-		<string>https://github.com/dustin-biser/Rigid3D.git</string>
+		<key>DA73CACF0773BAEC938B1F5D5F4636C92F336CF2</key>
+		<string>github.com:dustin-biser/Rigid3D.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>Rigid3D/Rigid3D.xcodeproj/project.xcworkspace</string>
+	<string>Rigid3D.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>60F3CF4C-760D-4B2C-B8E1-DDA8FE73BCE1</key>
-		<string>../../..</string>
+		<key>DA73CACF0773BAEC938B1F5D5F4636C92F336CF2</key>
+		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>https://github.com/dustin-biser/Rigid3D.git</string>
+	<string>github.com:dustin-biser/Rigid3D.git</string>
 	<key>IDESourceControlProjectVersion</key>
-	<integer>110</integer>
+	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>60F3CF4C-760D-4B2C-B8E1-DDA8FE73BCE1</string>
+	<string>DA73CACF0773BAEC938B1F5D5F4636C92F336CF2</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>60F3CF4C-760D-4B2C-B8E1-DDA8FE73BCE1</string>
+			<string>DA73CACF0773BAEC938B1F5D5F4636C92F336CF2</string>
 			<key>IDESourceControlWCCName</key>
 			<string>Rigid3D</string>
 		</dict>
