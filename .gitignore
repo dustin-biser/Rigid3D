@@ -21,3 +21,4 @@ ext/gtest/test1_example
 
 # Ignore XCode specific items
 Rigid3D.xcodeproj/project.xcworkspace/xcuserdata/*
+Rigid3D.xcodeproj/xcuserdata/*
