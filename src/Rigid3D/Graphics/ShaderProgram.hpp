@@ -39,9 +39,9 @@ namespace Rigid3D {
 
         void loadFromFile(const char * vertexShaderFile, const char * fragmentShaderFile);
 
-        void enable();
+        void enable() const;
 
-        void disable();
+        void disable() const;
 
         GLuint getProgramObject() const;
 

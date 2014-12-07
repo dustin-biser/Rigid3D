@@ -102,7 +102,7 @@ using std::stringstream;
             glDeleteProgram(prevProgramObject);
             prevProgramObject = 0;
 
-            checkGLErrors(__FILE__, __LINE__);
+            CHECK_GL_ERRORS;
         }
 
         cleanUpResources();
@@ -124,18 +124,18 @@ using std::stringstream;
         default:
             break;
         }
-        checkGLErrors(__FILE__, __LINE__);
+        CHECK_GL_ERRORS;
     }
 
     //------------------------------------------------------------------------------------
     void ShaderProgram::compileShader(const Shader &shader) {
         const char *source = shader.sourceCode.c_str();
         glShaderSource(shader.shaderObject, 1, (const GLchar **)&source, NULL);
-        checkGLErrors(__FILE__, __LINE__);
 
         glCompileShader(shader.shaderObject);
-        checkGLErrors(__FILE__, __LINE__);
         checkCompilationStatus(shader);
+
+        CHECK_GL_ERRORS;
     }
 
     //------------------------------------------------------------------------------------
@@ -172,20 +172,20 @@ using std::stringstream;
         glAttachShader(programObject, vertexShader.shaderObject);
         glAttachShader(programObject, fragmentShader.shaderObject);
 
-        checkGLErrors(__FILE__, __LINE__);
+        CHECK_GL_ERRORS;
 
         glLinkProgram(programObject);
         checkLinkStatus();
     }
 
-    void ShaderProgram::enable() {
+    void ShaderProgram::enable() const {
         glUseProgram(programObject);
-        checkGLErrors;
+        CHECK_GL_ERRORS;
     }
 
-    void ShaderProgram::disable() {
+    void ShaderProgram::disable() const {
         glUseProgram((GLuint)NULL);
-        checkGLErrors;
+        CHECK_GL_ERRORS;
     }
 
     //------------------------------------------------------------------------------------
