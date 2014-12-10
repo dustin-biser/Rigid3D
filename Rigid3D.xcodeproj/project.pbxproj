@@ -179,7 +179,7 @@
 /* Begin PBXFileReference section */
 		680A11141985F8EB00199C6A /* lodepng.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = lodepng.cpp; sourceTree = "<group>"; };
 		680A11151985F8EB00199C6A /* lodepng.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = lodepng.h; sourceTree = "<group>"; };
-		682401C619969549009F5A29 /* TexturedCubeDemo copy */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "TexturedCubeDemo copy"; sourceTree = BUILT_PRODUCTS_DIR; };
+		682401C619969549009F5A29 /* SkyBoxDemo */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = SkyBoxDemo; sourceTree = BUILT_PRODUCTS_DIR; };
 		683D4F5F18F9E8490035B9BB /* libRigid3D.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRigid3D.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		683D4F6818F9E89B0035B9BB /* DroidSansMono.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = DroidSansMono.ttf; sourceTree = "<group>"; };
 		683D4F6A18F9E89B0035B9BB /* bunny_lowres.obj */ = {isa = PBXFileReference; lastKnownFileType = text; path = bunny_lowres.obj; sourceTree = "<group>"; };
@@ -1343,7 +1343,7 @@
 				6861A61D1985F966003D6AF7 /* libLoadPNG.a */,
 				686956371986D38200F5DEF3 /* TexturedCubeDemo */,
 				68BEBA401989D9D3009EB28E /* MultiTexturedCubeDemo */,
-				682401C619969549009F5A29 /* TexturedCubeDemo copy */,
+				682401C619969549009F5A29 /* SkyBoxDemo */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2856,7 +2856,7 @@
 			);
 			name = SkyBoxDemo;
 			productName = TexturedCubeDemo;
-			productReference = 682401C619969549009F5A29 /* TexturedCubeDemo copy */;
+			productReference = 682401C619969549009F5A29 /* SkyBoxDemo */;
 			productType = "com.apple.product-type.tool";
 		};
 		683D4F5E18F9E8490035B9BB /* Rigid3D */ = {
@@ -3267,6 +3267,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
+				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/lib",
