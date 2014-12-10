@@ -1161,7 +1161,7 @@
 		68647ABE19312F120067C4DF /* libglfw3.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libglfw3.a; sourceTree = "<group>"; };
 		686956371986D38200F5DEF3 /* TexturedCubeDemo */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TexturedCubeDemo; sourceTree = BUILT_PRODUCTS_DIR; };
 		689E54B918FA355200F1A724 /* CameraExample */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = CameraExample; sourceTree = BUILT_PRODUCTS_DIR; };
-		68BEBA401989D9D3009EB28E /* TexturedCubeDemo copy */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "TexturedCubeDemo copy"; sourceTree = BUILT_PRODUCTS_DIR; };
+		68BEBA401989D9D3009EB28E /* MultiTexturedCubeDemo */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = MultiTexturedCubeDemo; sourceTree = BUILT_PRODUCTS_DIR; };
 		68E0A52118FB09C3003F0702 /* glcorearb.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = glcorearb.h; sourceTree = "<group>"; };
 		68E3AC45199ABE270055357B /* TropicalSunnyDayBack512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TropicalSunnyDayBack512.png; sourceTree = "<group>"; };
 		68E3AC46199ABE270055357B /* TropicalSunnyDayDown512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TropicalSunnyDayDown512.png; sourceTree = "<group>"; };
@@ -1342,7 +1342,7 @@
 				689E54B918FA355200F1A724 /* CameraExample */,
 				6861A61D1985F966003D6AF7 /* libLoadPNG.a */,
 				686956371986D38200F5DEF3 /* TexturedCubeDemo */,
-				68BEBA401989D9D3009EB28E /* TexturedCubeDemo copy */,
+				68BEBA401989D9D3009EB28E /* MultiTexturedCubeDemo */,
 				682401C619969549009F5A29 /* TexturedCubeDemo copy */,
 			);
 			name = Products;
@@ -2964,7 +2964,7 @@
 			);
 			name = MultiTexturedCubesDemo;
 			productName = TexturedCubeDemo;
-			productReference = 68BEBA401989D9D3009EB28E /* TexturedCubeDemo copy */;
+			productReference = 68BEBA401989D9D3009EB28E /* MultiTexturedCubeDemo */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
@@ -3137,7 +3137,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/lib",
 				);
-				PRODUCT_NAME = "TexturedCubeDemo copy";
+				PRODUCT_NAME = SkyBoxDemo;
 			};
 			name = Debug;
 		};
@@ -3154,7 +3154,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/lib",
 				);
-				PRODUCT_NAME = "TexturedCubeDemo copy";
+				PRODUCT_NAME = SkyBoxDemo;
 			};
 			name = Release;
 		};
@@ -3422,7 +3422,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/lib",
 				);
-				PRODUCT_NAME = "TexturedCubeDemo copy";
+				PRODUCT_NAME = MultiTexturedCubeDemo;
 			};
 			name = Debug;
 		};
@@ -3439,7 +3439,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/lib",
 				);
-				PRODUCT_NAME = "TexturedCubeDemo copy";
+				PRODUCT_NAME = MultiTexturedCubeDemo;
 			};
 			name = Release;
 		};
