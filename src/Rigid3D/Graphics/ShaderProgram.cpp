@@ -526,7 +526,8 @@ using std::stringstream;
         GLuint index = glGetSubroutineIndex(programObject, shaderType, subroutineName);
         if (index == GL_INVALID_INDEX) {
             stringstream errorMessage;
-            errorMessage << "Error in method ShaderProgram::setUniformSubroutinesuiv." << endl
+            errorMessage << "Error in method ShaderProgram::setUniformSubroutine. " <<
+                    endl
                          << subroutineName << " is not a known subroutine.";
             throw ShaderException(errorMessage.str());
         }
