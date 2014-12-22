@@ -523,6 +523,7 @@ using std::stringstream;
 
     //------------------------------------------------------------------------------------
     void ShaderProgram::setUniformSubroutine(GLenum shaderType, const char * subroutineName) {
+        glGetIntegerv(GL_CURRENT_PROGRAM, (GLint *)&activeProgram);
         GLuint index = glGetSubroutineIndex(programObject, shaderType, subroutineName);
         if (index == GL_INVALID_INDEX) {
             stringstream errorMessage;

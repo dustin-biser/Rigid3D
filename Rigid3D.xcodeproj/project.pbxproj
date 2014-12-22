@@ -1223,6 +1223,8 @@
 		B03B1E6229609B4430F030B3 /* CameraController.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CameraController.hpp; sourceTree = "<group>"; };
 		B03B1ECC783E69E0E971EACA /* ShaderException.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ShaderException.hpp; sourceTree = "<group>"; };
 		B03B1FC198B4B18B456BF335 /* Camera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Camera.cpp; sourceTree = "<group>"; };
+		EF669443E19894064CA000DD /* GeometryShaderExample.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GeometryShaderExample.hpp; sourceTree = "<group>"; };
+		EF669F3FACBA7D94EA79D00B /* GeometryShaderExample.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GeometryShaderExample.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1467,6 +1469,8 @@
 				B03B16B57CC8CFE78412EF67 /* MultiTexturedCubesDemo.cpp */,
 				B03B1A4AC3D623C147B3708E /* SkyboxDemo.cpp */,
 				B03B11B229C84C106E00619E /* SkyboxDemo.hpp */,
+				EF669443E19894064CA000DD /* GeometryShaderExample.hpp */,
+				EF669F3FACBA7D94EA79D00B /* GeometryShaderExample.cpp */,
 			);
 			path = examples;
 			sourceTree = "<group>";
