@@ -10,38 +10,23 @@
 
 namespace Rigid3D {
 
-    /**
-     * A \c ShaderProgram encapsulates the compilation, linkage, and usage of both a
-     * vertex shader and fragment shader with respect to a single OpenGL program
-     * object.
-     *
-     * The goal of the \c ShaderProgram class is to make loading and using shader
-     * programs as painless as possible.
-     *
-     * Example usage:
-     *
-     * \code{.cpp}
-     *  ShaderProgram shaderProgram;
-     *  shaderProgram.loadFromFile("verexShaderFile", "fragmentShaderFile");
-     *
-     *  shaderProgram.begin();  // calls glUseProgram(...)
-     *   ... glDraw*();
-     *  shaderProgram.end();    // calls glUseProgram(NULL)
-     * \endcode
-     */
     class ShaderProgram {
     public:
         ShaderProgram();
 
-        ShaderProgram(const char * ShaderFile, const char * fragmentShaderFile);
-
         ~ShaderProgram();
 
-        void loadFromFile(const char * vertexShaderFile, const char * fragmentShaderFile);
+        void attachVertexShader(const char * filePath);
+        void attachFragmentShader(const char * filePath);
+        void attachGeometryShader(const char * filePath);
+
+        void link();
 
         void enable() const;
 
         void disable() const;
+
+        void recompileShaders();
 
         GLuint getProgramObject() const;
 
@@ -80,29 +65,30 @@ namespace Rigid3D {
 
     private:
         struct Shader {
-          std::string sourceCode;
-          GLuint shaderObject;
+            GLuint shaderObject;
+            std::string filePath;
+
+            Shader();
         };
 
         Shader vertexShader;
         Shader fragmentShader;
+        Shader geometryShader;
+
         GLuint programObject;
         GLuint prevProgramObject;
         GLuint activeProgram;
 
-        void extractSourceCode(const char * sourceFileName, Shader &shader);
+        void extractSourceCode(std::string & shaderSource, const std::string & filePath);
+        void extractSourceCodeAndCompile(const Shader &shader);
 
-        void createShader(GLenum shaderType);
+        GLuint createShader(GLenum shaderType);
 
-        void compileShader(const Shader &shader);
+        void compileShader(GLuint shaderObject, const std::string & shader);
 
-        void checkCompilationStatus(const Shader &shader);
-
-        void createShaderProgram();
+        void checkCompilationStatus(GLuint shaderObject);
 
         void checkLinkStatus();
-
-        void cleanUpResources();
 
         void deleteShaders();
 

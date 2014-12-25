@@ -57,8 +57,9 @@ void CameraExample::init()
 
 //---------------------------------------------------------------------------------------
 void CameraExample::setupShaders() {
-    shaderProgram.loadFromFile("data/shaders/Pos-Norm-Tex-Color.vert",
-                               "data/shaders/PerFragLighting_withWorldLight.frag");
+    shaderProgram.attachVertexShader("data/shaders/Pos-Norm-Tex-Color.vert");
+    shaderProgram.attachFragmentShader("data/shaders/PerFragLighting_withWorldLight.frag");
+    shaderProgram.link();
 
     shaderProgram.setUniform("ambientIntensity", vec3(0.1f, 0.1f, 0.1f));
     shaderProgram.setUniform("lightSource.position", lightSource.position);

@@ -53,11 +53,13 @@ void SkyBoxDemo::init() {
 
 //---------------------------------------------------------------------------------------
 void SkyBoxDemo::setupShaders() {
-    cubeShader.loadFromFile("data/shaders/PositionNormalTexture.vert",
-                        "data/shaders/ADS_Texture.frag");
+    cubeShader.attachVertexShader("data/shaders/PositionNormalTexture.vert");
+    cubeShader.attachFragmentShader("data/shaders/ADS_Texture.frag");
+    cubeShader.link();
 
-    skyboxShader.loadFromFile("data/shaders/SkyBox.vs",
-                              "data/shaders/SkyBox.fs");
+    skyboxShader.attachVertexShader("data/shaders/SkyBox.vs");
+    skyboxShader.attachFragmentShader("data/shaders/SkyBox.fs");
+    skyboxShader.link();
 
     CHECK_GL_ERRORS;
 }

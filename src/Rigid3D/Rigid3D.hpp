@@ -25,6 +25,7 @@
 #include <Rigid3D/Graphics/RenderableFrustum.hpp>
 #include <Rigid3D/Graphics/Renderable.hpp>
 #include <Rigid3D/Graphics/ShaderProgram.hpp>
+#include <Rigid3D/Graphics/Shader.hpp>
 #include <Rigid3D/Graphics/ShaderException.hpp>
 
 #include <Rigid3D/Math/Trigonometry.hpp>

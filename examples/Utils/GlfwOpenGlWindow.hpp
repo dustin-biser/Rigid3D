@@ -36,16 +36,6 @@ public:
                 double secondsPerFrame = 1/60.0f);
 
 protected:
-    GLFWwindow * window;
-    GLFWwindow * prevWindow;
-    GLFWmonitor * monitor;
-    std::string windowTitle;
-    int windowWidth;
-    int windowHeight;
-
-    bool paused;
-    bool fullScreen;
-    bool destroyPrevWindow;
 
     Rigid3D::Camera camera;
     Rigid3D::CameraController cameraController;
@@ -90,6 +80,10 @@ protected:
 
     void setupCamera();
 
+    int defaultFramebufferWidth() const;
+
+    int defaultFramebufferHeight() const;
+
     // Virtual methods.
     virtual void init() { }
     virtual void setupGl();
@@ -106,10 +100,25 @@ protected:
     virtual void resize(int width, int height);
     virtual void keyInput(int key, int action, int mods);
 
+
 private:
+    GLFWwindow * window;
+    GLFWwindow * prevWindow;
+    GLFWmonitor * monitor;
+    std::string windowTitle;
+    int windowWidth;
+    int windowHeight;
+    int framebufferPixelWidth;
+    int framebufferPixelHeight;
+
+    bool paused;
+    bool fullScreen;
+    bool destroyPrevWindow;
+
     std::chrono::duration<double> frameLimiter(
             double desiredSecondsPerFrame,
             const std::chrono::steady_clock::time_point & startTime) const;
 };
 
 #endif /* GLFWOPENGLWINDOW_HPP_ */
+

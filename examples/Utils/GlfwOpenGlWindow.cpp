@@ -60,7 +60,7 @@ void GlfwOpenGlWindow::windowResizeCallBack(GLFWwindow * window, int width, int 
 
 //----------------------------------------------------------------------------------------
 void GlfwOpenGlWindow::resize(int width, int height) {
-    float aspectRatio = ((float) width) / height;
+    float aspectRatio = float(width) / height;
     float frustumYScale = cotangent(degreesToRadians(camera.getFieldOfViewY() / 2));
 
     float frustumXScale = frustumYScale;
@@ -179,7 +179,10 @@ void GlfwOpenGlWindow::create(
         glfwTerminate();
         throw GlfwException("Call to glfwCreateWindow failed.");
     }
-    
+
+    // Get default framebuffer pixel dimensions in order to support high-definition
+    // monitors.
+    glfwGetFramebufferSize(window, &framebufferPixelWidth, &framebufferPixelHeight);
 
     centerWindow();
     glfwMakeContextCurrent(window);
@@ -195,31 +198,59 @@ void GlfwOpenGlWindow::create(
     // Clear error buffer.
     while(glGetError() != GL_NO_ERROR);
 
-    setupGl();
-    setupCamera();
-    init();
+    try {
+        // Wait until monitor refreshes before swapping front and back buffers.
+        // To prevent tearing.
+        glfwSwapInterval(1);
 
-    steady_clock::time_point frameStartTime;
+        setupGl();
+        setupCamera();
+        init();
 
-    while (!glfwWindowShouldClose(window)) {
-        frameStartTime = steady_clock::now();
+        steady_clock::time_point frameStartTime;
 
-        glfwPollEvents();
-        if (!paused) {
-            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-            cameraController.updateCamera();
-            logic();
-            draw();
-            glfwSwapBuffers(window);
+        // Main Program Loop:
+        while (!glfwWindowShouldClose(window)) {
+            frameStartTime = steady_clock::now();
+
+            glfwPollEvents();
+            if (!paused) {
+                glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+                cameraController.updateCamera();
+                logic();
+                draw();
+                glfwSwapBuffers(window);
+            }
+            destroyPrevWindowCheck();
+
+            frameLimiter(secondsPerFrame, frameStartTime);
         }
-        destroyPrevWindowCheck();
-
-        frameLimiter(secondsPerFrame, frameStartTime);
+        
+    } catch (const  std::exception & e) {
+        std::cerr << "Exception Thrown: ";
+        std::cerr << e.what() << endl;
+    } catch (...) {
+        std::cerr << "Uncaught exception thrown.  Terminating Program." << endl;
     }
 
     cleanup();
     glfwDestroyWindow(window);
 }
+
+//----------------------------------------------------------------------------------------
+// For use with high-def monitors with a non-unity ratio between windows-coordinates
+// and number of pixels.
+int GlfwOpenGlWindow::defaultFramebufferWidth() const{
+   return framebufferPixelWidth;
+}
+
+//----------------------------------------------------------------------------------------
+// For use with high-def monitors with a non-unity ratio between windows-coordinates
+// and number of pixels.
+int GlfwOpenGlWindow::defaultFramebufferHeight() const{
+    return framebufferPixelHeight;
+}
+
 //----------------------------------------------------------------------------------------
 duration<double> GlfwOpenGlWindow::frameLimiter(
         double desiredSecondsPerFrame,
@@ -342,7 +373,7 @@ void GlfwOpenGlWindow::keyInputBase(int key, int action, int mods) {
     if (action == GLFW_PRESS) {
         if (key == GLFW_KEY_ESCAPE) {
             glfwSetWindowShouldClose(window, GL_TRUE);
-        } else if (key == GLFW_KEY_F11) {
+        } else if (key == GLFW_KEY_F1) {
             if (fullScreen == false) {
                 switchToFullScreen();
             } else {

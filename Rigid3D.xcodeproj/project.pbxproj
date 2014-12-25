@@ -7,6 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0CA6E3281A47A777008CBC4A /* GlfwOpenGlWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 683D4FB218F9E89B0035B9BB /* GlfwOpenGlWindow.cpp */; };
+		0CA6E32A1A47A777008CBC4A /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 683D53D118F9EB530035B9BB /* Cocoa.framework */; };
+		0CA6E32B1A47A777008CBC4A /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 683D53C918F9EB050035B9BB /* OpenGL.framework */; };
+		0CA6E32C1A47A777008CBC4A /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 683D53CC18F9EB2C0035B9BB /* IOKit.framework */; };
+		0CA6E32D1A47A777008CBC4A /* libglfw3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 68647ABE19312F120067C4DF /* libglfw3.a */; };
+		0CA6E32E1A47A777008CBC4A /* libRigid3D.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 683D4F5F18F9E8490035B9BB /* libRigid3D.a */; };
+		0CA6E32F1A47A777008CBC4A /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 683D53CF18F9EB4A0035B9BB /* CoreVideo.framework */; };
+		0CA6E3301A47A777008CBC4A /* libLoadPNG.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6861A61D1985F966003D6AF7 /* libLoadPNG.a */; };
+		0CA6E36A1A47A99D008CBC4A /* GeometryShaderExample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0CA6E3681A47A99D008CBC4A /* GeometryShaderExample.cpp */; };
 		682401B819969549009F5A29 /* GlfwOpenGlWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 683D4FB218F9E89B0035B9BB /* GlfwOpenGlWindow.cpp */; };
 		682401BB19969549009F5A29 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 683D53D118F9EB530035B9BB /* Cocoa.framework */; };
 		682401BC19969549009F5A29 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 683D53C918F9EB050035B9BB /* OpenGL.framework */; };
@@ -70,6 +79,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		0CA6E3231A47A777008CBC4A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 683D4F5718F9E8490035B9BB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6861A61C1985F966003D6AF7;
+			remoteInfo = LoadPNG;
+		};
+		0CA6E3251A47A777008CBC4A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 683D4F5718F9E8490035B9BB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 683D4F5E18F9E8490035B9BB;
+			remoteInfo = Rigid3D;
+		};
 		682401B419969549009F5A29 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 683D4F5718F9E8490035B9BB /* Project object */;
@@ -129,6 +152,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		0CA6E3311A47A777008CBC4A /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
 		682401C219969549009F5A29 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -177,6 +209,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0CA6E3351A47A777008CBC4A /* GeometryShaderExample */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = GeometryShaderExample; sourceTree = BUILT_PRODUCTS_DIR; };
+		0CA6E3681A47A99D008CBC4A /* GeometryShaderExample.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GeometryShaderExample.cpp; path = GeometryShaderExample/GeometryShaderExample.cpp; sourceTree = "<group>"; };
+		0CA6E3691A47A99D008CBC4A /* GeometryShaderExample.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = GeometryShaderExample.hpp; path = GeometryShaderExample/GeometryShaderExample.hpp; sourceTree = "<group>"; };
 		680A11141985F8EB00199C6A /* lodepng.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = lodepng.cpp; sourceTree = "<group>"; };
 		680A11151985F8EB00199C6A /* lodepng.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = lodepng.h; sourceTree = "<group>"; };
 		682401C619969549009F5A29 /* SkyBoxDemo */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = SkyBoxDemo; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1223,11 +1258,28 @@
 		B03B1E6229609B4430F030B3 /* CameraController.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CameraController.hpp; sourceTree = "<group>"; };
 		B03B1ECC783E69E0E971EACA /* ShaderException.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ShaderException.hpp; sourceTree = "<group>"; };
 		B03B1FC198B4B18B456BF335 /* Camera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Camera.cpp; sourceTree = "<group>"; };
-		EF669443E19894064CA000DD /* GeometryShaderExample.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GeometryShaderExample.hpp; sourceTree = "<group>"; };
-		EF669F3FACBA7D94EA79D00B /* GeometryShaderExample.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GeometryShaderExample.cpp; sourceTree = "<group>"; };
+		EF66910048D85AC0A633A932 /* PassThrough.vs */ = {isa = PBXFileReference; lastKnownFileType = file.vs; path = PassThrough.vs; sourceTree = "<group>"; };
+		EF66911B5E465D55F480D3F2 /* PassThrough.gs */ = {isa = PBXFileReference; lastKnownFileType = file.gs; path = PassThrough.gs; sourceTree = "<group>"; };
+		EF6691966D2972F4E0239B7B /* Color.fs */ = {isa = PBXFileReference; lastKnownFileType = file.fs; path = Color.fs; sourceTree = "<group>"; };
+		EF6694DE86BB9D63A750ED1A /* Shader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Shader.cpp; sourceTree = "<group>"; };
+		EF669AA0CFD45F1AB15C8837 /* Shader.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Shader.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		0CA6E3291A47A777008CBC4A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0CA6E32A1A47A777008CBC4A /* Cocoa.framework in Frameworks */,
+				0CA6E32B1A47A777008CBC4A /* OpenGL.framework in Frameworks */,
+				0CA6E32C1A47A777008CBC4A /* IOKit.framework in Frameworks */,
+				0CA6E32D1A47A777008CBC4A /* libglfw3.a in Frameworks */,
+				0CA6E32E1A47A777008CBC4A /* libRigid3D.a in Frameworks */,
+				0CA6E32F1A47A777008CBC4A /* CoreVideo.framework in Frameworks */,
+				0CA6E3301A47A777008CBC4A /* libLoadPNG.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		682401BA19969549009F5A29 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -1313,6 +1365,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0CA6E3671A47A93D008CBC4A /* GeometryShaderExample */ = {
+			isa = PBXGroup;
+			children = (
+				0CA6E3681A47A99D008CBC4A /* GeometryShaderExample.cpp */,
+				0CA6E3691A47A99D008CBC4A /* GeometryShaderExample.hpp */,
+				EF669F6A4BD319479CE15E8F /* shaders */,
+			);
+			name = GeometryShaderExample;
+			sourceTree = "<group>";
+		};
 		680A11131985F8EB00199C6A /* LoadPNG */ = {
 			isa = PBXGroup;
 			children = (
@@ -1346,6 +1408,7 @@
 				686956371986D38200F5DEF3 /* TexturedCubeDemo */,
 				68BEBA401989D9D3009EB28E /* MultiTexturedCubeDemo */,
 				682401C619969549009F5A29 /* SkyBoxDemo */,
+				0CA6E3351A47A777008CBC4A /* GeometryShaderExample */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1443,6 +1506,7 @@
 		683D4F9B18F9E89B0035B9BB /* examples */ = {
 			isa = PBXGroup;
 			children = (
+				0CA6E3671A47A93D008CBC4A /* GeometryShaderExample */,
 				683D4F9C18F9E89B0035B9BB /* CameraExample.cpp */,
 				683D4F9D18F9E89B0035B9BB /* CameraExample.hpp */,
 				683D4F9E18F9E89B0035B9BB /* DepthMapping.cpp */,
@@ -1469,8 +1533,6 @@
 				B03B16B57CC8CFE78412EF67 /* MultiTexturedCubesDemo.cpp */,
 				B03B1A4AC3D623C147B3708E /* SkyboxDemo.cpp */,
 				B03B11B229C84C106E00619E /* SkyboxDemo.hpp */,
-				EF669443E19894064CA000DD /* GeometryShaderExample.hpp */,
-				EF669F3FACBA7D94EA79D00B /* GeometryShaderExample.cpp */,
 			);
 			path = examples;
 			sourceTree = "<group>";
@@ -2787,6 +2849,8 @@
 				B03B12956F7C4DDB9139D5EE /* ShaderProgram.hpp */,
 				B03B138BF1BE6C23F0D9464A /* ObjFileLoader.hpp */,
 				B03B15D34C21CA29D9407C83 /* ObjFileLoader.cpp */,
+				EF669AA0CFD45F1AB15C8837 /* Shader.hpp */,
+				EF6694DE86BB9D63A750ED1A /* Shader.cpp */,
 			);
 			path = Graphics;
 			sourceTree = "<group>";
@@ -2823,6 +2887,17 @@
 			path = Common;
 			sourceTree = "<group>";
 		};
+		EF669F6A4BD319479CE15E8F /* shaders */ = {
+			isa = PBXGroup;
+			children = (
+				EF6691966D2972F4E0239B7B /* Color.fs */,
+				EF66911B5E465D55F480D3F2 /* PassThrough.gs */,
+				EF66910048D85AC0A633A932 /* PassThrough.vs */,
+			);
+			name = shaders;
+			path = GeometryShaderExample/shaders;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -2844,6 +2919,25 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		0CA6E3211A47A777008CBC4A /* GeometryShaderExample */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0CA6E3321A47A777008CBC4A /* Build configuration list for PBXNativeTarget "GeometryShaderExample" */;
+			buildPhases = (
+				0CA6E3261A47A777008CBC4A /* Sources */,
+				0CA6E3291A47A777008CBC4A /* Frameworks */,
+				0CA6E3311A47A777008CBC4A /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				0CA6E3221A47A777008CBC4A /* PBXTargetDependency */,
+				0CA6E3241A47A777008CBC4A /* PBXTargetDependency */,
+			);
+			name = GeometryShaderExample;
+			productName = TexturedCubeDemo;
+			productReference = 0CA6E3351A47A777008CBC4A /* GeometryShaderExample */;
+			productType = "com.apple.product-type.tool";
+		};
 		682401B219969549009F5A29 /* SkyBoxDemo */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 682401C319969549009F5A29 /* Build configuration list for PBXNativeTarget "SkyBoxDemo" */;
@@ -2999,11 +3093,21 @@
 				686956361986D38200F5DEF3 /* TexturedCubeDemo */,
 				68BEBA2C1989D9D3009EB28E /* MultiTexturedCubesDemo */,
 				682401B219969549009F5A29 /* SkyBoxDemo */,
+				0CA6E3211A47A777008CBC4A /* GeometryShaderExample */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
+		0CA6E3261A47A777008CBC4A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0CA6E3281A47A777008CBC4A /* GlfwOpenGlWindow.cpp in Sources */,
+				0CA6E36A1A47A99D008CBC4A /* GeometryShaderExample.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		682401B719969549009F5A29 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -3082,6 +3186,16 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		0CA6E3221A47A777008CBC4A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6861A61C1985F966003D6AF7 /* LoadPNG */;
+			targetProxy = 0CA6E3231A47A777008CBC4A /* PBXContainerItemProxy */;
+		};
+		0CA6E3241A47A777008CBC4A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 683D4F5E18F9E8490035B9BB /* Rigid3D */;
+			targetProxy = 0CA6E3251A47A777008CBC4A /* PBXContainerItemProxy */;
+		};
 		682401B319969549009F5A29 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 6861A61C1985F966003D6AF7 /* LoadPNG */;
@@ -3125,6 +3239,43 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		0CA6E3331A47A777008CBC4A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CLANG_WARN_CXX0X_EXTENSIONS = YES;
+				GCC_C_LANGUAGE_STANDARD = c11;
+				GCC_ENABLE_CPP_RTTI = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/lib",
+				);
+				PRODUCT_NAME = GeometryShaderExample;
+			};
+			name = Debug;
+		};
+		0CA6E3341A47A777008CBC4A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CLANG_WARN_CXX0X_EXTENSIONS = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = c11;
+				GCC_ENABLE_CPP_RTTI = NO;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/lib",
+				);
+				PRODUCT_NAME = GeometryShaderExample;
+			};
+			name = Release;
+		};
 		682401C419969549009F5A29 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -3451,6 +3602,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		0CA6E3321A47A777008CBC4A /* Build configuration list for PBXNativeTarget "GeometryShaderExample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0CA6E3331A47A777008CBC4A /* Debug */,
+				0CA6E3341A47A777008CBC4A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		682401C319969549009F5A29 /* Build configuration list for PBXNativeTarget "SkyBoxDemo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
