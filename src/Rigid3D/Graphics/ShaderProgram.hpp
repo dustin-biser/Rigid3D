@@ -16,6 +16,8 @@ namespace Rigid3D {
 
         ~ShaderProgram();
 
+        void generateProgramObject();
+
         void attachVertexShader(const char * filePath);
         void attachFragmentShader(const char * filePath);
         void attachGeometryShader(const char * filePath);

@@ -39,6 +39,7 @@ void GeometryShaderExample::init() {
 
 //---------------------------------------------------------------------------------------
 void GeometryShaderExample::setupShaders() {
+    shaderProgram.generateProgramObject();
     shaderProgram.attachVertexShader(
             "examples/GeometryShaderExample/shaders/PassThrough.vs");
     shaderProgram.attachFragmentShader(

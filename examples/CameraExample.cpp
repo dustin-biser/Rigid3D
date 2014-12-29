@@ -57,6 +57,7 @@ void CameraExample::init()
 
 //---------------------------------------------------------------------------------------
 void CameraExample::setupShaders() {
+    shaderProgram.generateProgramObject();
     shaderProgram.attachVertexShader("data/shaders/Pos-Norm-Tex-Color.vert");
     shaderProgram.attachFragmentShader("data/shaders/PerFragLighting_withWorldLight.frag");
     shaderProgram.link();

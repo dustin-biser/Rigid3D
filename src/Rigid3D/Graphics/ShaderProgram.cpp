@@ -36,6 +36,12 @@ ShaderProgram::ShaderProgram()
 {
 
 }
+//------------------------------------------------------------------------------------
+void ShaderProgram::generateProgramObject() {
+    if(programObject == 0) {
+        programObject = glCreateProgram();
+    }
+}
 
 //------------------------------------------------------------------------------------
 void ShaderProgram::attachVertexShader(const char * filePath) {
@@ -113,10 +119,6 @@ void ShaderProgram::extractSourceCode(string & shaderSource, const string & file
 * before attempting to set uniform values
 */
 void ShaderProgram::link() {
-    if (programObject == 0) {
-        programObject = glCreateProgram();
-    }
-
     if(vertexShader.shaderObject != 0) {
         glAttachShader(programObject, vertexShader.shaderObject);
     }
