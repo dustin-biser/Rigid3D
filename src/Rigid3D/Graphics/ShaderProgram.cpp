@@ -146,6 +146,7 @@ ShaderProgram::~ShaderProgram() {
 void ShaderProgram::deleteShaders() {
     glDeleteShader(vertexShader.shaderObject);
     glDeleteShader(fragmentShader.shaderObject);
+    glDeleteShader(geometryShader.shaderObject);
     glDeleteProgram(programObject);
 }
 
